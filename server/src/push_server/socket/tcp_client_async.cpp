@@ -111,12 +111,9 @@ int32_t CTCPClientAsync::SendBufferAsync()
         }
         return nErrorCode;
 	}
-	CBufferLoop* pBufferLoop = m_sendqueue.front();
+	CSimpleBuffer* pBufferLoop = m_sendqueue.front();
 	m_sendqueuemutex.Unlock();
-	char* szSendBuffer = new char[pBufferLoop->get_used_size()];
-	int32_t nRealSize = 0;
-	pBufferLoop->get_buffer_tmp(szSendBuffer, pBufferLoop->get_used_size(), &nRealSize);
-	int32_t nRet = S_Send(GetSocket(), (void*)szSendBuffer, nRealSize);
+	int32_t nRet = S_Send(GetSocket(), (void*)pBufferLoop->GetBuffer(), pBufferLoop->GetWriteOffset());
 	if ( nRet < 0)
 	{
 #if (defined(_WIN32) || defined(_WIN64))
@@ -142,20 +139,12 @@ int32_t CTCPClientAsync::SendBufferAsync()
 		SOCKET_IO_WARN("send tcp data error, peer closed.");
 		DoException(GetSocketID(), SOCKET_IO_TCP_SEND_FAILED);
 	}
-	else if (nRet != nRealSize)
+	else if (nRet != pBufferLoop->GetWriteOffset())
 	{
 		//将未成功的数据重新放置buffer loop中，待下次发送
 		int32_t nSize = 0;
-		pBufferLoop->get_buffer(szSendBuffer, nRet, &nSize);
-		if (nRet != nSize)
-		{
-			//一般不可能出现这种情况
-			SOCKET_IO_ERROR("send tcp data, send size: %d, less than %d, get buffer size wrong.", nRet, nRealSize);
-		}
-		else
-		{
-			SOCKET_IO_DEBUG("send tcp data, send size: %d, less than %d.", nRet, nRealSize);
-		}
+        pBufferLoop->Read(NULL, nRet);
+        SOCKET_IO_DEBUG("send tcp data, send size: %d, less than %d.", nRet, pBufferLoop->GetWriteOffset());
 	}
 	else
 	{
@@ -164,7 +153,6 @@ int32_t CTCPClientAsync::SendBufferAsync()
 		m_sendqueue.pop();
 		m_sendqueuemutex.Unlock();
 	}
-    delete []szSendBuffer;
 	return nErrorCode;
 }
 
@@ -192,10 +180,10 @@ int32_t CTCPClientAsync::SendMsgAsync(const char* szBuf, int32_t nBufSize )
             else
             {
                 SOCKET_IO_DEBUG("send tcp data, push data to buffer.");
-                CBufferLoop* pBufferLoop = new CBufferLoop();
-                pBufferLoop->create_buffer(nBufSize);
-                pBufferLoop->append_buffer(szBuf, nBufSize);
+                CSimpleBuffer* pBufferLoop = new CSimpleBuffer();
+                pBufferLoop->Write(szBuf, nBufSize);
                 m_sendqueue.push(pBufferLoop);
+                //m_pio->Add_WriteEvent(this);
             }
         }
         m_sendqueuemutex.Unlock();
@@ -214,9 +202,8 @@ int32_t CTCPClientAsync::SendMsgAsync(const char* szBuf, int32_t nBufSize )
 		if (EAGAIN == nError)
 #endif
 		{
-			CBufferLoop* pBufferLoop = new CBufferLoop();
-			pBufferLoop->create_buffer(nBufSize);
-			pBufferLoop->append_buffer(szBuf, nBufSize);
+			CSimpleBuffer* pBufferLoop = new CSimpleBuffer();
+			pBufferLoop->Write(szBuf, nBufSize);
 			m_sendqueuemutex.Lock();
 			m_sendqueue.push(pBufferLoop);
 			m_sendqueuemutex.Unlock();
@@ -239,10 +226,8 @@ int32_t CTCPClientAsync::SendMsgAsync(const char* szBuf, int32_t nBufSize )
 	else if (nRet != nBufSize)
 	{
 		int32_t nRest = nBufSize - nRet;
-		CBufferLoop* pBufferLoop = new CBufferLoop();
-		pBufferLoop->create_buffer(nRest);
-		pBufferLoop->append_buffer(szBuf + nRet, nRest);
-        
+		CSimpleBuffer* pBufferLoop = new CSimpleBuffer();
+		pBufferLoop->Write(szBuf + nRet, nRest);
 		m_sendqueuemutex.Lock();
 		m_sendqueue.push(pBufferLoop);
 		m_sendqueuemutex.Unlock();
@@ -381,7 +366,7 @@ void CTCPClientAsync::_ClearSendBuffer()
     m_sendqueuemutex.Lock();
     while (m_sendqueue.size() > 0)
     {
-        CBufferLoop* pBufferLoop = m_sendqueue.front();
+        CSimpleBuffer* pBufferLoop = m_sendqueue.front();
         delete pBufferLoop;
         m_sendqueue.pop();
     }

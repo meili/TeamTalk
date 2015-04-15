@@ -62,7 +62,7 @@ class User extends TT_Controller {
 	public function del()
 	{
 		$id = $this->input->post('id');
-		$result = $this->user_model->update(array('status'=>1), $id);
+		$result = $this->user_model->update(array('status'=>3), $id);
 		if($result){
 			echo 'success';
 		}

@@ -76,7 +76,7 @@ void SendImgHttpOperation::processOpertion()
 	std::string pathUrl;
 	if (200 == response.getHttpCode() && _parseResponse(body, pathUrl))
 	{
-		if (fileSysAddr[fileSysAddr.length()] != '/')
+		if (fileSysAddr.at(fileSysAddr.length() - 1) != '/')
 		{
 			fileSysAddr += std::string("/");
 		}

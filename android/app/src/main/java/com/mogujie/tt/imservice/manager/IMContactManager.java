@@ -95,7 +95,7 @@ public class IMContactManager extends IMManager {
 
         // 用户信息
         int updateTime = dbInterface.getUserInfoLastTime();
-        logger.d("contact#loadAllUserInfo req-updateTime:%d",updateTime);
+        logger.d("contact#loadAllUserInfo req-updateTime:%d", updateTime);
         reqGetAllUsers(updateTime);
     }
 
@@ -131,7 +131,7 @@ public class IMContactManager extends IMManager {
                 .setLatestUpdateTime(lastUpdateTime).build();
         int sid = IMBaseDefine.ServiceID.SID_BUDDY_LIST_VALUE;
         int cid = IMBaseDefine.BuddyListCmdID.CID_BUDDY_LIST_ALL_USER_REQUEST_VALUE;
-        imSocketManager.sendRequest(imAllUserReq,sid,cid);
+        imSocketManager.sendRequest(imAllUserReq, sid, cid);
 	}
 
     /**
@@ -198,7 +198,7 @@ public class IMContactManager extends IMManager {
 
         int sid = IMBaseDefine.ServiceID.SID_BUDDY_LIST_VALUE;
         int cid = IMBaseDefine.BuddyListCmdID.CID_BUDDY_LIST_USER_INFO_REQUEST_VALUE;
-        imSocketManager.sendRequest(imUsersInfoReq,sid,cid);
+        imSocketManager.sendRequest(imUsersInfoReq, sid, cid);
     }
 
     /**
@@ -244,17 +244,15 @@ public class IMContactManager extends IMManager {
     public  List<DepartmentEntity>  getDepartmentSortedList(){
         // todo eric efficiency
         List<DepartmentEntity> departmentList = new ArrayList<>(departmentMap.values());
-        Collections.sort(departmentList, new Comparator<DepartmentEntity>(){
+        Collections.sort(departmentList, new Comparator<DepartmentEntity>() {
             @Override
             public int compare(DepartmentEntity entity1, DepartmentEntity entity2) {
 
-                if(entity1.getPinyinElement().pinyin==null)
-                {
-                    PinYin.getPinYin(entity1.getDepartName(),entity1.getPinyinElement());
+                if (entity1.getPinyinElement().pinyin == null) {
+                    PinYin.getPinYin(entity1.getDepartName(), entity1.getPinyinElement());
                 }
-                if(entity2.getPinyinElement().pinyin==null)
-                {
-                    PinYin.getPinYin(entity2.getDepartName(),entity2.getPinyinElement());
+                if (entity2.getPinyinElement().pinyin == null) {
+                    PinYin.getPinYin(entity2.getDepartName(), entity2.getPinyinElement());
                 }
                 return entity1.getPinyinElement().pinyin.compareToIgnoreCase(entity2.getPinyinElement().pinyin);
 
@@ -322,7 +320,13 @@ public class IMContactManager extends IMManager {
                     }
                     // end compare
                 } else {
-                    return dept1.getDepartName().compareToIgnoreCase(dept2.getDepartName());
+                    if(dept1!=null && dept2!=null && dept1.getDepartName()!=null && dept2.getDepartName()!=null)
+                    {
+                        return dept1.getDepartName().compareToIgnoreCase(dept2.getDepartName());
+                    }
+                    else
+                        return 1;
+
                 }
             }
         });

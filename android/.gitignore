@@ -1,0 +1,40 @@
+# OSX
+.DS_Store
+
+# android generated
+bin/
+gen/
+
+# eclipse
+.classpath
+.settings
+.project
+
+local.properties
+project.properties
+
+# IDEA
+.idea/
+*.iml
+out/
+
+# gradle
+build/
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+gradle.properties
+
+# build
+lint.xml
+lint.html
+proguard-rules.txt
+import-summary.txt
+
+run.sh
+com_crashlytics_export_strings.xml
+crashlytics-build.properties
+
+# test
+test.html
