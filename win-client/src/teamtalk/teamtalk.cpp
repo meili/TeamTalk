@@ -189,6 +189,7 @@ BOOL CteamtalkApp::_CreateUsersFolder()
 #endif
 BOOL CteamtalkApp::_IsHaveInstance()
 {
+    return FALSE;
 	// 单实例运行
 	HANDLE hMutex = ::CreateMutex(NULL, TRUE, AppSingletonMutex);
 	if (hMutex != NULL && GetLastError() == ERROR_ALREADY_EXISTS)
