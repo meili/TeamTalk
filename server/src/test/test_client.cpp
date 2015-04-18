@@ -68,7 +68,7 @@ void doLogin(const string& strName, const string& strPass)
 {
     try
     {
-        g_pClient = new CClient(strName, strPass);
+        g_pClient = new CClient(strName, strPass, g_login_domain);
     }
     catch(...)
     {
@@ -105,7 +105,7 @@ void exec_cmd()
     else if(strcmp(g_cmd_string[0].c_str(), "list") == 0)
     {
         printf("+---------------------+\n");
-        printf("|        用户名        |\n");
+        printf("|        用户名       |\n");
         printf("+---------------------+\n");
         CMapNick2User_t mapUser = g_pClient->getNick2UserMap();
         auto it = mapUser.begin();

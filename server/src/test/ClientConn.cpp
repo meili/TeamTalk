@@ -9,9 +9,11 @@
  *
  ================================================================*/
 #include "ClientConn.h"
-#include "playsound.h"
+//#include "playsound.h"
 #include "Common.h"
+#include "EncDec.h"
 
+static ConnMap_t g_client_conn_map;
 
 ClientConn::ClientConn():
 m_bOpen(false)
@@ -24,9 +26,15 @@ ClientConn::~ClientConn()
 
 }
 
-net_handle_t ClientConn::connect(const string& strIp, uint16_t nPort, const string& strName, const string& strPass)
+net_handle_t ClientConn::connect(const string& strIp, uint16_t nPort, const string& strName, const string& strPass, const void* cb)
 {
 	m_handle = netlib_connect(strIp.c_str(), nPort, imconn_callback, NULL);
+
+	m_pCallback = (IPacketCallback *)cb;
+	g_client_conn_map.insert(make_pair(m_handle, this));
+	netlib_option(m_handle, NETLIB_OPT_SET_CALLBACK_DATA, (void *)&g_client_conn_map);
+	netlib_option(m_handle, NETLIB_OPT_SET_CALLBACK, (void *)imconn_callback);
+
     return  m_handle;
 }
 
@@ -71,7 +79,12 @@ uint32_t ClientConn::login(const string &strName, const string &strPass)
     CImPdu cPdu;
     IM::Login::IMLoginReq msg;
     msg.set_user_name(strName);
-    msg.set_password(strPass);
+
+	char szMd5[33];
+	CMd5::MD5_Calculate(strPass.c_str(), strPass.length(), szMd5);
+	string strOutPass(szMd5);
+
+    msg.set_password(strOutPass);
     msg.set_online_status(IM::BaseDefine::USER_STATUS_ONLINE);
     msg.set_client_type(IM::BaseDefine::CLIENT_TYPE_WINDOWS);
     msg.set_client_version("1.0");
@@ -213,7 +226,7 @@ void ClientConn::HandlePdu(CImPdu* pPdu)
     //printf("pdu type = %u\n", pPdu->GetPduType());
 	switch (pPdu->GetCommandId()) {
         case IM::BaseDefine::CID_OTHER_HEARTBEAT:
-//		printf("Heartbeat\n");
+		printf("Heartbeat\n");
 		break;
         case IM::BaseDefine::CID_LOGIN_RES_USERLOGIN:
             _HandleLoginResponse(pPdu);
@@ -403,7 +416,7 @@ void ClientConn::_HandleMsgData(CImPdu* pPdu)
     uint32_t nSeqNo = pPdu->GetSeqNum();
     if(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()))
     {
-        play("message.wav");
+        //play("message.wav");
         
         uint32_t nFromId = msg.from_user_id();
         uint32_t nToId = msg.to_session_id();

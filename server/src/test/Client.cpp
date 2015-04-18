@@ -78,8 +78,9 @@ void CClient::connect()
             return;
         }
         strPriorIp = value["priorIP"].asString();
-        strBackupIp = value["backupIp"].asString();
-        nPort = value["port"].asUInt();
+        strBackupIp = value["backupIP"].asString();
+        //nPort = value["port"].asUInt();
+		nPort = (uint16_t)atoi(value["port"].asString().c_str());
         
     } catch (std::runtime_error msg) {
         printf("login falied. get json error:%s\n", strResp.c_str());
@@ -88,7 +89,7 @@ void CClient::connect()
     }
     
     g_pConn = new ClientConn();
-    m_nHandle = g_pConn->connect(strPriorIp.c_str(), nPort, m_strName, m_strPass);
+    m_nHandle = g_pConn->connect(strPriorIp.c_str(), nPort, m_strName, m_strPass, (void *)this);
     if(m_nHandle != INVALID_SOCKET)
     {
         netlib_register_timer(CClient::TimerCallback, NULL, 1000);
