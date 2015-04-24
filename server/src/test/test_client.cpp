@@ -113,12 +113,12 @@ void exec_cmd()
         {
             uint32_t nLen = 21 - it->first.length();
             printf("|");
-            for(uint32_t i=0; i<nLen/2; ++it)
+            for(uint32_t i=0; i<nLen/2; ++i)
             {
                 printf(" ");
             }
             printf("%s", it->first.c_str());
-            for(uint32_t i=0; i<nLen/2; ++it)
+            for(uint32_t i=0; i<nLen/2; ++i)
             {
                 printf(" ");
             }

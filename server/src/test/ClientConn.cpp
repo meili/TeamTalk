@@ -289,7 +289,7 @@ void ClientConn::_HandleUser(CImPdu* pPdu)
     if(msgResp.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()))
     {
         uint32_t userCnt = msgResp.user_list_size();
-        printf("get %d users\n", userCnt);
+        //printf("get %d users\n", userCnt);
         list<IM::BaseDefine::UserInfo> lsUsers;
         for(uint32_t i=0; i<userCnt; ++i)
         {

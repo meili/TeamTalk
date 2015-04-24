@@ -132,6 +132,8 @@ void CClient::onLogin(uint32_t nSeqNo, uint32_t nResultCode, string& strMsg, IM:
     {
         m_cSelfInfo = *pUser;
         g_bLogined = true;
+
+        getChangedUser();
     }
     else
     {
