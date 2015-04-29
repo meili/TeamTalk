@@ -22,4 +22,4 @@ LINK_DIRECTORIES(./ ../base ${PB_LIB_DIR} ../base/slog/lib)
 #ADD_LIBRARY(${PROJECTNAME} SHARED/STATIC ${SRC_LIST})
 ADD_EXECUTABLE(login_server ${SRC_LIST})
 
-TARGET_LINK_LIBRARIES(login_server pthread base protobuf-lite slog)
+TARGET_LINK_LIBRARIES(login_server base protobuf-lite slog pthread) 

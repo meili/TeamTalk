@@ -25,5 +25,5 @@ LINK_DIRECTORIES(./ ../base ${PB_LIB_DIR} ../base/slog/lib ${SECURITY_LIB_DIR})
 #ADD_LIBRARY(${PROJECTNAME} SHARED/STATIC ${SRC_LIST})
 ADD_EXECUTABLE(http_msg_server ${SRC_LIST})
 
-TARGET_LINK_LIBRARIES(http_msg_server pthread base protobuf-lite slog security)
+TARGET_LINK_LIBRARIES(http_msg_server base protobuf-lite slog security pthread) 
  
