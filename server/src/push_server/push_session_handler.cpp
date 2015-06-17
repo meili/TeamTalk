@@ -101,7 +101,13 @@ void CPushSessionHandler::_HandlePushMsg(const char* szBuf, int32_t nBufSize)
         {
             IM::BaseDefine::PushResult* push_result = msg2.add_push_result_list();
             IM::BaseDefine::UserTokenInfo user_token = msg.user_token_list(i);
+            if (user_token.user_type() != IM::BaseDefine::CLIENT_TYPE_IOS) {
+                push_result->set_user_token(user_token.token());
+                push_result->set_result_code(1);
+                continue;
+            }
             m_NotificationID++;
+            
             PUSH_SERVER_INFO("HandlePushMsg, token: %s, push count: %d, push_type:%d, notification id: %u.", user_token.token().c_str(), user_token.push_count(),
                               user_token.push_type(), m_NotificationID);
             CAPNSGateWayMsg msg;

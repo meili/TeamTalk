@@ -32,7 +32,6 @@ uint32_t    g_latest_auth = 0;
 namespace HTTP {
     
 #define SERVER_TIMEOUT				30000
-#define SYNC_AUTH_INFO_TIME         60000
     
 static ConnMap_t g_db_server_conn_map;
 
@@ -199,21 +198,6 @@ void CDBServConn::OnTimer(uint64_t curr_tick)
         pdu.SetCommandId(IM::BaseDefine::CID_OTHER_HEARTBEAT);
 		SendPdu(&pdu);
 	}
-    
-    // Add By ZhangYuanhao,同步授权接口
-    if((curr_tick > g_last_recv_auth + SYNC_AUTH_INFO_TIME) && !g_bOnSync)
-    {
-        g_bOnSync = true;
-        // TODO 发起授权数据同步
-        IM::Internal::IMSyncAuthInfoReq msg;
-        CImPdu cPdu;
-        msg.set_latest_time(g_latest_auth);
-        cPdu.SetPBMsg(&msg);
-        cPdu.SetServiceId(IM::BaseDefine::SID_INTERNAL);
-        cPdu.SetCommandId(IM::BaseDefine::CID_INTERNAL_SYNC_AUTH_INFO_REQ);
-        SendPdu(&cPdu);
-    }
-
 	if (curr_tick > m_last_recv_tick + SERVER_TIMEOUT) {
 		log("conn to db server timeout");
 		Close();

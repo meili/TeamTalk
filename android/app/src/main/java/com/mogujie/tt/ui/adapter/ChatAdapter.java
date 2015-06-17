@@ -294,7 +294,6 @@ public class ChatAdapter extends BaseAdapter {
         //头像设置
         contactViewHolder.avatar.setDefaultImageRes(R.drawable.tt_default_user_portrait_corner);
         contactViewHolder.avatar.setCorner(8);
-        contactViewHolder.avatar.setAvatarAppend(SysConstant.AVATAR_APPEND_100);
         contactViewHolder.avatar.setImageUrl(avatarUrl);
         // 设置其它信息
         contactViewHolder.uname.setText(userName);

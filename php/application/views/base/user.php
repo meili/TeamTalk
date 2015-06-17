@@ -141,6 +141,7 @@
                     id:node.data('id')
                 }, function(data) {
                     var data = JSON.parse(data);
+                    console.log(data);
                     $("#radio"+data.sex).attr("checked","checked");
                     $(".name").val(data.name);
                     $(".nick").val(data.nick);
@@ -150,7 +151,7 @@
                     if(data.avatar){
                         $(".avatar_show").attr("src",data.avatar).removeClass("hide");
                     }
-                    $(".depart").val(data.depart);
+                    $(".departId").val(data.departId);
                     $(".btn-margin").addClass("btn-margin-edit");
                     $(".btn-margin-edit").data('id',node.data('id'));
 

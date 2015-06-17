@@ -9,13 +9,11 @@
 #include "ConfigFileReader.h"
 CConfigFileReader::CConfigFileReader(const char* filename)
 {
-	m_config_map = new map<string, string>;
 	_LoadFile(filename);
 }
 
 CConfigFileReader::~CConfigFileReader()
 {
-	delete m_config_map;
 }
 
 char* CConfigFileReader::GetConfigName(const char* name)
@@ -24,8 +22,8 @@ char* CConfigFileReader::GetConfigName(const char* name)
 		return NULL;
 
 	char* value = NULL;
-	map<string, string>::iterator it = m_config_map->find(name);
-	if (it != m_config_map->end()) {
+	map<string, string>::iterator it = m_config_map.find(name);
+	if (it != m_config_map.end()) {
 		value = (char*)it->second.c_str();
 	}
 
@@ -37,14 +35,14 @@ int CConfigFileReader::SetConfigValue(const char* name, const char* value)
     if(!m_load_ok)
         return -1;
 
-    map<string, string>::iterator it = m_config_map->find(name);
-    if(it != m_config_map->end())
+    map<string, string>::iterator it = m_config_map.find(name);
+    if(it != m_config_map.end())
     {
         it->second = value;
     }
     else
     {
-        m_config_map->insert(make_pair(name, value));
+        m_config_map.insert(make_pair(name, value));
     }
     return _WriteFIle();
 }
@@ -101,8 +99,8 @@ int CConfigFileReader::_WriteFIle(const char* filename)
    }
 
    char szPaire[128];
-   map<string, string>::iterator it = m_config_map->begin();
-   for (; it != m_config_map->end(); it++)
+   map<string, string>::iterator it = m_config_map.begin();
+   for (; it != m_config_map.end(); it++)
    {
        memset(szPaire, 0, sizeof(szPaire));
        snprintf(szPaire, sizeof(szPaire), "%s=%s\n", it->first.c_str(), it->second.c_str());
@@ -127,7 +125,7 @@ void CConfigFileReader::_ParseLine(char* line)
 	char* value = _TrimSpace(p + 1);
 	if (key && value)
 	{
-		m_config_map->insert(make_pair(key, value));
+		m_config_map.insert(make_pair(key, value));
 	}
 }
 

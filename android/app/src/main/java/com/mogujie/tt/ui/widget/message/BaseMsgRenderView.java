@@ -89,7 +89,6 @@ public abstract class BaseMsgRenderView extends RelativeLayout{
         //头像设置
         portrait.setDefaultImageRes(R.drawable.tt_default_user_portrait_corner);
         portrait.setCorner(5);
-        portrait.setAvatarAppend(SysConstant.AVATAR_APPEND_100);
         portrait.setImageUrl(avatar);
         // 设定姓名 应该消息都是有的
        if(!isMine){

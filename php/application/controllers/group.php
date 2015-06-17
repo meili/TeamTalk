@@ -23,7 +23,7 @@ class Group extends TT_Controller {
 	public function all()
 	{
 		$perpage = 10000;
-		$groups = $this->group_model->getList(array('status'=>1), '*', 0, $perpage);
+		$groups = $this->group_model->getList(array('status'=>0), '*', 0, $perpage);
 		$data = array();
 		foreach ($groups as $key => $value) {
 			if($groups[$key]['avatar']){
@@ -47,19 +47,20 @@ class Group extends TT_Controller {
 
 	public function add()
 	{
-		$params = array(
-			'name'=>$this->input->post('name'),
-			'avatar'=>'',
-			'creator'=>1,
-			'type'=>1,
-			'userCnt'=>0,
-			'status'=>1,
-			'created'=>time(),
-			'updated'=>time()
+		$array = array(
+			'req_user_id' 	=> 0,
+			'app_key'		=> 'asdfasdf',
+			'group_name'	=> $this->input->post('name'),
+			'group_type'	=> 1,
+			'group_avatar'	=> '',
+			'user_id_list'	=> array(1)
 		);
-		$result = $this->group_model->insert($params);
-		if($result){
+		$res = $this->httpRequest($this->config->config['http_url'].'/query/CreateGroup','post',json_encode($array));
+		$res = json_decode($res,1);
+		if($res['error_code'] == 0){
 			echo 'success';
+		}else{
+			echo 'fail';
 		}
 	}
 
@@ -72,7 +73,7 @@ class Group extends TT_Controller {
 			'createUserId'=>1,
 			'type'=>1,
 			'userCnt'=>0,
-			'status'=>1,
+			'status'=>0,
 			'updated'=>time()
 		);
 		$id = $this->input->post('id');
@@ -95,10 +96,10 @@ class Group extends TT_Controller {
 	{
 		$id = $this->input->post('id');
 		$perpage = 10000;
-		$users = $this->grouprelation_model->getList(array('status'=>1,'id'=>$id), '*', 0, $perpage);
+		$users = $this->grouprelation_model->getList(array('status'=>0,'groupId'=>$id), '*', 0, $perpage);
 		foreach ($users as $key => $value) {
 			$_data = $this->user_model->getOne(array('id'=>$value['userId']));
-			$users[$key]['uname'] = $_data['uname'];
+			$users[$key]['name'] = $_data['name'];
 		}
 		$data = array();
 		$result = array(
@@ -109,23 +110,26 @@ class Group extends TT_Controller {
 
 	public function changeMember()
 	{
-		$id = $this->input->post('id');
-		$userId = $this->input->post('userId');
-		$count = $this->input->post('count');
-		$change = $this->input->post('change');
-		$relation = array(
-			'id'=>$id,
-			'userId'=>$userId,
-			'type'=>1,
-			'status'=>1
-		);
-		if($change){
-			$this->grouprelation_model->insert($relation);
-		}else{
-			$_relation = $this->grouprelation_model->getOne($relation);
-			$this->grouprelation_model->update(array('status'=>'0'),$_relation['id']);
-		}
-		$this->group_model->updateByWhere(array('userCnt'=>$count), 'id', $id);
+		$add = array(
+			'req_user_id'   => 0,
+			'app_key'       => 'asdfasdf',
+			'group_id'      => intval($this->input->post('id')),
+			'modify_type'   => intval($this->input->post('change')),
+			'user_id_list'  => array(intval($this->input->post('userId')))
+		);                  
+	    $res = $this->httpRequest($this->config->config['http_url'].'/query/ChangeMembers','post',json_encode($add));
+	}
+
+	public function httpRequest($url,$method,$params=array()){
+		$curl=curl_init();
+		curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($curl,CURLOPT_HEADER,0 ) ;
+		curl_setopt($curl,CURLOPT_URL,$url);
+		curl_setopt($curl,CURLOPT_POST,1 );
+		curl_setopt($curl, CURLOPT_POSTFIELDS,$params);
+		$result=curl_exec($curl);
+		curl_close($curl);
+		return $result;
 	}
 
 }

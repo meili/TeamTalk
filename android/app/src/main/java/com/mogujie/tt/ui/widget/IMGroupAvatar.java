@@ -127,14 +127,8 @@ public class IMGroupAvatar extends LinearLayout {
                 LayoutParams avatarParams = new LayoutParams(childAvatarSize, childAvatarSize);
                 avatarParams.leftMargin = i == 0 ? 0 : childMargin;
 
-                int avatarIndex = curRow * columnSize + i;
                 String avatarUrl = null;
-//                if (avatarIndex >= 0 && avatarIndex < mImageUrls.size()) {
-//                    avatarUrl = mImageUrls.get(avatarIndex);
-//                }
                 avatarUrl = mImageUrls.get(currentIndex);
-                avatar.setAvatarAppend(avatarUrlAppend);
-//                avatar.setBackgroundResource(defaultChildAvatarRes);
                 avatar.setImageResource(R.drawable.tt_default_user_portrait_corner);
                 avatar.setCorner(ScreenUtil.instance(getContext()).dip2px(childCorner));
                 avatar.setDefaultImageRes(defaultChildAvatarRes);

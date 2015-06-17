@@ -255,16 +255,8 @@ public class MessageActivity extends TTBaseActivity
         registerReceiver(receiver, filter);
 
         SystemConfigSp.instance().init(this);
-        String str = Settings.Secure.getString(MessageActivity.this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
-        String[] strArr = str.split("\\.");
-        if (strArr.length >= 3) {
-            currentInputMethod = strArr[1];
-            if (SystemConfigSp.instance().getStrConfig(SystemConfigSp.SysCfgDimension.DEFAULTINPUTMETHOD).equals(currentInputMethod)) {
-                keyboardHeight = SystemConfigSp.instance().getIntConfig(SystemConfigSp.SysCfgDimension.KEYBOARDHEIGHT);
-            } else {
-                SystemConfigSp.instance().setStrConfig(SystemConfigSp.SysCfgDimension.DEFAULTINPUTMETHOD, currentInputMethod);
-            }
-        }
+        currentInputMethod = Settings.Secure.getString(MessageActivity.this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+        keyboardHeight = SystemConfigSp.instance().getIntConfig(currentInputMethod);
     }
 
     /**
@@ -1284,7 +1276,7 @@ public class MessageActivity extends TTBaseActivity
                 //按照键盘高度设置表情框和发送图片按钮框的高度
                 keyboardHeight = rootBottom - r.bottom;
                 SystemConfigSp.instance().init(MessageActivity.this);
-                SystemConfigSp.instance().setIntConfig(SystemConfigSp.SysCfgDimension.KEYBOARDHEIGHT, keyboardHeight);
+                SystemConfigSp.instance().setIntConfig(currentInputMethod, keyboardHeight);
                 LayoutParams params = (LayoutParams) addOthersPanelView.getLayoutParams();
                 params.height = keyboardHeight;
                 LayoutParams params1 = (LayoutParams) emoLayout.getLayoutParams();
@@ -1298,20 +1290,33 @@ public class MessageActivity extends TTBaseActivity
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("android.intent.action.INPUT_METHOD_CHANGED")) {
-                String str = Settings.Secure.getString(MessageActivity.this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
-                String[] strArr = str.split("\\.");
-                if (strArr.length >= 3) {
-                    String strCompany = strArr[1];
-                    if (!strCompany.equals(currentInputMethod)) {
-                        currentInputMethod = strCompany;
-                        SystemConfigSp.instance().setStrConfig(SystemConfigSp.SysCfgDimension.DEFAULTINPUTMETHOD, currentInputMethod);
-                        keyboardHeight = 0;
-                        addOthersPanelView.setVisibility(View.GONE);
-                        emoLayout.setVisibility(View.GONE);
-                        MessageActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//                        inputManager.showSoftInput(messageEdt,0);
-                        messageEdt.requestFocus();
+                currentInputMethod = Settings.Secure.getString(MessageActivity.this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+                SystemConfigSp.instance().setStrConfig(SystemConfigSp.SysCfgDimension.DEFAULTINPUTMETHOD, currentInputMethod);
+                int height =  SystemConfigSp.instance().getIntConfig(currentInputMethod);
+                if(keyboardHeight!=height)
+                {
+                    keyboardHeight = height;
+                    addOthersPanelView.setVisibility(View.GONE);
+                    emoLayout.setVisibility(View.GONE);
+                    MessageActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    messageEdt.requestFocus();
+                    if(keyboardHeight!=0 && addOthersPanelView.getLayoutParams().height!=keyboardHeight)
+                    {
+                        LayoutParams params = (LayoutParams) addOthersPanelView.getLayoutParams();
+                        params.height = keyboardHeight;
                     }
+                    if(keyboardHeight!=0 && emoLayout.getLayoutParams().height!=keyboardHeight)
+                    {
+                        LayoutParams params = (LayoutParams) emoLayout.getLayoutParams();
+                        params.height = keyboardHeight;
+                    }
+                }
+                else
+                {
+                    addOthersPanelView.setVisibility(View.VISIBLE);
+                    emoLayout.setVisibility(View.VISIBLE);
+                    MessageActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+                    messageEdt.requestFocus();
                 }
             }
         }

@@ -255,6 +255,7 @@ void CHttpConn::_HandleMsgServRequest(string& url, string& post_data)
         char* szContent = new char[HTTP_RESPONSE_HTML_MAX];
         snprintf(szContent, HTTP_RESPONSE_HTML_MAX, HTTP_RESPONSE_HTML, strContent.length(), strContent.c_str());
         Send((void*)szContent, strlen(szContent));
+        delete [] szContent;
         return ;
     }
     
@@ -276,6 +277,7 @@ void CHttpConn::_HandleMsgServRequest(string& url, string& post_data)
         char* szContent = new char[HTTP_RESPONSE_HTML_MAX];
         snprintf(szContent, HTTP_RESPONSE_HTML_MAX, HTTP_RESPONSE_HTML, strContent.length(), strContent.c_str());
         Send((void*)szContent, strlen(szContent));
+        delete [] szContent;
         return;
     } else {
         Json::Value value;
@@ -302,6 +304,7 @@ void CHttpConn::_HandleMsgServRequest(string& url, string& post_data)
         uint32_t nLen = strContent.length();
         snprintf(szContent, HTTP_RESPONSE_HTML_MAX, HTTP_RESPONSE_HTML, nLen, strContent.c_str());
         Send((void*)szContent, strlen(szContent));
+        delete [] szContent;
         return;
     }
 }

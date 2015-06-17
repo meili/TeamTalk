@@ -114,9 +114,18 @@ void MainListLayout::_LoadAllDepartment()
 	m_EAuserTreelist->RemoveAll();
 	const module::DepartmentMap mapDeparments
 		= module::getUserListModule()->getAllDepartments();
-	for (auto itDepart : mapDeparments)
+	std::vector<module::DepartmentEntity> vecDepart;//排序好的部门
+	for (auto dep : mapDeparments)
 	{
-		module::DepartmentEntity& depart = itDepart.second;
+		vecDepart.push_back(dep.second);
+	}
+	std::sort(vecDepart.begin(), vecDepart.end(),
+		[=](const module::DepartmentEntity& x, const module::DepartmentEntity& y){
+		return x.priority < y.priority;
+	});
+
+	for (auto depart : vecDepart)
+	{
 		EAUserTreeListItemInfo item;
 		//item.id = util::stringToCString(depart.dId);//部门信息不用存储id，方便菜单判断
 		item.folder = true;
@@ -505,6 +514,7 @@ void MainListLayout::_UpdateGroupList(IN const std::string& groupID)
 
 	}
 }
+
 
 
 

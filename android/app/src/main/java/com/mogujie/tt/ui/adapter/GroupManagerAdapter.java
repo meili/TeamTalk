@@ -255,7 +255,6 @@ public class GroupManagerAdapter extends BaseAdapter {
                 //头像设置
                 holder.imageView.setDefaultImageRes(R.drawable.tt_default_user_portrait_corner);
                 holder.imageView.setCorner(8);
-                holder.imageView.setAvatarAppend(SysConstant.AVATAR_APPEND_120);
                 holder.imageView.setImageResource(R.drawable.tt_default_user_portrait_corner);
                 holder.imageView.setImageUrl(avatarUrl);
 

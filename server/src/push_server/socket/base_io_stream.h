@@ -10,6 +10,8 @@ class CEpollIOLoop;
 #define TCP_RECV_SIZE   1024 * 2
 #define UDP_RECV_SIZE   1024 * 2
 
+#define MAX_SEND_QUEUE_SIZE 100000
+
 class CSockIDGenerator
 {
 public:

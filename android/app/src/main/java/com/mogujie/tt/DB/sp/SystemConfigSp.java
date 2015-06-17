@@ -16,7 +16,7 @@ public class SystemConfigSp {
 
     public static SystemConfigSp instance() {
         if (systemConfigSp == null) {
-            synchronized (LoginSp.class) {
+            synchronized (SystemConfigSp.class) {
                 systemConfigSp = new SystemConfigSp();
             }
         }
@@ -53,6 +53,17 @@ public class SystemConfigSp {
     public void setIntConfig(SysCfgDimension dimension, int value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(dimension.name(), value);
+        //提交当前数据
+        editor.commit();
+    }
+    public int getIntConfig(String key) {
+        int strValue = sharedPreferences.getInt(key, 0);
+        return strValue;
+    }
+
+    public void setIntConfig(String key, int value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
         //提交当前数据
         editor.commit();
     }

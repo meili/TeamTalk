@@ -111,7 +111,7 @@
                     var users = data.users;
                     for(i in users){
                         window.checked.push(users[i].userId);
-                        $(".choosed_member .memberList").append('<li class="member" data-id="'+users[i].userId+'">'+users[i].uname+'<span class="remove_member">x</span></li>')
+                        $(".choosed_member .memberList").append('<li class="member" data-id="'+users[i].userId+'">'+users[i].name+'<span class="remove_member">x</span></li>')
                     }
                     Group.getUser();
                 });
@@ -194,7 +194,7 @@
                     '       <td>${group.name}</td>',
                     '       <td>{@if group.avatar}<img style="height:30px;" src="${group.avatar_value}">{@/if}</td>',
                     '       <td>${group.userCnt}</td>',
-                    '       <td><button style="margin-right:10px;" class="btn btn-warning btn-sm edit_group">编辑</button><button style="margin-right:10px;" class="btn btn-danger btn-sm del_group">删除</button><button class="btn btn-info btn-sm edit_group_member">编辑群成员</button></td>',
+                    '       <td><button style="margin-right:10px;" class="btn btn-warning btn-sm edit_group hide">编辑</button><button style="margin-right:10px;" class="btn btn-danger btn-sm del_group hide">删除</button><button class="btn btn-info btn-sm edit_group_member">编辑群成员</button></td>',
                     '   </tr>',
                     '{@/each}'
                 ].join('\n');
@@ -237,7 +237,7 @@
                         console.log(window.checked);
                         console.log(users[i].id+'');
                         if($.inArray(users[i].id+'',window.checked) == -1){
-                            $(".unchoosed_member .memberList").append('<li class="member" disabled data-id="'+users[i].id+'">'+users[i].uname+'</li>');
+                            $(".unchoosed_member .memberList").append('<li class="member" disabled data-id="'+users[i].id+'">'+users[i].name+'</li>');
                         }
                     }
                     if(data.page == 0){
@@ -261,8 +261,8 @@
                     change  : 1
                 }, function(data) {
                     var userId = node.data('id');
-                    var uname = node.text();
-                    $(".choosed_member .memberList").append('<li class="member" data-id="'+userId+'">'+uname+'<span class="remove_member">x</span></li>');
+                    var name = node.text();
+                    $(".choosed_member .memberList").append('<li class="member" data-id="'+userId+'">'+name+'<span class="remove_member">x</span></li>');
                     node.remove();
                 });
             },
@@ -271,7 +271,7 @@
                     id : id,
                     userId  : node.data('id'),
                     count   : $(".choosed_member .memberList li").length-0-1,
-                    change  : 0
+                    change  : 2
                 }, function(data) {
                     node.remove();
                 });

@@ -508,7 +508,7 @@ void GroupListModule_Impl::_groupChangeMemberNotify(IN std::string& body)
 		if (0 != imGroupChangeMemberNotify.chg_user_id_list_size())
 		{
 			//保存群信息到sqllite
-			module::getDatabaseModule()->sqlInsertOrReplaceGroupInfoEntity(groupInfo);
+            module::getDatabaseModule()->sqlInsertOrReplaceGroupInfoEntity(m_mapGroups[groupID]);
 			_creatAndSaveSessionToDB(m_mapGroups[groupID]);
 		}
 	}

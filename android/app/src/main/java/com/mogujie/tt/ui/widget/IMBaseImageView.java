@@ -37,19 +37,10 @@ public class IMBaseImageView extends ImageView {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setAvatarAppend(String appendStr){
-        this.avatarAppend=appendStr;
-    }
-
     public void setImageUrl(String url) {
         this.imageUrl = url;
         if (isAttachedOnWindow){
             if (!TextUtils.isEmpty(this.imageUrl)&&this.imageUrl.equals(CommonUtil.matchUrl(this.imageUrl))) {
-                if (!TextUtils.isEmpty(avatarAppend)){
-                    if(! this.imageUrl.contains(avatarAppend)) {
-                        this.imageUrl += avatarAppend;
-                    }
-                }
                 ImageLoaderUtil.getImageLoaderInstance().displayImage(this.imageUrl, this, ImageLoaderUtil.getAvatarOptions(corner, defaultImageRes));
             }else{
                 String defaultUri="drawable://" + defaultImageRes;

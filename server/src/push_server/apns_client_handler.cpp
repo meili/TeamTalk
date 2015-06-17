@@ -18,8 +18,7 @@ void CAPNSClientHandler::OnClose(uint32_t nsockid)
     if (pClient)
     {
         pClient->StartReConnectGateway();
-        //暂时不进行feedback的链接，由于sslconnect是阻塞的，会导致ioloop卡住
-        //pClient->StartReConnectFeedback();
+        pClient->StartReConnectFeedback();
     }
 }
 
@@ -51,11 +50,11 @@ void CAPNSClientHandler::OnRecvData(const char* szBuf, int32_t nBufSize)
         if (msg.ParseFromArray(m_Msg.Data(), m_Msg.GetResMsgLength()))
         {
             PUSH_SERVER_INFO("apns gateway client recv resp, cmd id: %u, status: %u, notification id: %u", (uint32_t)msg.GetCommandID(), (uint32_t)msg.GetStatus(), msg.GetNotificationID());
-            apns_client_ptr pClient = CSessionManager::GetInstance()->GetAPNSClient();
-            if (pClient)
-            {
-                pClient->StopGateWayClient();
-            }
+            //apns_client_ptr pClient = CSessionManager::GetInstance()->GetAPNSClient();
+            //if (pClient)
+            //{
+            //    pClient->StopGateWayClient();
+            //}
         }
         else
         {

@@ -14,6 +14,7 @@
 #include <openssl/ssl.h>
 #include <openssl/bio.h>
 #include <string>
+
 class CSSLClientAsync : public CTCPClientAsync
 {
 public:

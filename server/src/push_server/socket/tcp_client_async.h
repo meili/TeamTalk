@@ -18,7 +18,6 @@
 #include <queue>
 #include "../sigslot/sigslot.h"
 #include "../type/base_type.h"
-#include "../thread/base_thread.hpp"
 using namespace std;
 using namespace sigslot;
 
@@ -79,7 +78,7 @@ protected:
 
     BOOL m_bWaitForClose;
     
-	queue<CBufferLoop*> m_sendqueue;		//待发送队列，只有非阻塞的TCP socket才会用到
+	queue<CSimpleBuffer*> m_sendqueue;		//待发送队列，只有非阻塞的TCP socket才会用到
 	CBaseMutex m_sendqueuemutex;
 };
 

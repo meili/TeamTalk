@@ -141,7 +141,6 @@ public class UserInfoFragment extends MainFragment {
         //头像设置
         portraitImageView.setDefaultImageRes(R.drawable.tt_default_user_portrait_corner);
         portraitImageView.setCorner(8);
-        portraitImageView.setAvatarAppend(SysConstant.AVATAR_APPEND_200);
         portraitImageView.setImageResource(R.drawable.tt_default_user_portrait_corner);
         portraitImageView.setImageUrl(currentUser.getAvatar());
 

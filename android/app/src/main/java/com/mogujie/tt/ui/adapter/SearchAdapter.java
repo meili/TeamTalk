@@ -249,7 +249,6 @@ public class SearchAdapter extends BaseAdapter implements
 
         userHolder.avatar.setDefaultImageRes(R.drawable.tt_default_user_portrait_corner);
         userHolder.avatar.setCorner(0);
-        userHolder.avatar.setAvatarAppend(SysConstant.AVATAR_APPEND_100);
         userHolder.avatar.setImageUrl(userEntity.getAvatar());
 
         userHolder.realNameView.setText(userEntity.getRealName());

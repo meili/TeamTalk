@@ -124,11 +124,21 @@ void MainDialog::OnMenuClicked(IN const CString& itemName, IN const CString& str
 	}
 	else if (_T("OnlineMenuItem") == itemName)
 	{
+		if (IM::BaseDefine::USER_STATUS_ONLINE == module::getUserListModule()->getMyLineStatus())
+		{
+			LOG__(APP, _T("already online"));
+			return;
+		}
 		module::getLoginModule()->setOfflineByMyself(FALSE);
 		module::getLoginModule()->relogin(TRUE);
 	}
 	else if (_T("OfflineMenuItem") == itemName)
 	{
+		if (IM::BaseDefine::USER_STATUS_OFFLINE == module::getUserListModule()->getMyLineStatus())
+		{
+			LOG__(APP, _T("already offline"));
+			return;
+		}
 		LOG__(APP,_T("Offline by myself"));
 		module::getTcpClientModule()->shutdown();
 		module::getLoginModule()->setOfflineByMyself(TRUE);

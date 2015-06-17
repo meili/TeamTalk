@@ -463,8 +463,6 @@ void UserListModule_Impl::tcpGetUserOnlieStatus(const module::UserInfoEntityVec&
 	}
 	else
 	{
-		std::vector<std::string> VecId;
-		VecId = VecId;
 		_tcpGetUserOnlieStatus(VecId);
 	}
 }

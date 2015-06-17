@@ -25,7 +25,7 @@ private:
     char* _TrimSpace(char* name);
 
     bool m_load_ok;
-    map<string, string>* m_config_map;
+    map<string, string> m_config_map;
     string m_config_file;
 };
 

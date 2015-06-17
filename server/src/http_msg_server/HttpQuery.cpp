@@ -12,7 +12,6 @@
 #include "HttpPdu.h"
 #include "public_define.h"
 #include "AttachData.h"
-#include "security.h"
 #include "IM.Message.pb.h"
 #include "IM.Buddy.pb.h"
 #include "IM.SwitchService.pb.h"

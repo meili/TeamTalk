@@ -39,16 +39,19 @@ BOOL CAPNSGateWayMsg::SerializeToArray()
     BOOL bRet = FALSE;
     if (m_databuffer.GetWriteOffset() != 0)
     {
+        PUSH_SERVER_WARN("push msg serialize failed, databuffer offset: %d.", m_databuffer.GetWriteOffset());
         return bRet;
     }
     if (m_strDeviceToken.length() != APNS_DEVICE_TOKEN_HEX_LENGTH )
     {
+        PUSH_SERVER_WARN("push msg serialize failed, device token length: %d, token: %s.", m_strDeviceToken.length(), m_strDeviceToken.c_str());
         return bRet;
     }
     
     string strPayload = _BuildPayload();
     if (strPayload.length() > APNS_PAY_LOAD_MAX_LENGTH || strPayload.length() == 0)
     {
+        PUSH_SERVER_WARN("push msg serialize failed, payload length: %d.", strPayload.length());
         return bRet;
     }
     
@@ -81,7 +84,7 @@ BOOL CAPNSGateWayMsg::SerializeToArray()
     //notification ID
     nItemID = APNS_ITEM_NOTIFICATION_ID;
     nItemDataLength = htons(sizeof(m_nNotificationID));
-    int32_t nNotificationID = htons(m_nNotificationID);
+    int32_t nNotificationID = htonl(m_nNotificationID);
     m_databuffer.Write((const char*)&nItemID, sizeof(nItemID));
     m_databuffer.Write((const char*)&nItemDataLength, sizeof(nItemDataLength));
     m_databuffer.Write((const char*)&nNotificationID, sizeof(nNotificationID));
@@ -89,7 +92,7 @@ BOOL CAPNSGateWayMsg::SerializeToArray()
     //expiration date
     nItemID = APNS_ITEM_EXPIRATION_DATE;
     nItemDataLength = htons(sizeof(m_nExpirationDate));
-    int32_t nExpirationDate = htons(m_nExpirationDate);
+    int32_t nExpirationDate = htonl(m_nExpirationDate);
     m_databuffer.Write((const char*)&nItemID, sizeof(nItemID));
     m_databuffer.Write((const char*)&nItemDataLength, sizeof(nItemDataLength));
     m_databuffer.Write((const char*)&nExpirationDate, sizeof(nExpirationDate));
@@ -185,7 +188,7 @@ CAPNSGateWayResMsg::~CAPNSGateWayResMsg()
 BOOL CAPNSGateWayResMsg::CheckMsgAvailable()
 {
     BOOL bRet = FALSE;
-    if (m_databuffer.GetWriteOffset() > GetDataLength())
+    if (m_databuffer.GetWriteOffset() >= GetDataLength())
     {
         bRet = TRUE;
     }
@@ -227,9 +230,13 @@ CAPNSFeedBackResMsg::~CAPNSFeedBackResMsg()
 BOOL CAPNSFeedBackResMsg::CheckMsgAvailable()
 {
     BOOL bRet = FALSE;
-    if (m_databuffer.GetWriteOffset() > GetDataLength())
+    if (m_databuffer.GetWriteOffset() >= GetDataLength())
     {
         bRet = TRUE;
+    }
+    else
+    {
+        PUSH_SERVER_INFO("CheckMsgAvailable error.");
     }
     return bRet;
 }
@@ -239,6 +246,7 @@ BOOL CAPNSFeedBackResMsg::ParseFromArray(const char *buf, uint32_t len)
     BOOL bRet = FALSE;
     if (m_databuffer.GetWriteOffset() != 0)
     {
+        PUSH_SERVER_INFO("ParseFromArray error, GetWriteOffset.");
         return bRet;
     }
     Append(buf, len);
@@ -259,6 +267,10 @@ BOOL CAPNSFeedBackResMsg::ParseFromArray(const char *buf, uint32_t len)
         }
         m_Token = device_token;
         bRet = TRUE;
+    }
+    else
+    {
+        PUSH_SERVER_INFO("CheckMsgAvailable error 2.0");
     }
     return bRet;
 }

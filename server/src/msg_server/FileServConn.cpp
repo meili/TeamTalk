@@ -84,11 +84,12 @@ CFileServConn* get_random_file_serv_conn()
     {
         for (uint32_t i = 0; i < g_file_server_count; i++)
         {
-            int j = (random_num + 1) % g_file_server_count;
+            int j = (random_num + i + 1) % g_file_server_count;
             pConnTmp = (CFileServConn*)g_file_server_list[j].serv_conn;
             if (pConnTmp && pConnTmp->IsOpen())
             {
                 pConn = pConnTmp;
+                break;
             }
         }
     }

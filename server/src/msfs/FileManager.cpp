@@ -5,6 +5,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string>
 #include <iostream>
 #include <sys/mount.h>
@@ -226,7 +227,7 @@ void FileManager::updateMapCache() {
 	size_t currSize = m_map.size();
 	if (currSize > MAX_FILE_IN_MAP) {
 		EntryMap::iterator it = m_map.begin();
-		int times = MAX_FILE_IN_MAP - currSize;
+		int times = abs(MAX_FILE_IN_MAP - currSize);
 		while (it != m_map.end() && times) {
 			delete it->second;
 			m_map.erase(it++);

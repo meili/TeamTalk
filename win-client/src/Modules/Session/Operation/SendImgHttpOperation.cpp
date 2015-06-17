@@ -76,7 +76,11 @@ void SendImgHttpOperation::processOpertion()
 	std::string pathUrl;
 	if (200 == response.getHttpCode() && _parseResponse(body, pathUrl))
 	{
-		pPamram->m_pathUrl = fileSysAddr + std::string("/")+pathUrl;
+		if (fileSysAddr.at(fileSysAddr.length() - 1) != '/')
+		{
+			fileSysAddr += std::string("/");
+		}
+		pPamram->m_pathUrl = fileSysAddr + pathUrl;
 	}
 	else
 	{

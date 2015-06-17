@@ -41,12 +41,10 @@ void DownloadAvatarHttpOperation::processOpertion()
 {
 	CString extName = ::PathFindExtension(util::stringToCString(m_downUrl));
 	UInt32 hashcode = util::hash_BKDR((m_downUrl + m_format).c_str());
-	std::string url = m_downUrl;
-	std::string downFormat =/* m_format +*/ util::cStringToString(extName);
-	url += downFormat;
+	std::string downFormat = util::cStringToString(extName);
 	Http::HttpResponse	response;
 	Http::HttpClient	client;
-	Http::HttpRequest	request("GET", url);
+	Http::HttpRequest	request("GET", m_downUrl);
 
 	if (isCanceled())
 		return;
@@ -58,7 +56,7 @@ void DownloadAvatarHttpOperation::processOpertion()
 	request.saveToFile(cs);
 	if (!client.execute(&request, &response))
 	{
-		CString csTemp = util::stringToCString(url, CP_UTF8);
+		CString csTemp = util::stringToCString(m_downUrl, CP_UTF8);
 		LOG__(ERR, _T("DownloadImgHttpOperation failed %s"), csTemp);
 		client.killSelf();
 		return;
@@ -74,7 +72,7 @@ void DownloadAvatarHttpOperation::processOpertion()
 		//存入ImImage表
 		std::string localPath = util::cStringToString(csFileName);
 		module::ImImageEntity imgTemp;
-		module::ImImageEntity imgEntity = { hashcode, localPath, url};
+		module::ImImageEntity imgEntity = { hashcode, localPath, m_downUrl };
 		module::getDatabaseModule()->sqlInsertImImageEntity(imgEntity);
 
 		//会头像做灰度处理，并且保存到本地
