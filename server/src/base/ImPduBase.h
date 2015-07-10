@@ -46,8 +46,8 @@ typedef struct {
     uint16_t	flag;		  // not used
     uint16_t	service_id;	  //
     uint16_t	command_id;	  //
-    uint16_t	seq_num;     // åŒ…åºå·
-    uint16_t    reversed;    // ä¿ç•™
+    uint16_t	seq_num;     // °üĞòºÅ
+    uint16_t    reversed;    // ±£Áô
 } PduHeader_t;
 
 class DLL_MODIFIER CImPdu

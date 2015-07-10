@@ -350,17 +350,17 @@ public:
     virtual ~LogerManager();
     
     bool configFromStringImpl(std::string content, bool isUpdate);
-    //! è¯»å–é…ç½®æ–‡ä»¶å¹¶è¦†å†™
+    //! ¶ÁÈ¡ÅäÖÃÎÄ¼ş²¢¸²Ğ´
     virtual bool config(const char* configPath);
     virtual bool configFromString(const char* configContent);
     
-    //! è¦†å†™å¼åˆ›å»º
+    //! ¸²Ğ´Ê½´´½¨
     virtual LoggerId createLogger(const char* key);
     virtual bool start();
     virtual bool stop();
     virtual bool prePushLog(LoggerId id, int level);
     virtual bool pushLog(LoggerId id, int level, const char * log, const char * file, int line);
-    //! æŸ¥æ‰¾ID
+    //! ²éÕÒID
     virtual LoggerId findLogger(const char*  key);
     
     virtual bool enableLogger(LoggerId id, bool enable);
@@ -1474,7 +1474,7 @@ bool LogerManager::pushLog(LoggerId id, int level, const char * log, const char 
     return true;
 }
 
-//! æŸ¥æ‰¾ID
+//! ²éÕÒID
 LoggerId LogerManager::findLogger(const char * key)
 {
     std::map<std::string, LoggerId>::iterator iter;

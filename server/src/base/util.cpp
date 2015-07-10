@@ -159,7 +159,7 @@ uint32_t string2int(const string& value)
     return (uint32_t)atoi(value.c_str());
 }
 
-// ç”±äºè¢«æ›¿æ¢çš„å†…å®¹å¯èƒ½åŒ…å«?å·ï¼Œæ‰€ä»¥éœ€è¦æ›´æ–°å¼€å§‹æœå¯»çš„ä½ç½®ä¿¡æ¯æ¥é¿å…æ›¿æ¢åˆšåˆšæ’å…¥çš„?å·
+// ÓÉÓÚ±»Ìæ»»µÄÄÚÈİ¿ÉÄÜ°üº¬?ºÅ£¬ËùÒÔĞèÒª¸üĞÂ¿ªÊ¼ËÑÑ°µÄÎ»ÖÃĞÅÏ¢À´±ÜÃâÌæ»»¸Õ¸Õ²åÈëµÄ?ºÅ
 void replace_mark(string& str, string& new_value, uint32_t& begin_pos)
 {
     string::size_type pos = str.find('?', begin_pos);
@@ -226,7 +226,7 @@ string URLEncode(const string &sIn)
         {
             buf[0] = sIn[ix];
         }
-        //else if ( isspace( (unsigned char)sIn[ix] ) ) //è²Œä¼¼æŠŠç©ºæ ¼ç¼–ç æˆ%20æˆ–è€…+éƒ½å¯ä»¥
+        //else if ( isspace( (unsigned char)sIn[ix] ) ) //Ã²ËÆ°Ñ¿Õ¸ñ±àÂë³É%20»òÕß+¶¼¿ÉÒÔ
         //{
         //    buf[0] = '+';
         //}

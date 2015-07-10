@@ -1,11 +1,11 @@
 /*================================================================
 *   Copyright (C) 2015 All rights reserved.
 *   
-*   æ–‡ä»¶åç§°ï¼šsecurity.h
-*   åˆ› å»º è€…ï¼šZhang Yuanhao
-*   é‚®    ç®±ï¼šbluefoxah@gmail.com
-*   åˆ›å»ºæ—¥æœŸï¼š2015å¹´01æœˆ29æ—¥
-*   æ    è¿°ï¼š
+*   ÎÄ¼şÃû³Æ£ºsecurity.h
+*   ´´ ½¨ Õß£ºZhang Yuanhao
+*   ÓÊ    Ïä£ºbluefoxah@gmail.com
+*   ´´½¨ÈÕÆÚ£º2015Äê01ÔÂ29ÈÕ
+*   Ãè    Êö£º
 *
 #pragma once
 ================================================================*/
@@ -47,47 +47,47 @@ extern "C" {
 
 #else
     /**
-     *  å¯¹æ¶ˆæ¯åŠ å¯†
+     *  ¶ÔÏûÏ¢¼ÓÃÜ
      *
-     *  @param pInData  å¾…åŠ å¯†çš„æ¶ˆæ¯å†…å®¹æŒ‡é’ˆ
-     *  @param nInLen   å¾…åŠ å¯†æ¶ˆæ¯å†…å®¹é•¿åº¦
-     *  @param pOutData åŠ å¯†åçš„æ–‡æœ¬
-     *  @param nOutLen  åŠ å¯†åçš„æ–‡æœ¬é•¿åº¦
+     *  @param pInData  ´ı¼ÓÃÜµÄÏûÏ¢ÄÚÈİÖ¸Õë
+     *  @param nInLen   ´ı¼ÓÃÜÏûÏ¢ÄÚÈİ³¤¶È
+     *  @param pOutData ¼ÓÃÜºóµÄÎÄ±¾
+     *  @param nOutLen  ¼ÓÃÜºóµÄÎÄ±¾³¤¶È
      *
-     *  @return è¿”å› 0-æˆåŠŸ; å…¶ä»–-å¤±è´¥
+     *  @return ·µ»Ø 0-³É¹¦; ÆäËû-Ê§°Ü
      */
     DLL_MODIFIER int EncryptMsg(const char* pInData, uint32_t nInLen, char** pOutData, uint32_t& nOutLen);
     
     /**
-     *  å¯¹æ¶ˆæ¯è§£å¯†
+     *  ¶ÔÏûÏ¢½âÃÜ
      *
-     *  @param pInData  å¾…è§£å¯†çš„æ¶ˆæ¯å†…å®¹æŒ‡é’ˆ
-     *  @param nInLen   å¾…è§£å¯†æ¶ˆæ¯å†…å®¹é•¿åº¦
-     *  @param pOutData è§£å¯†åçš„æ–‡æœ¬
-     *  @param nOutLen  è§£å¯†åçš„æ–‡æœ¬é•¿åº¦
+     *  @param pInData  ´ı½âÃÜµÄÏûÏ¢ÄÚÈİÖ¸Õë
+     *  @param nInLen   ´ı½âÃÜÏûÏ¢ÄÚÈİ³¤¶È
+     *  @param pOutData ½âÃÜºóµÄÎÄ±¾
+     *  @param nOutLen  ½âÃÜºóµÄÎÄ±¾³¤¶È
      *
-     *  @return è¿”å› 0-æˆåŠŸ; å…¶ä»–-å¤±è´¥
+     *  @return ·µ»Ø 0-³É¹¦; ÆäËû-Ê§°Ü
      */
     DLL_MODIFIER int DecryptMsg(const char* pInData, uint32_t nInLen, char** pOutData, uint32_t& nOutLen);
     
     /**
-     *  å¯¹å¯†ç è¿›è¡ŒåŠ å¯†
+     *  ¶ÔÃÜÂë½øĞĞ¼ÓÃÜ
      *
-     *  @param pInData  å¾…è§£å¯†çš„æ¶ˆæ¯å†…å®¹æŒ‡é’ˆ
-     *  @param nInLen   å¾…è§£å¯†æ¶ˆæ¯å†…å®¹é•¿åº¦
-     *  @param pOutData è§£å¯†åçš„æ–‡æœ¬
-     *  @param nOutLen  è§£å¯†åçš„æ–‡æœ¬é•¿åº¦
-     *  @param pKey     32ä½å¯†é’¥
+     *  @param pInData  ´ı½âÃÜµÄÏûÏ¢ÄÚÈİÖ¸Õë
+     *  @param nInLen   ´ı½âÃÜÏûÏ¢ÄÚÈİ³¤¶È
+     *  @param pOutData ½âÃÜºóµÄÎÄ±¾
+     *  @param nOutLen  ½âÃÜºóµÄÎÄ±¾³¤¶È
+     *  @param pKey     32Î»ÃÜÔ¿
      *
-     *  @return è¿”å› 0-æˆåŠŸ; å…¶ä»–-å¤±è´¥
+     *  @return ·µ»Ø 0-³É¹¦; ÆäËû-Ê§°Ü
      */
     DLL_MODIFIER int EncryptPass(const char* pInData, uint32_t nInLen, char** pOutData, uint32_t& nOutLen, const char* pKey);
     
     DLL_MODIFIER int DecryptPass(const char* pInData, uint32_t nInLen, char** ppOutData, uint32_t& nOutLen, const char* pKey);
     /**
-     *  é‡Šæ”¾èµ„æº
+     *  ÊÍ·Å×ÊÔ´
      *
-     *  @param pOutData éœ€è¦é‡Šæ”¾çš„èµ„æº
+     *  @param pOutData ĞèÒªÊÍ·ÅµÄ×ÊÔ´
      */
     DLL_MODIFIER void Free(char* pOutData);
     

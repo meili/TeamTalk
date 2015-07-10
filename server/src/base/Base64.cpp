@@ -3,7 +3,7 @@
 //  pushservice
 //
 //  Created by yunfan on 14/12/18.
-//  Copyright (c) 2014å¹´ yunfan. All rights reserved.
+//  Copyright (c) 2014Äê yunfan. All rights reserved.
 //
 
 #include <stdio.h>

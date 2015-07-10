@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šHttpClient.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´08æœˆ14æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºHttpClient.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê08ÔÂ14ÈÕ
+ *   Ãè    Êö£º
  *
  #include "HttpCurl.h"
  ================================================================*/
@@ -100,8 +100,8 @@ CURLcode CHttpClient::Get(const string & strUrl, string & strResponse)
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, OnWriteData);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&strResponse);
     /**
-     * å½“å¤šä¸ªçº¿ç¨‹éƒ½ä½¿ç”¨è¶…æ—¶å¤„ç†çš„æ—¶å€™ï¼ŒåŒæ—¶ä¸»çº¿ç¨‹ä¸­æœ‰sleepæˆ–æ˜¯waitç­‰æ“ä½œã€‚
-     * å¦‚æœä¸è®¾ç½®è¿™ä¸ªé€‰é¡¹ï¼Œlibcurlå°†ä¼šå‘ä¿¡å·æ‰“æ–­è¿™ä¸ªwaitä»è€Œå¯¼è‡´ç¨‹åºé€€å‡ºã€‚
+     * µ±¶à¸öÏß³Ì¶¼Ê¹ÓÃ³¬Ê±´¦ÀíµÄÊ±ºò£¬Í¬Ê±Ö÷Ïß³ÌÖĞÓĞsleep»òÊÇwaitµÈ²Ù×÷¡£
+     * Èç¹û²»ÉèÖÃÕâ¸öÑ¡Ïî£¬libcurl½«»á·¢ĞÅºÅ´ò¶ÏÕâ¸öwait´Ó¶øµ¼ÖÂ³ÌĞòÍË³ö¡£
      */
     curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 3);
@@ -148,7 +148,7 @@ string CHttpClient::UploadByteFile(const string &strUrl, void* pData, int nSize)
         return "";
     }
     
-    // upload è¿”å›çš„jsonæ ¼å¼ä¸ä¸€æ ·ï¼Œè¦ç‰¹æ®Šå¤„ç†
+    // upload ·µ»ØµÄjson¸ñÊ½²»Ò»Ñù£¬ÒªÌØÊâ´¦Àí
     Json::Reader reader;
     Json::Value value;
     
