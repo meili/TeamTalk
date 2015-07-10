@@ -12,7 +12,7 @@
 
 
 #define KICK_FROM_ROUTE_SERVER 		1
-#define MAX_ONLINE_FRIEND_CNT		100	//é€šçŸ¥å¥½å‹çŠ¶æ€é€šçŸ¥çš„æœ€å¤šä¸ªæ•°
+#define MAX_ONLINE_FRIEND_CNT		100	//Í¨ÖªºÃÓÑ×´Ì¬Í¨ÖªµÄ×î¶à¸öÊı
 
 typedef struct {
 	uint32_t msg_id;
@@ -78,7 +78,7 @@ private:
     void _HandleClientDepartmentRequest(CImPdu* pPdu);
     void _SendFriendStatusNotify(uint32_t status);
 private:
-    string          m_login_name;        //ç™»å½•åæ‹¼éŸ³
+    string          m_login_name;        //µÇÂ¼ÃûÆ´Òô
     uint32_t        m_user_id;
     bool			m_bOpen;	// only DB validate passed will be set to true;
     bool            m_bKickOff;
@@ -94,9 +94,9 @@ private:
     
     uint32_t		m_msg_cnt_per_sec;
     
-    uint32_t        m_client_type;        //å®¢æˆ·ç«¯ç™»å½•æ–¹å¼
+    uint32_t        m_client_type;        //¿Í»§¶ËµÇÂ¼·½Ê½
     
-    uint32_t        m_online_status;      //åœ¨çº¿çŠ¶æ€ 1-online, 2-off-line, 3-leave
+    uint32_t        m_online_status;      //ÔÚÏß×´Ì¬ 1-online, 2-off-line, 3-leave
 };
 
 void init_msg_conn();

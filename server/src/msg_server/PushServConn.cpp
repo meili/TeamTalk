@@ -3,7 +3,7 @@
 //  im-server-TT
 //
 //  Created by luoning on 14-9-15.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #include "PushServConn.h"
@@ -19,7 +19,7 @@ static ConnMap_t g_push_server_conn_map;
 static CPushServConn* g_master_push_conn = NULL;
 
 static serv_info_t* g_push_server_list = NULL;
-static uint32_t		g_push_server_count = 0;			// åˆ°PushServerçš„æ€»è¿æ¥æ•°
+static uint32_t		g_push_server_count = 0;			// µ½PushServerµÄ×ÜÁ¬½ÓÊı
 
 static void push_server_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
@@ -59,8 +59,8 @@ void build_ios_push_flash(string& flash, uint32_t msg_type, uint32_t from_id)
     size_t pos_prefix = flash.find(pic_prefix);
     size_t pos_suffix = flash.find(pic_suffix);
     
-    string comm_flash = "æ‚¨æ”¶åˆ°äº†ä¸€æ¡æ¶ˆæ¯";
-    //å¦‚æœæ˜¯å¸¦æœ‰å›¾ç‰‡é“¾æ¥çš„è¯ï¼Œå°†æ¶ˆæ¯ä½“æ”¹å˜
+    string comm_flash = "ÄúÊÕµ½ÁËÒ»ÌõÏûÏ¢";
+    //Èç¹ûÊÇ´øÓĞÍ¼Æ¬Á´½ÓµÄ»°£¬½«ÏûÏ¢Ìå¸Ä±ä
     if (pos_prefix != string::npos && pos_suffix != string::npos && pos_prefix < pos_suffix) {
         flash = comm_flash;
     }
@@ -74,12 +74,12 @@ void build_ios_push_flash(string& flash, uint32_t msg_type, uint32_t from_id)
             if (msg_type == IM::BaseDefine::MSG_TYPE_GROUP_AUDIO )
             {
                 msg_tmp.append(nick_name);
-                msg_tmp.append("åœ¨ç¾¤èŠä¸­å‘é€äº†ä¸€æ¡è¯­éŸ³æ¶ˆæ¯");
+                msg_tmp.append("ÔÚÈºÁÄÖĞ·¢ËÍÁËÒ»ÌõÓïÒôÏûÏ¢");
             }
             else if (msg_type == IM::BaseDefine::MSG_TYPE_SINGLE_AUDIO)
             {
                 msg_tmp.append(nick_name);
-                msg_tmp.append("ç»™æ‚¨å‘é€äº†ä¸€æ¡è¯­éŸ³æ¶ˆæ¯");
+                msg_tmp.append("¸øÄú·¢ËÍÁËÒ»ÌõÓïÒôÏûÏ¢");
             }
             else
             {

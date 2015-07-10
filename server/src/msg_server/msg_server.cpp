@@ -52,8 +52,8 @@ int main(int argc, char* argv[])
 
 	char* listen_ip = config_file.GetConfigName("ListenIP");
 	char* str_listen_port = config_file.GetConfigName("ListenPort");
-	char* ip_addr1 = config_file.GetConfigName("IpAddr1");	// ç”µä¿¡IP
-	char* ip_addr2 = config_file.GetConfigName("IpAddr2");	// ç½‘é€šIP
+	char* ip_addr1 = config_file.GetConfigName("IpAddr1");	// µçĞÅIP
+	char* ip_addr2 = config_file.GetConfigName("IpAddr2");	// ÍøÍ¨IP
 	char* str_max_conn_cnt = config_file.GetConfigName("MaxConnCnt");
     char* str_aes_key = config_file.GetConfigName("aesKey");
 
@@ -82,15 +82,15 @@ int main(int argc, char* argv[])
     
     pAes = new CAes(str_aes_key);
     
-	// å¿…é¡»è‡³å°‘é…ç½®2ä¸ªBusinessServerå®ä¾‹, ä¸€ä¸ªç”¨äºç”¨æˆ·ç™»å½•ä¸šåŠ¡ï¼Œä¸€ä¸ªç”¨äºå…¶ä»–ä¸šåŠ¡
-	// è¿™æ ·å½“å…¶ä»–ä¸šåŠ¡é‡éå¸¸ç¹å¿™æ—¶ï¼Œä¹Ÿä¸ä¼šå½±å“å®¢æœç«¯çš„ç™»å½•éªŒè¯
-	// å»ºè®®é…ç½®4ä¸ªå®ä¾‹ï¼Œè¿™æ ·æ›´æ–°BusinessServeræ—¶ï¼Œä¸ä¼šå½±å“ä¸šåŠ¡
+	// ±ØĞëÖÁÉÙÅäÖÃ2¸öBusinessServerÊµÀı, Ò»¸öÓÃÓÚÓÃ»§µÇÂ¼ÒµÎñ£¬Ò»¸öÓÃÓÚÆäËûÒµÎñ
+	// ÕâÑùµ±ÆäËûÒµÎñÁ¿·Ç³£·±Ã¦Ê±£¬Ò²²»»áÓ°Ïì¿Í·ş¶ËµÄµÇÂ¼ÑéÖ¤
+	// ½¨ÒéÅäÖÃ4¸öÊµÀı£¬ÕâÑù¸üĞÂBusinessServerÊ±£¬²»»áÓ°ÏìÒµÎñ
 	if (db_server_count < 2) {
 		log("DBServerIP need 2 instance at lest ");
 		return 1;
 	}
 
-	// åˆ°BusinessServerçš„å¼€å¤šä¸ªå¹¶å‘çš„è¿æ¥
+	// µ½BusinessServerµÄ¿ª¶à¸ö²¢·¢µÄÁ¬½Ó
 	uint32_t concurrent_db_conn_cnt = DEFAULT_CONCURRENT_DB_CONN_CNT;
 	uint32_t db_server_count2 = db_server_count * DEFAULT_CONCURRENT_DB_CONN_CNT;
 	char* concurrent_db_conn = config_file.GetConfigName("ConcurrentDBConnCnt");
@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	// æ²¡æœ‰IP2ï¼Œå°±ç”¨ç¬¬ä¸€ä¸ªIP
+	// Ã»ÓĞIP2£¬¾ÍÓÃµÚÒ»¸öIP
 	if (!ip_addr2) {
 		ip_addr2 = ip_addr1;
 	}

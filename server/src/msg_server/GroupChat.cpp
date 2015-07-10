@@ -121,7 +121,7 @@ void CGroupChat::HandleGroupInfoResponse(CImPdu* pPdu)
     
     log("HandleGroupInfoResponse, user_id=%u, group_cnt=%u. ", user_id, group_cnt);
 
-    //æ­¤å¤„æ˜¯æŸ¥è¯¢æˆå‘˜æ—¶ä½¿ç”¨ï¼Œä¸»è¦ç”¨äºç¾¤æ¶ˆæ¯ä»æ•°æ®åº“è·å¾—msg_idåè¿›è¡Œå‘é€,ä¸€èˆ¬æ­¤æ—¶group_cnt = 1
+    //´Ë´¦ÊÇ²éÑ¯³ÉÔ±Ê±Ê¹ÓÃ£¬Ö÷ÒªÓÃÓÚÈºÏûÏ¢´ÓÊı¾İ¿â»ñµÃmsg_idºó½øĞĞ·¢ËÍ,Ò»°ã´ËÊ±group_cnt = 1
     if (pduAttachData.GetPduLength() > 0 && group_cnt > 0)
     {
         IM::BaseDefine::GroupInfo group_info = msg.group_info_list(0);
@@ -147,7 +147,7 @@ void CGroupChat::HandleGroupInfoResponse(CImPdu* pPdu)
         pdu.SetServiceId(SID_MSG);
         pdu.SetCommandId(CID_MSG_DATA);
         
-        //Pushç›¸å…³
+        //PushÏà¹Ø
         IM::Server::IMGroupGetShieldReq msg3;
         msg3.set_group_id(group_id);
         msg3.set_attach_data(pdu.GetBodyData(), pdu.GetBodyLength());
@@ -184,7 +184,7 @@ void CGroupChat::HandleGroupInfoResponse(CImPdu* pPdu)
     }
     else if (pduAttachData.GetPduLength() == 0)
     {
-        //æ­£å¸¸è·å–ç¾¤ä¿¡æ¯çš„è¿”å›
+        //Õı³£»ñÈ¡ÈºĞÅÏ¢µÄ·µ»Ø
         CMsgConn* pConn = CImUserManager::GetInstance()->GetMsgConnByHandle(user_id, pduAttachData.GetHandle());
         if (pConn)
         {
@@ -216,7 +216,7 @@ void CGroupChat::HandleGroupMessage(CImPdu* pPdu)
                                         attach_data.GetHandle());
     if (pFromConn)
     {
-        //æ¥æ”¶åé¦ˆ
+        //½ÓÊÕ·´À¡
         IM::Message::IMMsgDataAck msg2;
         msg2.set_user_id(from_user_id);
         msg2.set_session_id(to_group_id);
@@ -236,7 +236,7 @@ void CGroupChat::HandleGroupMessage(CImPdu* pPdu)
         pRouteConn->SendPdu(pPdu);
     }
     
-    // æœåŠ¡å™¨æ²¡æœ‰ç¾¤çš„ä¿¡æ¯ï¼Œå‘DBæœåŠ¡å™¨è¯·æ±‚ç¾¤ä¿¡æ¯ï¼Œå¹¶å¸¦ä¸Šæ¶ˆæ¯ä½œä¸ºé™„ä»¶ï¼Œè¿”å›æ—¶åœ¨å‘é€è¯¥æ¶ˆæ¯ç»™å…¶ä»–ç¾¤æˆå‘˜
+    // ·şÎñÆ÷Ã»ÓĞÈºµÄĞÅÏ¢£¬ÏòDB·şÎñÆ÷ÇëÇóÈºĞÅÏ¢£¬²¢´øÉÏÏûÏ¢×÷Îª¸½¼ş£¬·µ»ØÊ±ÔÚ·¢ËÍ¸ÃÏûÏ¢¸øÆäËûÈº³ÉÔ±
     //IM::BaseDefine::GroupVersionInfo group_version_info;
     CPduAttachData pduAttachData(ATTACH_TYPE_HANDLE_AND_PDU, attach_data.GetHandle(), pPdu->GetBodyLength(), pPdu->GetBodyData());
     
@@ -268,7 +268,7 @@ void CGroupChat::HandleGroupMessageBroadcast(CImPdu *pPdu)
     uint32_t msg_id = msg.msg_id();
     log("HandleGroupMessageBroadcast, %u->%u, msg id=%u. ", from_user_id, to_group_id, msg_id);
     
-    // æœåŠ¡å™¨æ²¡æœ‰ç¾¤çš„ä¿¡æ¯ï¼Œå‘DBæœåŠ¡å™¨è¯·æ±‚ç¾¤ä¿¡æ¯ï¼Œå¹¶å¸¦ä¸Šæ¶ˆæ¯ä½œä¸ºé™„ä»¶ï¼Œè¿”å›æ—¶åœ¨å‘é€è¯¥æ¶ˆæ¯ç»™å…¶ä»–ç¾¤æˆå‘˜
+    // ·şÎñÆ÷Ã»ÓĞÈºµÄĞÅÏ¢£¬ÏòDB·şÎñÆ÷ÇëÇóÈºĞÅÏ¢£¬²¢´øÉÏÏûÏ¢×÷Îª¸½¼ş£¬·µ»ØÊ±ÔÚ·¢ËÍ¸ÃÏûÏ¢¸øÆäËûÈº³ÉÔ±
     //IM::BaseDefine::GroupVersionInfo group_version_info;
     CPduAttachData pduAttachData(ATTACH_TYPE_HANDLE_AND_PDU, 0, pPdu->GetBodyLength(), pPdu->GetBodyData());
     
@@ -350,7 +350,7 @@ void CGroupChat::HandleGroupCreateResponse(CImPdu* pPdu)
         pPdu->SetPBMsg(&msg);
         pFromConn->SendPdu(pPdu);
     }
-    //åˆ›å»ºçš„é€šçŸ¥æš‚æ—¶å–æ¶ˆï¼Œå› ä¸ºæœ‰æ¶ˆæ¯çš„æ—¶å€™å®¢æˆ·ç«¯ä¹Ÿä¼šå»æ‹‰å–
+    //´´½¨µÄÍ¨ÖªÔİÊ±È¡Ïû£¬ÒòÎªÓĞÏûÏ¢µÄÊ±ºò¿Í»§¶ËÒ²»áÈ¥À­È¡
 }
 
 void CGroupChat::HandleClientGroupChangeMemberRequest(CImPdu* pPdu, CMsgConn* pFromConn)

@@ -1,7 +1,7 @@
 /*
  * ImUser.cpp
  *
- *  Created on: 2014å¹´4æœˆ16æ—¥
+ *  Created on: 2014Äê4ÔÂ16ÈÕ
  *      Author: ziteng
  *  Brief:
  *  	a map from user_id to userInfo and connection list
@@ -158,14 +158,14 @@ void CImUser::HandleKickUser(CMsgConn* pConn, uint32_t reason)
     }
 }
 
-// åªæ”¯æŒä¸€ä¸ªWINDOWS/MACå®¢æˆ·ç«¯ç™»é™†,æˆ–è€…ä¸€ä¸ªios/androidç™»å½•
+// Ö»Ö§³ÖÒ»¸öWINDOWS/MAC¿Í»§¶ËµÇÂ½,»òÕßÒ»¸öios/androidµÇÂ¼
 bool CImUser::KickOutSameClientType(uint32_t client_type, uint32_t reason, CMsgConn* pFromConn)
 {
     for (map<uint32_t, CMsgConn*>::iterator it = m_conn_map.begin(); it != m_conn_map.end(); it++)
     {
         CMsgConn* pMsgConn = it->second;
         
-        //16è¿›åˆ¶ä½ç§»è®¡ç®—
+        //16½øÖÆÎ»ÒÆ¼ÆËã
         if ((((pMsgConn->GetClientType() ^ client_type) >> 4) == 0) && (pMsgConn != pFromConn)) {
             HandleKickUser(pMsgConn, reason);
             break;

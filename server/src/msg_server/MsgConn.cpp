@@ -31,13 +31,13 @@ using namespace IM::BaseDefine;
 static ConnMap_t g_msg_conn_map;
 static UserMap_t g_msg_conn_user_map;
 
-static uint64_t	g_last_stat_tick;	// ä¸Šæ¬¡æ˜¾ç¤ºä¸¢åŒ…çŽ‡ä¿¡æ¯çš„æ—¶é—´
-static uint32_t g_up_msg_total_cnt = 0;		// ä¸Šè¡Œæ¶ˆæ¯åŒ…æ€»æ•°
-static uint32_t g_up_msg_miss_cnt = 0;		// ä¸Šè¡Œæ¶ˆæ¯åŒ…ä¸¢æ•°
-static uint32_t g_down_msg_total_cnt = 0;	// ä¸‹è¡Œæ¶ˆæ¯åŒ…æ€»æ•°
-static uint32_t g_down_msg_miss_cnt = 0;	// ä¸‹è¡Œæ¶ˆæ¯ä¸¢åŒ…æ•°
+static uint64_t	g_last_stat_tick;	// ÉÏ´ÎÏÔÊ¾¶ª°üÂÊÐÅÏ¢µÄÊ±¼ä
+static uint32_t g_up_msg_total_cnt = 0;		// ÉÏÐÐÏûÏ¢°ü×ÜÊý
+static uint32_t g_up_msg_miss_cnt = 0;		// ÉÏÐÐÏûÏ¢°ü¶ªÊý
+static uint32_t g_down_msg_total_cnt = 0;	// ÏÂÐÐÏûÏ¢°ü×ÜÊý
+static uint32_t g_down_msg_miss_cnt = 0;	// ÏÂÐÐÏûÏ¢¶ª°üÊý
 
-static bool g_log_msg_toggle = true;	// æ˜¯å¦æŠŠæ”¶åˆ°çš„MsgDataå†™å…¥Logçš„å¼€å…³ï¼Œé€šè¿‡kill -SIGUSR2 pid æ‰“å¼€/å…³é—­
+static bool g_log_msg_toggle = true;	// ÊÇ·ñ°ÑÊÕµ½µÄMsgDataÐ´ÈëLogµÄ¿ª¹Ø£¬Í¨¹ýkill -SIGUSR2 pid ´ò¿ª/¹Ø±Õ
 
 static CFileHandler* s_file_handler = NULL;
 static CGroupChat* s_group_chat = NULL;
@@ -129,7 +129,7 @@ void CMsgConn::SendUserStatusUpdate(uint32_t user_status)
         return;
     }
     
-    // åªæœ‰ä¸Šä¸‹çº¿é€šçŸ¥æ‰é€šçŸ¥LoginServer
+    // Ö»ÓÐÉÏÏÂÏßÍ¨Öª²ÅÍ¨ÖªLoginServer
     if (user_status == ::IM::BaseDefine::USER_STATUS_ONLINE) {
         IM::Server::IMUserCntUpdate msg;
         msg.set_user_action(USER_CNT_INC);
@@ -378,7 +378,7 @@ void CMsgConn::HandlePdu(CImPdu* pPdu)
 
 void CMsgConn::_HandleHeartBeat(CImPdu *pPdu)
 {
-    //å“åº”
+    //ÏìÓ¦
     SendPdu(pPdu);
 }
 
@@ -397,15 +397,15 @@ void CMsgConn::_HandleLoginRequest(CImPdu* pPdu)
     CDBServConn* pDbConn = get_db_serv_conn_for_login();
     if (!pDbConn) {
         result = IM::BaseDefine::REFUSE_REASON_NO_DB_SERVER;
-        result_string = "æœåŠ¡ç«¯å¼‚å¸¸";
+        result_string = "·þÎñ¶ËÒì³£";
     }
     else if (!is_login_server_available()) {
         result = IM::BaseDefine::REFUSE_REASON_NO_LOGIN_SERVER;
-        result_string = "æœåŠ¡ç«¯å¼‚å¸¸";
+        result_string = "·þÎñ¶ËÒì³£";
     }
     else if (!is_route_server_available()) {
         result = IM::BaseDefine::REFUSE_REASON_NO_ROUTE_SERVER;
-        result_string = "æœåŠ¡ç«¯å¼‚å¸¸";
+        result_string = "·þÎñ¶ËÒì³£";
     }
     
     if (result) {
@@ -425,7 +425,7 @@ void CMsgConn::_HandleLoginRequest(CImPdu* pPdu)
     
     IM::Login::IMLoginReq msg;
     CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
-    //å‡å¦‚æ˜¯æ±‰å­—ï¼Œåˆ™è½¬æˆæ‹¼éŸ³
+    //¼ÙÈçÊÇºº×Ö£¬Ôò×ª³ÉÆ´Òô
     m_login_name = msg.user_name();
     string password = msg.password();
     uint32_t online_status = msg.online_status();
@@ -542,7 +542,7 @@ void CMsgConn::_HandleClientRecentContactSessionRequest(CImPdu *pPdu)
     log("HandleClientRecentContactSessionRequest, user_id=%u, latest_update_time=%u. ", GetUserId(), msg.latest_update_time());
 
     msg.set_user_id(GetUserId());
-    // è¯·æ±‚æœ€è¿‘è”ç³»ä¼šè¯åˆ—è¡¨
+    // ÇëÇó×î½üÁªÏµ»á»°ÁÐ±í
     CDbAttachData attach_data(ATTACH_TYPE_HANDLE, m_handle, 0);
     msg.set_attach_data(attach_data.GetBuffer(), attach_data.GetLength());
     pPdu->SetPBMsg(&msg);

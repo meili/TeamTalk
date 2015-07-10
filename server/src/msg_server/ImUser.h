@@ -1,7 +1,7 @@
 /*
  * ImUser.h
  *
- *  Created on: 2014å¹´4æœˆ16æ—¥
+ *  Created on: 2014Äê4ÔÂ16ÈÕ
  *      Author: ziteng
  */
 
@@ -10,7 +10,7 @@
 
 #include "imconn.h"
 #include "public_define.h"
-#define MAX_ONLINE_FRIEND_CNT		100	//é€šçŸ¥å¥½å‹çŠ¶æ€é€šçŸ¥çš„æœ€å¤šä¸ªæ•°
+#define MAX_ONLINE_FRIEND_CNT		100	//Í¨ÖªºÃÓÑ×´Ì¬Í¨ÖªµÄ×î¶à¸öÊı
 
 class CMsgConn;
 
@@ -58,10 +58,10 @@ public:
     uint32_t GetClientTypeFlag();
 private:
     uint32_t		m_user_id;
-    string			m_login_name;            /* ç™»å½•å */
-    string          m_nick_name;            /* èŠ±å */
+    string			m_login_name;            /* µÇÂ¼Ãû */
+    string          m_nick_name;            /* »¨Ãû */
     bool 			m_user_updated;
-    uint32_t        m_pc_login_status;  // pc client loginçŠ¶æ€ï¼Œ1: on 0: off
+    uint32_t        m_pc_login_status;  // pc client login×´Ì¬£¬1: on 0: off
     
     bool 			m_bValidate;
     
@@ -70,7 +70,7 @@ private:
 };
 
 typedef map<uint32_t /* user_id */, CImUser*> ImUserMap_t;
-typedef map<string /* ç™»å½•å */, CImUser*> ImUserMapByName_t;
+typedef map<string /* µÇÂ¼Ãû */, CImUser*> ImUserMapByName_t;
 
 class CImUserManager
 {
