@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼štest_client.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ30æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼þÃû³Æ£ºtest_client.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ30ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -105,7 +105,7 @@ void exec_cmd()
     else if(strcmp(g_cmd_string[0].c_str(), "list") == 0)
     {
         printf("+---------------------+\n");
-        printf("|        ç”¨æˆ·å        |\n");
+        printf("|        ÓÃ»§Ãû        |\n");
         printf("+---------------------+\n");
         CMapNick2User_t mapUser = g_pClient->getNick2UserMap();
         auto it = mapUser.begin();

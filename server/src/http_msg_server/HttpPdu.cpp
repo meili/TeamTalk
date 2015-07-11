@@ -129,7 +129,7 @@ char* PackGetUserIdByNickNameResult(uint32_t result, std::list<IM::BaseDefine::U
     Json::Value json_obj;
     Json::Value user_info_array;
     json_obj["error_code"] = result;
-    json_obj["error_msg"] = "æˆåŠŸ";
+    json_obj["error_msg"] = "³É¹¦";
     if (user_list.size() > 0) {
         for (auto user_info : user_list)
         {

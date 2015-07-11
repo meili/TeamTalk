@@ -3,7 +3,7 @@
 //  slog
 //
 //  Created by luoning on 15-1-6.
-//  Copyright (c) 2015å¹´ luoning. All rights reserved.
+//  Copyright (c) 2015Äê luoning. All rights reserved.
 //
 
 #include "slog_api.h"

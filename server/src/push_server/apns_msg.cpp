@@ -3,7 +3,7 @@
 //  my_push_server
 //
 //  Created by luoning on 14-11-17.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #include "apns_msg.h"
@@ -149,7 +149,7 @@ string CAPNSGateWayMsg::_BuildPayload()
 
     if (GetSound() == FALSE)
     {
-        //TODO:é™éŸ³æ¨é€
+        //TODO:¾²ÒôÍÆËÍ
         //aps_obj << "alert" << alert_obj;
         aps_obj << "badge" << GetBadge();
         //aps_obj << "sound" << string(g_silent_music);
@@ -260,7 +260,7 @@ BOOL CAPNSFeedBackResMsg::ParseFromArray(const char *buf, uint32_t len)
         char device_token[APNS_DEVICE_TOKEN_HEX_LENGTH + 1] = {0};
         char* p = device_token;
         memcpy(binary_token, buf + sizeof(m_Time) + sizeof(m_TokenLength), m_TokenLength);
-        //éœ€è¦æ¢ç®—æˆ16è¿›åˆ¶çš„å­—ç¬¦ä¸²è¡¨ç¤º
+        //ĞèÒª»»Ëã³É16½øÖÆµÄ×Ö·û´®±íÊ¾
         for (uint32_t i = 0; i < APNS_DEVICE_TOKEN_BINARY_LENGTH; i++) {
             snprintf(p, 3, "%2.2hhX", binary_token[i]);
             p += 2;

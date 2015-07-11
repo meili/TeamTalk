@@ -65,18 +65,18 @@ void CIOLoop::Run()
 			CBaseIOStream* pIOStream = it->second;
 			if (pIOStream->CheckConnect() == FALSE)
 			{
-				//å¦‚æœæ˜¯è¦æ£€æŸ¥TCP CLIENTæ˜¯å¦è¿æ¥ï¼Œåˆ™ä¸è®¾ç½®å¯è¯»
+				//Èç¹ûÊÇÒª¼ì²éTCP CLIENTÊÇ·ñÁ¬½Ó£¬Ôò²»ÉèÖÃ¿É¶Á
 				FD_SET(it->first, &fd_read);
 				if(it->first > nMaxfd) 
 					nMaxfd = it->first;
 			}
 			if (pIOStream->CheckWrite() == TRUE)
 			{
-				//è®¾ç½®å¯å†™
+				//ÉèÖÃ¿ÉĞ´
 				FD_SET(it->first, &fd_write);
 				if(it->first > nMaxfd) 
 					nMaxfd = it->first;
-				//è®¾ç½®é”™è¯¯ä¿¡å·ï¼Œç”¨äºwindowsçš„tcp connectè¶…æ—¶æ£€æŸ¥ï¼ŒåŒæ—¶æŸ¥çœ‹æ˜¯å¦æœ‰å…¶ä»–è§¦å‘é”™è¯¯
+				//ÉèÖÃ´íÎóĞÅºÅ£¬ÓÃÓÚwindowsµÄtcp connect³¬Ê±¼ì²é£¬Í¬Ê±²é¿´ÊÇ·ñÓĞÆäËû´¥·¢´íÎó
 				FD_SET(it->first, &fd_error);
 			}
 		}
@@ -122,7 +122,7 @@ void CIOLoop::Run()
 							pIOStream->OnConnect(TRUE);
 //#elif defined(__linux__) //mac???
 #else
-							//è¿™ä¸ªæ˜¯unixçš„å¤„ç†æ–¹å¼ï¼Œç»æµ‹è¯•linuxä¹Ÿé€‚ç”¨,macåŒç†
+							//Õâ¸öÊÇunixµÄ´¦Àí·½Ê½£¬¾­²âÊÔlinuxÒ²ÊÊÓÃ,macÍ¬Àí
 							int32_t nError, nCode;
 							socklen_t nLen; 
 							nLen = sizeof(nError);     
@@ -130,15 +130,15 @@ void CIOLoop::Run()
                                                &nLen);
 							if (nCode < 0 || nError) 
 							{     
-								//è¿æ¥å¤±è´¥
-								//linuxçš„è¶…æ—¶å¤±è´¥æ˜¯ä¹Ÿæ˜¯æ ¹æ®è¿™ä¸ªå¯ä»¥åˆ¤æ–­
+								//Á¬½ÓÊ§°Ü
+								//linuxµÄ³¬Ê±Ê§°ÜÊÇÒ²ÊÇ¸ù¾İÕâ¸ö¿ÉÒÔÅĞ¶Ï
 								SOCKET_IO_WARN("socket connect failed, nCode: %d, nError: %d.", nCode,
                                                nError);
 								pIOStream->OnConnect(FALSE);
 							}
 							else
 							{
-								//è¿æ¥æˆåŠŸ
+								//Á¬½Ó³É¹¦
 								//SOCKET_IO_WARN("socket connect successed.", nCode, nError);
 								pIOStream->OnConnect(TRUE);
 							}
@@ -153,9 +153,9 @@ void CIOLoop::Run()
 					CBaseIOStream* pIOStream = _GetHandlerBySock(it1->first);
 					if (pIOStream != NULL)
 					{
-						//windowsçš„è¶…æ—¶åˆ¤æ–­æ˜¯åˆ©ç”¨err_fdsæ¥åˆ¤æ–­
-						//å¯¹äºä¸å­˜åœ¨çš„IP(å³linuxä¼šæŠ¥111é”™è¯¯),æˆ–è€…IPå­˜åœ¨ï¼Œç«¯å£ä¸å­˜åœ¨(å³linuxä¼šæŠ¥110é”™è¯¯)
-						//éƒ½æ˜¯è¶…æ—¶é”™è¯¯
+						//windowsµÄ³¬Ê±ÅĞ¶ÏÊÇÀûÓÃerr_fdsÀ´ÅĞ¶Ï
+						//¶ÔÓÚ²»´æÔÚµÄIP(¼´linux»á±¨111´íÎó),»òÕßIP´æÔÚ£¬¶Ë¿Ú²»´æÔÚ(¼´linux»á±¨110´íÎó)
+						//¶¼ÊÇ³¬Ê±´íÎó
 						if (pIOStream->CheckConnect() == TRUE)
 						{
 							SOCKET_IO_WARN("socket connect time out, remote ip: %s, port: %d.",

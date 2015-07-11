@@ -3,7 +3,7 @@
 //  my-code
 //
 //  Created by shiwei on 14-7-14.
-//  Copyright (c) 2014å¹´ shiwei. All rights reserved.
+//  Copyright (c) 2014Äê shiwei. All rights reserved.
 //
 
 #ifndef _BASE_SOCKET_HPP
@@ -99,7 +99,7 @@ static int32_t S_Bind(S_SOCKET nSockFd, const char* szIP, int32_t nPort)
 	addr.sin_port = htons(nPort);
     inet_pton(addr.sin_family, szIP, (void *)&(addr.sin_addr));
 	//addr.sin_addr.s_addr = inet_addr(szIP);
-    //æ­¤å¤„æœ€å¥½ä½¿ç”¨::,å¦åˆ™å¤´æ–‡ä»¶å¼•ç”¨å¾—æ—¶å€™å¼•å…¥äº†stdï¼Œä¼šå®šä½æˆstd::bindå¾—å‡½æ•°
+    //´Ë´¦×îºÃÊ¹ÓÃ::,·ñÔòÍ·ÎÄ¼şÒıÓÃµÃÊ±ºòÒıÈëÁËstd£¬»á¶¨Î»³Éstd::bindµÃº¯Êı
     return ::bind(nSockFd, (sockaddr*)&addr, (int)sizeof(addr));
 }
     

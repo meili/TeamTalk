@@ -183,7 +183,7 @@ void CRouteConn::_HandleUserStatusUpdate(CImPdu* pPdu)
 
 	_UpdateUserStatus(user_id, user_status, client_type);
     
-    //ç”¨äºé€šçŸ¥å®¢æˆ·ç«¯,åŒä¸€ç”¨æˆ·åœ¨pcç«¯çš„ç™»å½•æƒ…å†µ
+    //ÓÃÓÚÍ¨Öª¿Í»§¶Ë,Í¬Ò»ÓÃ»§ÔÚpc¶ËµÄµÇÂ¼Çé¿ö
     CUserInfo* pUser = GetUserInfo(user_id);
     if (pUser)
     {
@@ -204,7 +204,7 @@ void CRouteConn::_HandleUserStatusUpdate(CImPdu* pPdu)
         
         if (user_status == USER_STATUS_OFFLINE)
         {
-            //pcç«¯ä¸‹çº¿ä¸”æ— pcç«¯å­˜åœ¨ï¼Œåˆ™ç»™msg_serverå‘é€ä¸€ä¸ªé€šçŸ¥
+            //pc¶ËÏÂÏßÇÒÎŞpc¶Ë´æÔÚ£¬Ôò¸ømsg_server·¢ËÍÒ»¸öÍ¨Öª
             if (CHECK_CLIENT_TYPE_PC(client_type) && !pUser->IsPCClientLogin())
             {
                 _BroadcastMsg(&pdu);
@@ -212,7 +212,7 @@ void CRouteConn::_HandleUserStatusUpdate(CImPdu* pPdu)
         }
         else
         {
-            //åªè¦pcç«¯åœ¨çº¿ï¼Œåˆ™ä¸ç®¡ä¸Šçº¿çš„æ˜¯pcè¿˜æ˜¯ç§»åŠ¨ç«¯ï¼Œéƒ½é€šçŸ¥msg_server
+            //Ö»Òªpc¶ËÔÚÏß£¬Ôò²»¹ÜÉÏÏßµÄÊÇpc»¹ÊÇÒÆ¶¯¶Ë£¬¶¼Í¨Öªmsg_server
             if (pUser->IsPCClientLogin())
             {
                 _BroadcastMsg(&pdu);
@@ -220,7 +220,7 @@ void CRouteConn::_HandleUserStatusUpdate(CImPdu* pPdu)
         }
     }
     
-    //çŠ¶æ€æ›´æ–°çš„æ˜¯pc clientç«¯ï¼Œåˆ™é€šçŸ¥ç»™æ‰€æœ‰å…¶ä»–äºº
+    //×´Ì¬¸üĞÂµÄÊÇpc client¶Ë£¬ÔòÍ¨Öª¸øËùÓĞÆäËûÈË
     if (CHECK_CLIENT_TYPE_PC(client_type))
     {
         IM::Buddy::IMUserStatNotify msg3;
@@ -232,11 +232,11 @@ void CRouteConn::_HandleUserStatusUpdate(CImPdu* pPdu)
         pdu2.SetServiceId(SID_BUDDY_LIST);
         pdu2.SetCommandId(CID_BUDDY_LIST_STATUS_NOTIFY);
         
-        //ç”¨æˆ·å­˜åœ¨
+        //ÓÃ»§´æÔÚ
         if (pUser)
         {
-            //å¦‚æœæ˜¯pcå®¢æˆ·ç«¯ç¦»çº¿ï¼Œä½†æ˜¯ä»ç„¶å­˜åœ¨pcå®¢æˆ·ç«¯ï¼Œåˆ™ä¸å‘é€ç¦»çº¿é€šçŸ¥
-            //æ­¤ç§æƒ…å†µä¸€èˆ¬æ˜¯pcå®¢æˆ·ç«¯å¤šç‚¹ç™»å½•æ—¶å¼•èµ·
+            //Èç¹ûÊÇpc¿Í»§¶ËÀëÏß£¬µ«ÊÇÈÔÈ»´æÔÚpc¿Í»§¶Ë£¬Ôò²»·¢ËÍÀëÏßÍ¨Öª
+            //´ËÖÖÇé¿öÒ»°ãÊÇpc¿Í»§¶Ë¶àµãµÇÂ¼Ê±ÒıÆğ
             if (USER_STATUS_OFFLINE == user_status && pUser->IsPCClientLogin())
             {
                 return;
@@ -246,7 +246,7 @@ void CRouteConn::_HandleUserStatusUpdate(CImPdu* pPdu)
                 _BroadcastMsg(&pdu2);
             }
         }
-        else//è¯¥ç”¨æˆ·ä¸å­˜åœ¨äº†ï¼Œåˆ™è¡¨ç¤ºæ˜¯ç¦»çº¿çŠ¶æ€
+        else//¸ÃÓÃ»§²»´æÔÚÁË£¬Ôò±íÊ¾ÊÇÀëÏß×´Ì¬
         {
             _BroadcastMsg(&pdu2);
         }

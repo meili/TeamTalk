@@ -3,7 +3,7 @@
 //  my_push_server
 //
 //  Created by luoning on 14-11-11.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #include "session_manager.h"
@@ -52,9 +52,9 @@ void CSessionManager::AddPushSessionBySockID(uint32_t nsockid, push_session_ptr 
 
 void CSessionManager::RemovePushSessionBySockID(uint32_t nsockid)
 {
-    //æ­¤å¤„çš„æœºåˆ¶å¯¼è‡´é”æœ€å¥½æ˜¯é‡å…¥é”ï¼Œå‡å¦‚æ²¡æœ‰å…ˆè°ƒç”¨stopï¼Œè€Œæ˜¯ç›´æ¥å…ˆè°ƒç”¨è¯¥æ¥å£ï¼Œä¼šè¿›å…¥ä¸€ä¸ªé€’å½’ã€‚å¯¹è±¡åˆ é™¤çš„æ—¶å€™ï¼Œ
-    //ä¼šè°ƒç”¨stopï¼Œåˆè¿›å…¥äº†è¯¥æ¥å£
-    //ç›®å‰ï¼ŒMutexåœ¨linux/mac/windowsä¸‹éƒ½æ˜¯é‡å…¥é”
+    //´Ë´¦µÄ»úÖÆµ¼ÖÂËø×îºÃÊÇÖØÈëËø£¬¼ÙÈçÃ»ÓĞÏÈµ÷ÓÃstop£¬¶øÊÇÖ±½ÓÏÈµ÷ÓÃ¸Ã½Ó¿Ú£¬»á½øÈëÒ»¸öµİ¹é¡£¶ÔÏóÉ¾³ıµÄÊ±ºò£¬
+    //»áµ÷ÓÃstop£¬ÓÖ½øÈëÁË¸Ã½Ó¿Ú
+    //Ä¿Ç°£¬MutexÔÚlinux/mac/windowsÏÂ¶¼ÊÇÖØÈëËø
     m_MapIOPushSessionBySockIDMutex.Lock();
     m_MapPushSessionBySockID.erase(nsockid);
     m_MapIOPushSessionBySockIDMutex.Unlock();

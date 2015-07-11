@@ -1,14 +1,14 @@
 /*
  * AttachData.cpp
  *
- *  Created on: 2014å¹´4æœˆ16æ—¥
+ *  Created on: 2014Äê4ÔÂ16ÈÕ
  *      Author: ziteng
  */
 
 
 #include "AttachData.h"
 
-CDbAttachData::CDbAttachData(uint32_t type, uint32_t handle, uint32_t service_type /* = 0 */)			// åºåˆ—åŒ–
+CDbAttachData::CDbAttachData(uint32_t type, uint32_t handle, uint32_t service_type /* = 0 */)			// ĞòÁĞ»¯
 {
 	CByteStream os(&m_buf, 0);
 
@@ -17,7 +17,7 @@ CDbAttachData::CDbAttachData(uint32_t type, uint32_t handle, uint32_t service_ty
     os << service_type;
 }
 
-CDbAttachData::CDbAttachData(uchar_t* attach_data, uint32_t attach_len)	// ååºåˆ—åŒ–
+CDbAttachData::CDbAttachData(uchar_t* attach_data, uint32_t attach_len)	// ·´ĞòÁĞ»¯
 {
 	CByteStream is(attach_data, attach_len);
 
@@ -26,7 +26,7 @@ CDbAttachData::CDbAttachData(uchar_t* attach_data, uint32_t attach_len)	// ååº
     is >> m_service_type;
 }
 
-CPduAttachData::CPduAttachData(uint32_t type, uint32_t handle, uint32_t pduLength, uchar_t* pdu, uint32_t service_type) // åºåˆ—åŒ–
+CPduAttachData::CPduAttachData(uint32_t type, uint32_t handle, uint32_t pduLength, uchar_t* pdu, uint32_t service_type) // ĞòÁĞ»¯
 {
     CByteStream os(&m_buf, 0);
     
@@ -36,7 +36,7 @@ CPduAttachData::CPduAttachData(uint32_t type, uint32_t handle, uint32_t pduLengt
     os.WriteData(pdu, pduLength);
 }
 
-CPduAttachData::CPduAttachData(uchar_t* attach_data, uint32_t attach_len) // ååºåˆ—åŒ–
+CPduAttachData::CPduAttachData(uchar_t* attach_data, uint32_t attach_len) // ·´ĞòÁĞ»¯
 {
     CByteStream is(attach_data, attach_len);
     

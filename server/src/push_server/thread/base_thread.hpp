@@ -3,7 +3,7 @@
 //  my-code
 //
 //  Created by luoning on 14-8-4.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #ifndef _BASE_THREAD_HPP

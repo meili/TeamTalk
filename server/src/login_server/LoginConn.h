@@ -16,12 +16,12 @@ enum {
 };
 
 typedef struct  {
-    string		ip_addr1;	// ç”µä¿¡IP
-    string		ip_addr2;	// ç½‘é€šIP
+    string		ip_addr1;	// µçĞÅIP
+    string		ip_addr2;	// ÍøÍ¨IP
     uint16_t	port;
     uint32_t	max_conn_cnt;
     uint32_t	cur_conn_cnt;
-    string 		hostname;	// æ¶ˆæ¯æœåŠ¡å™¨çš„ä¸»æœºå
+    string 		hostname;	// ÏûÏ¢·şÎñÆ÷µÄÖ÷»úÃû
 } msg_serv_info_t;
 
 

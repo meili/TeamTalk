@@ -14,7 +14,7 @@
 
 IpParser* pIpParser = NULL;
 string strMsfsUrl;
-string strDiscovery;//鍙戠幇鑾峰彇鍦板潃
+string strDiscovery;//发现获取地址
 void client_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	if (msg == NETLIB_MSG_CONNECT)

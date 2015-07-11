@@ -19,7 +19,7 @@ extern IpParser* pIpParser;
 extern string strMsfsUrl;
 extern string strDiscovery;
 
-// conn_handle ä»0å¼€å§‹é€’å¢ï¼Œå¯ä»¥é˜²æ­¢å› socket handleé‡ç”¨å¼•èµ·çš„ä¸€äº›å†²çª
+// conn_handle ´Ó0¿ªÊ¼µİÔö£¬¿ÉÒÔ·ÀÖ¹Òòsocket handleÖØÓÃÒıÆğµÄÒ»Ğ©³åÍ»
 static uint32_t g_conn_handle_generator = 0;
 
 CHttpConn* FindHttpConnByHandle(uint32_t conn_handle)
@@ -170,13 +170,13 @@ void CHttpConn::OnRead()
 		m_last_recv_tick = get_tick_count();
 	}
 
-	// æ¯æ¬¡è¯·æ±‚å¯¹åº”ä¸€ä¸ªHTTPè¿æ¥ï¼Œæ‰€ä»¥è¯»å®Œæ•°æ®åï¼Œä¸ç”¨åœ¨åŒä¸€ä¸ªè¿æ¥é‡Œé¢å‡†å¤‡è¯»å–ä¸‹ä¸ªè¯·æ±‚
+	// Ã¿´ÎÇëÇó¶ÔÓ¦Ò»¸öHTTPÁ¬½Ó£¬ËùÒÔ¶ÁÍêÊı¾İºó£¬²»ÓÃÔÚÍ¬Ò»¸öÁ¬½ÓÀïÃæ×¼±¸¶ÁÈ¡ÏÂ¸öÇëÇó
 	char* in_buf = (char*)m_in_buf.GetBuffer();
 	uint32_t buf_len = m_in_buf.GetWriteOffset();
 	in_buf[buf_len] = '\0';
     
-    // å¦‚æœbuf_len è¿‡é•¿å¯èƒ½æ˜¯å—åˆ°æ”»å‡»ï¼Œåˆ™æ–­å¼€è¿æ¥
-    // æ­£å¸¸çš„urlæœ€å¤§é•¿åº¦ä¸º2048ï¼Œæˆ‘ä»¬æ¥å—çš„æ‰€æœ‰æ•°æ®é•¿åº¦ä¸å¾—å¤§äº1K
+    // Èç¹ûbuf_len ¹ı³¤¿ÉÄÜÊÇÊÜµ½¹¥»÷£¬Ôò¶Ï¿ªÁ¬½Ó
+    // Õı³£µÄurl×î´ó³¤¶ÈÎª2048£¬ÎÒÃÇ½ÓÊÜµÄËùÓĞÊı¾İ³¤¶È²»µÃ´óÓÚ1K
     if(buf_len > 1024)
     {
         log("get too much data:%s ", in_buf);
@@ -239,7 +239,7 @@ void CHttpConn::OnTimer(uint64_t curr_tick)
 	}
 }
 
-// Add By Lanhu 2014-12-19 é€šè¿‡ç™»é™†IPæ¥ä¼˜é€‰ç”µä¿¡è¿˜æ˜¯è”é€šIP
+// Add By Lanhu 2014-12-19 Í¨¹ıµÇÂ½IPÀ´ÓÅÑ¡µçĞÅ»¹ÊÇÁªÍ¨IP
 void CHttpConn::_HandleMsgServRequest(string& url, string& post_data)
 {
     msg_serv_info_t* pMsgServInfo;
@@ -250,7 +250,7 @@ void CHttpConn::_HandleMsgServRequest(string& url, string& post_data)
     {
         Json::Value value;
         value["code"] = 1;
-        value["msg"] = "æ²¡æœ‰msg_server";
+        value["msg"] = "Ã»ÓĞmsg_server";
         string strContent = value.toStyledString();
         char* szContent = new char[HTTP_RESPONSE_HTML_MAX];
         snprintf(szContent, HTTP_RESPONSE_HTML_MAX, HTTP_RESPONSE_HTML, strContent.length(), strContent.c_str());
@@ -272,7 +272,7 @@ void CHttpConn::_HandleMsgServRequest(string& url, string& post_data)
         log("All TCP MsgServer are full ");
         Json::Value value;
         value["code"] = 2;
-        value["msg"] = "è´Ÿè½½è¿‡é«˜";
+        value["msg"] = "¸ºÔØ¹ı¸ß";
         string strContent = value.toStyledString();
         char* szContent = new char[HTTP_RESPONSE_HTML_MAX];
         snprintf(szContent, HTTP_RESPONSE_HTML_MAX, HTTP_RESPONSE_HTML, strContent.length(), strContent.c_str());

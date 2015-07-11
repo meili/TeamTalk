@@ -33,7 +33,7 @@ public:
 	}
 
 private:
-	uint32_t m_socket_id;					//ç¡®ä¿å”¯ä¸€å€¼çš„socket id
+	uint32_t m_socket_id;					//È·±£Î¨Ò»ÖµµÄsocket id
 	CBaseMutex m_socket_id_mutex;
 };
 
@@ -86,21 +86,21 @@ public:
 	virtual void OnConnect(BOOL bConnected) {};
 	virtual void OnRecv() {};
 	virtual BOOL CheckWrite() { return FALSE; }
-	//ç”¨äºéé˜»å¡çš„tcp socketç¼“å­˜æ•°æ®çš„å‘é€
+	//ÓÃÓÚ·Ç×èÈûµÄtcp socket»º´æÊı¾İµÄ·¢ËÍ
 	virtual int32_t SendBufferAsync() { return 0; };
 	BOOL Bind(const char* szIP, uint32_t nPort) const;	
     
-    //å¯¹äºéé˜»å¡å¾—socketæ¥è¯´ï¼ŒCloseä¸ShutDownå¤„ç†æœºåˆ¶ä¸ä¸€æ ·
-    //Closeåªæ˜¯å‘Šè¯‰è¦å‡†å¤‡å…³é—­,éœ€è¦ç­‰å¾…è¿˜åœ¨é˜Ÿåˆ—ä¸­å¾—æ•°æ®å‘é€å‡ºå»åœ¨å…³é—­,shutdownåˆ™æ˜¯ç«‹åˆ»å…³é—­
+    //¶ÔÓÚ·Ç×èÈûµÃsocketÀ´Ëµ£¬CloseÓëShutDown´¦Àí»úÖÆ²»Ò»Ñù
+    //CloseÖ»ÊÇ¸æËßÒª×¼±¸¹Ø±Õ,ĞèÒªµÈ´ı»¹ÔÚ¶ÓÁĞÖĞµÃÊı¾İ·¢ËÍ³öÈ¥ÔÚ¹Ø±Õ,shutdownÔòÊÇÁ¢¿Ì¹Ø±Õ
     virtual void Close();
     virtual void ShutDown();
 protected:
     char m_szIP[32];
-	S_SOCKET m_socket;					//çœŸå®ç”¨äºé€šä¿¡çš„socket
-	uint32_t m_sock_id;					//ä»…ç”¨äºåŒºåˆ†å”¯ä¸€æ€§çš„å€¼
+	S_SOCKET m_socket;					//ÕæÊµÓÃÓÚÍ¨ĞÅµÄsocket
+	uint32_t m_sock_id;					//½öÓÃÓÚÇø·ÖÎ¨Ò»ĞÔµÄÖµ
 	EN_SOCKTYPE m_socktype;
 	
-	BOOL m_bCheckTcpConnected;			//ç”¨äºè®°å½•æ˜¯å¦éœ€è¦åˆ¤æ–­TCP CLIENTçš„connectçŠ¶æ€;
+	BOOL m_bCheckTcpConnected;			//ÓÃÓÚ¼ÇÂ¼ÊÇ·ñĞèÒªÅĞ¶ÏTCP CLIENTµÄconnect×´Ì¬;
 	CIOLoop* m_pio;
 };
 #endif

@@ -37,7 +37,7 @@ static ConnMap_t g_db_server_conn_map;
 
 static serv_info_t* g_db_server_list = NULL;
 static uint32_t		g_db_server_count = 0;
-static uint32_t		g_db_server_login_count = 0;	// åˆ°è¿›è¡Œç™»å½•å¤„ç†çš„DBServerçš„æ€»è¿æ¥æ•°
+static uint32_t		g_db_server_login_count = 0;	// µ½½øĞĞµÇÂ¼´¦ÀíµÄDBServerµÄ×ÜÁ¬½ÓÊı
     
     
     
@@ -69,9 +69,9 @@ void init_db_serv_conn(serv_info_t* server_list, uint32_t server_count, uint32_t
 
 	uint32_t total_db_instance = server_count / concur_conn_cnt;
 
-	// å¿…é¡»è‡³å°‘é…ç½®2ä¸ªBusinessServerå®ä¾‹, ä¸€ä¸ªç”¨äºç”¨æˆ·ç™»å½•ä¸šåŠ¡ï¼Œä¸€ä¸ªç”¨äºå…¶ä»–ä¸šåŠ¡
-	// è¿™æ ·å½“å…¶ä»–ä¸šåŠ¡é‡éå¸¸ç¹å¿™æ—¶ï¼Œä¹Ÿä¸ä¼šå½±å“å®¢æœç«¯çš„ç™»å½•éªŒè¯
-	// å»ºè®®é…ç½®4ä¸ªå®ä¾‹ï¼Œè¿™æ ·æ›´æ–°BusinessServeræ—¶ï¼Œä¸ä¼šå½±å“ä¸šåŠ¡
+	// ±ØĞëÖÁÉÙÅäÖÃ2¸öBusinessServerÊµÀı, Ò»¸öÓÃÓÚÓÃ»§µÇÂ¼ÒµÎñ£¬Ò»¸öÓÃÓÚÆäËûÒµÎñ
+	// ÕâÑùµ±ÆäËûÒµÎñÁ¿·Ç³£·±Ã¦Ê±£¬Ò²²»»áÓ°Ïì¿Í·ş¶ËµÄµÇÂ¼ÑéÖ¤
+	// ½¨ÒéÅäÖÃ4¸öÊµÀı£¬ÕâÑù¸üĞÂBusinessServerÊ±£¬²»»áÓ°ÏìÒµÎñ
 	if (total_db_instance < 2) {
 		log("DBServerIP need 2 instance at lest");
 		exit(1);
@@ -119,7 +119,7 @@ static CDBServConn* get_db_server_conn_in_range(uint32_t start_pos, uint32_t sto
 
 CDBServConn* get_db_serv_conn_for_login()
 {
-	// å…ˆè·å–loginä¸šåŠ¡çš„å®ä¾‹ï¼Œæ²¡æœ‰å°±å»è·å–å…¶ä»–ä¸šåŠ¡æµç¨‹çš„å®ä¾‹
+	// ÏÈ»ñÈ¡loginÒµÎñµÄÊµÀı£¬Ã»ÓĞ¾ÍÈ¥»ñÈ¡ÆäËûÒµÎñÁ÷³ÌµÄÊµÀı
 	CDBServConn* pDBConn = get_db_server_conn_in_range(0, g_db_server_login_count);
 	if (!pDBConn) {
 		pDBConn = get_db_server_conn_in_range(g_db_server_login_count, g_db_server_count);
@@ -130,7 +130,7 @@ CDBServConn* get_db_serv_conn_for_login()
 
 CDBServConn* get_db_serv_conn()
 {
-	// å…ˆè·å–å…¶ä»–ä¸šåŠ¡æµç¨‹çš„å®ä¾‹ï¼Œæ²¡æœ‰å°±å»è·å–loginä¸šåŠ¡çš„å®ä¾‹
+	// ÏÈ»ñÈ¡ÆäËûÒµÎñÁ÷³ÌµÄÊµÀı£¬Ã»ÓĞ¾ÍÈ¥»ñÈ¡loginÒµÎñµÄÊµÀı
 	CDBServConn* pDBConn = get_db_server_conn_in_range(g_db_server_login_count, g_db_server_count);
 	if (!pDBConn) {
 		pDBConn = get_db_server_conn_in_range(0, g_db_server_login_count);

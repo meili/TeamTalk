@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *   
- *   æ–‡ä»¶åç§°ï¼šHttpConn.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´07æœˆ29æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºHttpConn.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê07ÔÂ29ÈÕ
+ *   Ãè    Êö£º
  *
  #include "HttpConn.h"
  ================================================================*/
@@ -15,7 +15,7 @@
 
 static HttpConnMap_t g_http_conn_map;
 
-// conn_handle ä»0å¼€å§‹é€’å¢ï¼Œå¯ä»¥é˜²æ­¢å› socket handleé‡ç”¨å¼•èµ·çš„ä¸€äº›å†²çª
+// conn_handle ´Ó0¿ªÊ¼µİÔö£¬¿ÉÒÔ·ÀÖ¹Òòsocket handleÖØÓÃÒıÆğµÄÒ»Ğ©³åÍ»
 static uint32_t g_conn_handle_generator = 0;
 CLock CHttpConn::s_list_lock;
 list<Response_t*> CHttpConn::s_response_pdu_list;
@@ -244,7 +244,7 @@ void CHttpTask::OnUpload()
                                                         g_fileManager->uploadFile(szType, pFileStart, nFileSize, filePath);
                                                     }
                                                     char url[1024];
-                                                    snprintf(url, sizeof(url), "{\"error_code\":0,\"error_msg\": \"æˆåŠŸ\",\"path\":\"%s\",\"url\":\"http://%s/%s\"}", filePath,m_strAccessHost.c_str(), filePath);
+                                                    snprintf(url, sizeof(url), "{\"error_code\":0,\"error_msg\": \"³É¹¦\",\"path\":\"%s\",\"url\":\"http://%s/%s\"}", filePath,m_strAccessHost.c_str(), filePath);
                                                     uint32_t content_length = strlen(url);
                                                     pContent = new char[HTTP_RESPONSE_HTML_MAX];
                                                     snprintf(pContent, HTTP_RESPONSE_HTML_MAX, HTTP_RESPONSE_HTML, content_length,url);
@@ -254,7 +254,7 @@ void CHttpTask::OnUpload()
                                             else
                                             {
                                                 char url[128];
-                                                snprintf(url, sizeof(url), "{\"error_code\":8,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+                                                snprintf(url, sizeof(url), "{\"error_code\":8,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
                                                 log("%s",url);
                                                 uint32_t content_length = strlen(url);
                                                 pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -265,7 +265,7 @@ void CHttpTask::OnUpload()
                                         else
                                         {
                                             char url[128];
-                                            snprintf(url, sizeof(url), "{\"error_code\":7,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+                                            snprintf(url, sizeof(url), "{\"error_code\":7,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
                                             log("%s",url);
                                             uint32_t content_length = strlen(url);
                                             pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -277,7 +277,7 @@ void CHttpTask::OnUpload()
                                     else
                                     {
                                         char url[128];
-                                        snprintf(url, sizeof(url), "{\"error_code\":6,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+                                        snprintf(url, sizeof(url), "{\"error_code\":6,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
                                         log("%s",url);
                                         uint32_t content_length = strlen(url);
                                         pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -288,7 +288,7 @@ void CHttpTask::OnUpload()
                                 else
                                 {
                                     char url[128];
-                                    snprintf(url, sizeof(url), "{\"error_code\":5,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+                                    snprintf(url, sizeof(url), "{\"error_code\":5,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
                                     log("%s",url);
                                     uint32_t content_length = strlen(url);
                                     pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -299,7 +299,7 @@ void CHttpTask::OnUpload()
                             else
                             {
                                 char url[128];
-                                snprintf(url, sizeof(url), "{\"error_code\":4,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+                                snprintf(url, sizeof(url), "{\"error_code\":4,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
                                 log("%s",url);
                                 uint32_t content_length = strlen(url);
                                 pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -309,7 +309,7 @@ void CHttpTask::OnUpload()
                         }
                         else{
                             char url[128];
-                            snprintf(url, sizeof(url), "{\"error_code\":9,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+                            snprintf(url, sizeof(url), "{\"error_code\":9,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
                             log("%s",url);
                             uint32_t content_length = strlen(url);
                             pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -319,7 +319,7 @@ void CHttpTask::OnUpload()
                    }
                    else{
                        char url[128];
-                       snprintf(url, sizeof(url), "{\"error_code\":10,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+                       snprintf(url, sizeof(url), "{\"error_code\":10,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
                        log("%s",url);
                        uint32_t content_length = strlen(url);
                        pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -329,7 +329,7 @@ void CHttpTask::OnUpload()
                 }else
                 {
                     char url[128];
-                    snprintf(url, sizeof(url), "{\"error_code\":11,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+                    snprintf(url, sizeof(url), "{\"error_code\":11,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
                     log("%s",url);
                     uint32_t content_length = strlen(url);
                     pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -340,7 +340,7 @@ void CHttpTask::OnUpload()
             else
             {
                 char url[128];
-                snprintf(url, sizeof(url), "{\"error_code\":3,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+                snprintf(url, sizeof(url), "{\"error_code\":3,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
                 log("%s",url);
                 uint32_t content_length = strlen(url);
                 pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -351,7 +351,7 @@ void CHttpTask::OnUpload()
         else
         {
             char url[128];
-            snprintf(url, sizeof(url), "{\"error_code\":2,\"error_msg\": \"æ ¼å¼é”™è¯¯\",\"path\":\"\",\"url\":\"\"}");
+            snprintf(url, sizeof(url), "{\"error_code\":2,\"error_msg\": \"¸ñÊ½´íÎó\",\"path\":\"\",\"url\":\"\"}");
             log("%s",url);
             uint32_t content_length = strlen(url);
             pContent = new char[HTTP_RESPONSE_HTML_MAX];
@@ -499,7 +499,7 @@ void CHttpConn::OnRead()
         m_last_recv_tick = get_tick_count();
     }
 
-    // æ¯æ¬¡è¯·æ±‚å¯¹åº”ä¸€ä¸ªHTTPè¿æ¥ï¼Œæ‰€ä»¥è¯»å®Œæ•°æ®åï¼Œä¸ç”¨åœ¨åŒä¸€ä¸ªè¿æ¥é‡Œé¢å‡†å¤‡è¯»å–ä¸‹ä¸ªè¯·æ±‚
+    // Ã¿´ÎÇëÇó¶ÔÓ¦Ò»¸öHTTPÁ¬½Ó£¬ËùÒÔ¶ÁÍêÊı¾İºó£¬²»ÓÃÔÚÍ¬Ò»¸öÁ¬½ÓÀïÃæ×¼±¸¶ÁÈ¡ÏÂ¸öÇëÇó
     char* in_buf = (char*) m_in_buf.GetBuffer();
     uint32_t buf_len = m_in_buf.GetWriteOffset();
     in_buf[buf_len] = '\0';
@@ -523,7 +523,7 @@ void CHttpConn::OnRead()
             // file is too big
             log("content  is too big");
             char url[128];
-            snprintf(url, sizeof(url), "{\"error_code\":1,\"error_msg\": \"ä¸Šä¼ æ–‡ä»¶è¿‡å¤§\",\"url\":\"\"}");
+            snprintf(url, sizeof(url), "{\"error_code\":1,\"error_msg\": \"ÉÏ´«ÎÄ¼ş¹ı´ó\",\"url\":\"\"}");
             log("%s",url);
             uint32_t content_length = strlen(url);
             char pContent[1024];
