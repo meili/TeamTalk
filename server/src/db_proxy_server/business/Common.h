@@ -1,7 +1,7 @@
 /*
  * Common.h
  *
- *  Created on: 2014å¹´11æœˆ12æ—¥
+ *  Created on: 2014Äê11ÔÂ12ÈÕ
  *      Author: yumo
  */
 

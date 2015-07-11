@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šFriendShip.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ15æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºFriendShip.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ15ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -26,10 +26,10 @@ using namespace std;
 
 namespace DB_PROXY {
     /**
-     *  è·å–æœ€è¿‘ä¼šè¯æ¥å£
+     *  »ñÈ¡×î½ü»á»°½Ó¿Ú
      *
-     *  @param pPdu      æ”¶åˆ°çš„packetåŒ…æŒ‡é’ˆ
-     *  @param conn_uuid è¯¥åŒ…è¿‡æ¥çš„socket æè¿°ç¬¦
+     *  @param pPdu      ÊÕµ½µÄpacket°üÖ¸Õë
+     *  @param conn_uuid ¸Ã°ü¹ıÀ´µÄsocket ÃèÊö·û
      */
     void getRecentSession(CImPdu* pPdu, uint32_t conn_uuid)
     {
@@ -43,7 +43,7 @@ namespace DB_PROXY {
             uint32_t nUserId = msg.user_id();
             uint32_t nLastTime = msg.latest_update_time();
             
-            //è·å–æœ€è¿‘è”ç³»äººåˆ—è¡¨
+            //»ñÈ¡×î½üÁªÏµÈËÁĞ±í
             list<IM::BaseDefine::ContactSessionInfo> lsContactList;
             CSessionModel::getInstance()->getRecentSession(nUserId, nLastTime, lsContactList);
             msgResp.set_user_id(nUserId);
@@ -77,10 +77,10 @@ namespace DB_PROXY {
     }
     
     /**
-     *  åˆ é™¤ä¼šè¯æ¥å£
+     *  É¾³ı»á»°½Ó¿Ú
      *
-     *  @param pPdu      æ”¶åˆ°çš„packetåŒ…æŒ‡é’ˆ
-     *  @param conn_uuid è¯¥åŒ…è¿‡æ¥çš„socket æè¿°ç¬¦
+     *  @param pPdu      ÊÕµ½µÄpacket°üÖ¸Õë
+     *  @param conn_uuid ¸Ã°ü¹ıÀ´µÄsocket ÃèÊö·û
      */
     void deleteRecentSession(CImPdu* pPdu, uint32_t conn_uuid)
     {

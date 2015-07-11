@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šGroupModel.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ15æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºGroupModel.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ15ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -45,15 +45,15 @@ CGroupModel* CGroupModel::getInstance()
 }
 
 /**
- *  åˆ›å»ºç¾¤
+ *  ´´½¨Èº
  *
- *  @param nUserId        åˆ›å»ºè€…
- *  @param strGroupName   ç¾¤å
- *  @param strGroupAvatar ç¾¤å¤´åƒ
- *  @param nGroupType     ç¾¤ç±»å‹1,å›ºå®šç¾¤;2,ä¸´æ—¶ç¾¤
- *  @param setMember      ç¾¤æˆå‘˜åˆ—è¡¨ï¼Œä¸ºäº†è¸¢å‡ºé‡å¤çš„userIdï¼Œä½¿ç”¨setå­˜å‚¨
+ *  @param nUserId        ´´½¨Õß
+ *  @param strGroupName   ÈºÃû
+ *  @param strGroupAvatar ÈºÍ·Ïñ
+ *  @param nGroupType     ÈºÀàĞÍ1,¹Ì¶¨Èº;2,ÁÙÊ±Èº
+ *  @param setMember      Èº³ÉÔ±ÁĞ±í£¬ÎªÁËÌß³öÖØ¸´µÄuserId£¬Ê¹ÓÃset´æ´¢
  *
- *  @return æˆåŠŸè¿”å›ç¾¤Idï¼Œå¤±è´¥è¿”å›0;
+ *  @return ³É¹¦·µ»ØÈºId£¬Ê§°Ü·µ»Ø0;
  */
 uint32_t CGroupModel::createGroup(uint32_t nUserId, const string& strGroupName, const string& strGroupAvatar, uint32_t nGroupType, set<uint32_t>& setMember)
 {
@@ -106,7 +106,7 @@ bool CGroupModel::removeGroup(uint32_t nUserId, uint32_t nGroupId, list<uint32_t
             
             if(0 == nCreator || nCreator == nUserId)
             {
-                //è®¾ç½®ç¾¤ç»„ä¸å¯ç”¨ã€‚
+                //ÉèÖÃÈº×é²»¿ÉÓÃ¡£
                 strSql = "update IMGroup set status=0 where id="+int2string(nGroupId);
                 bRet = pDBConn->ExecuteUpdate(strSql.c_str());
             }
@@ -309,7 +309,7 @@ bool CGroupModel::insertNewMember(uint32_t nGroupId, set<uint32_t>& setUsers)
         if (pDBConn)
         {
             uint32_t nCreated = (uint32_t)time(NULL);
-            // è·å– å·²ç»å­˜åœ¨ç¾¤é‡Œçš„ç”¨æˆ·
+            // »ñÈ¡ ÒÑ¾­´æÔÚÈºÀïµÄÓÃ»§
             string strClause;
             bool bFirst = true;
             for (auto it=setUsers.begin(); it!=setUsers.end(); ++it)
@@ -347,7 +347,7 @@ bool CGroupModel::insertNewMember(uint32_t nGroupId, set<uint32_t>& setUsers)
                 CacheConn* pCacheConn = pCacheManager->GetCacheConn("group_member");
                 if (pCacheConn)
                 {
-                    // è®¾ç½®å·²ç»å­˜åœ¨ç¾¤ä¸­äººçš„çŠ¶æ€
+                    // ÉèÖÃÒÑ¾­´æÔÚÈºÖĞÈËµÄ×´Ì¬
                     if (!setHasUser.empty())
                     {
                         strClause.clear();
@@ -370,7 +370,7 @@ bool CGroupModel::insertNewMember(uint32_t nGroupId, set<uint32_t>& setUsers)
                     strSql = "insert into IMGroupMember(`groupId`, `userId`, `status`, `created`, `updated`) values\
                     (?,?,?,?,?)";
                     
-                    //æ’å…¥æ–°æˆå‘˜
+                    //²åÈëĞÂ³ÉÔ±
                     auto it = setUsers.begin();
                     uint32_t nStatus = 0;
                     uint32_t nIncMemberCnt = 0;
@@ -407,7 +407,7 @@ bool CGroupModel::insertNewMember(uint32_t nGroupId, set<uint32_t>& setUsers)
                         pDBConn->ExecuteUpdate(strSql.c_str());
                     }
                     
-                    //æ›´æ–°ä¸€ä»½åˆ°redisä¸­
+                    //¸üĞÂÒ»·İµ½redisÖĞ
                     string strKey = "group_member_"+int2string(nGroupId);
                     for(auto it = setUsers.begin(); it!=setUsers.end(); ++it)
                     {
@@ -607,7 +607,7 @@ bool CGroupModel::hasModifyPermission(uint32_t nUserId, uint32_t nGroupId, IM::B
 
 bool CGroupModel::addMember(uint32_t nGroupId, set<uint32_t> &setUser, list<uint32_t>& lsCurUserId)
 {
-    // å»æ‰å·²ç»å­˜åœ¨çš„ç”¨æˆ·ID
+    // È¥µôÒÑ¾­´æÔÚµÄÓÃ»§ID
     removeRepeatUser(nGroupId, setUser);
     bool bRet = insertNewMember(nGroupId, setUser);
     getGroupUser(nGroupId,lsCurUserId);
@@ -645,7 +645,7 @@ bool CGroupModel::removeMember(uint32_t nGroupId, set<uint32_t> &setUser, list<u
             string strSql = "update IMGroupMember set status=1 where  groupId =" + int2string(nGroupId) + " and userId in(" + strClause + ")";
             pDBConn->ExecuteUpdate(strSql.c_str());
             
-            //ä»redisä¸­åˆ é™¤æˆå‘˜
+            //´ÓredisÖĞÉ¾³ı³ÉÔ±
             string strKey = "group_member_"+ int2string(nGroupId);
             for (auto it=setUser.begin(); it!=setUser.end(); ++it) {
                 string strField = int2string(*it);

@@ -1,11 +1,11 @@
 /*================================================================
-*     Copyright (c) 2014å¹´ lanhu. All rights reserved.
+*     Copyright (c) 2014Äê lanhu. All rights reserved.
 *   
-*   æ–‡ä»¶åç§°ï¼šCacheManager.cpp
-*   åˆ› å»º è€…ï¼šZhang Yuanhao
-*   é‚®    ç®±ï¼šbluefoxah@gmail.com
-*   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ02æ—¥
-*   æ    è¿°ï¼š
+*   ÎÄ¼şÃû³Æ£ºCacheManager.cpp
+*   ´´ ½¨ Õß£ºZhang Yuanhao
+*   ÓÊ    Ïä£ºbluefoxah@gmail.com
+*   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ02ÈÕ
+*   Ãè    Êö£º
 *
 ================================================================*/
 #include <stdlib.h>
@@ -27,9 +27,9 @@ static CRWLock *g_pRWDeptLock = new CRWLock();
 CSyncCenter* CSyncCenter::m_pInstance = NULL;
 bool CSyncCenter::m_bSyncGroupChatRuning = false;
 /**
- *  å•ä¾‹
+ *  µ¥Àı
  *
- *  @return è¿”å›CSyncCenterçš„å•ä¾‹æŒ‡é’ˆ
+ *  @return ·µ»ØCSyncCenterµÄµ¥ÀıÖ¸Õë
  */
 CSyncCenter* CSyncCenter::getInstance()
 {
@@ -42,7 +42,7 @@ CSyncCenter* CSyncCenter::getInstance()
 }
 
 /**
- *  æ„é€ å‡½æ•°
+ *  ¹¹Ôìº¯Êı
  */
 CSyncCenter::CSyncCenter()
 :m_nGroupChatThreadId(0),
@@ -55,7 +55,7 @@ m_pLockGroupChat(new CLock())
 }
 
 /**
- *  ææ„å‡½æ•°
+ *  Îö¹¹º¯Êı
  */
 CSyncCenter::~CSyncCenter()
 {
@@ -70,7 +70,7 @@ CSyncCenter::~CSyncCenter()
 }
 
 /**
- *  å¼€å¯å†…ç½‘æ•°æ®åŒæ­¥ä»¥åŠç¾¤ç»„èŠå¤©è®°å½•åŒæ­¥
+ *  ¿ªÆôÄÚÍøÊı¾İÍ¬²½ÒÔ¼°Èº×éÁÄÌì¼ÇÂ¼Í¬²½
  */
 void CSyncCenter::startSync()
 {
@@ -82,7 +82,7 @@ void CSyncCenter::startSync()
 }
 
 /**
- *  åœæ­¢åŒæ­¥ï¼Œä¸ºäº†"ä¼˜é›…"çš„åŒæ­¥ï¼Œä½¿ç”¨äº†æ¡ä»¶å˜é‡
+ *  Í£Ö¹Í¬²½£¬ÎªÁË"ÓÅÑÅ"µÄÍ¬²½£¬Ê¹ÓÃÁËÌõ¼ş±äÁ¿
  */
 void CSyncCenter::stopSync()
 {
@@ -94,7 +94,7 @@ void CSyncCenter::stopSync()
 }
 
 /*
- * åˆå§‹åŒ–å‡½æ•°ï¼Œä»cacheé‡Œé¢åŠ è½½ä¸Šæ¬¡åŒæ­¥çš„æ—¶é—´ä¿¡æ¯ç­‰
+ * ³õÊ¼»¯º¯Êı£¬´ÓcacheÀïÃæ¼ÓÔØÉÏ´ÎÍ¬²½µÄÊ±¼äĞÅÏ¢µÈ
  */
 void CSyncCenter::init()
 {
@@ -122,9 +122,9 @@ void CSyncCenter::init()
 }
 
 /**
- *  æ›´æ–°ä¸Šæ¬¡åŒæ­¥ç¾¤ç»„ä¿¡æ¯æ—¶é—´
+ *  ¸üĞÂÉÏ´ÎÍ¬²½Èº×éĞÅÏ¢Ê±¼ä
  *
- *  @param nUpdated æ—¶é—´
+ *  @param nUpdated Ê±¼ä
  */
 void CSyncCenter::updateLastUpdateGroup(uint32_t nUpdated)
 {
@@ -143,7 +143,7 @@ void CSyncCenter::updateLastUpdateGroup(uint32_t nUpdated)
 }
 
 /**
- *  åŒæ­¥ç¾¤ç»„èŠå¤©ä¿¡æ¯
+ *  Í¬²½Èº×éÁÄÌìĞÅÏ¢
  *
  *  @param arg NULL
  *

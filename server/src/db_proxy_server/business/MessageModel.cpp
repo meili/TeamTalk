@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šMessageModel.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ15æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºMessageModel.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ15ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -107,7 +107,7 @@ void CMessageModel::getMessage(uint32_t nUserId, uint32_t nPeerId, uint32_t nMsg
 }
 
 /*
- * IMMessage åˆ†è¡¨
+ * IMMessage ·Ö±í
  * AddFriendShip()
  * if nFromId or nToId is ShopEmployee
  * GetShopId
@@ -127,7 +127,7 @@ bool CMessageModel::sendMessage(uint32_t nRelateId, uint32_t nFromId, uint32_t n
     {
         string strTableName = "IMMessage_" + int2string(nRelateId % 8);
         string strSql = "insert into " + strTableName + " (`relateId`, `fromId`, `toId`, `msgId`, `content`, `status`, `type`, `created`, `updated`) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        // å¿…é¡»åœ¨é‡Šæ”¾è¿æ¥å‰delete CPrepareStatementå¯¹è±¡ï¼Œå¦åˆ™æœ‰å¯èƒ½å¤šä¸ªçº¿ç¨‹æ“ä½œmysqlå¯¹è±¡ï¼Œä¼šcrash
+        // ±ØĞëÔÚÊÍ·ÅÁ¬½ÓÇ°delete CPrepareStatement¶ÔÏó£¬·ñÔòÓĞ¿ÉÄÜ¶à¸öÏß³Ì²Ù×÷mysql¶ÔÏó£¬»ácrash
         CPrepareStatement* pStmt = new CPrepareStatement();
         if (pStmt->Init(pDBConn->GetMysql(), strSql))
         {
@@ -266,7 +266,7 @@ uint32_t CMessageModel::getMsgId(uint32_t nRelateId)
  *  @param nMsgId     <#nMsgId description#>
  *  @param strMsgData <#strMsgData description#>
  *  @param nMsgType   <#nMsgType description#>
- *  @param nStatus    0è·å–æœªè¢«åˆ é™¤çš„ï¼Œ1è·å–æ‰€æœ‰çš„ï¼Œé»˜è®¤è·å–æœªè¢«åˆ é™¤çš„
+ *  @param nStatus    0»ñÈ¡Î´±»É¾³ıµÄ£¬1»ñÈ¡ËùÓĞµÄ£¬Ä¬ÈÏ»ñÈ¡Î´±»É¾³ıµÄ
  */
 void CMessageModel::getLastMsg(uint32_t nFromId, uint32_t nToId, uint32_t& nMsgId, string& strMsgData, IM::BaseDefine::MsgType& nMsgType, uint32_t nStatus)
 {
@@ -291,7 +291,7 @@ void CMessageModel::getLastMsg(uint32_t nFromId, uint32_t nToId, uint32_t& nMsgI
                     nMsgType = IM::BaseDefine::MsgType(pResultSet->GetInt("type"));
                     if (nMsgType == IM::BaseDefine::MSG_TYPE_SINGLE_AUDIO)
                     {
-                        // "[è¯­éŸ³]"åŠ å¯†åçš„å­—ç¬¦ä¸²
+                        // "[ÓïÒô]"¼ÓÃÜºóµÄ×Ö·û´®
                         strMsgData = strAudioEnc;
                     }
                     else

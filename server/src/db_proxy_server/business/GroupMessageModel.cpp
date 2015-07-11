@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šGroupMessageModel.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ15æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºGroupMessageModel.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ15ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -28,7 +28,7 @@ extern string strAudioEnc;
 CGroupMessageModel* CGroupMessageModel::m_pInstance = NULL;
 
 /**
- *  æ„é€ å‡½æ•°
+ *  ¹¹Ôìº¯Êı
  */
 CGroupMessageModel::CGroupMessageModel()
 {
@@ -36,7 +36,7 @@ CGroupMessageModel::CGroupMessageModel()
 }
 
 /**
- *  ææ„å‡½æ•°
+ *  Îö¹¹º¯Êı
  */
 CGroupMessageModel::~CGroupMessageModel()
 {
@@ -44,9 +44,9 @@ CGroupMessageModel::~CGroupMessageModel()
 }
 
 /**
- *  å•ä¾‹
+ *  µ¥Àı
  *
- *  @return è¿”å›å•ä¾‹æŒ‡é’ˆ
+ *  @return ·µ»Øµ¥ÀıÖ¸Õë
  */
 CGroupMessageModel* CGroupMessageModel::getInstance()
 {
@@ -58,17 +58,17 @@ CGroupMessageModel* CGroupMessageModel::getInstance()
 }
 
 /**
- *  å‘é€ç¾¤æ¶ˆæ¯æ¥å£
+ *  ·¢ËÍÈºÏûÏ¢½Ó¿Ú
  *
- *  @param nRelateId     å…³ç³»Id
- *  @param nFromId       å‘é€è€…Id
- *  @param nGroupId      ç¾¤ç»„Id
- *  @param nMsgType      æ¶ˆæ¯ç±»å‹
- *  @param nCreateTime   æ¶ˆæ¯åˆ›å»ºæ—¶é—´
- *  @param nMsgId        æ¶ˆæ¯Id
- *  @param strMsgContent æ¶ˆæ¯ç±»å®¹
+ *  @param nRelateId     ¹ØÏµId
+ *  @param nFromId       ·¢ËÍÕßId
+ *  @param nGroupId      Èº×éId
+ *  @param nMsgType      ÏûÏ¢ÀàĞÍ
+ *  @param nCreateTime   ÏûÏ¢´´½¨Ê±¼ä
+ *  @param nMsgId        ÏûÏ¢Id
+ *  @param strMsgContent ÏûÏ¢ÀàÈİ
  *
- *  @return æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+ *  @return ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
  */
 bool CGroupMessageModel::sendMessage(uint32_t nFromId, uint32_t nGroupId, IM::BaseDefine::MsgType nMsgType, uint32_t nCreateTime,uint32_t nMsgId, const string& strMsgContent)
 {
@@ -83,7 +83,7 @@ bool CGroupMessageModel::sendMessage(uint32_t nFromId, uint32_t nGroupId, IM::Ba
             string strSql = "insert into " + strTableName + " (`groupId`, `userId`, `msgId`, `content`, `type`, `status`, `updated`, `created`) "\
             "values(?, ?, ?, ?, ?, ?, ?, ?)";
             
-            // å¿…é¡»åœ¨é‡Šæ”¾è¿æ¥å‰delete CPrepareStatementå¯¹è±¡ï¼Œå¦åˆ™æœ‰å¯èƒ½å¤šä¸ªçº¿ç¨‹æ“ä½œmysqlå¯¹è±¡ï¼Œä¼šcrash
+            // ±ØĞëÔÚÊÍ·ÅÁ¬½ÓÇ°delete CPrepareStatement¶ÔÏó£¬·ñÔòÓĞ¿ÉÄÜ¶à¸öÏß³Ì²Ù×÷mysql¶ÔÏó£¬»ácrash
             CPrepareStatement* pStmt = new CPrepareStatement();
             if (pStmt->Init(pDBConn->GetMysql(), strSql))
             {
@@ -125,18 +125,18 @@ bool CGroupMessageModel::sendMessage(uint32_t nFromId, uint32_t nGroupId, IM::Ba
 }
 
 /**
- *  å‘é€ç¾¤ç»„è¯­éŸ³ä¿¡æ¯
+ *  ·¢ËÍÈº×éÓïÒôĞÅÏ¢
  *
- *  @param nRelateId   å…³ç³»Id
- *  @param nFromId     å‘é€è€…Id
- *  @param nGroupId    ç¾¤ç»„Id
- *  @param nMsgType    æ¶ˆæ¯ç±»å‹
- *  @param nCreateTime æ¶ˆæ¯åˆ›å»ºæ—¶é—´
- *  @param nMsgId      æ¶ˆæ¯Id
- *  @param pMsgContent æŒ‡å‘è¯­éŸ³ç±»å®¹çš„æŒ‡é’ˆ
- *  @param nMsgLen     è¯­éŸ³æ¶ˆæ¯é•¿åº¦
+ *  @param nRelateId   ¹ØÏµId
+ *  @param nFromId     ·¢ËÍÕßId
+ *  @param nGroupId    Èº×éId
+ *  @param nMsgType    ÏûÏ¢ÀàĞÍ
+ *  @param nCreateTime ÏûÏ¢´´½¨Ê±¼ä
+ *  @param nMsgId      ÏûÏ¢Id
+ *  @param pMsgContent Ö¸ÏòÓïÒôÀàÈİµÄÖ¸Õë
+ *  @param nMsgLen     ÓïÒôÏûÏ¢³¤¶È
  *
- *  @return æˆåŠŸè¿”å›trueï¼Œå¤±è´¥è¿”å›false
+ *  @return ³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
  */
 bool CGroupMessageModel::sendAudioMessage(uint32_t nFromId, uint32_t nGroupId, IM::BaseDefine::MsgType nMsgType, uint32_t nCreateTime, uint32_t nMsgId, const char* pMsgContent, uint32_t nMsgLen)
 {
@@ -165,12 +165,12 @@ bool CGroupMessageModel::sendAudioMessage(uint32_t nFromId, uint32_t nGroupId, I
 }
 
 /**
- *  æ¸…é™¤ç¾¤ç»„æ¶ˆæ¯è®¡æ•°
+ *  Çå³ıÈº×éÏûÏ¢¼ÆÊı
  *
- *  @param nUserId  ç”¨æˆ·Id
- *  @param nGroupId ç¾¤ç»„Id
+ *  @param nUserId  ÓÃ»§Id
+ *  @param nGroupId Èº×éId
  *
- *  @return æˆåŠŸè¿”å›trueï¼Œå¤±è´¥è¿”å›false
+ *  @return ³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
  */
 bool CGroupMessageModel::clearMessageCount(uint32_t nUserId, uint32_t nGroupId)
 {
@@ -209,12 +209,12 @@ bool CGroupMessageModel::clearMessageCount(uint32_t nUserId, uint32_t nGroupId)
 }
 
 /**
- *  å¢åŠ ç¾¤æ¶ˆæ¯è®¡æ•°
+ *  Ôö¼ÓÈºÏûÏ¢¼ÆÊı
  *
- *  @param nUserId  ç”¨æˆ·Id
- *  @param nGroupId ç¾¤ç»„Id
+ *  @param nUserId  ÓÃ»§Id
+ *  @param nGroupId Èº×éId
  *
- *  @return æˆåŠŸè¿”å›trueï¼Œå¤±è´¥è¿”å›false
+ *  @return ³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
  */
 bool CGroupMessageModel::incMessageCount(uint32_t nUserId, uint32_t nGroupId)
 {
@@ -254,17 +254,17 @@ bool CGroupMessageModel::incMessageCount(uint32_t nUserId, uint32_t nGroupId)
 }
 
 /**
- *  è·å–ç¾¤ç»„æ¶ˆæ¯åˆ—è¡¨
+ *  »ñÈ¡Èº×éÏûÏ¢ÁĞ±í
  *
- *  @param nUserId  ç”¨æˆ·Id
- *  @param nGroupId ç¾¤ç»„Id
- *  @param nMsgId   å¼€å§‹çš„msgId(æœ€æ–°çš„msgId)
- *  @param nMsgCnt  è·å–çš„é•¿åº¦
- *  @param lsMsg    æ¶ˆæ¯åˆ—è¡¨
+ *  @param nUserId  ÓÃ»§Id
+ *  @param nGroupId Èº×éId
+ *  @param nMsgId   ¿ªÊ¼µÄmsgId(×îĞÂµÄmsgId)
+ *  @param nMsgCnt  »ñÈ¡µÄ³¤¶È
+ *  @param lsMsg    ÏûÏ¢ÁĞ±í
  */
 void CGroupMessageModel::getMessage(uint32_t nUserId, uint32_t nGroupId, uint32_t nMsgId, uint32_t nMsgCnt, list<IM::BaseDefine::MsgInfo>& lsMsg)
 {
-    //æ ¹æ® count å’Œ lastId è·å–ä¿¡æ¯
+    //¸ù¾İ count ºÍ lastId »ñÈ¡ĞÅÏ¢
     string strTableName = "IMGroupMessage_" + int2string(nGroupId % 8);
     
     CDBManager* pDBManager = CDBManager::getInstance();
@@ -272,7 +272,7 @@ void CGroupMessageModel::getMessage(uint32_t nUserId, uint32_t nGroupId, uint32_
     if (pDBConn)
     {
         uint32_t nUpdated = CGroupModel::getInstance()->getUserJoinTime(nGroupId, nUserId);
-        //å¦‚æœnMsgId ä¸º0 è¡¨ç¤ºå®¢æˆ·ç«¯æƒ³æ‹‰å–æœ€æ–°çš„nMsgCntæ¡æ¶ˆæ¯
+        //Èç¹ûnMsgId Îª0 ±íÊ¾¿Í»§¶ËÏëÀ­È¡×îĞÂµÄnMsgCntÌõÏûÏ¢
         string strSql;
         if(nMsgId == 0)
         {
@@ -321,11 +321,11 @@ void CGroupMessageModel::getMessage(uint32_t nUserId, uint32_t nGroupId, uint32_
 }
 
 /**
- *  è·å–ç”¨æˆ·ç¾¤æœªè¯»æ¶ˆæ¯è®¡æ•°
+ *  »ñÈ¡ÓÃ»§ÈºÎ´¶ÁÏûÏ¢¼ÆÊı
  *
- *  @param nUserId       ç”¨æˆ·Id
- *  @param nTotalCnt     æ€»æ¡æ•°
- *  @param lsUnreadCount æ¯ä¸ªä¼šè¯çš„æœªè¯»ä¿¡æ¯åŒ…å«äº†æ¡æ•°ï¼Œæœ€åä¸€ä¸ªæ¶ˆæ¯çš„Idï¼Œæœ€åä¸€ä¸ªæ¶ˆæ¯çš„ç±»å‹ï¼Œæœ€åä¸€ä¸ªæ¶ˆæ¯çš„ç±»å®¹
+ *  @param nUserId       ÓÃ»§Id
+ *  @param nTotalCnt     ×ÜÌõÊı
+ *  @param lsUnreadCount Ã¿¸ö»á»°µÄÎ´¶ÁĞÅÏ¢°üº¬ÁËÌõÊı£¬×îºóÒ»¸öÏûÏ¢µÄId£¬×îºóÒ»¸öÏûÏ¢µÄÀàĞÍ£¬×îºóÒ»¸öÏûÏ¢µÄÀàÈİ
  */
 void CGroupMessageModel::getUnreadMsgCount(uint32_t nUserId, uint32_t &nTotalCnt, list<IM::BaseDefine::UnreadInfo>& lsUnreadCount)
 {
@@ -391,11 +391,11 @@ void CGroupMessageModel::getUnreadMsgCount(uint32_t nUserId, uint32_t &nTotalCnt
 }
 
 /**
- *  è·å–ä¸€ä¸ªç¾¤ç»„çš„msgIdï¼Œè‡ªå¢ï¼Œé€šè¿‡redisæ§åˆ¶
+ *  »ñÈ¡Ò»¸öÈº×éµÄmsgId£¬×ÔÔö£¬Í¨¹ıredis¿ØÖÆ
  *
- *  @param nGroupId ç¾¤Id
+ *  @param nGroupId ÈºId
  *
- *  @return è¿”å›msgId
+ *  @return ·µ»ØmsgId
  */
 uint32_t CGroupMessageModel::getMsgId(uint32_t nGroupId)
 {
@@ -417,12 +417,12 @@ uint32_t CGroupMessageModel::getMsgId(uint32_t nGroupId)
 }
 
 /**
- *  è·å–ä¸€ä¸ªç¾¤çš„æœ€åä¸€æ¡æ¶ˆæ¯
+ *  »ñÈ¡Ò»¸öÈºµÄ×îºóÒ»ÌõÏûÏ¢
  *
- *  @param nGroupId   ç¾¤Id
- *  @param nMsgId     æœ€åä¸€æ¡æ¶ˆæ¯çš„msgId,å¼•ç”¨
- *  @param strMsgData æœ€åä¸€æ¡æ¶ˆæ¯çš„å†…å®¹,å¼•ç”¨
- *  @param nMsgType   æœ€åä¸€æ¡æ¶ˆæ¯çš„ç±»å‹,å¼•ç”¨
+ *  @param nGroupId   ÈºId
+ *  @param nMsgId     ×îºóÒ»ÌõÏûÏ¢µÄmsgId,ÒıÓÃ
+ *  @param strMsgData ×îºóÒ»ÌõÏûÏ¢µÄÄÚÈİ,ÒıÓÃ
+ *  @param nMsgType   ×îºóÒ»ÌõÏûÏ¢µÄÀàĞÍ,ÒıÓÃ
  */
 void CGroupMessageModel::getLastMsg(uint32_t nGroupId, uint32_t &nMsgId, string &strMsgData, IM::BaseDefine::MsgType &nMsgType, uint32_t& nFromId)
 {
@@ -443,7 +443,7 @@ void CGroupMessageModel::getLastMsg(uint32_t nGroupId, uint32_t &nMsgId, string 
                 nFromId = pResultSet->GetInt("userId");
                 if(nMsgType == IM::BaseDefine::MSG_TYPE_GROUP_AUDIO)
                 {
-                    // "[è¯­éŸ³]"åŠ å¯†åçš„å­—ç¬¦ä¸²
+                    // "[ÓïÒô]"¼ÓÃÜºóµÄ×Ö·û´®
                     strMsgData = strAudioEnc;
                 }
                 else
@@ -466,10 +466,10 @@ void CGroupMessageModel::getLastMsg(uint32_t nGroupId, uint32_t &nMsgId, string 
 }
 
 /**
- *  è·å–æŸä¸ªç”¨æˆ·æ‰€æœ‰ç¾¤çš„æ‰€æœ‰æœªè¯»è®¡æ•°ä¹‹å’Œ
+ *  »ñÈ¡Ä³¸öÓÃ»§ËùÓĞÈºµÄËùÓĞÎ´¶Á¼ÆÊıÖ®ºÍ
  *
- *  @param nUserId   ç”¨æˆ·Id
- *  @param nTotalCnt æœªè¯»è®¡æ•°ä¹‹å,å¼•ç”¨
+ *  @param nUserId   ÓÃ»§Id
+ *  @param nTotalCnt Î´¶Á¼ÆÊıÖ®ºó,ÒıÓÃ
  */
 void CGroupMessageModel::getUnReadCntAll(uint32_t nUserId, uint32_t &nTotalCnt)
 {

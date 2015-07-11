@@ -1,7 +1,7 @@
 /*
  * CachePool.cpp
  *
- *  Created on: 2014å¹´7æœˆ24æ—¥
+ *  Created on: 2014Äê7ÔÂ24ÈÕ
  *      Author: ziteng
  *  Modify By ZhangYuanhao
  *  2015-01-13
@@ -35,7 +35,7 @@ CacheConn::~CacheConn()
 }
 
 /*
- * redisåˆå§‹åŒ–è¿æ¥å’Œé‡è¿æ“ä½œï¼Œç±»ä¼¼mysql_ping()
+ * redis³õÊ¼»¯Á¬½ÓºÍÖØÁ¬²Ù×÷£¬ÀàËÆmysql_ping()
  */
 int CacheConn::Init()
 {
@@ -43,7 +43,7 @@ int CacheConn::Init()
 		return 0;
 	}
 
-	// 4s å°è¯•é‡è¿ä¸€æ¬¡
+	// 4s ³¢ÊÔÖØÁ¬Ò»´Î
 	uint64_t cur_time = (uint64_t)time(NULL);
 	if (cur_time < m_last_connect_time + 4) {
 		return 1;
@@ -51,7 +51,7 @@ int CacheConn::Init()
 
 	m_last_connect_time = cur_time;
 
-	// 200msè¶…æ—¶
+	// 200ms³¬Ê±
 	struct timeval timeout = {0, 200000};
 	m_pContext = redisConnectWithTimeout(m_pCachePool->GetServerIP(), m_pCachePool->GetServerPort(), timeout);
 	if (!m_pContext || m_pContext->err) {

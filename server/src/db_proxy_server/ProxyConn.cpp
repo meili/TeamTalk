@@ -1,7 +1,7 @@
 /*
  * ProxyConn.cpp
  *
- *  Created on: 2014å¹´7æœˆ25æ—¥
+ *  Created on: 2014Äê7ÔÂ25ÈÕ
  *      Author: ziteng
  */
 
@@ -42,10 +42,10 @@ void proxy_loop_callback(void* callback_data, uint8_t msg, uint32_t handle, void
 }
 
 /*
- * ç”¨äºä¼˜é›…çš„å…³é—­è¿æ¥ï¼š
- * æœåŠ¡å™¨æ”¶åˆ°SIGTERMä¿¡å·åï¼Œå‘é€CImPduStopReceivePacketæ•°æ®åŒ…ç»™æ¯ä¸ªè¿æ¥ï¼Œ
- * é€šçŸ¥æ¶ˆæ¯æœåŠ¡å™¨ä¸è¦å¾€è‡ªå·±å‘é€æ•°æ®åŒ…è¯·æ±‚ï¼Œ
- * ç„¶åæ³¨å†Œ4såè°ƒç”¨çš„å›è°ƒå‡½æ•°ï¼Œå›è°ƒæ—¶å†é€€å‡ºè¿›ç¨‹
+ * ÓÃÓÚÓÅÑÅµÄ¹Ø±ÕÁ¬½Ó£º
+ * ·şÎñÆ÷ÊÕµ½SIGTERMĞÅºÅºó£¬·¢ËÍCImPduStopReceivePacketÊı¾İ°ü¸øÃ¿¸öÁ¬½Ó£¬
+ * Í¨ÖªÏûÏ¢·şÎñÆ÷²»ÒªÍù×Ô¼º·¢ËÍÊı¾İ°üÇëÇó£¬
+ * È»ºó×¢²á4sºóµ÷ÓÃµÄ»Øµ÷º¯Êı£¬»Øµ÷Ê±ÔÙÍË³ö½ø³Ì
  */
 void exit_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
@@ -141,7 +141,7 @@ void CProxyConn::OnConnect(net_handle_t handle)
 	log("connect from %s:%d, handle=%d", m_peer_ip.c_str(), m_peer_port, m_handle);
 }
 
-// ç”±äºæ•°æ®åŒ…æ˜¯åœ¨å¦ä¸€ä¸ªçº¿ç¨‹å¤„ç†çš„ï¼Œæ‰€ä»¥ä¸èƒ½åœ¨ä¸»çº¿ç¨‹deleteæ•°æ®åŒ…ï¼Œæ‰€ä»¥éœ€è¦Overrideè¿™ä¸ªæ–¹æ³•
+// ÓÉÓÚÊı¾İ°üÊÇÔÚÁíÒ»¸öÏß³Ì´¦ÀíµÄ£¬ËùÒÔ²»ÄÜÔÚÖ÷Ïß³ÌdeleteÊı¾İ°ü£¬ËùÒÔĞèÒªOverrideÕâ¸ö·½·¨
 void CProxyConn::OnRead()
 {
 	for (;;) {

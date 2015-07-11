@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šLogin.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ15æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºLogin.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ15ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -52,11 +52,11 @@ void doLogin(CImPdu* pPdu, uint32_t conn_uuid)
             list<uint32_t>& lsErrorTime = g_hmLimits[strDomain];
             uint32_t tmNow = time(NULL);
             
-            //æ¸…ç†è¶…è¿‡30åˆ†é’Ÿçš„é”™è¯¯æ—¶é—´ç‚¹è®°å½•
+            //ÇåÀí³¬¹ı30·ÖÖÓµÄ´íÎóÊ±¼äµã¼ÇÂ¼
             /*
-             æ¸…ç†æ”¾åœ¨è¿™é‡Œè¿˜æ˜¯æ”¾åœ¨å¯†ç é”™è¯¯åæ·»åŠ çš„æ—¶å€™å‘¢ï¼Ÿ
-             æ”¾åœ¨è¿™é‡Œï¼Œæ¯æ¬¡éƒ½è¦éå†ï¼Œä¼šæœ‰ä¸€ç‚¹ç‚¹æ€§èƒ½çš„æŸå¤±ã€‚
-             æ”¾åœ¨åé¢ï¼Œå¯èƒ½ä¼šé€ æˆ30åˆ†é’Ÿä¹‹å‰æœ‰10æ¬¡é”™çš„ï¼Œä½†æ˜¯æœ¬æ¬¡æ˜¯å¯¹çš„å°±æ²¡åŠæ³•å†è®¿é—®äº†ã€‚
+             ÇåÀí·ÅÔÚÕâÀï»¹ÊÇ·ÅÔÚÃÜÂë´íÎóºóÌí¼ÓµÄÊ±ºòÄØ£¿
+             ·ÅÔÚÕâÀï£¬Ã¿´Î¶¼Òª±éÀú£¬»áÓĞÒ»µãµãĞÔÄÜµÄËğÊ§¡£
+             ·ÅÔÚºóÃæ£¬¿ÉÄÜ»áÔì³É30·ÖÖÓÖ®Ç°ÓĞ10´Î´íµÄ£¬µ«ÊÇ±¾´ÎÊÇ¶ÔµÄ¾ÍÃ»°ì·¨ÔÙ·ÃÎÊÁË¡£
              */
             auto itTime=lsErrorTime.begin();
             for(; itTime!=lsErrorTime.end();++itTime)
@@ -71,14 +71,14 @@ void doLogin(CImPdu* pPdu, uint32_t conn_uuid)
                 lsErrorTime.erase(itTime, lsErrorTime.end());
             }
             
-            // åˆ¤æ–­30åˆ†é’Ÿå†…å¯†ç é”™è¯¯æ¬¡æ•°æ˜¯å¦å¤§äº10
+            // ÅĞ¶Ï30·ÖÖÓÄÚÃÜÂë´íÎó´ÎÊıÊÇ·ñ´óÓÚ10
             if(lsErrorTime.size() > 10)
             {
                 itTime = lsErrorTime.begin();
                 if(tmNow - *itTime <= 30*60)
                 {
                     msgResp.set_result_code(6);
-                    msgResp.set_result_string("ç”¨æˆ·å/å¯†ç é”™è¯¯æ¬¡æ•°å¤ªå¤š");
+                    msgResp.set_result_string("ÓÃ»§Ãû/ÃÜÂë´íÎó´ÎÊıÌ«¶à");
                     pPduResp->SetPBMsg(&msgResp);
                     pPduResp->SetSeqNum(pPdu->GetSeqNum());
                     pPduResp->SetServiceId(IM::BaseDefine::SID_OTHER);
@@ -109,16 +109,16 @@ void doLogin(CImPdu* pPdu, uint32_t conn_uuid)
             pUser->set_user_real_name(cUser.user_real_name());
             pUser->set_status(0);
             msgResp.set_result_code(0);
-            msgResp.set_result_string("æˆåŠŸ");
+            msgResp.set_result_string("³É¹¦");
             
-            //å¦‚æœç™»é™†æˆåŠŸï¼Œåˆ™æ¸…é™¤é”™è¯¯å°è¯•é™åˆ¶
+            //Èç¹ûµÇÂ½³É¹¦£¬ÔòÇå³ı´íÎó³¢ÊÔÏŞÖÆ
             CAutoLock cAutoLock(&g_cLimitLock);
             list<uint32_t>& lsErrorTime = g_hmLimits[strDomain];
             lsErrorTime.clear();
         }
         else
         {
-            //å¯†ç é”™è¯¯ï¼Œè®°å½•ä¸€æ¬¡ç™»é™†å¤±è´¥
+            //ÃÜÂë´íÎó£¬¼ÇÂ¼Ò»´ÎµÇÂ½Ê§°Ü
             uint32_t tmCurrent = time(NULL);
             CAutoLock cAutoLock(&g_cLimitLock);
             list<uint32_t>& lsErrorTime = g_hmLimits[strDomain];
@@ -126,13 +126,13 @@ void doLogin(CImPdu* pPdu, uint32_t conn_uuid)
             
             log("get result false");
             msgResp.set_result_code(1);
-            msgResp.set_result_string("ç”¨æˆ·å/å¯†ç é”™è¯¯");
+            msgResp.set_result_string("ÓÃ»§Ãû/ÃÜÂë´íÎó");
         }
     }
     else
     {
         msgResp.set_result_code(2);
-        msgResp.set_result_string("æœåŠ¡ç«¯å†…éƒ¨é”™è¯¯");
+        msgResp.set_result_string("·şÎñ¶ËÄÚ²¿´íÎó");
     }
     
     

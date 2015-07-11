@@ -1,7 +1,7 @@
 /*
  * DBPool.h
  *
- *  Created on: 2014å¹´7æœˆ22æ—¥
+ *  Created on: 2014Äê7ÔÂ22ÈÕ
  *      Author: ziteng
  *  Modify By ZhangYuanhao
  *  2015-01-12
@@ -35,9 +35,9 @@ private:
 
 /*
  * TODO:
- * ç”¨MySQLçš„prepare statementæ¥å£æ¥é˜²æ­¢SQLæ³¨å…¥
- * æš‚æ—¶åªç”¨äºæ’å…¥IMMessageè¡¨ï¼Œå› ä¸ºåªæœ‰é‚£é‡Œæœ‰SQLæ³¨å…¥çš„é£é™©ï¼Œ
- * ä»¥åå¯ä»¥æŠŠå…¨éƒ¨æ¥å£ç”¨è¿™ä¸ªæ¥å®ç°æ›¿æ¢
+ * ÓÃMySQLµÄprepare statement½Ó¿ÚÀ´·ÀÖ¹SQL×¢Èë
+ * ÔİÊ±Ö»ÓÃÓÚ²åÈëIMMessage±í£¬ÒòÎªÖ»ÓĞÄÇÀïÓĞSQL×¢ÈëµÄ·çÏÕ£¬
+ * ÒÔºó¿ÉÒÔ°ÑÈ«²¿½Ó¿ÚÓÃÕâ¸öÀ´ÊµÏÖÌæ»»
  */
 class CPrepareStatement {
 public:

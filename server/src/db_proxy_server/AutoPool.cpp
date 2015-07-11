@@ -1,11 +1,11 @@
 /*================================================================
-*     Copyright (c) 2015å¹´ lanhu. All rights reserved.
+*     Copyright (c) 2015Äê lanhu. All rights reserved.
 *   
-*   æ–‡ä»¶åç§°ï¼šAutoPool.cpp
-*   åˆ› å»º è€…ï¼šZhang Yuanhao
-*   é‚®    ç®±ï¼šbluefoxah@gmail.com
-*   åˆ›å»ºæ—¥æœŸï¼š2015å¹´03æœˆ18æ—¥
-*   æ    è¿°ï¼š
+*   ÎÄ¼şÃû³Æ£ºAutoPool.cpp
+*   ´´ ½¨ Õß£ºZhang Yuanhao
+*   ÓÊ    Ïä£ºbluefoxah@gmail.com
+*   ´´½¨ÈÕÆÚ£º2015Äê03ÔÂ18ÈÕ
+*   Ãè    Êö£º
 *
 ================================================================*/
 #include "AutoPool.h"

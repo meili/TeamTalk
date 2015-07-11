@@ -1,11 +1,11 @@
 /*================================================================
-*     Copyright (c) 2014å¹´ lanhu. All rights reserved.
+*     Copyright (c) 2014Äê lanhu. All rights reserved.
 *   
-*   æ–‡ä»¶åç§°ï¼šCacheManager.h
-*   åˆ› å»º è€…ï¼šZhang Yuanhao
-*   é‚®    ç®±ï¼šbluefoxah@gmail.com
-*   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ02æ—¥
-*   æ    è¿°ï¼š
+*   ÎÄ¼şÃû³Æ£ºCacheManager.h
+*   ´´ ½¨ Õß£ºZhang Yuanhao
+*   ÓÊ    Ïä£ºbluefoxah@gmail.com
+*   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ02ÈÕ
+*   Ãè    Êö£º
 *
 #pragma once
 ================================================================*/

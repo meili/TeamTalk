@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šGroupAction.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ15æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºGroupAction.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ15ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -20,10 +20,10 @@
 namespace DB_PROXY {
     
     /**
-     *  åˆ›å»ºç¾¤ç»„
+     *  ´´½¨Èº×é
      *
-     *  @param pPdu      æ”¶åˆ°çš„packetåŒ…æŒ‡é’ˆ
-     *  @param conn_uuid è¯¥åŒ…è¿‡æ¥çš„socket æè¿°ç¬¦
+     *  @param pPdu      ÊÕµ½µÄpacket°üÖ¸Õë
+     *  @param conn_uuid ¸Ã°ü¹ıÀ´µÄsocket ÃèÊö·û
      */
     void createGroup(CImPdu* pPdu, uint32_t conn_uuid)
     {
@@ -87,10 +87,10 @@ namespace DB_PROXY {
     }
     
     /**
-     *  è·å–æ­£å¼ç¾¤åˆ—è¡¨
+     *  »ñÈ¡ÕıÊ½ÈºÁĞ±í
      *
-     *  @param pPdu      æ”¶åˆ°çš„packetåŒ…æŒ‡é’ˆ
-     *  @param conn_uuid è¯¥åŒ…è¿‡æ¥çš„socket æè¿°ç¬¦
+     *  @param pPdu      ÊÕµ½µÄpacket°üÖ¸Õë
+     *  @param conn_uuid ¸Ã°ü¹ıÀ´µÄsocket ÃèÊö·û
      */
     void getNormalGroupList(CImPdu* pPdu, uint32_t conn_uuid)
     {
@@ -128,10 +128,10 @@ namespace DB_PROXY {
     }
     
     /**
-     *  è·å–ç¾¤ä¿¡æ¯
+     *  »ñÈ¡ÈºĞÅÏ¢
      *
-     *  @param pPdu      æ”¶åˆ°çš„packetåŒ…æŒ‡é’ˆ
-     *  @param conn_uuid è¯¥åŒ…è¿‡æ¥çš„socket æè¿°ç¬¦
+     *  @param pPdu      ÊÕµ½µÄpacket°üÖ¸Õë
+     *  @param conn_uuid ¸Ã°ü¹ıÀ´µÄsocket ÃèÊö·û
      */
     void getGroupInfo(CImPdu* pPdu, uint32_t conn_uuid)
     {
@@ -189,10 +189,10 @@ namespace DB_PROXY {
         }
     }
     /**
-     *  ä¿®æ”¹ç¾¤æˆå‘˜ï¼Œå¢åŠ æˆ–åˆ é™¤
+     *  ĞŞ¸ÄÈº³ÉÔ±£¬Ôö¼Ó»òÉ¾³ı
      *
-     *  @param pPdu      æ”¶åˆ°çš„packetåŒ…æŒ‡é’ˆ
-     *  @param conn_uuid è¯¥åŒ…è¿‡æ¥çš„socket æè¿°ç¬¦
+     *  @param pPdu      ÊÕµ½µÄpacket°üÖ¸Õë
+     *  @param conn_uuid ¸Ã°ü¹ıÀ´µÄsocket ÃèÊö·û
      */
     void modifyMember(CImPdu* pPdu, uint32_t conn_uuid)
     {
@@ -253,10 +253,10 @@ namespace DB_PROXY {
     }
     
     /**
-     *  è®¾ç½®ç¾¤ç»„ä¿¡æ¯æ¨é€ï¼Œå±è”½æˆ–è€…å–æ¶ˆå±è”½
+     *  ÉèÖÃÈº×éĞÅÏ¢ÍÆËÍ£¬ÆÁ±Î»òÕßÈ¡ÏûÆÁ±Î
      *
-     *  @param pPdu      æ”¶åˆ°çš„packetåŒ…æŒ‡é’ˆ
-     *  @param conn_uuid è¯¥åŒ…è¿‡æ¥çš„socket æè¿°ç¬¦
+     *  @param pPdu      ÊÕµ½µÄpacket°üÖ¸Õë
+     *  @param conn_uuid ¸Ã°ü¹ıÀ´µÄsocket ÃèÊö·û
      */
     void setGroupPush(CImPdu* pPdu, uint32_t conn_uuid)
     {
@@ -298,10 +298,10 @@ namespace DB_PROXY {
     }
     
     /**
-     *  è·å–ä¸€ä¸ªç¾¤çš„æ¨é€è®¾ç½®
+     *  »ñÈ¡Ò»¸öÈºµÄÍÆËÍÉèÖÃ
      *
-     *  @param pPdu      æ”¶åˆ°çš„packetåŒ…æŒ‡é’ˆ
-     *  @param conn_uuid è¯¥åŒ…è¿‡æ¥çš„socket æè¿°ç¬¦
+     *  @param pPdu      ÊÕµ½µÄpacket°üÖ¸Õë
+     *  @param conn_uuid ¸Ã°ü¹ıÀ´µÄsocket ÃèÊö·û
      */
     void getGroupPush(CImPdu* pPdu, uint32_t conn_uuid)
     {
