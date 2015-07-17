@@ -1,7 +1,7 @@
 /*
  * CachePool.h
  *
- *  Created on: 2014å¹´7æœˆ24æ—¥
+ *  Created on: 2014Äê7ÔÂ24ÈÕ
  *      Author: ziteng
  *  Modify By ZhangYuanhao 
  *  2015-01-13
@@ -30,9 +30,9 @@ public:
 	string setex(string key, int timeout, string value);
     string set(string key, string& value);
     
-    //æ‰¹é‡è·å–
+    //ÅúÁ¿»ñÈ¡
     bool mget(const vector<string>& keys, map<string, string>& ret_value);
-    // åˆ¤æ–­ä¸€ä¸ªkeyæ˜¯å¦å­˜åœ¨
+    // ÅĞ¶ÏÒ»¸ökeyÊÇ·ñ´æÔÚ
     bool isExists(string &key);
 
 	// Redis hash structure
@@ -46,7 +46,7 @@ public:
 	string hmset(string key, map<string, string>& hash);
 	bool hmget(string key, list<string>& fields, list<string>& ret_value);
     
-    //åŸå­åŠ å‡1
+    //Ô­×Ó¼Ó¼õ1
     long incr(string key);
     long decr(string key);
 

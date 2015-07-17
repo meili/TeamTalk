@@ -26,14 +26,14 @@ void CTCPClientAsync::_InitSocket()
 *	@brief 
 *	@param[in] szIP 
 *	@param[in] nPort 
-*	@return	è¿”å›å€¼ä¸º0
+*	@return	·µ»ØÖµÎª0
 */
 int32_t CTCPClientAsync::ConnectAsync( const char* szIP, int nPort )
 {
 	SetRemoteIP(szIP);
 	SetRemotePort(nPort);
-    //windows:è¿™ç§åšæ³•å¯¹selectæ²¡æœ‰ç”¨
-    //linux:è¿™ä¸ªåšæ³•ä¹Ÿæ²¡æœ‰æ•ˆæœ
+    //windows:ÕâÖÖ×ö·¨¶ÔselectÃ»ÓĞÓÃ
+    //linux:Õâ¸ö×ö·¨Ò²Ã»ÓĞĞ§¹û
     //S_SetSendTimeOut(GetSocket(), 10);
     
     SOCKET_IO_INFO("connect remote ip: %s, port: %d.", szIP, nPort);
@@ -47,36 +47,36 @@ int32_t CTCPClientAsync::ConnectAsync( const char* szIP, int nPort )
 		if (nError != EINPROGRESS)
 #endif
 		{
-			//è¿æ¥å‡ºé”™
+			//Á¬½Ó³ö´í
 			SOCKET_IO_ERROR("connect error, errno: %d.", nError);
 			DoException(GetSocketID(), SOCKET_IO_TCP_CONNECT_FAILED);
 		}
 		else
 		{
-			//è¿æ¥å»ºç«‹å·²å¯åŠ¨ï¼Œä½†æ˜¯è¿˜æœªæˆåŠŸ
+			//Á¬½Ó½¨Á¢ÒÑÆô¶¯£¬µ«ÊÇ»¹Î´³É¹¦
 		}
-        //å¯¹äºtcp clientæ¥è¯´ï¼Œåœ¨æ­¤å¤„åœ¨åŠ å…¥ioä¸­
+        //¶ÔÓÚtcp clientÀ´Ëµ£¬ÔÚ´Ë´¦ÔÚ¼ÓÈëioÖĞ
         m_pio->Add_Handler(this);
-        //å¯¹äºwindows/linux çš„selectæ¥è¯´ï¼Œconnectéœ€è¦æ¿€æ´»å¯å†™äº‹ä»¶
-        //å¯¹äºepollæ¥è¯´ï¼Œæ¿€æ´»çš„æ˜¯EPOLLERR?
+        //¶ÔÓÚwindows/linux µÄselectÀ´Ëµ£¬connectĞèÒª¼¤»î¿ÉĞ´ÊÂ¼ş
+        //¶ÔÓÚepollÀ´Ëµ£¬¼¤»îµÄÊÇEPOLLERR?
         m_pio->Add_WriteEvent(this);
 	}
 	else
 	{
-        //å¯¹äºtcp clientæ¥è¯´ï¼Œåœ¨æ­¤å¤„åœ¨åŠ å…¥ioä¸­
+        //¶ÔÓÚtcp clientÀ´Ëµ£¬ÔÚ´Ë´¦ÔÚ¼ÓÈëioÖĞ
         m_pio->Add_Handler(this);
-        //å¯¹äºwindows/linux çš„selectæ¥è¯´ï¼Œconnectéœ€è¦æ¿€æ´»å¯å†™äº‹ä»¶
-        //å¯¹äºepollæ¥è¯´ï¼Œæ¿€æ´»çš„æ˜¯EPOLLERR?
+        //¶ÔÓÚwindows/linux µÄselectÀ´Ëµ£¬connectĞèÒª¼¤»î¿ÉĞ´ÊÂ¼ş
+        //¶ÔÓÚepollÀ´Ëµ£¬¼¤»îµÄÊÇEPOLLERR?
         m_pio->Add_WriteEvent(this);
         
-		//è¿æ¥æˆåŠŸï¼Œä¸€èˆ¬è¿æ¥çš„æ˜¯æœ¬åœ°ç«¯å£å¯èƒ½ä¼šç«‹å³æˆåŠŸ
+		//Á¬½Ó³É¹¦£¬Ò»°ãÁ¬½ÓµÄÊÇ±¾µØ¶Ë¿Ú¿ÉÄÜ»áÁ¢¼´³É¹¦
 		OnConnect(TRUE);
 	}
 	return 0;
 }
 
 /**
- *  é‡è¿æ¥å£
+ *  ÖØÁ¬½Ó¿Ú
  *
  *  @return
  */
@@ -92,7 +92,7 @@ int32_t CTCPClientAsync::ReConnectAsync()
 }
 
 /**	@fn	int32_t CTCPClientAsync::SendBufferAsync()
-*	@brief å°†å¾…å‘é€é˜Ÿåˆ—ä¸­çš„æ•°æ®å‘é€å‡ºå»
+*	@brief ½«´ı·¢ËÍ¶ÓÁĞÖĞµÄÊı¾İ·¢ËÍ³öÈ¥
 *	@return	
 */
 int32_t CTCPClientAsync::SendBufferAsync()
@@ -101,12 +101,12 @@ int32_t CTCPClientAsync::SendBufferAsync()
 	m_sendqueuemutex.Lock();
 	if (m_sendqueue.size() == 0)
 	{
-        //å¾…å‘é€é˜Ÿåˆ—ä¸­ä¸ºç©ºï¼Œåˆ™åˆ é™¤å†™äº‹ä»¶çš„æ³¨å†Œ,æ”¹æˆè¯»äº‹ä»¶
+        //´ı·¢ËÍ¶ÓÁĞÖĞÎª¿Õ£¬ÔòÉ¾³ıĞ´ÊÂ¼şµÄ×¢²á,¸Ä³É¶ÁÊÂ¼ş
         m_pio->Remove_WriteEvent(this);
         m_sendqueuemutex.Unlock();
         if (_GetWaitForCloseStatus() == TRUE)
         {
-            //å¾…å‘é€å†…å®¹å‘é€å®Œæ¯•ï¼Œåˆ™å…³é—­é“¾æ¥
+            //´ı·¢ËÍÄÚÈİ·¢ËÍÍê±Ï£¬Ôò¹Ø±ÕÁ´½Ó
             _Close();
         }
         return nErrorCode;
@@ -141,7 +141,7 @@ int32_t CTCPClientAsync::SendBufferAsync()
 	}
 	else if (nRet != pBufferLoop->GetWriteOffset())
 	{
-		//å°†æœªæˆåŠŸçš„æ•°æ®é‡æ–°æ”¾ç½®buffer loopä¸­ï¼Œå¾…ä¸‹æ¬¡å‘é€
+		//½«Î´³É¹¦µÄÊı¾İÖØĞÂ·ÅÖÃbuffer loopÖĞ£¬´ıÏÂ´Î·¢ËÍ
 		int32_t nSize = 0;
         pBufferLoop->Read(NULL, nRet);
         SOCKET_IO_DEBUG("send tcp data, send size: %d, less than %d.", nRet, pBufferLoop->GetWriteOffset());
@@ -207,7 +207,7 @@ int32_t CTCPClientAsync::SendMsgAsync(const char* szBuf, int32_t nBufSize )
 			m_sendqueuemutex.Lock();
 			m_sendqueue.push(pBufferLoop);
 			m_sendqueuemutex.Unlock();
-			//æœ‰æ•°æ®æ”¾å…¥å¾…å‘é€é˜Ÿåˆ—ï¼Œåˆ™æ³¨å†Œä¸ºå†™äº‹ä»¶
+			//ÓĞÊı¾İ·ÅÈë´ı·¢ËÍ¶ÓÁĞ£¬Ôò×¢²áÎªĞ´ÊÂ¼ş
 			m_pio->Add_WriteEvent(this);
 			SOCKET_IO_DEBUG("send tcp data, buffer is blocking.");
 		}
@@ -231,7 +231,7 @@ int32_t CTCPClientAsync::SendMsgAsync(const char* szBuf, int32_t nBufSize )
 		m_sendqueuemutex.Lock();
 		m_sendqueue.push(pBufferLoop);
 		m_sendqueuemutex.Unlock();
-		//æœ‰æ•°æ®æ”¾å…¥å¾…å‘é€é˜Ÿåˆ—ï¼Œåˆ™æ³¨å†Œä¸ºå†™äº‹ä»¶
+		//ÓĞÊı¾İ·ÅÈë´ı·¢ËÍ¶ÓÁĞ£¬Ôò×¢²áÎªĞ´ÊÂ¼ş
 		m_pio->Add_WriteEvent(this);
 		SOCKET_IO_DEBUG("send tcp data, send size: %d, less than %d.", nRet, nBufSize);
 	}
@@ -239,7 +239,7 @@ int32_t CTCPClientAsync::SendMsgAsync(const char* szBuf, int32_t nBufSize )
 }
 
 /**	@fn	BOOL CTCPClientAsync::_Close()
- *	@brief å…³é—­socket
+ *	@brief ¹Ø±Õsocket
  *	@return
  */
 void CTCPClientAsync::_Close()
@@ -273,7 +273,7 @@ void CTCPClientAsync::Close()
 }
 
 /**	@fn	BOOL CTCPClientAsync::ShutDown()
- *	@brief ç«‹åˆ»å…³é—­socket
+ *	@brief Á¢¿Ì¹Ø±Õsocket
  *	@return
  */
 void CTCPClientAsync::ShutDown()
@@ -288,9 +288,9 @@ void CTCPClientAsync::ShutDown()
 */
 void CTCPClientAsync::OnConnect(BOOL bConnected)
 {
-	//æ— è®ºæ˜¯å¦è¿æ¥æˆåŠŸï¼Œéƒ½è®¤ä¸ºå·²ç»åˆ¤æ–­ç»“æŸ
+	//ÎŞÂÛÊÇ·ñÁ¬½Ó³É¹¦£¬¶¼ÈÏÎªÒÑ¾­ÅĞ¶Ï½áÊø
 	SetCheckConnect(FALSE);
-	//è¿æ¥å®Œæ¯•ï¼Œåˆ™åˆ é™¤å†™/é”™è¯¯äº‹ä»¶çš„æ³¨å†Œ,æ”¹æˆè¯»äº‹ä»¶
+	//Á¬½ÓÍê±Ï£¬ÔòÉ¾³ıĞ´/´íÎóÊÂ¼şµÄ×¢²á,¸Ä³É¶ÁÊÂ¼ş
 	m_pio->Remove_WriteEvent(this);
 	if (TRUE == bConnected)
 	{
@@ -323,7 +323,7 @@ void CTCPClientAsync::OnRecv()
 	}
 	else if (nRet == 0)		
 	{
-		//å¯¹æ–¹å…³é—­socket
+		//¶Ô·½¹Ø±Õsocket
         SOCKET_IO_WARN("recv tcp data error, peer closed.");
 		DoException(GetSocketID(), SOCKET_IO_TCP_RECV_FAILED);
 	}
@@ -342,14 +342,14 @@ void CTCPClientAsync::OnRecv()
 		}
 		else
 		{
-			//ç”¨select/epoll/iocpçš„æ–¹å¼åº”è¯¥ä¸ä¼šæœ‰è¿™ä¸ªæƒ…å†µå‡ºç°
+			//ÓÃselect/epoll/iocpµÄ·½Ê½Ó¦¸Ã²»»áÓĞÕâ¸öÇé¿ö³öÏÖ
 			SOCKET_IO_DEBUG("recv tcp data error, buffer is blocking.");
 		}
 	}
 }
 
 /**	@fn	BOOL CTCPClientAsync::CheckWrite()
-*	@brief åˆ¤æ–­SOCKETæ˜¯å¦éœ€è¦è®¾ç½®å¯å†™
+*	@brief ÅĞ¶ÏSOCKETÊÇ·ñĞèÒªÉèÖÃ¿ÉĞ´
 *	@return	
 */
 BOOL CTCPClientAsync::CheckWrite()

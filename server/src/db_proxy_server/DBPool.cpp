@@ -1,7 +1,7 @@
 /*
  * DBPool.cpp
  *
- *  Created on: 2014年7月22日
+ *  Created on: 2014��7��22��
  *      Author: ziteng
  *  Modify By ZhangYuanhao
  *  2015-01-12
@@ -336,8 +336,8 @@ int CDBPool::Init()
 }
 
 /*
- *TODO: 增加保护机制，把分配的连接加入另一个队列，这样获取连接时，如果没有空闲连接，
- *TODO: 检查已经分配的连接多久没有返回，如果超过一定时间，则自动收回连接，放在用户忘了调用释放连接的接口
+ *TODO: ���ӱ������ƣ��ѷ�������Ӽ�����һ�����У�������ȡ����ʱ�����û�п������ӣ�
+ *TODO: ����Ѿ���������Ӷ��û�з��أ��������һ��ʱ�䣬���Զ��ջ����ӣ������û����˵����ͷ����ӵĽӿ�
  */
 CDBConn* CDBPool::GetDBConn()
 {

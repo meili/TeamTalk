@@ -73,7 +73,7 @@ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest) {
 
     //Pre-processing:
     //append "1" bit to message
-    //append "0" bits until message length in bits â‰¡ 448 (mod 512)
+    //append "0" bits until message length in bits ¡Ô 448 (mod 512)
     //append length mod (2^64) to message
 
     for (new_len = initial_len + 1; new_len % (512/8) != 448/8; new_len++)
@@ -94,7 +94,7 @@ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest) {
     //for each 512-bit chunk of message:
     for(offset=0; offset<new_len; offset += (512/8)) {
 
-        // break chunk into sixteen 32-bit words w[j], 0 â‰¤ j â‰¤ 15
+        // break chunk into sixteen 32-bit words w[j], 0 ¡Ü j ¡Ü 15
         for (i = 0; i < 16; i++)
             w[i] = to_int32(msg + offset + i*4);
 

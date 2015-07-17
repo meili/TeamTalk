@@ -3,7 +3,7 @@
 //  my_push_server
 //
 //  Created by luoning on 14-11-4.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #include "push_app.h"
@@ -33,11 +33,11 @@ CPushApp* CPushApp::GetInstance()
 BOOL CPushApp::Init()
 {
     if (!m_bInit) {
-        /* SSL åº“åˆå§‹åŒ– */
+        /* SSL ¿â³õÊ¼»¯ */
         SSL_library_init();
-        /* è½½å…¥æ‰€æœ‰ SSL ç®—æ³• */
+        /* ÔØÈëËùÓĞ SSL Ëã·¨ */
         //OpenSSL_add_all_algorithms();
-        /* è½½å…¥æ‰€æœ‰ SSL é”™è¯¯æ¶ˆæ¯ */
+        /* ÔØÈëËùÓĞ SSL ´íÎóÏûÏ¢ */
         SSL_load_error_strings();
         
         m_bInit = TRUE;

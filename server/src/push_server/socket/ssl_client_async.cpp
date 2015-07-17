@@ -3,7 +3,7 @@
 //  my_push_server
 //
 //  Created by luoning on 14-11-14.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #include "ssl_client_async.h"
@@ -119,9 +119,9 @@ void CSSLClientAsync::UnInitSSL()
     
 void CSSLClientAsync::OnConnect(BOOL bConnected)
 {
-    //æ— è®ºæ˜¯å¦è¿žæŽ¥æˆåŠŸï¼Œéƒ½è®¤ä¸ºå·²ç»åˆ¤æ–­ç»“æŸ
+    //ÎÞÂÛÊÇ·ñÁ¬½Ó³É¹¦£¬¶¼ÈÏÎªÒÑ¾­ÅÐ¶Ï½áÊø
     SetCheckConnect(FALSE);
-    //è¿žæŽ¥å®Œæ¯•ï¼Œåˆ™åˆ é™¤å†™/é”™è¯¯äº‹ä»¶çš„æ³¨å†Œ,æ”¹æˆè¯»äº‹ä»¶
+    //Á¬½ÓÍê±Ï£¬ÔòÉ¾³ýÐ´/´íÎóÊÂ¼þµÄ×¢²á,¸Ä³É¶ÁÊÂ¼þ
     m_pio->Remove_WriteEvent(this);
     if (TRUE == bConnected)
     {
@@ -163,7 +163,7 @@ void CSSLClientAsync::OnRecv()
             int32_t nErrorCode = SSL_get_error(GetSSL(), nRet);
             if (SSL_ERROR_ZERO_RETURN == nErrorCode)
             {
-                //å¯¹æ–¹å…³é—­socket
+                //¶Ô·½¹Ø±Õsocket
                 SOCKET_IO_WARN("recv ssl data error, peer closed.");
                 DoException(GetSocketID(), SOCKET_IO_SSL_RECV_FAILED);
             }
@@ -178,7 +178,7 @@ void CSSLClientAsync::OnRecv()
             int32_t nErrorCode = SSL_get_error(GetSSL(), nRet);
             if (SSL_ERROR_WANT_READ == nErrorCode || SSL_ERROR_WANT_WRITE == nErrorCode)
             {
-                //ç”¨select/epoll/iocpçš„æ–¹å¼åº”è¯¥å¾ˆå°‘ä¼šæœ‰è¿™ä¸ªæƒ…å†µå‡ºçŽ°
+                //ÓÃselect/epoll/iocpµÄ·½Ê½Ó¦¸ÃºÜÉÙ»áÓÐÕâ¸öÇé¿ö³öÏÖ
                 SOCKET_IO_DEBUG("recv ssl data error, buffer is blocking.");
             }
             else
@@ -199,8 +199,8 @@ int32_t CSSLClientAsync::SSLConnect()
 {
     int32_t nErrorCode = SOCKET_IO_SSL_CONNECT_FAILED;
     
-    //é˜»å¡žçš„ssl_connectå¯èƒ½ä¼šæœ‰ä¸€ä¸ªé—®é¢˜ï¼ŒæœåŠ¡ç«¯å¦‚æžœä¸å¯¹æ­¤å¤„ç†ï¼Œå¯èƒ½ä¼šä¸€ç›´å¡åœ¨SSL_connectè¿™ä¸ªæŽ¥å£
-    //æ­¤å¤„é‡‡ç”¨éžé˜»å¡žçš„ssl_connect
+    //×èÈûµÄssl_connect¿ÉÄÜ»áÓÐÒ»¸öÎÊÌâ£¬·þÎñ¶ËÈç¹û²»¶Ô´Ë´¦Àí£¬¿ÉÄÜ»áÒ»Ö±¿¨ÔÚSSL_connectÕâ¸ö½Ó¿Ú
+    //´Ë´¦²ÉÓÃ·Ç×èÈûµÄssl_connect
     int32_t nRet = SSL_connect(GetSSL());
     if (nRet == 1)
     {
@@ -288,7 +288,7 @@ int32_t CSSLClientAsync::SendMsgAsync(const char *szBuf, int32_t nBufSize)
             m_sendqueuemutex.Lock();
             m_sendqueue.push(pBufferLoop);
             m_sendqueuemutex.Unlock();
-            //æœ‰æ•°æ®æ”¾å…¥å¾…å‘é€é˜Ÿåˆ—ï¼Œåˆ™æ³¨å†Œä¸ºå†™äº‹ä»¶
+            //ÓÐÊý¾Ý·ÅÈë´ý·¢ËÍ¶ÓÁÐ£¬Ôò×¢²áÎªÐ´ÊÂ¼þ
             m_pio->Add_WriteEvent(this);
             SOCKET_IO_INFO("send ssl data, buffer is blocking, errno: %d.", nError);
         }
@@ -322,8 +322,8 @@ int32_t CSSLClientAsync::SendMsgAsync(const char *szBuf, int32_t nBufSize)
         m_sendqueuemutex.Lock();
         m_sendqueue.push(pBufferLoop);
         m_sendqueuemutex.Unlock();
-        //æœ‰æ•°æ®æ”¾å…¥å¾…å‘é€é˜Ÿåˆ—ï¼Œåˆ™æ³¨å†Œä¸ºå†™äº‹ä»¶
-        //å¯¹äºŽsslæ¥è¯´ï¼Œåº”è¯¥ä¸ä¼šå‡ºçŽ°æ­¤ç§æƒ…å†µ
+        //ÓÐÊý¾Ý·ÅÈë´ý·¢ËÍ¶ÓÁÐ£¬Ôò×¢²áÎªÐ´ÊÂ¼þ
+        //¶ÔÓÚsslÀ´Ëµ£¬Ó¦¸Ã²»»á³öÏÖ´ËÖÖÇé¿ö
         m_pio->Add_WriteEvent(this);
         SOCKET_IO_WARN("send ssl data, send size: %d, less than %d.", nRet, nBufSize);
     }
@@ -348,12 +348,12 @@ int32_t CSSLClientAsync::SendBufferAsync()
     if (m_sendqueue.size() == 0)
     {
         SOCKET_IO_DEBUG("ssl send queue is empty.");
-        //å¾…å‘é€é˜Ÿåˆ—ä¸­ä¸ºç©ºï¼Œåˆ™åˆ é™¤å†™äº‹ä»¶çš„æ³¨å†Œ,æ”¹æˆè¯»äº‹ä»¶
+        //´ý·¢ËÍ¶ÓÁÐÖÐÎª¿Õ£¬ÔòÉ¾³ýÐ´ÊÂ¼þµÄ×¢²á,¸Ä³É¶ÁÊÂ¼þ
         m_pio->Remove_WriteEvent(this);
         m_sendqueuemutex.Unlock();
         if (_GetWaitForCloseStatus() == TRUE)
         {
-            //å¾…å‘é€å†…å®¹å‘é€å®Œæ¯•ï¼Œåˆ™å…³é—­é“¾æŽ¥
+            //´ý·¢ËÍÄÚÈÝ·¢ËÍÍê±Ï£¬Ôò¹Ø±ÕÁ´½Ó
             _Close();
         }
         return nErrorCode;
@@ -391,8 +391,8 @@ int32_t CSSLClientAsync::SendBufferAsync()
     }
     else if (nRet != pBufferLoop->GetWriteOffset())
     {
-        //å°†æœªæˆåŠŸçš„æ•°æ®é‡æ–°æ”¾ç½®buffer loopä¸­ï¼Œå¾…ä¸‹æ¬¡å‘é€
-        //å¯¹äºŽsslæ¥è¯´ï¼Œåº”è¯¥ä¸ä¼šå‡ºçŽ°æ­¤ç§æƒ…å†µ
+        //½«Î´³É¹¦µÄÊý¾ÝÖØÐÂ·ÅÖÃbuffer loopÖÐ£¬´ýÏÂ´Î·¢ËÍ
+        //¶ÔÓÚsslÀ´Ëµ£¬Ó¦¸Ã²»»á³öÏÖ´ËÖÖÇé¿ö
         int32_t nSize = 0;
         pBufferLoop->Read(NULL, nRet);
         SOCKET_IO_WARN("send ssl data, send size: %d, less than %d.", nRet, pBufferLoop->GetWriteOffset());

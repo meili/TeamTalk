@@ -60,7 +60,7 @@ void CHttpQuery::DispatchQuery(std::string& url, std::string& post_data, CHttpCo
 {
 	++g_total_query;
     
-    /* åœ¨ç”¨
+    /* ÔÚÓÃ
      /query/SendMessageByXiaoT
      /query/GroupP2PMessage
      
@@ -103,7 +103,7 @@ void CHttpQuery::DispatchQuery(std::string& url, std::string& post_data, CHttpCo
         else
         {
             root["error_code"] = -1;
-            root["error_msg"] = "æœªçŸ¥é”™è¯¯";
+            root["error_msg"] = "Î´Öª´íÎó";
         }
         string strResponse = root.toStyledString();
         pHttpConn->Send((void*)strResponse.c_str(), strResponse.length());

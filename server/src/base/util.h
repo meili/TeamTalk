@@ -53,10 +53,27 @@ extern CSLog g_imlog;
 #define __FILENAME__ (strrchr(__FILE__, '/') ? (strrchr(__FILE__, '/') + 1):__FILE__)
 #if defined(_WIN32) || defined(_WIN64)
 #define log(fmt, ...)  g_imlog.Info("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+
+/* Added by stone-jin 2015-7-6 日志信息没有等级之分 */
+#define MGJ_LOG_FAT(fmt, ...) g_imlog.Fatal("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define MGJ_LOG_ERROR(fmt, ...) g_imlog.Error("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define MGJ_LOG_WARN(fmt, ...) g_imlog.Warn("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define MGJ_LOG_INFO(fmt, ...)  g_imlog.Info("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define MGJ_LOG_DEBUG(fmt, ...)  g_imlog.Debug("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+/* Added by stone-jin 2015-7-6 日志信息没有等级之分 */
+
 #else
 #define log(fmt, args...)  g_imlog.Info("<%s>|<%d>|<%s>," fmt, __FILENAME__, __LINE__, __FUNCTION__, ##args)
+
+/* Added by stone-jin 2015-7-6 日志信息没有等级之分 */
+#define MGJ_LOG_FAT(fmt, args...) g_imlog.Fatal("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define MGJ_LOG_ERROR(fmt, args...) g_imlog.Error("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define MGJ_LOG_WARN(fmt, args...) g_imlog.Warn("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define MGJ_LOG_INFO(fmt, args...)  g_imlog.Info("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define MGJ_LOG_DEBUG(fmt, args...) g_imlog.Debug("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+/* Added by stone-jin 2015-7-6 日志信息没有等级之分 */
+
 #endif
-//#define log(fmt, ...)  g_imlog.Info("<%s>\t<%d>\t<%s>,"+fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 
 uint64_t get_tick_count();
 void util_sleep(uint32_t millisecond);

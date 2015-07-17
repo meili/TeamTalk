@@ -11,7 +11,7 @@
 
 static HttpConnMap_t g_http_conn_map;
 
-// conn_handle ä»0å¼€å§‹é€’å¢ï¼Œå¯ä»¥é˜²æ­¢å› socket handleé‡ç”¨å¼•èµ·çš„ä¸€äº›å†²çª
+// conn_handle ´Ó0¿ªÊ¼µİÔö£¬¿ÉÒÔ·ÀÖ¹Òòsocket handleÖØÓÃÒıÆğµÄÒ»Ğ©³åÍ»
 static uint32_t g_conn_handle_generator = 0;
 
 CHttpConn* FindHttpConnByHandle(uint32_t conn_handle)
@@ -164,7 +164,7 @@ void CHttpConn::OnRead()
 		m_last_recv_tick = get_tick_count();
 	}
 
-	// æ¯æ¬¡è¯·æ±‚å¯¹åº”ä¸€ä¸ªHTTPè¿æ¥ï¼Œæ‰€ä»¥è¯»å®Œæ•°æ®åï¼Œä¸ç”¨åœ¨åŒä¸€ä¸ªè¿æ¥é‡Œé¢å‡†å¤‡è¯»å–ä¸‹ä¸ªè¯·æ±‚
+	// Ã¿´ÎÇëÇó¶ÔÓ¦Ò»¸öHTTPÁ¬½Ó£¬ËùÒÔ¶ÁÍêÊı¾İºó£¬²»ÓÃÔÚÍ¬Ò»¸öÁ¬½ÓÀïÃæ×¼±¸¶ÁÈ¡ÏÂ¸öÇëÇó
 	char* in_buf = (char*)m_in_buf.GetBuffer();
 	uint32_t buf_len = m_in_buf.GetWriteOffset();
 	in_buf[buf_len] = '\0';

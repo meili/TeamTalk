@@ -23,7 +23,7 @@ INCLUDE_DIRECTORIES(./ ./businiess ../base ../base/jsoncpp ../base/pb/protocol
 ../base/pb/ ${MYSQL_INCLUDE_DIR})
 LINK_DIRECTORIES(./ ../base ${PB_LIB_DIR} ${MYSQL_LIB} ../base/slog/lib)
 
-#ADD_XXXX蹇呴』鍦═ARGET_LINK_LIBRARIES鍓嶉潰锛屽惁鍒欎細鎶ラ敊
+#ADD_XXXX必须在TARGET_LINK_LIBRARIES前面，否则会报错
 #ADD_LIBRARY(${PROJECTNAME} SHARED/STATIC ${SRC_LIST})
 ADD_EXECUTABLE(db_proxy_server ${SRC_LIST})
 

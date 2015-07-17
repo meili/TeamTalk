@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šRelationModel.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ15æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºRelationModel.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ15ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -39,13 +39,13 @@ CRelationModel* CRelationModel::getInstance()
 }
 
 /**
- *  è·å–ä¼šè¯å…³ç³»ID
- *  å¯¹äºç¾¤ç»„ï¼Œå¿…é¡»æŠŠnUserBIdè®¾ç½®ä¸ºç¾¤ID
+ *  »ñÈ¡»á»°¹ØÏµID
+ *  ¶ÔÓÚÈº×é£¬±ØĞë°ÑnUserBIdÉèÖÃÎªÈºID
  *
  *  @param nUserAId  <#nUserAId description#>
  *  @param nUserBId  <#nUserBId description#>
  *  @param bAdd      <#bAdd description#>
- *  @param nStatus 0 è·å–æœªè¢«åˆ é™¤ä¼šè¯ï¼Œ1è·å–æ‰€æœ‰ã€‚
+ *  @param nStatus 0 »ñÈ¡Î´±»É¾³ı»á»°£¬1»ñÈ¡ËùÓĞ¡£
  */
 uint32_t CRelationModel::getRelationId(uint32_t nUserAId, uint32_t nUserBId, bool bAdd)
 {
@@ -113,7 +113,7 @@ uint32_t CRelationModel::addRelation(uint32_t nSmallId, uint32_t nBigId)
         else
         {
             strSql = "insert into IMRelationShip (`smallId`,`bigId`,`status`,`created`,`updated`) values(?,?,?,?,?)";
-            // å¿…é¡»åœ¨é‡Šæ”¾è¿æ¥å‰delete CPrepareStatementå¯¹è±¡ï¼Œå¦åˆ™æœ‰å¯èƒ½å¤šä¸ªçº¿ç¨‹æ“ä½œmysqlå¯¹è±¡ï¼Œä¼šcrash
+            // ±ØĞëÔÚÊÍ·ÅÁ¬½ÓÇ°delete CPrepareStatement¶ÔÏó£¬·ñÔòÓĞ¿ÉÄÜ¶à¸öÏß³Ì²Ù×÷mysql¶ÔÏó£¬»ácrash
             CPrepareStatement* stmt = new CPrepareStatement();
             if (stmt->Init(pDBConn->GetMysql(), strSql))
             {
@@ -136,7 +136,7 @@ uint32_t CRelationModel::addRelation(uint32_t nSmallId, uint32_t nBigId)
             }
             if(nRelationId != INVALID_VALUE)
             {
-                // åˆå§‹åŒ–msgId
+                // ³õÊ¼»¯msgId
                 if(!CMessageModel::getInstance()->resetMsgId(nRelationId))
                 {
                     log("reset msgId failed. smallId=%u, bigId=%u.", nSmallId, nBigId);

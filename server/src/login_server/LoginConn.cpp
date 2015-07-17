@@ -13,7 +13,7 @@
 using namespace IM::BaseDefine;
 static ConnMap_t g_client_conn_map;
 static ConnMap_t g_msg_serv_conn_map;
-static uint32_t g_total_online_user_cnt = 0;	// å¹¶å‘åœ¨çº¿æ€»äººæ•°
+static uint32_t g_total_online_user_cnt = 0;	// ²¢·¢ÔÚÏß×ÜÈËÊı
 map<uint32_t, msg_serv_info_t*> g_msg_serv_info;
 
 void login_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)

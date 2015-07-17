@@ -3,7 +3,7 @@
 //  my_push_server
 //
 //  Created by luoning on 14-11-17.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #ifndef __my_push_server__apns_msg__
@@ -45,7 +45,7 @@ static const char* g_silent_music = "silent.caf";
    least once. Specify zero to indicate that the notification expires immediately and that APNs
    should not store the notification at all. */
 #define APNS_ITEM_EXPIRATION_DATE       4
-/* The notificationâ€™s priority. */
+/* The notification¡¯s priority. */
 #define APNS_ITEM_PRIORITY              5
 
 

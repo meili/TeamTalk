@@ -7,8 +7,8 @@
 
 #include "imconn.h"
 
-//static uint64_t g_send_pkt_cnt = 0;		// 鍙戦�佹暟鎹寘鎬绘暟
-//static uint64_t g_recv_pkt_cnt = 0;		// 鎺ユ敹鏁版嵁鍖呮�绘暟
+//static uint64_t g_send_pkt_cnt = 0;		// 发送数据包总数
+//static uint64_t g_recv_pkt_cnt = 0;		// 接收数据包总数
 
 static CImConn* FindImConn(ConnMap_t* imconn_map, net_handle_t handle)
 {

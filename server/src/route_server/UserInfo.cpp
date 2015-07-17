@@ -3,7 +3,7 @@
 //  im-server-TT
 //
 //  Created by luoning on 14-10-23.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #include "UserInfo.h"

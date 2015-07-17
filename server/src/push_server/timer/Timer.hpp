@@ -68,7 +68,7 @@ public:
 
 public:
 
-	//å¯åŠ¨å®šæ—¶å™¨
+	//Æô¶¯¶¨Ê±Æ÷
 	BOOL StartTimer(int nIndex, pTimerProc pfnTimerProc, unsigned int nMilliSeconds, void* param)
 	{
 		BOOL bRet = FALSE;
@@ -100,7 +100,7 @@ public:
 		return bRet;
 	}
 
-	//åœæ­¢å®šæ—¶å™¨
+	//Í£Ö¹¶¨Ê±Æ÷
 	int StopTimer()
 	{
 		m_iQuit = 1;
@@ -129,7 +129,7 @@ public:
 		{
 			S_Sleep(500);
 
-			//å¤åˆ¶ä¸€ä¸ªMAPè¡¨è¿›è¡Œæ“ä½œï¼Œå³ä½¿åœ¨m_pTimerProc()å‡½æ•°ä¸­å†æ¬¡åˆ›å»ºä¸€ä¸ªå®šæ—¶å™¨ï¼Œä¹Ÿä¸ä¼šå‡ºçŽ°æ­»é”
+			//¸´ÖÆÒ»¸öMAP±í½øÐÐ²Ù×÷£¬¼´Ê¹ÔÚm_pTimerProc()º¯ÊýÖÐÔÙ´Î´´½¨Ò»¸ö¶¨Ê±Æ÷£¬Ò²²»»á³öÏÖËÀËø
 			pInstance->m_MapMutex.Lock();
 			map<int, pair<unsigned int, unsigned int > > tmp = pInstance->m_MapInterval;
 			map<int, void*> paramtmp = pInstance->m_MapParam;
@@ -142,24 +142,24 @@ public:
 				if (iter->second.second >= iter->second.first)
 				{
 					pInstance->m_pTimerProc(iter->first, paramtmp[iter->first]);
-					//è§¦å‘å®šæ—¶å™¨ï¼Œåˆ™åœ¨åŽŸMAPè¡¨ä¸­å°†å½“å‰æ—¶é—´é‡ç½®
+					//´¥·¢¶¨Ê±Æ÷£¬ÔòÔÚÔ­MAP±íÖÐ½«µ±Ç°Ê±¼äÖØÖÃ
 					pInstance->m_MapMutex.Lock();
 					map<int, pair<unsigned int, unsigned int > >::iterator it = pInstance->m_MapInterval.find(iter->first);
 					if (it != pInstance->m_MapInterval.end())
 					{
-						//å½“å‰æ—¶é—´é‡ç½®ä¸º0
+						//µ±Ç°Ê±¼äÖØÖÃÎª0
 						it->second.second = 0;
 					}
 					pInstance->m_MapMutex.Unlock();
 				}
 				else
 				{
-					//æ²¡æœ‰è§¦å‘å®šæ—¶å™¨ï¼Œåˆ™åœ¨åŽŸMAPè¡¨ä¸­å°†æ—¶é—´å åŠ 
+					//Ã»ÓÐ´¥·¢¶¨Ê±Æ÷£¬ÔòÔÚÔ­MAP±íÖÐ½«Ê±¼äµþ¼Ó
 					pInstance->m_MapMutex.Lock();
 					map<int, pair<unsigned int, unsigned int > >::iterator it = pInstance->m_MapInterval.find(iter->first);
 					if (it != pInstance->m_MapInterval.end())
 					{
-						//å½“å‰æ—¶é—´ç»§ç»­å¢žåŠ 
+						//µ±Ç°Ê±¼ä¼ÌÐøÔö¼Ó
 						it->second.second += 500;
 					}
 					pInstance->m_MapMutex.Unlock();
@@ -173,16 +173,16 @@ public:
 	//Quit flag 1:quit; 0--not
 	int m_iQuit;
 
-	map<int/* nIndex */, pair<unsigned int/* time of miliseconds é¢„è®¾å®šæ—¶å™¨çš„æ—¶é—´ */ , unsigned int/* time of milisecondsï¼Œå½“å‰æ—¶é—´ */> > m_MapInterval;
+	map<int/* nIndex */, pair<unsigned int/* time of miliseconds Ô¤Éè¶¨Ê±Æ÷µÄÊ±¼ä */ , unsigned int/* time of miliseconds£¬µ±Ç°Ê±¼ä */> > m_MapInterval;
 	map<int/* nIndex */, void* > m_MapParam;
 
-	//æ—¶é—´çº¿ç¨‹
+	//Ê±¼äÏß³Ì
     CBaseThread m_timerthread;
     
     CBaseMutex m_Mutex;
     CBaseMutex m_MapMutex;
     
-	//å®šæ—¶å›žè°ƒå‡½æ•°
+	//¶¨Ê±»Øµ÷º¯Êý
 	pTimerProc m_pTimerProc;
 };
 

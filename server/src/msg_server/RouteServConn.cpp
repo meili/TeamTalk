@@ -380,7 +380,7 @@ void CRouteServConn::_HandleUsersStatusResponse(CImPdu* pPdu)
         CHECK_PB_PARSE_MSG(msg2.ParseFromArray(attach_data.GetPdu(), attach_data.GetPduLength()));
         IM::BaseDefine::UserTokenInfo* user_token = msg2.mutable_user_token_list(0);
 
-        //pc clientç™»å½•ï¼Œåˆ™ä¸ºå‹¿æ‰“æ‰°å¼æŽ¨é€
+        //pc clientµÇÂ¼£¬ÔòÎªÎð´òÈÅÊ½ÍÆËÍ
         if (user_stat.status() == IM::BaseDefine::USER_STATUS_ONLINE)
         {
             user_token->set_push_type(IM_PUSH_TYPE_SILENT);

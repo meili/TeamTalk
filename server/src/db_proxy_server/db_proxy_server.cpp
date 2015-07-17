@@ -1,7 +1,7 @@
 /*
  * db_proxy_server.cpp
  *
- *  Created on: 2014å¹´7æœˆ21æ—¥
+ *  Created on: 2014Äê7ÔÂ21ÈÕ
  *      Author: ziteng
  */
 
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	// ä¸»çº¿ç¨‹åˆå§‹åŒ–å•ä¾‹ï¼Œä¸ç„¶åœ¨å·¥ä½œçº¿ç¨‹å¯èƒ½ä¼šå‡ºç°å¤šæ¬¡åˆå§‹åŒ–
+	// Ö÷Ïß³Ì³õÊ¼»¯µ¥Àı£¬²»È»ÔÚ¹¤×÷Ïß³Ì¿ÉÄÜ»á³öÏÖ¶à´Î³õÊ¼»¯
 	if (!CAudioModel::getInstance()) {
 		return -1;
 	}
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
     }
     string strAesKey(str_aes_key, 32);
     CAes cAes = CAes(strAesKey);
-    string strAudio = "[è¯­éŸ³]";
+    string strAudio = "[ÓïÒô]";
     char* pAudioEnc;
     uint32_t nOutLen;
     if(cAes.Encrypt(strAudio.c_str(), strAudio.length(), &pAudioEnc, nOutLen) == 0)

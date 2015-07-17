@@ -3,7 +3,7 @@
 //  my_push_server
 //
 //  Created by luoning on 14-11-4.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #include <iostream>

@@ -1,14 +1,14 @@
 /**	@file buffer_Loop.hpp
  *	@note 
- *	@brief ç¯å½¢å­˜å‚¨å—çš„ç±»
+ *	@brief »·ĞÎ´æ´¢¿éµÄÀà
  *
  *	@author		shiwei
  *	@date		2013/11/23
  *
- *	@note å®ç°ä¸€ä¸ªç¯å½¢å†…å­˜åŒºçš„ç±»ï¼Œè¯¥ç±»çº¿ç¨‹ä¸å®‰å…¨ï¼Œéœ€è¦å¤–éƒ¨åŠ é”ä¿æŠ¤,ä½†æ˜¯å¯¹äºåˆ†åˆ«åªæœ‰ä¸€ä¸ª
- *        è¯»å’Œå†™çš„çº¿ç¨‹æ˜¯å®‰å…¨çš„
- *	@note å†å²è®°å½•ï¼š
- *	@note V1.0.0  åˆ›å»ºæ–‡ä»¶
+ *	@note ÊµÏÖÒ»¸ö»·ĞÎÄÚ´æÇøµÄÀà£¬¸ÃÀàÏß³Ì²»°²È«£¬ĞèÒªÍâ²¿¼ÓËø±£»¤,µ«ÊÇ¶ÔÓÚ·Ö±ğÖ»ÓĞÒ»¸ö
+ *        ¶ÁºÍĞ´µÄÏß³ÌÊÇ°²È«µÄ
+ *	@note ÀúÊ·¼ÇÂ¼£º
+ *	@note V1.0.0  ´´½¨ÎÄ¼ş
  */
 #ifndef _BUFFER_LOOP_HPP
 #define _BUFFER_LOOP_HPP
@@ -64,10 +64,10 @@ public:
 	int get_rest_size() { return get_buffer_size() - get_used_size(); }
     
 	/**	@fn	char CBufferLoop::get_buffer_tmp(char* pbuffer, int nbuffer_size, int* nreal_buffer_size)
-	*	@brief è·å–æŒ‡å®šå¤§å°çš„æ•°æ®ï¼Œä½†æ˜¯ä¸ä¼šæ¸…ç©ºè¯¥æ•°æ®
-	*	@param[in] pbuffer æ•°æ®å­˜æ”¾æŒ‡é’ˆ
-	*	@param[in] nbuffer_size æƒ³è¦è·å–çš„å¤§å°
-	*	@param[in] nreal_buffer_size å®é™…è·å–çš„å¤§å°
+	*	@brief »ñÈ¡Ö¸¶¨´óĞ¡µÄÊı¾İ£¬µ«ÊÇ²»»áÇå¿Õ¸ÃÊı¾İ
+	*	@param[in] pbuffer Êı¾İ´æ·ÅÖ¸Õë
+	*	@param[in] nbuffer_size ÏëÒª»ñÈ¡µÄ´óĞ¡
+	*	@param[in] nreal_buffer_size Êµ¼Ê»ñÈ¡µÄ´óĞ¡
 	*	@return	
 	*/
 	char get_buffer_tmp(char* pbuffer, int nbuffer_size, int* nreal_buffer_size)
@@ -81,16 +81,16 @@ public:
 		else
 		{
 			int nrestsize = m_nbuffer_size - m_nhead_pos;
-			//åˆ°æœ«å°¾çš„é•¿åº¦å¤§äºéœ€è¦çš„é•¿åº¦
+			//µ½Ä©Î²µÄ³¤¶È´óÓÚĞèÒªµÄ³¤¶È
 			if (nrealsize <= nrestsize)
 			{
 				memcpy(pbuffer, &m_pbuffer[m_nhead_pos], nrealsize);
 			}
 			else
 			{
-				//éœ€è¦åˆ†ä¸¤æ¬¡è·å–,å…ˆæŠŠåˆ°æœ«å°¾çš„æ•°æ®å…¨éƒ¨è·å–
+				//ĞèÒª·ÖÁ½´Î»ñÈ¡,ÏÈ°Ñµ½Ä©Î²µÄÊı¾İÈ«²¿»ñÈ¡
 				memcpy(pbuffer, &m_pbuffer[m_nhead_pos], nrestsize);
-				//ç„¶åä»èµ·å§‹å¤„è·å–å‰©ä½™çš„æ•°æ®
+				//È»ºó´ÓÆğÊ¼´¦»ñÈ¡Ê£ÓàµÄÊı¾İ
 				memcpy(&pbuffer[nrestsize], &m_pbuffer[0], nrealsize - nrestsize);
 			}
 		}
@@ -118,7 +118,7 @@ public:
 		}
 		else   //m_ntail_pos >= m_nhead_pos
 		{
-			//å‰©ä½™å¤šå°‘ä¸ªå­—èŠ‚
+			//Ê£Óà¶àÉÙ¸ö×Ö½Ú
 			int nrest_tail = m_nbuffer_size - m_ntail_pos;
 			if (nrest_tail >= nbuffer_size)
 			{
@@ -127,7 +127,7 @@ public:
 			else
 			{
 
-				//åˆ†ä¸¤æ®µè¿›è¡Œæ‹·è´
+				//·ÖÁ½¶Î½øĞĞ¿½±´
 				memcpy(&m_pbuffer[m_ntail_pos], pbuffer, nrest_tail);
 				memcpy(&m_pbuffer[0], &pbuffer[nrest_tail], nbuffer_size - nrest_tail);
 
@@ -139,10 +139,10 @@ public:
 	}
 
 	/**	@fn	bool CBufferLoop::get_buffer(char* pbuffer, int nbuffer_size, int* nreal_buffer_size)
-	*	@brief è·å–æŒ‡å®šé•¿åº¦çš„æ•°æ®ï¼Œå¹¶ä¸”ä¼šæ¸…ç©ºè·å–çš„æ•°æ®
-	*	@param[in] pbuffer æ•°æ®å­˜æ”¾æŒ‡é’ˆ
-	*	@param[in] nbuffer_size æƒ³è¦è·å–çš„æ•°æ®é•¿åº¦
-	*	@param[out] nreal_buffer_size  å®é™…è·å¾—çš„æ•°æ®é•¿åº¦
+	*	@brief »ñÈ¡Ö¸¶¨³¤¶ÈµÄÊı¾İ£¬²¢ÇÒ»áÇå¿Õ»ñÈ¡µÄÊı¾İ
+	*	@param[in] pbuffer Êı¾İ´æ·ÅÖ¸Õë
+	*	@param[in] nbuffer_size ÏëÒª»ñÈ¡µÄÊı¾İ³¤¶È
+	*	@param[out] nreal_buffer_size  Êµ¼Ê»ñµÃµÄÊı¾İ³¤¶È
 	*	@return	
 	*/
 	bool get_buffer(char* pbuffer, int nbuffer_size, int* nreal_buffer_size)
@@ -156,16 +156,16 @@ public:
 		else
 		{
 			int nrestsize = m_nbuffer_size - m_nhead_pos;
-			//åˆ°æœ«å°¾çš„é•¿åº¦å¤§äºéœ€è¦çš„é•¿åº¦
+			//µ½Ä©Î²µÄ³¤¶È´óÓÚĞèÒªµÄ³¤¶È
 			if (nrealsize <= nrestsize)
 			{
 				memcpy(pbuffer, &m_pbuffer[m_nhead_pos], nrealsize);
 			}
 			else
 			{
-				//éœ€è¦åˆ†ä¸¤æ¬¡è·å–,å…ˆæŠŠåˆ°æœ«é©³æ°–î§è‘î¯ç‚•è¢¢ï¿½
+				//ĞèÒª·ÖÁ½´Î»ñÈ¡,ÏÈ°Ñµ½Ä©²µÄÊı¾İÈ«²¿»ñÈ?
 				memcpy(pbuffer, &m_pbuffer[m_nhead_pos], nrestsize);
-				//ç„¶åä»èµ·å§‹å¤„è·å–å‰©ä½™çš„æ•°æ®
+				//È»ºó´ÓÆğÊ¼´¦»ñÈ¡Ê£ÓàµÄÊı¾İ
 				memcpy(&pbuffer[nrestsize], &m_pbuffer[0], nrealsize - nrestsize);
 			}
 		}
@@ -179,9 +179,9 @@ private:
 	char* m_pbuffer;
 	int m_nbuffer_size;
 
-	int m_nhead_pos;			//ä»0å¼€å§‹
-	int m_ntail_pos;			//ä»0å¼€å§‹
-	int m_nused_size;			//ä½¿ç”¨çš„é‡
+	int m_nhead_pos;			//´Ó0¿ªÊ¼
+	int m_ntail_pos;			//´Ó0¿ªÊ¼
+	int m_nused_size;			//Ê¹ÓÃµÄÁ¿
 };
 
 class CSimpleBuffer

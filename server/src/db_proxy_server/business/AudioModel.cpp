@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šAudioModel.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ15æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºAudioModel.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ15ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -19,7 +19,7 @@ using namespace std;
 CAudioModel* CAudioModel::m_pInstance = NULL;
 
 /**
- *  æ„é€ å‡½æ•°
+ *  ¹¹Ôìº¯Êı
  */
 CAudioModel::CAudioModel()
 {
@@ -27,7 +27,7 @@ CAudioModel::CAudioModel()
 }
 
 /**
- *  ææ„å‡½æ•°
+ *  Îö¹¹º¯Êı
  */
 CAudioModel::~CAudioModel()
 {
@@ -35,9 +35,9 @@ CAudioModel::~CAudioModel()
 }
 
 /**
- *  å•ä¾‹
+ *  µ¥Àı
  *
- *  @return å•ä¾‹çš„æŒ‡é’ˆ
+ *  @return µ¥ÀıµÄÖ¸Õë
  */
 CAudioModel* CAudioModel::getInstance()
 {
@@ -49,9 +49,9 @@ CAudioModel* CAudioModel::getInstance()
 }
 
 /**
- *  è¿™åªè¯­éŸ³å­˜å‚¨çš„urlåœ°å€
+ *  ÕâÖ»ÓïÒô´æ´¢µÄurlµØÖ·
  *
- *  @param strFileSite ä¸Šä¼ çš„url
+ *  @param strFileSite ÉÏ´«µÄurl
  */
 void CAudioModel::setUrl(string& strFileSite)
 {
@@ -63,12 +63,12 @@ void CAudioModel::setUrl(string& strFileSite)
 }
 
 /**
- *  è¯»å–è¯­éŸ³æ¶ˆæ¯
+ *  ¶ÁÈ¡ÓïÒôÏûÏ¢
  *
- *  @param nAudioId è¯­éŸ³çš„Id
- *  @param cMsg     è¯­éŸ³æ¶ˆæ¯ï¼Œå¼•ç”¨
+ *  @param nAudioId ÓïÒôµÄId
+ *  @param cMsg     ÓïÒôÏûÏ¢£¬ÒıÓÃ
  *
- *  @return bool æˆåŠŸè¿”å›trueï¼Œå¤±è´¥è¿”å›false
+ *  @return bool ³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
  */
 bool CAudioModel::readAudios(list<IM::BaseDefine::MsgInfo>& lsMsg)
 {
@@ -121,15 +121,15 @@ bool CAudioModel::readAudios(list<IM::BaseDefine::MsgInfo>& lsMsg)
 }
 
 /**
- *  å­˜å‚¨è¯­éŸ³æ¶ˆæ¯
+ *  ´æ´¢ÓïÒôÏûÏ¢
  *
- *  @param nFromId     å‘é€è€…Id
- *  @param nToId       æ¥æ”¶è€…Id
- *  @param nCreateTime å‘é€æ—¶é—´
- *  @param pAudioData  æŒ‡å‘è¯­éŸ³æ¶ˆæ¯çš„æŒ‡é’ˆ
- *  @param nAudioLen   è¯­éŸ³æ¶ˆæ¯çš„é•¿åº¦
+ *  @param nFromId     ·¢ËÍÕßId
+ *  @param nToId       ½ÓÊÕÕßId
+ *  @param nCreateTime ·¢ËÍÊ±¼ä
+ *  @param pAudioData  Ö¸ÏòÓïÒôÏûÏ¢µÄÖ¸Õë
+ *  @param nAudioLen   ÓïÒôÏûÏ¢µÄ³¤¶È
  *
- *  @return æˆåŠŸè¿”å›è¯­éŸ³idï¼Œå¤±è´¥è¿”å›-1
+ *  @return ³É¹¦·µ»ØÓïÒôid£¬Ê§°Ü·µ»Ø-1
  */
 int CAudioModel::saveAudioInfo(uint32_t nFromId, uint32_t nToId, uint32_t nCreateTime, const char* pAudioData, uint32_t nAudioLen)
 {
@@ -179,14 +179,14 @@ int CAudioModel::saveAudioInfo(uint32_t nFromId, uint32_t nToId, uint32_t nCreat
 }
 
 /**
- *  è¯»å–è¯­éŸ³çš„å…·ä½“å†…å®¹
+ *  ¶ÁÈ¡ÓïÒôµÄ¾ßÌåÄÚÈİ
  *
- *  @param nCostTime è¯­éŸ³æ—¶é•¿
- *  @param nSize     è¯­éŸ³å¤§å°
- *  @param strPath   è¯­éŸ³å­˜å‚¨çš„url
- *  @param cMsg      msgç»“æ„ä½“
+ *  @param nCostTime ÓïÒôÊ±³¤
+ *  @param nSize     ÓïÒô´óĞ¡
+ *  @param strPath   ÓïÒô´æ´¢µÄurl
+ *  @param cMsg      msg½á¹¹Ìå
  *
- *  @return æˆåŠŸè¿”å›trueï¼Œå¤±è´¥è¿”å›false
+ *  @return ³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
  */
 bool CAudioModel::readAudioContent(uint32_t nCostTime, uint32_t nSize, const string& strPath, IM::BaseDefine::MsgInfo& cMsg)
 {
@@ -194,7 +194,7 @@ bool CAudioModel::readAudioContent(uint32_t nCostTime, uint32_t nSize, const str
 		return false;
 	}
 
-	// åˆ†é…å†…å­˜ï¼Œå†™å…¥éŸ³é¢‘æ—¶é•¿
+	// ·ÖÅäÄÚ´æ£¬Ğ´ÈëÒôÆµÊ±³¤
     AudioMsgInfo cAudioMsg;
     uchar_t* pData = new uchar_t [4 + nSize];
 	cAudioMsg.data = pData;
@@ -202,7 +202,7 @@ bool CAudioModel::readAudioContent(uint32_t nCostTime, uint32_t nSize, const str
     cAudioMsg.data_len = 4;
     cAudioMsg.fileSize = nSize;
 
-	// è·å–éŸ³é¢‘æ•°æ®ï¼Œå†™å…¥ä¸Šé¢åˆ†é…çš„å†…å­˜
+	// »ñÈ¡ÒôÆµÊı¾İ£¬Ğ´ÈëÉÏÃæ·ÖÅäµÄÄÚ´æ
     CHttpClient httpClient;
     if(!httpClient.DownloadByteFile(strPath, &cAudioMsg))
     {

@@ -3,7 +3,7 @@
 //  im-server-mac-new
 //
 //  Created by luoning on 14-12-24.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #ifndef _public_define_h
@@ -128,16 +128,16 @@ typedef struct AudioMsgInfo{
 
 typedef struct DBUserInfo_t
 {
-    uint32_t nId;//ç”¨æˆ·ID
-    uint8_t nSex;// ç”¨æˆ·æ€§åˆ« 1.ç”·;2.å¥³
-    uint8_t nStatus; // ç”¨æˆ·çŠ¶æ€0 æ­£å¸¸ï¼Œ 1 ç¦»èŒ
-    uint32_t nDeptId;// æ‰€å±éƒ¨é—¨
-    string strNick;// èŠ±å
-    string strDomain;// èŠ±åæ‹¼éŸ³
-    string strName;// çœŸå
-    string strTel;// æ‰‹æœºå·ç 
+    uint32_t nId;//ÓÃ»§ID
+    uint8_t nSex;// ÓÃ»§ĞÔ±ğ 1.ÄĞ;2.Å®
+    uint8_t nStatus; // ÓÃ»§×´Ì¬0 Õı³££¬ 1 ÀëÖ°
+    uint32_t nDeptId;// ËùÊô²¿ÃÅ
+    string strNick;// »¨Ãû
+    string strDomain;// »¨ÃûÆ´Òô
+    string strName;// ÕæÃû
+    string strTel;// ÊÖ»úºÅÂë
     string strEmail;// Email
-    string strAvatar;// å¤´åƒ
+    string strAvatar;// Í·Ïñ
     DBUserInfo_t& operator=(const DBUserInfo_t& rhs)
     {
         if(this != &rhs)

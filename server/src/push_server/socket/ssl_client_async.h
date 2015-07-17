@@ -3,7 +3,7 @@
 //  my_push_server
 //
 //  Created by luoning on 14-11-14.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #ifndef __my_push_server__ssl_client_async__

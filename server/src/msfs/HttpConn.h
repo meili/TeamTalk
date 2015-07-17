@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šHttpConn.h
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´07æœˆ29æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºHttpConn.h
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê07ÔÂ29ÈÕ
+ *   Ãè    Êö£º
  *
  #pragma once
  ================================================================*/
@@ -138,8 +138,8 @@ public:
     void OnTimer(uint64_t curr_tick);
     void OnSendComplete();
 
-    static void AddResponsePdu(uint32_t conn_handle, char* pContent, int nLen);   // å·¥ä½œçº¿ç¨‹è°ƒç”¨
-    static void SendResponsePduList();  // ä¸»çº¿ç¨‹è°ƒç”¨
+    static void AddResponsePdu(uint32_t conn_handle, char* pContent, int nLen);   // ¹¤×÷Ïß³Ìµ÷ÓÃ
+    static void SendResponsePduList();  // Ö÷Ïß³Ìµ÷ÓÃ
 protected:
     net_handle_t m_sock_handle;
     uint32_t m_conn_handle;
@@ -157,7 +157,7 @@ protected:
     CHttpParserWrapper m_HttpParser;
 
     static CLock          s_list_lock;
-    static list<Response_t*> s_response_pdu_list;    // ä¸»çº¿ç¨‹å‘é€å›å¤æ¶ˆæ¯
+    static list<Response_t*> s_response_pdu_list;    // Ö÷Ïß³Ì·¢ËÍ»Ø¸´ÏûÏ¢
 };
 
 typedef hash_map<uint32_t, CHttpConn*> HttpConnMap_t;

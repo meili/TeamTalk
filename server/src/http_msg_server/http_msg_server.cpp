@@ -3,7 +3,7 @@
 //  http_msg_server
 //
 //  Created by jianqing.du on 13-9-29.
-//  Copyright (c) 2013å¹´ ziteng. All rights reserved.
+//  Copyright (c) 2013Äê ziteng. All rights reserved.
 //
 
 #include "netlib.h"
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 	uint32_t route_server_count = 0;
 	serv_info_t* route_server_list = read_server_config(&config_file, "RouteServerIP", "RouteServerPort", route_server_count);
 
-	// åˆ°BusinessServerçš„å¼€å¤šä¸ªå¹¶å‘çš„è¿æ¥
+	// µ½BusinessServerµÄ¿ª¶à¸ö²¢·¢µÄÁ¬½Ó
 	uint32_t concurrent_db_conn_cnt = DEFAULT_CONCURRENT_DB_CONN_CNT;
 	uint32_t db_server_count2 = db_server_count * DEFAULT_CONCURRENT_DB_CONN_CNT;
 	char* concurrent_db_conn = config_file.GetConfigName("ConcurrentDBConnCnt");

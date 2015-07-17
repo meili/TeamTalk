@@ -3,7 +3,7 @@
 //  my_push_server
 //
 //  Created by luoning on 14-11-17.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #include "apns_feedback_handler.h"
@@ -17,7 +17,7 @@ void CAPNSFeedBackHandler::OnClose(uint32_t nsockid)
     apns_client_ptr pClient = CSessionManager::GetInstance()->GetAPNSClient();
     if (pClient)
     {
-        //æš‚æ—¶ä¸è¿›è¡Œé‡è¿žæ“ä½œ
+        //ÔÝÊ±²»½øÐÐÖØÁ¬²Ù×÷
         //pClient->StartReConnectFeedback();
     }
 }

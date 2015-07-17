@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2015 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šsecurity.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2015å¹´01æœˆ29æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºsecurity.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2015Äê01ÔÂ29ÈÕ
+ *   Ãè    Êö£º
  *
  #include "security.h"
  ================================================================*/
@@ -50,7 +50,7 @@ extern "C" {
 
     jbyteArray Java_com_mogujie_tt_Security_EncryptMsg(JNIEnv* env, jobject obj, jstring jstr)
     {
-        const char *pInData = env->GetStringUTFChars(jstr, NULL);		//å¾…åŠ å¯†å†…å®¹,è½¬æ¢æ ¼å¼
+        const char *pInData = env->GetStringUTFChars(jstr, NULL);		//´ı¼ÓÃÜÄÚÈİ,×ª»»¸ñÊ½
         uint32_t nInLen = strlen(pInData);
         
         uint32_t nRemain = nInLen % 16;
@@ -86,11 +86,11 @@ extern "C" {
     }
     
     /**
-     * è§£å¯†
+     * ½âÃÜ
      */
     jbyteArray Java_com_mogujie_tt_Security_DecryptMsg(JNIEnv* env, jobject obj, jstring jstr)
     {
-        const char *pInData = env->GetStringUTFChars(jstr, NULL);   //è·å–å¾…æ­ç§˜å†…å®¹,è½¬æ¢æ ¼å¼
+        const char *pInData = env->GetStringUTFChars(jstr, NULL);   //»ñÈ¡´ı½ÒÃØÄÚÈİ,×ª»»¸ñÊ½
         uint32_t nInLen = strlen(pInData);
         string strInData(pInData, nInLen);
         env->ReleaseStringUTFChars(jstr,pInData);
@@ -108,14 +108,14 @@ extern "C" {
             jbyteArray carr = env->NewByteArray(0);
             return carr;
         }
-        // å…ˆç”³è¯·nLen ä¸ªé•¿åº¦ï¼Œè§£å¯†å®Œæˆåçš„é•¿åº¦åº”è¯¥å°äºè¯¥é•¿åº¦
+        // ÏÈÉêÇënLen ¸ö³¤¶È£¬½âÃÜÍê³ÉºóµÄ³¤¶ÈÓ¦¸ÃĞ¡ÓÚ¸Ã³¤¶È
         char* pTmp = (char*)malloc(nLen + 1);
         
         uint32_t nBlocks = nLen / 16;
         AES_KEY aesKey;
         
         const char *key = "12345678901234567890123456789012";
-        AES_set_decrypt_key((const unsigned char*) key, 256, &aesKey);           //è®¾ç½®AESè§£å¯†å¯†é’¥
+        AES_set_decrypt_key((const unsigned char*) key, 256, &aesKey);           //ÉèÖÃAES½âÃÜÃÜÔ¿
         for (uint32_t i = 0; i < nBlocks; i++) {
             AES_decrypt(pData + i * 16, (unsigned char*)pTmp + i * 16, &aesKey);
         }
@@ -137,7 +137,7 @@ extern "C" {
     
     jbyteArray Java_com_mogujie_tt_Security_EncryptPass(JNIEnv* env, jobject obj, jstring jstr)
     {
-        const char *pInData = env->GetStringUTFChars(jstr, NULL);		//å¾…åŠ å¯†å†…å®¹,è½¬æ¢æ ¼å¼
+        const char *pInData = env->GetStringUTFChars(jstr, NULL);		//´ı¼ÓÃÜÄÚÈİ,×ª»»¸ñÊ½
         uint32_t nInLen = strlen(pInData);
         if(pInData == NULL || nInLen <=0)
         {
@@ -222,14 +222,14 @@ extern "C" {
         if (nLen % 16 != 0) {
             return -3;
         }
-        // å…ˆç”³è¯·nLen ä¸ªé•¿åº¦ï¼Œè§£å¯†å®Œæˆåçš„é•¿åº¦åº”è¯¥å°äºè¯¥é•¿åº¦
+        // ÏÈÉêÇënLen ¸ö³¤¶È£¬½âÃÜÍê³ÉºóµÄ³¤¶ÈÓ¦¸ÃĞ¡ÓÚ¸Ã³¤¶È
         char* pTmp = (char*)malloc(nLen + 1);
 
         uint32_t nBlocks = nLen / 16;
         AES_KEY aesKey;
         
         const char *key = "12345678901234567890123456789012";
-        AES_set_decrypt_key((const unsigned char*) key, 256, &aesKey);           //è®¾ç½®AESè§£å¯†å¯†é’¥
+        AES_set_decrypt_key((const unsigned char*) key, 256, &aesKey);           //ÉèÖÃAES½âÃÜÃÜÔ¿
         for (uint32_t i = 0; i < nBlocks; i++) {
             AES_decrypt(pData + i * 16, (unsigned char*)pTmp + i * 16, &aesKey);
         }

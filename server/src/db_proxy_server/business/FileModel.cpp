@@ -1,11 +1,11 @@
 /*================================================================
-*     Copyright (c) 2014å¹´ lanhu. All rights reserved.
+*     Copyright (c) 2014Äê lanhu. All rights reserved.
 *   
-*   æ–‡ä»¶åç§°ï¼šFileModel.cpp
-*   åˆ› å»º è€…ï¼šZhang Yuanhao
-*   é‚®    ç®±ï¼šbluefoxah@gmail.com
-*   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ31æ—¥
-*   æ    è¿°ï¼š
+*   ÎÄ¼þÃû³Æ£ºFileModel.cpp
+*   ´´ ½¨ Õß£ºZhang Yuanhao
+*   ÓÊ    Ïä£ºbluefoxah@gmail.com
+*   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ31ÈÕ
+*   Ãè    Êö£º
 *
 ================================================================*/
 #include "FileModel.h"
@@ -72,7 +72,7 @@ void CFileModel::addOfflineFile(uint32_t fromId, uint32_t toId, string& taskId, 
     {
         string strSql = "insert into IMTransmitFile (`fromId`,`toId`,`fileName`,`size`,`taskId`,`status`,`created`,`updated`) values(?,?,?,?,?,?,?,?)";
         
-        // å¿…é¡»åœ¨é‡Šæ”¾è¿žæŽ¥å‰delete CPrepareStatementå¯¹è±¡ï¼Œå¦åˆ™æœ‰å¯èƒ½å¤šä¸ªçº¿ç¨‹æ“ä½œmysqlå¯¹è±¡ï¼Œä¼šcrash
+        // ±ØÐëÔÚÊÍ·ÅÁ¬½ÓÇ°delete CPrepareStatement¶ÔÏó£¬·ñÔòÓÐ¿ÉÄÜ¶à¸öÏß³Ì²Ù×÷mysql¶ÔÏó£¬»ácrash
         CPrepareStatement* pStmt = new CPrepareStatement();
         if (pStmt->Init(pDBConn->GetMysql(), strSql))
         {

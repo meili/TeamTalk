@@ -2,7 +2,7 @@
  * ProxyConn.h
  *
  *	Connection from IM MsgServer
- *  Created on: 2014å¹´7æœˆ25æ—¥
+ *  Created on: 2014Äê7ÔÂ25ÈÕ
  *      Author: ziteng
  */
 
@@ -32,15 +32,15 @@ public:
 
 	void HandlePduBuf(uchar_t* pdu_buf, uint32_t pdu_len);
 
-	static void AddResponsePdu(uint32_t conn_uuid, CImPdu* pPdu);	// å·¥ä½œçº¿ç¨‹è°ƒç”¨
-	static void SendResponsePduList();	// ä¸»çº¿ç¨‹è°ƒç”¨
+	static void AddResponsePdu(uint32_t conn_uuid, CImPdu* pPdu);	// ¹¤×÷Ïß³Ìµ÷ÓÃ
+	static void SendResponsePduList();	// Ö÷Ïß³Ìµ÷ÓÃ
 private:
-	// ç”±äºå¤„ç†è¯·æ±‚å’Œå‘é€å›å¤åœ¨ä¸¤ä¸ªçº¿ç¨‹ï¼Œsocketçš„handleå¯èƒ½é‡ç”¨ï¼Œæ‰€ä»¥éœ€è¦ç”¨ä¸€ä¸ªä¸€ç›´å¢åŠ çš„uuidæ¥è¡¨ç¤ºä¸€ä¸ªè¿æ¥
+	// ÓÉÓÚ´¦ÀíÇëÇóºÍ·¢ËÍ»Ø¸´ÔÚÁ½¸öÏß³Ì£¬socketµÄhandle¿ÉÄÜÖØÓÃ£¬ËùÒÔĞèÒªÓÃÒ»¸öÒ»Ö±Ôö¼ÓµÄuuidÀ´±íÊ¾Ò»¸öÁ¬½Ó
 	static uint32_t	s_uuid_alloctor;
 	uint32_t		m_uuid;
 
 	static CLock			s_list_lock;
-	static list<ResponsePdu_t*>	s_response_pdu_list;	// ä¸»çº¿ç¨‹å‘é€å›å¤æ¶ˆæ¯
+	static list<ResponsePdu_t*>	s_response_pdu_list;	// Ö÷Ïß³Ì·¢ËÍ»Ø¸´ÏûÏ¢
 };
 
 int init_proxy_conn(uint32_t thread_num);

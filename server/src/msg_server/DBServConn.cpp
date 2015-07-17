@@ -29,8 +29,8 @@ using namespace IM::BaseDefine;
 static ConnMap_t g_db_server_conn_map;
 
 static serv_info_t* g_db_server_list = NULL;
-static uint32_t		g_db_server_count = 0;			// åˆ°DBServerçš„æ€»è¿žæŽ¥æ•°
-static uint32_t		g_db_server_login_count = 0;	// åˆ°è¿›è¡Œç™»å½•å¤„ç†çš„DBServerçš„æ€»è¿žæŽ¥æ•°
+static uint32_t		g_db_server_count = 0;			// µ½DBServerµÄ×ÜÁ¬½ÓÊý
+static uint32_t		g_db_server_login_count = 0;	// µ½½øÐÐµÇÂ¼´¦ÀíµÄDBServerµÄ×ÜÁ¬½ÓÊý
 static CGroupChat*	s_group_chat = NULL;
 static CFileHandler* s_file_handler = NULL;
 
@@ -108,7 +108,7 @@ static CDBServConn* get_db_server_conn_in_range(uint32_t start_pos, uint32_t sto
 
 CDBServConn* get_db_serv_conn_for_login()
 {
-	// å…ˆèŽ·å–loginä¸šåŠ¡çš„å®žä¾‹ï¼Œæ²¡æœ‰å°±åŽ»èŽ·å–å…¶ä»–ä¸šåŠ¡æµç¨‹çš„å®žä¾‹
+	// ÏÈ»ñÈ¡loginÒµÎñµÄÊµÀý£¬Ã»ÓÐ¾ÍÈ¥»ñÈ¡ÆäËûÒµÎñÁ÷³ÌµÄÊµÀý
 	CDBServConn* pDBConn = get_db_server_conn_in_range(0, g_db_server_login_count);
 	if (!pDBConn) {
 		pDBConn = get_db_server_conn_in_range(g_db_server_login_count, g_db_server_count);
@@ -119,7 +119,7 @@ CDBServConn* get_db_serv_conn_for_login()
 
 CDBServConn* get_db_serv_conn()
 {
-	// å…ˆèŽ·å–å…¶ä»–ä¸šåŠ¡æµç¨‹çš„å®žä¾‹ï¼Œæ²¡æœ‰å°±åŽ»èŽ·å–loginä¸šåŠ¡çš„å®žä¾‹
+	// ÏÈ»ñÈ¡ÆäËûÒµÎñÁ÷³ÌµÄÊµÀý£¬Ã»ÓÐ¾ÍÈ¥»ñÈ¡loginÒµÎñµÄÊµÀý
 	CDBServConn* pDBConn = get_db_server_conn_in_range(g_db_server_login_count, g_db_server_count);
 	if (!pDBConn) {
 		pDBConn = get_db_server_conn_in_range(0, g_db_server_login_count);
@@ -736,7 +736,7 @@ void CDBServConn::_HandleGetDeviceTokenResponse(CImPdu *pPdu)
         string device_token = user_token.token();
         uint32_t push_cnt = user_token.push_count();
         uint32_t client_type = user_token.user_type();
-        //è‡ªå·±å‘å¾—æ¶ˆæ¯ä¸ç»™è‡ªå·±å‘æŽ¨é€
+        //×Ô¼º·¢µÃÏûÏ¢²»¸ø×Ô¼º·¢ÍÆËÍ
         if (from_id == user_id) {
             continue;
         }
@@ -754,7 +754,7 @@ void CDBServConn::_HandleGetDeviceTokenResponse(CImPdu *pPdu)
             user_token_tmp->set_user_type((IM::BaseDefine::ClientType)client_type);
             user_token_tmp->set_token(device_token);
             user_token_tmp->set_push_count(push_cnt);
-            //pc clientç™»å½•ï¼Œåˆ™ä¸ºå‹¿æ‰“æ‰°å¼æŽ¨é€
+            //pc clientµÇÂ¼£¬ÔòÎªÎð´òÈÅÊ½ÍÆËÍ
             if (pUser->GetPCLoginStatus() == IM_PC_LOGIN_STATUS_ON)
             {
                 user_token_tmp->set_push_type(IM_PUSH_TYPE_SILENT);

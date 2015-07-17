@@ -3,7 +3,7 @@
 //  my_push_server
 //
 //  Created by luoning on 14-11-4.
-//  Copyright (c) 2014å¹´ luoning. All rights reserved.
+//  Copyright (c) 2014Äê luoning. All rights reserved.
 //
 
 #include "apns_client.h"
@@ -232,7 +232,7 @@ BOOL CAPNSClient::ReConnectFeedback()
 void CAPNSClient::CheckConnectGateway()
 {
     StopCheckConnectGateway();
-    //åœ¨è§„å®šå¾—æ—¶é—´å†…æ²¡æœ‰è¿žä¸Šï¼Œåˆ™å¯èƒ½æ˜¯opensslè¿žæŽ¥åˆå‡ºçŽ°é—®é¢˜ï¼Œå¼ºåˆ¶å…³é—­
+    //ÔÚ¹æ¶¨µÃÊ±¼äÄÚÃ»ÓÐÁ¬ÉÏ£¬Ôò¿ÉÄÜÊÇopensslÁ¬½ÓÓÖ³öÏÖÎÊÌâ£¬Ç¿ÖÆ¹Ø±Õ
     if (m_pGatewayClient->GetSSLConnectStatus() == FALSE) {
         PUSH_SERVER_ERROR("gateway client ssl connect timeout.");
         m_pGatewayClient->Close();
@@ -242,7 +242,7 @@ void CAPNSClient::CheckConnectGateway()
 void CAPNSClient::CheckConnectFeedback()
 {
     StopCheckConnectFeedback();
-    //åœ¨è§„å®šå¾—æ—¶é—´å†…æ²¡æœ‰è¿žä¸Šï¼Œåˆ™å¯èƒ½æ˜¯opensslè¿žæŽ¥åˆå‡ºçŽ°é—®é¢˜ï¼Œå¼ºåˆ¶å…³é—­
+    //ÔÚ¹æ¶¨µÃÊ±¼äÄÚÃ»ÓÐÁ¬ÉÏ£¬Ôò¿ÉÄÜÊÇopensslÁ¬½ÓÓÖ³öÏÖÎÊÌâ£¬Ç¿ÖÆ¹Ø±Õ
     if (m_pFeedbackClient->GetSSLConnectStatus() == FALSE) {
         PUSH_SERVER_ERROR("feedback client ssl connect timeout.");
         m_pFeedbackClient->Close();

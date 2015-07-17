@@ -64,11 +64,11 @@ void CFileHandler::HandleClientFileRequest(CMsgConn* pMsgConn, CImPdu* pPdu)
         else //IM::BaseDefine::FILE_TYPE_ONLINE
         {
             CImUser* pUser = CImUserManager::GetInstance()->GetImUserById(to_id);
-            if (pUser && pUser->GetPCLoginStatus())//å·²æœ‰å¯¹åº”çš„è´¦å·pcç™»å½•çŠ¶æ€
+            if (pUser && pUser->GetPCLoginStatus())//ÒÑÓÐ¶ÔÓ¦µÄÕËºÅpcµÇÂ¼×´Ì¬
             {
                 pFileConn->SendPdu(&pdu);
             }
-            else//æ— å¯¹åº”ç”¨æˆ·çš„pcç™»å½•çŠ¶æ€,å‘route_serveræŸ¥è¯¢çŠ¶æ€
+            else//ÎÞ¶ÔÓ¦ÓÃ»§µÄpcµÇÂ¼×´Ì¬,Ïòroute_server²éÑ¯×´Ì¬
             {
                 //no pc_client in this msg_server, check it from route_server
                 CPduAttachData attach_data(ATTACH_TYPE_HANDLE_AND_PDU_FOR_FILE, pMsgConn->GetHandle(), pdu.GetBodyLength(), pdu.GetBodyData());

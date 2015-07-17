@@ -1,11 +1,11 @@
 /*================================================================
- *     Copyright (c) 2014å¹´ lanhu. All rights reserved.
+ *     Copyright (c) 2014Äê lanhu. All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šHandlerMap.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ02æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºHandlerMap.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ02ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -26,7 +26,7 @@ using namespace IM::BaseDefine;
 CHandlerMap* CHandlerMap::s_handler_instance = NULL;
 
 /**
- *  æ„é€ å‡½æ•°
+ *  ¹¹Ôìº¯Êı
  */
 CHandlerMap::CHandlerMap()
 {
@@ -34,7 +34,7 @@ CHandlerMap::CHandlerMap()
 }
 
 /**
- *  ææ„å‡½æ•°
+ *  Îö¹¹º¯Êı
  */
 CHandlerMap::~CHandlerMap()
 {
@@ -42,9 +42,9 @@ CHandlerMap::~CHandlerMap()
 }
 
 /**
- *  å•ä¾‹
+ *  µ¥Àı
  *
- *  @return è¿”å›æŒ‡å‘CHandlerMapçš„å•ä¾‹æŒ‡é’ˆ
+ *  @return ·µ»ØÖ¸ÏòCHandlerMapµÄµ¥ÀıÖ¸Õë
  */
 CHandlerMap* CHandlerMap::getInstance()
 {
@@ -57,7 +57,7 @@ CHandlerMap* CHandlerMap::getInstance()
 }
 
 /**
- *  åˆå§‹åŒ–å‡½æ•°,åŠ è½½äº†å„ç§commandId å¯¹åº”çš„å¤„ç†å‡½æ•°
+ *  ³õÊ¼»¯º¯Êı,¼ÓÔØÁË¸÷ÖÖcommandId ¶ÔÓ¦µÄ´¦Àíº¯Êı
  */
 void CHandlerMap::Init()
 {
@@ -86,7 +86,7 @@ void CHandlerMap::Init()
     m_handler_map.insert(make_pair(uint32_t(CID_LOGIN_REQ_DEVICETOKEN), DB_PROXY::setDevicesToken));
     m_handler_map.insert(make_pair(uint32_t(CID_OTHER_GET_DEVICE_TOKEN_REQ), DB_PROXY::getDevicesToken));
     
-    //push æ¨é€è®¾ç½®
+    //push ÍÆËÍÉèÖÃ
     m_handler_map.insert(make_pair(uint32_t(CID_GROUP_SHIELD_GROUP_REQUEST), DB_PROXY::setGroupPush));
     m_handler_map.insert(make_pair(uint32_t(CID_OTHER_GET_SHIELD_REQ), DB_PROXY::getGroupPush));
     
@@ -100,11 +100,11 @@ void CHandlerMap::Init()
 }
 
 /**
- *  é€šè¿‡commandIdè·å–å¤„ç†å‡½æ•°
+ *  Í¨¹ıcommandId»ñÈ¡´¦Àíº¯Êı
  *
  *  @param pdu_type commandId
  *
- *  @return å¤„ç†å‡½æ•°çš„å‡½æ•°æŒ‡é’ˆ
+ *  @return ´¦Àíº¯ÊıµÄº¯ÊıÖ¸Õë
  */
 pdu_handler_t CHandlerMap::GetHandler(uint32_t pdu_type)
 {

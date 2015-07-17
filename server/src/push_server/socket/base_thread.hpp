@@ -3,7 +3,7 @@
 //  my-code
 //
 //  Created by shiwei on 14-8-4.
-//  Copyright (c) 2014å¹´ shiwei. All rights reserved.
+//  Copyright (c) 2014Äê shiwei. All rights reserved.
 //
 
 #ifndef _BASE_THREAD_HPP

@@ -1,11 +1,11 @@
 /*================================================================
- *     Copyright (c) 2015å¹´ lanhu. All rights reserved.
+ *     Copyright (c) 2015Äê lanhu. All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šEncDec.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2015å¹´01æœˆ27æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºEncDec.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2015Äê01ÔÂ27ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -76,7 +76,7 @@ int CAes::Decrypt(const char* pInData, uint32_t nInLen, char** ppOutData, uint32
     if (nLen % 16 != 0) {
         return -3;
     }
-    // å…ˆç”³è¯·nLen ä¸ªé•¿åº¦ï¼Œè§£å¯†å®Œæˆåçš„é•¿åº¦åº”è¯¥å°äºè¯¥é•¿åº¦
+    // ÏÈÉêÇënLen ¸ö³¤¶È£¬½âÃÜÍê³ÉºóµÄ³¤¶ÈÓ¦¸ÃĞ¡ÓÚ¸Ã³¤¶È
     char* pTmp = (char*)malloc(nLen + 1);
     
     uint32_t nBlocks = nLen / 16;

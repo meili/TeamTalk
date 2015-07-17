@@ -1,11 +1,11 @@
 /*================================================================
  *   Copyright (C) 2014 All rights reserved.
  *
- *   æ–‡ä»¶åç§°ï¼šMessageContent.cpp
- *   åˆ› å»º è€…ï¼šZhang Yuanhao
- *   é‚®    ç®±ï¼šbluefoxah@gmail.com
- *   åˆ›å»ºæ—¥æœŸï¼š2014å¹´12æœˆ15æ—¥
- *   æ    è¿°ï¼š
+ *   ÎÄ¼şÃû³Æ£ºMessageContent.cpp
+ *   ´´ ½¨ Õß£ºZhang Yuanhao
+ *   ÓÊ    Ïä£ºbluefoxah@gmail.com
+ *   ´´½¨ÈÕÆÚ£º2014Äê12ÔÂ15ÈÕ
+ *   Ãè    Êö£º
  *
  ================================================================*/
 
@@ -41,11 +41,11 @@ namespace DB_PROXY {
 
                 list<IM::BaseDefine::MsgInfo> lsMsg;
 
-                if(nSessionType == IM::BaseDefine::SESSION_TYPE_SINGLE)//è·å–ä¸ªäººæ¶ˆæ¯
+                if(nSessionType == IM::BaseDefine::SESSION_TYPE_SINGLE)//»ñÈ¡¸öÈËÏûÏ¢
                 {
                     CMessageModel::getInstance()->getMessage(nUserId, nPeerId, nMsgId, nMsgCnt, lsMsg);
                 }
-                else if(nSessionType == IM::BaseDefine::SESSION_TYPE_GROUP)//è·å–ç¾¤æ¶ˆæ¯
+                else if(nSessionType == IM::BaseDefine::SESSION_TYPE_GROUP)//»ñÈ¡ÈºÏûÏ¢
                 {
                     if(CGroupModel::getInstance()->isInGroup(nUserId, nPeerId))
                     {

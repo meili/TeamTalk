@@ -1,7 +1,7 @@
 /*
  * AttachData.h
  *
- *  Created on: 2014å¹´4æœˆ16æ—¥
+ *  Created on: 2014Äê4ÔÂ16ÈÕ
  *      Author: ziteng
  */
 
@@ -19,8 +19,8 @@ enum {
 class CDbAttachData
 {
 public:
-	CDbAttachData(uint32_t type, uint32_t handle, uint32_t service_type = 0);				// åºåˆ—åŒ–
-	CDbAttachData(uchar_t* attach_data, uint32_t attach_len);	// ååºåˆ—åŒ–
+	CDbAttachData(uint32_t type, uint32_t handle, uint32_t service_type = 0);				// ĞòÁĞ»¯
+	CDbAttachData(uchar_t* attach_data, uint32_t attach_len);	// ·´ĞòÁĞ»¯
 	virtual ~CDbAttachData() {}
 
 	uchar_t* GetBuffer() {return m_buf.GetBuffer(); }
@@ -38,8 +38,8 @@ private:
 class CPduAttachData
 {
 public:
-	CPduAttachData(uint32_t type, uint32_t handle, uint32_t pduLength, uchar_t* pdu, uint32_t service_type = 0);				// åºåˆ—åŒ–
-	CPduAttachData(uchar_t* attach_data, uint32_t attach_len);	// ååºåˆ—åŒ–
+	CPduAttachData(uint32_t type, uint32_t handle, uint32_t pduLength, uchar_t* pdu, uint32_t service_type = 0);				// ĞòÁĞ»¯
+	CPduAttachData(uchar_t* attach_data, uint32_t attach_len);	// ·´ĞòÁĞ»¯
 	virtual ~CPduAttachData() {}
     
 	uchar_t* GetBuffer() {return m_buf.GetBuffer(); }

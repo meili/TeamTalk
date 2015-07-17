@@ -1,11 +1,11 @@
 /*================================================================
-*     Copyright (c) 2015å¹´ lanhu. All rights reserved.
+*     Copyright (c) 2015Äê lanhu. All rights reserved.
 *   
-*   æ–‡ä»¶åç§°ï¼šSessionModel.cpp
-*   åˆ› å»º è€…ï¼šZhang Yuanhao
-*   é‚®    ç®±ï¼šbluefoxah@gmail.com
-*   åˆ›å»ºæ—¥æœŸï¼š2015å¹´03æœˆ16æ—¥
-*   æ    è¿°ï¼š
+*   ÎÄ¼þÃû³Æ£ºSessionModel.cpp
+*   ´´ ½¨ Õß£ºZhang Yuanhao
+*   ÓÊ    Ïä£ºbluefoxah@gmail.com
+*   ´´½¨ÈÕÆÚ£º2015Äê03ÔÂ16ÈÕ
+*   Ãè    Êö£º
 *
 ================================================================*/
 #include "SessionModel.h"
@@ -166,7 +166,7 @@ uint32_t CSessionModel::addSession(uint32_t nUserId, uint32_t nPeerId, uint32_t 
         else
         {
             string strSql = "insert into IMRecentSession (`userId`,`peerId`,`type`,`status`,`created`,`updated`) values(?,?,?,?,?,?)";
-            // å¿…é¡»åœ¨é‡Šæ”¾è¿žæŽ¥å‰delete CPrepareStatementå¯¹è±¡ï¼Œå¦åˆ™æœ‰å¯èƒ½å¤šä¸ªçº¿ç¨‹æ“ä½œmysqlå¯¹è±¡ï¼Œä¼šcrash
+            // ±ØÐëÔÚÊÍ·ÅÁ¬½ÓÇ°delete CPrepareStatement¶ÔÏó£¬·ñÔòÓÐ¿ÉÄÜ¶à¸öÏß³Ì²Ù×÷mysql¶ÔÏó£¬»ácrash
             CPrepareStatement* stmt = new CPrepareStatement();
             if (stmt->Init(pDBConn->GetMysql(), strSql))
             {
