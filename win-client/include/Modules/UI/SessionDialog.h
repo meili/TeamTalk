@@ -48,11 +48,13 @@ public:
 	void MKOForTcpClientModuleCallback(const std::string& keyId, MKO_TUPLE_PARAM mkoParam);
 	void MKOForLoginModuleCallback(const std::string& keyId, MKO_TUPLE_PARAM mkoParam);
 	void MKOForUserListModuleCallback(const std::string& keyId, MKO_TUPLE_PARAM mkoParam);
+    void MKOForScreenCaptureModuleCallback(const std::string& keyId, MKO_TUPLE_PARAM mkoParam);
 	//@}
 
 private:
 	void _ShakeWindow();
 	void _FreshAvatar();
+    void _FreshSignature(void);
 
 public:
 	CButtonUI*			m_pBtnAvatar;
@@ -60,6 +62,7 @@ public:
 	CButtonUI*			m_pBtnRestore;
 	CTextUI*			m_pWritingStatus;
 	CTextUI*			m_pTxtName;
+    CEditUI*	        m_pEditSignature;//对方的个性签名
 
 	SessionLayout*		m_pSessionLayout;
 	std::string			m_sId;		//会话Id

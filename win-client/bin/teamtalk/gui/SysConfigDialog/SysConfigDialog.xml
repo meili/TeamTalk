@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window caption="0,0,0,465" roundcorner="4,4" size="465,470" >
+<Window caption="0,0,0,36" roundcorner="4,4" size="465,470" >
   <Font name="微软雅黑" size="12" bold="false" default="true" />
   <Font name="微软雅黑" size="12" bold="true"/>
   <Default name="Button" value="size=&quot;#8&quot; textcolor=&quot;#FFFFFF&quot; hottextcolor=&quot;#000000&quot; disabledtextcolor=&quot;#ffffff&quot; focusedtextcolor=&quot;#000000&quot; pushedtextcolor=&quot;#ffffff&quot; normalimage=&quot;file='LoginDialog/LoginBtnBack.png' corner='4,4,4,4' source='0,0,0,0'&quot; hotimage=&quot;file='LoginDialog/LoginBtnBack.png' corner='4,4,4,4' source='0,0,0,0'&quot; pushedimage=&quot;file='LoginDialog/LoginBtnBack.png' corner='4,4,4,4' source='0,0,0,0'&quot; disabledimage=&quot;file='LoginDialog/LoginBtnBack.png' corner='4,4,4,4' source='0,0,0,0'&quot;" />

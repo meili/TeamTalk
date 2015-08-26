@@ -320,6 +320,7 @@ public:
 
     static void MessageLoop();
     static bool TranslateMessage(const LPMSG pMsg);
+    static bool PreTranslateMessage(const LPMSG pMsg);
 	static void Term();
 
     bool MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes);

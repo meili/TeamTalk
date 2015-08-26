@@ -1028,7 +1028,7 @@ bool IMFilePullDataReq::MergePartialFromCodedStream(
         break;
       }
 
-      // required .IM.BaseDefine.FileType trans_mode = 3;
+      // required .IM.BaseDefine.TransferFileType trans_mode = 3;
       case 3: {
         if (tag == 24) {
          parse_trans_mode:
@@ -1036,8 +1036,8 @@ bool IMFilePullDataReq::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          if (::IM::BaseDefine::FileType_IsValid(value)) {
-            set_trans_mode(static_cast< ::IM::BaseDefine::FileType >(value));
+          if (::IM::BaseDefine::TransferFileType_IsValid(value)) {
+            set_trans_mode(static_cast< ::IM::BaseDefine::TransferFileType >(value));
           } else {
             unknown_fields_stream.WriteVarint32(tag);
             unknown_fields_stream.WriteVarint32(value);
@@ -1115,7 +1115,7 @@ void IMFilePullDataReq::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->user_id(), output);
   }
 
-  // required .IM.BaseDefine.FileType trans_mode = 3;
+  // required .IM.BaseDefine.TransferFileType trans_mode = 3;
   if (has_trans_mode()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       3, this->trans_mode(), output);
@@ -1154,7 +1154,7 @@ int IMFilePullDataReq::ByteSize() const {
           this->user_id());
     }
 
-    // required .IM.BaseDefine.FileType trans_mode = 3;
+    // required .IM.BaseDefine.TransferFileType trans_mode = 3;
     if (has_trans_mode()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->trans_mode());
@@ -1247,7 +1247,7 @@ const int IMFilePullDataRsp::kResultCodeFieldNumber;
 const int IMFilePullDataRsp::kTaskIdFieldNumber;
 const int IMFilePullDataRsp::kUserIdFieldNumber;
 const int IMFilePullDataRsp::kOffsetFieldNumber;
-const int IMFilePullDataRsp::kDataFieldNumber;
+const int IMFilePullDataRsp::kFileDataFieldNumber;
 #endif  // !_MSC_VER
 
 IMFilePullDataRsp::IMFilePullDataRsp()
@@ -1273,7 +1273,7 @@ void IMFilePullDataRsp::SharedCtor() {
   task_id_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   user_id_ = 0u;
   offset_ = 0u;
-  data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  file_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1286,8 +1286,8 @@ void IMFilePullDataRsp::SharedDtor() {
   if (task_id_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete task_id_;
   }
-  if (data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete data_;
+  if (file_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete file_data_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
@@ -1336,9 +1336,9 @@ void IMFilePullDataRsp::Clear() {
       }
     }
     offset_ = 0u;
-    if (has_data()) {
-      if (data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        data_->clear();
+    if (has_file_data()) {
+      if (file_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        file_data_->clear();
       }
     }
   }
@@ -1417,16 +1417,16 @@ bool IMFilePullDataRsp::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(42)) goto parse_data;
+        if (input->ExpectTag(42)) goto parse_file_data;
         break;
       }
 
-      // required bytes data = 5;
+      // required bytes file_data = 5;
       case 5: {
         if (tag == 42) {
-         parse_data:
+         parse_file_data:
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_data()));
+                input, this->mutable_file_data()));
         } else {
           goto handle_unusual;
         }
@@ -1480,10 +1480,10 @@ void IMFilePullDataRsp::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->offset(), output);
   }
 
-  // required bytes data = 5;
-  if (has_data()) {
+  // required bytes file_data = 5;
+  if (has_file_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      5, this->data(), output);
+      5, this->file_data(), output);
   }
 
   output->WriteRaw(unknown_fields().data(),
@@ -1523,11 +1523,11 @@ int IMFilePullDataRsp::ByteSize() const {
           this->offset());
     }
 
-    // required bytes data = 5;
-    if (has_data()) {
+    // required bytes file_data = 5;
+    if (has_file_data()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::BytesSize(
-          this->data());
+          this->file_data());
     }
 
   }
@@ -1559,8 +1559,8 @@ void IMFilePullDataRsp::MergeFrom(const IMFilePullDataRsp& from) {
     if (from.has_offset()) {
       set_offset(from.offset());
     }
-    if (from.has_data()) {
-      set_data(from.data());
+    if (from.has_file_data()) {
+      set_file_data(from.file_data());
     }
   }
   mutable_unknown_fields()->append(from.unknown_fields());
@@ -1584,7 +1584,7 @@ void IMFilePullDataRsp::Swap(IMFilePullDataRsp* other) {
     std::swap(task_id_, other->task_id_);
     std::swap(user_id_, other->user_id_);
     std::swap(offset_, other->offset_);
-    std::swap(data_, other->data_);
+    std::swap(file_data_, other->file_data_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -1770,7 +1770,7 @@ bool IMFileReq::MergePartialFromCodedStream(
         break;
       }
 
-      // required .IM.BaseDefine.FileType trans_mode = 5;
+      // required .IM.BaseDefine.TransferFileType trans_mode = 5;
       case 5: {
         if (tag == 40) {
          parse_trans_mode:
@@ -1778,8 +1778,8 @@ bool IMFileReq::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          if (::IM::BaseDefine::FileType_IsValid(value)) {
-            set_trans_mode(static_cast< ::IM::BaseDefine::FileType >(value));
+          if (::IM::BaseDefine::TransferFileType_IsValid(value)) {
+            set_trans_mode(static_cast< ::IM::BaseDefine::TransferFileType >(value));
           } else {
             unknown_fields_stream.WriteVarint32(tag);
             unknown_fields_stream.WriteVarint32(value);
@@ -1837,7 +1837,7 @@ void IMFileReq::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->file_size(), output);
   }
 
-  // required .IM.BaseDefine.FileType trans_mode = 5;
+  // required .IM.BaseDefine.TransferFileType trans_mode = 5;
   if (has_trans_mode()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       5, this->trans_mode(), output);
@@ -1880,7 +1880,7 @@ int IMFileReq::ByteSize() const {
           this->file_size());
     }
 
-    // required .IM.BaseDefine.FileType trans_mode = 5;
+    // required .IM.BaseDefine.TransferFileType trans_mode = 5;
     if (has_trans_mode()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->trans_mode());
@@ -2165,7 +2165,7 @@ bool IMFileRsp::MergePartialFromCodedStream(
         break;
       }
 
-      // required .IM.BaseDefine.FileType trans_mode = 7;
+      // required .IM.BaseDefine.TransferFileType trans_mode = 7;
       case 7: {
         if (tag == 56) {
          parse_trans_mode:
@@ -2173,8 +2173,8 @@ bool IMFileRsp::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          if (::IM::BaseDefine::FileType_IsValid(value)) {
-            set_trans_mode(static_cast< ::IM::BaseDefine::FileType >(value));
+          if (::IM::BaseDefine::TransferFileType_IsValid(value)) {
+            set_trans_mode(static_cast< ::IM::BaseDefine::TransferFileType >(value));
           } else {
             unknown_fields_stream.WriteVarint32(tag);
             unknown_fields_stream.WriteVarint32(value);
@@ -2244,7 +2244,7 @@ void IMFileRsp::SerializeWithCachedSizes(
       6, this->ip_addr_list(i), output);
   }
 
-  // required .IM.BaseDefine.FileType trans_mode = 7;
+  // required .IM.BaseDefine.TransferFileType trans_mode = 7;
   if (has_trans_mode()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       7, this->trans_mode(), output);
@@ -2294,7 +2294,7 @@ int IMFileRsp::ByteSize() const {
           this->task_id());
     }
 
-    // required .IM.BaseDefine.FileType trans_mode = 7;
+    // required .IM.BaseDefine.TransferFileType trans_mode = 7;
     if (has_trans_mode()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->trans_mode());
@@ -2597,7 +2597,7 @@ bool IMFileNotify::MergePartialFromCodedStream(
         break;
       }
 
-      // required .IM.BaseDefine.FileType trans_mode = 7;
+      // required .IM.BaseDefine.TransferFileType trans_mode = 7;
       case 7: {
         if (tag == 56) {
          parse_trans_mode:
@@ -2605,8 +2605,8 @@ bool IMFileNotify::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          if (::IM::BaseDefine::FileType_IsValid(value)) {
-            set_trans_mode(static_cast< ::IM::BaseDefine::FileType >(value));
+          if (::IM::BaseDefine::TransferFileType_IsValid(value)) {
+            set_trans_mode(static_cast< ::IM::BaseDefine::TransferFileType >(value));
           } else {
             unknown_fields_stream.WriteVarint32(tag);
             unknown_fields_stream.WriteVarint32(value);
@@ -2691,7 +2691,7 @@ void IMFileNotify::SerializeWithCachedSizes(
       6, this->ip_addr_list(i), output);
   }
 
-  // required .IM.BaseDefine.FileType trans_mode = 7;
+  // required .IM.BaseDefine.TransferFileType trans_mode = 7;
   if (has_trans_mode()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       7, this->trans_mode(), output);
@@ -2746,7 +2746,7 @@ int IMFileNotify::ByteSize() const {
           this->task_id());
     }
 
-    // required .IM.BaseDefine.FileType trans_mode = 7;
+    // required .IM.BaseDefine.TransferFileType trans_mode = 7;
     if (has_trans_mode()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->trans_mode());

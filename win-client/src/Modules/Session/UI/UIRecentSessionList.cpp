@@ -343,20 +343,7 @@ BOOL CUIRecentSessionList::UpdateItemConentBySId(IN const std::string& sId)
 	{
 		//更新未读计数
 		UInt32 nCnt = ReceiveMsgManage::getInstance()->getUnReadMsgCountBySId(sId);
-		if (0 == nCnt)
-		{
-			Unreadcnt_button->SetVisible(false);
-		}
-		else if (nCnt <= 99)
-		{
-			Unreadcnt_button->SetText(util::int32ToCString(nCnt));
-			Unreadcnt_button->SetVisible(true);
-		}
-		else if (nCnt > 99)
-		{
-			Unreadcnt_button->SetText(_T("99+"));
-			Unreadcnt_button->SetVisible(true);
-		}
+        SetTextUICount(Unreadcnt_button, nCnt);
 	}
 
 	//更新消息的时间

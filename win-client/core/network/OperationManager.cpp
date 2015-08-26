@@ -127,10 +127,37 @@ IMCoreErrorCode OperationManager::startOperation(IN Operation* pOperation, Int32
 	return IMCORE_OK;
 }
 
-IMCoreErrorCode OperationManager::startOperationWithLambda(std::function<void()> operationRun, Int32 delay)
+IMCoreErrorCode OperationManager::startOperationWithLambda(std::function<void()> operationRun
+                                                            , Int32 delay
+                                                            , std::string oper_name)
 {
-	LambdaOperation* pLambdaOper = new LambdaOperation(operationRun);
-	return startOperation(pLambdaOper, delay);
+    LambdaOperation* pLambdaOper = new LambdaOperation(operationRun);
+    pLambdaOper->set_name(oper_name);
+    return startOperation(pLambdaOper, delay);
+}
+
+IMCoreErrorCode OperationManager::clearOperationByName(std::string oper_name)
+{
+    std::lock_guard<std::mutex> locker(m_mutexOperation);
+    auto iter = std::remove_if(m_vecRealtimeOperations.begin(), m_vecRealtimeOperations.end(),
+        [=](Operation* pOper)
+    {
+        if (pOper->name() == oper_name)
+        {
+            LOG__(APP, _T("clearOperationByName - %S"), oper_name.c_str());
+
+            pOper->release();
+            return true;
+        }
+        return false;
+    });
+
+    if (iter != m_vecRealtimeOperations.end())
+    {
+        m_vecRealtimeOperations.erase(iter, m_vecRealtimeOperations.end());
+    }
+
+    return IMCORE_OK;
 }
 
 OperationManager::~OperationManager()

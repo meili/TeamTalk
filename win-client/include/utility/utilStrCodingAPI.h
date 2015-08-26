@@ -27,8 +27,12 @@ UTILITY_API BOOL		isIncludeChinese(const std::string& str);//是否包含中文
 UTILITY_API CString		HZ2FirstPY(IN  std::string szHZ);//汉字转成拼音首字母
 UTILITY_API CString		HZ2AllPY(IN  CString szHZ);//汉字转成全拼
 
-const std::string ws2s(const std::wstring& src);
-const std::wstring s2ws(const std::string& src);
+UTILITY_API const std::string ws2s(const std::wstring& src);
+UTILITY_API const std::wstring s2ws(const std::string& src);
+
+UTILITY_API Int32       splitString(__in std::wstring src, __in std::vector<std::wstring> _vecSpliter,
+    __out std::vector<std::wstring> &_splitList);
+
 NAMESPACE_END(util)
 
 /******************************************************************************/

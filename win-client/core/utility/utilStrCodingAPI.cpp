@@ -148,6 +148,10 @@ std::string cStringToString(const CString& src, UINT codepage /*= CP_UTF8*/)
 CString stringToCString(const std::string& src, UINT codepage /*= CP_UTF8*/)
 {
 	CString dst;
+    if (src.empty())
+    {
+        return  dst;
+    }
 	int length = ::MultiByteToWideChar(codepage, 0, src.data(), (int)src.size(), NULL, 0);
 	WCHAR* pBuffer = dst.GetBufferSetLength(length);
 	::MultiByteToWideChar(codepage, 0, src.data(), (int)src.size(), pBuffer, length);
@@ -358,6 +362,59 @@ char* ConvertChineseUnicodeToPyt(wchar_t* chrstr)
 	delete[] psz;
 	return str;
 }
+
+ Int32 splitString(__in std::wstring src, __in std::vector<std::wstring> _vecSpliter,
+     __out std::vector<std::wstring> &_splitList)
+ {
+     if (src.empty() || _vecSpliter.empty())
+     {
+         return 0;
+     }
+
+     int iSrcLen = wcslen(src.c_str());
+     int iSplitLen = _vecSpliter.size();
+
+     int iPrevOccurIdx = 0;
+     for (int i = 0; i < iSrcLen; i++)
+     {
+         for (int m = 0; m < iSplitLen; m++)
+         {
+             std::wstring _spliter = _vecSpliter[m];
+             if (_wcsnicmp(_spliter.c_str(), src.c_str() + i, _spliter.length()))
+             {
+                 continue;
+             }
+
+             int iCopyLen = i - iPrevOccurIdx + 1;
+             if (iCopyLen > 1)
+             {
+                 wchar_t *strMid = new wchar_t[i - iPrevOccurIdx + 1];
+                 memset(strMid, 0, iCopyLen * sizeof(wchar_t));
+                 wcsncpy(strMid, src.c_str() + iPrevOccurIdx, iCopyLen - 1);
+
+                 iPrevOccurIdx = i + _spliter.length();
+
+                 _splitList.push_back(strMid);
+
+                 delete[]strMid;
+             }
+
+             break;
+         }
+
+         if (iPrevOccurIdx >= iSrcLen)
+         {
+             break;
+         }
+     }
+
+     if (iPrevOccurIdx < iSrcLen)
+     {
+         _splitList.push_back(src.c_str() + iPrevOccurIdx);
+     }
+
+     return _splitList.size();
+ }
 
 
 NAMESPACE_END(util)

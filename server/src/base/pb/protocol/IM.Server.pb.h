@@ -1955,12 +1955,12 @@ class IMFileTransferReq : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 file_size() const;
   inline void set_file_size(::google::protobuf::uint32 value);
 
-  // required .IM.BaseDefine.FileType trans_mode = 5;
+  // required .IM.BaseDefine.TransferFileType trans_mode = 5;
   inline bool has_trans_mode() const;
   inline void clear_trans_mode();
   static const int kTransModeFieldNumber = 5;
-  inline ::IM::BaseDefine::FileType trans_mode() const;
-  inline void set_trans_mode(::IM::BaseDefine::FileType value);
+  inline ::IM::BaseDefine::TransferFileType trans_mode() const;
+  inline void set_trans_mode(::IM::BaseDefine::TransferFileType value);
 
   // optional bytes attach_data = 20;
   inline bool has_attach_data() const;
@@ -2125,12 +2125,12 @@ class IMFileTransferRsp : public ::google::protobuf::MessageLite {
   inline ::std::string* release_task_id();
   inline void set_allocated_task_id(::std::string* task_id);
 
-  // optional .IM.BaseDefine.FileType trans_mode = 7;
+  // optional .IM.BaseDefine.TransferFileType trans_mode = 7;
   inline bool has_trans_mode() const;
   inline void clear_trans_mode();
   static const int kTransModeFieldNumber = 7;
-  inline ::IM::BaseDefine::FileType trans_mode() const;
-  inline void set_trans_mode(::IM::BaseDefine::FileType value);
+  inline ::IM::BaseDefine::TransferFileType trans_mode() const;
+  inline void set_trans_mode(::IM::BaseDefine::TransferFileType value);
 
   // optional bytes attach_data = 20;
   inline bool has_attach_data() const;
@@ -4409,7 +4409,7 @@ inline void IMFileTransferReq::set_file_size(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:IM.Server.IMFileTransferReq.file_size)
 }
 
-// required .IM.BaseDefine.FileType trans_mode = 5;
+// required .IM.BaseDefine.TransferFileType trans_mode = 5;
 inline bool IMFileTransferReq::has_trans_mode() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
@@ -4423,12 +4423,12 @@ inline void IMFileTransferReq::clear_trans_mode() {
   trans_mode_ = 1;
   clear_has_trans_mode();
 }
-inline ::IM::BaseDefine::FileType IMFileTransferReq::trans_mode() const {
+inline ::IM::BaseDefine::TransferFileType IMFileTransferReq::trans_mode() const {
   // @@protoc_insertion_point(field_get:IM.Server.IMFileTransferReq.trans_mode)
-  return static_cast< ::IM::BaseDefine::FileType >(trans_mode_);
+  return static_cast< ::IM::BaseDefine::TransferFileType >(trans_mode_);
 }
-inline void IMFileTransferReq::set_trans_mode(::IM::BaseDefine::FileType value) {
-  assert(::IM::BaseDefine::FileType_IsValid(value));
+inline void IMFileTransferReq::set_trans_mode(::IM::BaseDefine::TransferFileType value) {
+  assert(::IM::BaseDefine::TransferFileType_IsValid(value));
   set_has_trans_mode();
   trans_mode_ = value;
   // @@protoc_insertion_point(field_set:IM.Server.IMFileTransferReq.trans_mode)
@@ -4762,7 +4762,7 @@ inline void IMFileTransferRsp::set_allocated_task_id(::std::string* task_id) {
   // @@protoc_insertion_point(field_set_allocated:IM.Server.IMFileTransferRsp.task_id)
 }
 
-// optional .IM.BaseDefine.FileType trans_mode = 7;
+// optional .IM.BaseDefine.TransferFileType trans_mode = 7;
 inline bool IMFileTransferRsp::has_trans_mode() const {
   return (_has_bits_[0] & 0x00000040u) != 0;
 }
@@ -4776,12 +4776,12 @@ inline void IMFileTransferRsp::clear_trans_mode() {
   trans_mode_ = 1;
   clear_has_trans_mode();
 }
-inline ::IM::BaseDefine::FileType IMFileTransferRsp::trans_mode() const {
+inline ::IM::BaseDefine::TransferFileType IMFileTransferRsp::trans_mode() const {
   // @@protoc_insertion_point(field_get:IM.Server.IMFileTransferRsp.trans_mode)
-  return static_cast< ::IM::BaseDefine::FileType >(trans_mode_);
+  return static_cast< ::IM::BaseDefine::TransferFileType >(trans_mode_);
 }
-inline void IMFileTransferRsp::set_trans_mode(::IM::BaseDefine::FileType value) {
-  assert(::IM::BaseDefine::FileType_IsValid(value));
+inline void IMFileTransferRsp::set_trans_mode(::IM::BaseDefine::TransferFileType value) {
+  assert(::IM::BaseDefine::TransferFileType_IsValid(value));
   set_has_trans_mode();
   trans_mode_ = value;
   // @@protoc_insertion_point(field_set:IM.Server.IMFileTransferRsp.trans_mode)

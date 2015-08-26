@@ -1,0 +1,24 @@
+{
+    "contentInset":{
+    	"top"       : 10,
+    	"right" 	: 10,
+    	"bottom" 	: 10,
+    	"left"      : 15,
+    },
+    "voiceInset":{
+        "top"       : 10,
+        "right"     : 15,
+        "bottom"    : 10,
+        "left"      : 10,
+    },
+    "stretchy":{
+    	"left"      : 30,
+    	"top"		: 30
+    },
+    "imgStretchy":{
+        "left"      : 30,
+        "top"       : 30
+    },
+    "textColor"     : "255,255,255",
+    "linkColor"     : "131,232,251"
+}

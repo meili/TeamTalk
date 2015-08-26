@@ -19,6 +19,7 @@
 #include "IM.Login.pb.h"
 #include "IM.Server.pb.h"
 #include "UserModel.h"
+#include<time.h>
 
 namespace DB_PROXY {
 
@@ -166,6 +167,15 @@ namespace DB_PROXY {
             CacheConn* pCacheConn = pCacheManager->GetCacheConn("token");
             CImPdu* pPduResp = new CImPdu;
             uint32_t nCnt = msg.user_id_size();
+            
+            // 对于ios，不推送
+            // 对于android，由客户端处理
+            bool is_check_shield_status = false;
+            time_t now = time(NULL);
+            struct tm* _tm = localtime(&now);
+            if (_tm->tm_hour >= 22 || _tm->tm_hour <=7 ) {
+                    is_check_shield_status = true;
+                }
             if (pCacheConn)
             {
                 vector<string> vecTokens;
@@ -195,7 +205,21 @@ namespace DB_PROXY {
                                 IM::BaseDefine::ClientType nClientType = IM::BaseDefine::ClientType(0);
                                 if(strType == "ios")
                                 {
-                                    nClientType = IM::BaseDefine::CLIENT_TYPE_IOS;
+                                    // 过滤出已经设置勿打扰并且为晚上22：00～07：00
+                                    uint32_t shield_status = 0;
+                                    if (is_check_shield_status) {
+                                        CUserModel::getInstance()->getPushShield(nUserId, &shield_status);
+                                    }
+                                    
+                                    if (shield_status == 1) {
+                                        // 对IOS处理
+                                        continue;
+                                    } else {
+                                        nClientType = IM::BaseDefine::CLIENT_TYPE_IOS;
+                                    }
+                                    
+                                    // nClientType = IM::BaseDefine::CLIENT_TYPE_IOS;
+                                    // end
                                 }
                                 else if(strType == "android")
                                 {

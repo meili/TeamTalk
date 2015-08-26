@@ -49,7 +49,7 @@ void CFileHandler::HandleClientFileRequest(CMsgConn* pMsgConn, CImPdu* pPdu)
         msg2.set_to_user_id(to_id);
         msg2.set_file_name(file_name);
         msg2.set_file_size(file_size);
-        msg2.set_trans_mode((IM::BaseDefine::FileType)trans_mode);
+        msg2.set_trans_mode((IM::BaseDefine::TransferFileType)trans_mode);
         msg2.set_attach_data(attach.GetBuffer(), attach.GetLength());
         CImPdu pdu;
         pdu.SetPBMsg(&msg2);
@@ -98,7 +98,7 @@ void CFileHandler::HandleClientFileRequest(CMsgConn* pMsgConn, CImPdu* pPdu)
         msg2.set_to_user_id(to_id);
         msg2.set_file_name(file_name);
         msg2.set_task_id("");
-        msg2.set_trans_mode((IM::BaseDefine::FileType)trans_mode);
+        msg2.set_trans_mode((IM::BaseDefine::TransferFileType)trans_mode);
         CImPdu pdu;
         pdu.SetPBMsg(&msg2);
         pdu.SetServiceId(SID_FILE);
@@ -200,7 +200,7 @@ void CFileHandler::HandleClientFileDelOfflineReq(CMsgConn* pMsgConn, CImPdu* pPd
     IM::File::IMFileDelOfflineReq msg;
     CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
 
-    uint32_t from_id = pMsgConn->GetUserId();
+    uint32_t from_id = msg.from_user_id();
     uint32_t to_id = msg.to_user_id();
     string task_id = msg.task_id();
     log("HandleClientFileDelOfflineReq, %u->%u, task_id=%s ", from_id, to_id, task_id.c_str());
@@ -243,6 +243,7 @@ void CFileHandler::HandleFileHasOfflineRes(CImPdu* pPdu)
         log("HandleFileHasOfflineRes, no file server. ");
     }
     if (pConn) {
+        pPdu->SetPBMsg(&msg);
         pConn->SendPdu(pPdu);
     }
 }

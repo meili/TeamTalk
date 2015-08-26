@@ -2,22 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>SchemeUserState</key>
-	<dict>
-		<key>TeamTalk.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>8</integer>
-		</dict>
-	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>C4EBA733192F279100B72723</key>
+		<key>C054EC2E1B3270D900078809</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C4EBA74E192F279100B72723</key>
+		<key>C054EC471B3270D900078809</key>
 		<dict>
 			<key>primary</key>
 			<true/>

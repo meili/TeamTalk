@@ -205,6 +205,12 @@ void CDBServConn::HandlePdu(CImPdu* pPdu)
         case CID_LOGIN_RES_DEVICETOKEN:
             _HandleSetDeviceTokenResponse(pPdu);
             break;
+        case CID_LOGIN_RES_PUSH_SHIELD:
+            _HandlePushShieldResponse(pPdu);
+            break;
+        case CID_LOGIN_RES_QUERY_PUSH_SHIELD:
+            _HandleQueryPushShieldResponse(pPdu);
+            break;
         case CID_MSG_UNREAD_CNT_RESPONSE:
             _HandleUnreadMsgCountResponse( pPdu );
             break;
@@ -234,6 +240,9 @@ void CDBServConn::HandlePdu(CImPdu* pPdu)
             break;
         case CID_BUDDY_LIST_CHANGE_AVATAR_RESPONSE:
             _HandleChangeAvatarResponse(pPdu);
+            break;
+        case CID_BUDDY_LIST_CHANGE_SIGN_INFO_RESPONSE:
+            _HandleChangeSignInfoResponse(pPdu);
             break;
         case CID_BUDDY_LIST_DEPARTMENT_RESPONSE:
             _HandleDepartmentResponse(pPdu);
@@ -356,6 +365,7 @@ void CDBServConn::_HandleValidateResponse(CImPdu* pPdu)
         user_info_tmp->set_user_gender(user_info.user_gender());
         user_info_tmp->set_user_nick_name(user_info.user_nick_name());
         user_info_tmp->set_avatar_url(user_info.avatar_url());
+        user_info_tmp->set_sign_info(user_info.sign_info());
         user_info_tmp->set_department_id(user_info.department_id());
         user_info_tmp->set_email(user_info.email());
         user_info_tmp->set_user_real_name(user_info.user_real_name());
@@ -810,5 +820,96 @@ void CDBServConn::_HandleGetDeviceTokenResponse(CImPdu *pPdu)
         if (PushConn) {
             PushConn->SendPdu(&pdu3);
         }
+    }
+}
+
+void CDBServConn::_HandleChangeSignInfoResponse(CImPdu* pPdu) {
+        IM::Buddy::IMChangeSignInfoRsp msg;
+        CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+    
+        uint32_t user_id = msg.user_id();
+        uint32_t result = msg.result_code();
+    
+        log("HandleChangeSignInfoResp: user_id=%u, result=%u.", user_id, result);
+    
+        CDbAttachData attach_data((uchar_t*)msg.attach_data().c_str(), msg.attach_data().length());
+        uint32_t handle = attach_data.GetHandle();
+    
+        CMsgConn* pMsgConn = CImUserManager::GetInstance()->GetMsgConnByHandle(user_id, handle);
+    
+        if (pMsgConn && pMsgConn->IsOpen()) {
+                msg.clear_attach_data();
+                pPdu->SetPBMsg(&msg);
+                pMsgConn->SendPdu(pPdu);
+        }else {
+                   log("HandleChangeSignInfoResp: can't found msg_conn by user_id = %u, handle = %u", user_id, handle);
+
+        }
+    
+        if (!result) {
+                CRouteServConn* route_conn = get_route_serv_conn();
+                if (route_conn) {
+                        IM::Buddy::IMSignInfoChangedNotify notify_msg;
+                        notify_msg.set_changed_user_id(user_id);
+                        notify_msg.set_sign_info(msg.sign_info());
+            
+                        CImPdu notify_pdu;
+                        notify_pdu.SetPBMsg(&notify_msg);
+                        notify_pdu.SetServiceId(SID_BUDDY_LIST);
+                        notify_pdu.SetCommandId(CID_BUDDY_LIST_SIGN_INFO_CHANGED_NOTIFY);
+            
+                        route_conn->SendPdu(&notify_pdu);
+                }else {
+                            log("HandleChangeSignInfoResp: can't found route_conn");
+                    
+                }
+           }
+    }
+
+
+void CDBServConn::_HandlePushShieldResponse(CImPdu* pPdu) {
+    IM::Login::IMPushShieldRsp msg;
+    CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+    
+    uint32_t user_id = msg.user_id();
+    uint32_t result = msg.result_code();
+    
+    log("_HandlePushShieldResponse: user_id=%u, result=%u.", user_id, result);
+    
+    CDbAttachData attach_data((uchar_t*)msg.attach_data().c_str(), msg.attach_data().length());
+    uint32_t handle = attach_data.GetHandle();
+    
+    CMsgConn* pMsgConn = CImUserManager::GetInstance()->GetMsgConnByHandle(user_id, handle);
+    
+    if (pMsgConn && pMsgConn->IsOpen()) {
+        msg.clear_attach_data();
+        pPdu->SetPBMsg(&msg);
+        pMsgConn->SendPdu(pPdu);
+    } else {
+        log("_HandlePushShieldResponse: can't found msg_conn by user_id = %u, handle = %u", user_id, handle);
+    }
+}
+
+void CDBServConn::_HandleQueryPushShieldResponse(CImPdu* pPdu) {
+    IM::Login::IMQueryPushShieldRsp msg;
+    CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+    
+    uint32_t user_id = msg.user_id();
+    uint32_t result = msg.result_code();
+    // uint32_t shield_status = msg.shield_status();
+    
+    log("_HandleQueryPushShieldResponse: user_id=%u, result=%u.", user_id, result);
+    
+    CDbAttachData attach_data((uchar_t*)msg.attach_data().c_str(), msg.attach_data().length());
+    uint32_t handle = attach_data.GetHandle();
+    
+    CMsgConn* pMsgConn = CImUserManager::GetInstance()->GetMsgConnByHandle(user_id, handle);
+    
+    if (pMsgConn && pMsgConn->IsOpen()) {
+        msg.clear_attach_data();
+        pPdu->SetPBMsg(&msg);
+        pMsgConn->SendPdu(pPdu);
+    } else {
+        log("_HandleQueryPushShieldResponse: can't found msg_conn by user_id = %u, handle = %u", user_id, handle);
     }
 }

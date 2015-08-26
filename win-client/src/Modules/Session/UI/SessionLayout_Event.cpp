@@ -12,6 +12,7 @@
 #include "Modules/ISessionModule.h"
 #include "Modules/IP2PCmdModule.h"
 #include "Modules/ISysConfigModule.h"
+#include "Modules/IFileTransferModule.h"
 #include "../SessionManager.h"
 #include "../../Message/SendMsgManage.h"
 #include "../../Message/ReceiveMsgManage.h"
@@ -19,13 +20,11 @@
 #include "utility/Multilingual.h"
 #include "utility/utilStrCodingAPI.h"
 #include "UIIMEdit.h"
+#include "../../3rdParty/src/cxImage/cxImage/ximage.h"
 
 #define  TIMER_STOP_WRITING  1
 #define  TIMER_WRITING_NOTIFY 2
-namespace
-{
-	const UInt8	FETCH_MSG_COUNT_PERTIME = 10;
-}
+
 
 /******************************************************************************/
 
@@ -119,6 +118,30 @@ void SessionLayout::Notify(TNotifyUI& msg)
 			module::getSessionModule()->asynNotifyObserver(module::KEY_SESSION_SHAKEWINDOW_MSG, m_sId);
 			module::getP2PCmdModule()->tcpSendShakeWindowCMD(m_sId);
 		}
+        else if (msg.pSender == m_pBtnScreenShot)
+        {
+            //直接模拟截屏快捷键
+            for (HWND hWnd = GetTopWindow(NULL); hWnd != NULL; hWnd = GetWindow(hWnd, GW_HWNDNEXT))
+            {
+                wchar_t szWndName[MAX_PATH] = { 0 };
+                GetClassName(hWnd, szWndName, MAX_PATH);
+                if (_wcsicmp(szWndName, L"TeamTalkMainDialog"))
+                {
+                    continue;
+                }
+
+                DWORD dwProcessId = 0;
+                GetWindowThreadProcessId(hWnd, &dwProcessId);
+                if (dwProcessId != GetCurrentProcessId())
+                {
+                    continue;
+                }
+
+                ::PostMessage(hWnd, WM_HOTKEY, 0, (LPARAM)MAKELPARAM(MOD_CONTROL | MOD_SHIFT, 0x51));
+                break;
+            }
+
+        }
 		else if (msg.pSender == m_pBtnadduser)
 		{
 			if (m_bGroupSession)
@@ -127,7 +150,32 @@ void SessionLayout::Notify(TNotifyUI& msg)
 			}
 			else//创建群
 				module::getGroupListModule()->onCreateDiscussionGrpDialog(m_sId);
-		}
+		}   
+        else if (msg.pSender == m_pBtnsendfile) //文件传输
+        {
+            module::UserInfoEntity userInfo;
+            if (!module::getUserListModule()->getUserInfoBySId(m_sId, userInfo))
+            {
+                LOG__(ERR, _T("SendFile can't find the sid"));
+                return;
+            }
+
+            CFileDialog	fileDlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST
+                , _T("文件|*.*||"), AfxGetMainWnd());
+            fileDlg.m_ofn.Flags |= OFN_NOCHANGEDIR;
+            fileDlg.DoModal();
+
+            CString sPathName;
+            POSITION nPos = fileDlg.GetStartPosition();
+            if (nPos != NULL)
+            {
+                sPathName = fileDlg.GetNextPathName(nPos);
+            }
+            if (sPathName.IsEmpty())
+                return;
+
+            module::getFileTransferModule()->sendFile(sPathName, m_sId, userInfo.isOnlne());
+        }
 	}
 	else if (msg.sType == _T("return"))
 	{
@@ -306,18 +354,11 @@ void SessionLayout::DoEvent(TEventUI& event)
 
 void SessionLayout::DocmentComplete(IDispatch *pDisp, VARIANT *&url)
 {
-	module::getEventManager()->asynFireUIEventWithLambda(
-		[=]()
-	{
-		if (!_DisplayUnreadMsg())
-		{
-			_DisplayHistoryMsgToIE(FETCH_MSG_COUNT_PERTIME, TRUE);
-		}
-		//滚动条滚动到最底
-		CComVariant result;
-		m_pWebBrowser->CallJScript(_T("scrollBottom"), _T(""), &result);
-	}
-	);
+    if (!m_bDocumentReady)
+    {
+        m_bDocumentReady = TRUE;
+        _LoadFirstOpenedMsg();
+    }
 }
 
 HRESULT STDMETHODCALLTYPE SessionLayout::TranslateUrl( /* [in] */ DWORD dwTranslate, /* [in] */ OLECHAR __RPC_FAR *pchURLIn, /* [out] */ OLECHAR __RPC_FAR *__RPC_FAR *ppchURLOut)
@@ -365,6 +406,15 @@ HRESULT STDMETHODCALLTYPE SessionLayout::TranslateUrl( /* [in] */ DWORD dwTransl
 			}
 		}
 	}
+    else if (csUrl.Find(_T("moguim/:documentcompleted")) > -1)
+    {
+        if (!m_bDocumentReady)
+        {
+            m_bDocumentReady = TRUE;
+            _LoadFirstOpenedMsg();
+        }
+    }
+
 	return S_OK;
 }
 
@@ -373,7 +423,8 @@ void SessionLayout::NewWindow2(VARIANT_BOOL *&Cancel, BSTR bstrUrl)
 	*Cancel = VARIANT_TRUE;
 	if (m_csTobeTranslateUrl.Find(_T("moguim/:history")) > -1
 		|| m_csTobeTranslateUrl.Find(_T("moguim/:chat2")) > -1
-		|| m_csTobeTranslateUrl.Find(_T("moguim/:playvoice"))>-1)
+		|| m_csTobeTranslateUrl.Find(_T("moguim/:playvoice"))>-1
+        || m_csTobeTranslateUrl.Find(_T("moguim/:documentcompleted")) > -1)
 		return;
 	module::getMiscModule()->asynOpenWebBrowser(m_csTobeTranslateUrl);
 }
@@ -535,5 +586,19 @@ void SessionLayout::OnSendImageCallback(std::shared_ptr<void> param)
 			return;
 		}
 	}
+}
+
+void SessionLayout::OnFinishScreenCapture(__in LPCTSTR lpFilePath)
+{
+    LOG__(APP, _T("ScreenShot Finish-->%s"), lpFilePath);
+    CxImage img;
+    img.Load(lpFilePath, CXIMAGE_SUPPORT_BMP);
+    HBITMAP hBitmap = img.MakeBitmap();
+    BITMAP bitmap;
+    GetObject(hBitmap, sizeof(BITMAP), (LPSTR)&bitmap);
+    SIZE bitmapSize = { bitmap.bmWidth, bitmap.bmHeight };
+
+    CString szImgPath(lpFilePath);
+    m_pInputRichEdit->InsertImage(szImgPath.GetBuffer(), bitmapSize, FALSE);
 }
 /******************************************************************************/

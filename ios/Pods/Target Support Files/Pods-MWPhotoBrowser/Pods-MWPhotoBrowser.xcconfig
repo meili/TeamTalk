@@ -1,1 +1,0 @@
-PODS_MWPHOTOBROWSER_OTHER_LDFLAGS = -framework "AssetsLibrary" -framework "ImageIO" -framework "MapKit" -framework "MessageUI" -framework "QuartzCore"

@@ -79,11 +79,10 @@ void CLoginConn::OnConnect2(net_handle_t handle, int conn_type)
 {
 	m_handle = handle;
 	m_conn_type = conn_type;
-
 	ConnMap_t* conn_map = &g_msg_serv_conn_map;
 	if (conn_type == LOGIN_CONN_TYPE_CLIENT) {
 		conn_map = &g_client_conn_map;
-	}
+	}else
 
 	conn_map->insert(make_pair(handle, this));
 

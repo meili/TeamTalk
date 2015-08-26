@@ -181,7 +181,13 @@ UInt32 ReceiveMsgManage::getTotalUnReadMsgCount()
 	for (auto itmap:m_mapSessionMsg)
 	{
 		const SessionMessage_List& msgList = itmap.second;
-		nTotalCount += msgList.size();
+        for (MessageEntity msg : msgList)
+        {
+            if (MESSAGE_RENDERTYPE_SYSTEMTIPS != msg.msgRenderType)
+            {
+                ++nTotalCount;
+            }
+        }
 	}
 	return nTotalCount;
 }

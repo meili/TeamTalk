@@ -37,6 +37,7 @@ private:
 	void _HandleUsersStatusResponse(CImPdu* pPdu);
     void _HandlePCLoginStatusNotify(CImPdu* pPdu);
     void _HandleRemoveSessionNotify(CImPdu* pPdu);
+    void _HandleSignInfoChangedNotify(CImPdu* pPdu);
 private:
 	bool 		m_bOpen;
 	uint32_t	m_serv_idx;

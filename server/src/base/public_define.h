@@ -138,6 +138,7 @@ typedef struct DBUserInfo_t
     string strTel;// 手机号码
     string strEmail;// Email
     string strAvatar;// 头像
+    string sign_info;//个性签名
     DBUserInfo_t& operator=(const DBUserInfo_t& rhs)
     {
         if(this != &rhs)
@@ -152,6 +153,7 @@ typedef struct DBUserInfo_t
             strTel = rhs.strTel;
             strEmail = rhs.strEmail;
             strAvatar = rhs.strAvatar;
+            sign_info = rhs.sign_info;
         }
         return *this;
     }

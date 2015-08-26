@@ -56,7 +56,6 @@ int main(int argc, char* argv[])
 	char* ip_addr2 = config_file.GetConfigName("IpAddr2");	// 网通IP
 	char* str_max_conn_cnt = config_file.GetConfigName("MaxConnCnt");
     char* str_aes_key = config_file.GetConfigName("aesKey");
-
 	uint32_t db_server_count = 0;
 	serv_info_t* db_server_list = read_server_config(&config_file, "DBServerIP", "DBServerPort", db_server_count);
 
@@ -73,13 +72,12 @@ int main(int argc, char* argv[])
     uint32_t file_server_count = 0;
     serv_info_t* file_server_list = read_server_config(&config_file, "FileServerIP",
                                                        "FileServerPort", file_server_count);
-
     
     if (!str_aes_key || strlen(str_aes_key)!=32) {
         log("aes key is invalied");
         return -1;
     }
-    
+ 
     pAes = new CAes(str_aes_key);
     
 	// 必须至少配置2个BusinessServer实例, 一个用于用户登录业务，一个用于其他业务

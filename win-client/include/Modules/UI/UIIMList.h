@@ -89,6 +89,7 @@ public:
 	void SetItemNormalHeight(const int nIMListItemNormalHeight);
 	Node* GetParentIdForAddNode(IN CDuiString sId);
 	void ExpandAll();
+    static void SetTextUICount(IN CControlUI* pCTextUI, IN UInt32 nCount);
 
 	/**@name MKO*/
 	//@{

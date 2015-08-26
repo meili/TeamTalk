@@ -705,3 +705,22 @@ void UIIMList::_updateCount(IN const UInt32 nCount, OUT CString& strContent)
 	strReplace.Format(_T("[%d]"), nCount);
 	strContent += strReplace;
 }
+
+void UIIMList::SetTextUICount(IN CControlUI* pCTextUI, IN UInt32 nCount)
+{
+    PTR_VOID(pCTextUI);
+    if (0 == nCount)//没有消息
+    {
+        pCTextUI->SetVisible(false);
+    }
+    else if (nCount <= 99)
+    {
+        pCTextUI->SetText(util::int32ToCString(nCount));
+        pCTextUI->SetVisible(true);
+    }
+    else if (nCount > 99)
+    {
+        pCTextUI->SetText(_T("99+"));
+        pCTextUI->SetVisible(true);
+    }
+}

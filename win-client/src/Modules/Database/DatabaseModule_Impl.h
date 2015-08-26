@@ -84,6 +84,12 @@ public:
 	virtual BOOL sqlGetHistoryMessage(IN const std::string& sId,const IN UInt32 msgId, IN UInt32 nMsgCount
 		, OUT std::vector<MessageEntity>& msgList);
 	//@}
+
+	/**@name 文件传输相关*/
+	//@{
+	virtual BOOL sqlInsertFileTransferHistory(IN TransferFileEntity& fileInfo);
+	virtual BOOL sqlGetFileTransferHistory(OUT std::vector<TransferFileEntity>& fileList);
+	//@}
 	
 private:
 	BOOL _startup();
@@ -95,6 +101,7 @@ private:
 	BOOL _execGroupInfoCreateTableDML();
 	BOOL _execImMessageCreateTableDML();
 	BOOL _execRecentSessionInfoCreateTableDML();
+	BOOL _execFileTransferHistoryTableDML();
 	std::string _makeJsonForGroupMembers(IN std::list<std::string> groupMemeberList);
 	void _parseJsonForGroupMembers(IN std::string strJson, OUT std::list<std::string>& groupMemeberList);
 

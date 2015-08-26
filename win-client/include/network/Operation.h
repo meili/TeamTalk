@@ -44,17 +44,18 @@ public:
     //@}
 
 public:
-	inline const char* name() const { return m_name; }
-
 	virtual void processOpertion() = 0;
 
 public:
 	virtual void process();
 	virtual void release();
 
+    inline std::string name() const { return m_name; }
+    inline void set_name(__in std::string name){ m_name = name; }
+
 private:
 	OperationState			m_state;
-	const char*				m_name;
+    std::string				m_name;
 };
 
 NAMESPACE_END(imcore)

@@ -9,6 +9,7 @@
 #include "Modules/IGroupListModule.h"
 #include "Modules/ISessionModule.h"
 #include "Modules/ISysConfigModule.h"
+#include "Modules/IFileTransferModule.h"
 #include "Modules/IMessageModule.h"
 #include "Modules/UI/MainListLayout.h"
 #include "Modules/UI/UIEAUserTreelist.h"
@@ -24,6 +25,7 @@
 #include "../SessionManager.h"
 #include "../../Message/ReceiveMsgManage.h"
 #include "../../Message/SendMsgManage.h"
+#include "../../FileTransfer/TransferManager.h"
 #include "ProtocolBuffer/IM.Message.pb.h"
 #include "ProtocolBuffer/IM.File.pb.h"
 #include "network/ImCore.h"
@@ -65,17 +67,17 @@ void MainListLayout::MKOForUserlistModuleCallback(const std::string& keyId, MKO_
 				,&imUnreadMsgCntReq);
 		});
 
-		////获取离线文件 todo
-		//imcore::IMLibCoreStartOperationWithLambda(
-		//	[]()
-		//{
-		//	LOG__(APP, _T("IMFileHasOfflineReq"));
-		//	IM::File::IMFileHasOfflineReq imFileHasOfflineReq;
-		//	imFileHasOfflineReq.set_user_id(module::getSysConfigModule()->userId());
-		//	module::getTcpClientModule()->sendPacket(IM::BaseDefine::ServiceID::SID_FILE
-		//		, IM::BaseDefine::FileCmdID::CID_FILE_HAS_OFFLINE_REQ
-		//		, &imFileHasOfflineReq);//获取个人会话离线文件
-		//});
+        //获取离线文件 todo
+        imcore::IMLibCoreStartOperationWithLambda(
+            []()
+        {
+            LOG__(APP, _T("IMFileHasOfflineReq"));
+            IM::File::IMFileHasOfflineReq imFileHasOfflineReq;
+            imFileHasOfflineReq.set_user_id(module::getSysConfigModule()->userId());
+            module::getTcpClientModule()->sendPacket(IM::BaseDefine::ServiceID::SID_FILE
+                , IM::BaseDefine::FileCmdID::CID_FILE_HAS_OFFLINE_REQ
+                , &imFileHasOfflineReq);//获取个人会话离线文件
+        });
 	}
 	else if (module::KEY_USERLIST_UPDATE_NEWUSESADDED == keyId)
 	{
@@ -284,6 +286,36 @@ void MainListLayout::MKOForSysConfigModuleCallback(const std::string& keyId, MKO
 	}
 }
 
+void MainListLayout::MKOForFileTransferModuleCallback(const std::string& keyId, MKO_TUPLE_PARAM mkoParam)
+{
+    std::string& sFileId = std::get<MKO_STRING>(mkoParam);
+    TransferFileEntity FileInfo;
+    if (!TransferFileEntityManager::getInstance()->getFileInfoByTaskId(sFileId, FileInfo))
+    {
+        LOG__(ERR, _T("can't get the fileInfo:%s"), util::stringToCString(sFileId));
+        return;
+    }
+
+    if (module::KEY_FILETRANSFER_REQUEST == keyId)
+    {
+        module::UserInfoEntity userInfo;
+        if (!module::getUserListModule()->getUserInfoBySId(FileInfo.sFromID, userInfo))
+        {
+            LOG__(ERR, _T("can't get the userInfo:%s"), util::stringToCString(FileInfo.sFromID));
+            return;
+        }
+        MessageEntity msg;
+        CString csTipFormat = util::getMultilingual()->getStringById(_T("STRID_FILETRANSFERDIALOG_SEND_TIP"));
+        CString csContent;
+        csContent.Format(csTipFormat, userInfo.getRealName(), FileInfo.getRealFileName());
+        msg.content = util::cStringToString(csContent);
+        msg.sessionId = FileInfo.sFromID;
+        msg.talkerSid = module::getSysConfigModule()->userID();
+        msg.msgRenderType = MESSAGE_RENDERTYPE_SYSTEMTIPS;
+        ReceiveMsgManage::getInstance()->pushMessageBySId(FileInfo.sFromID, msg);
+        module::getSessionModule()->asynNotifyObserver(module::KEY_SESSION_NEWMESSAGE, msg.sessionId);	//给你发送了文件
+    }
+}
 void MainListLayout::_CreatSessionDialog(IN UIIMList* pList, IN CControlUI* pMsgSender)
 {
 	if (nullptr == pList || pMsgSender == nullptr)
@@ -306,6 +338,9 @@ void MainListLayout::_CreatSessionDialog(IN UIIMList* pList, IN CControlUI* pMsg
 			m_UIRecentConnectedList->ClearItemMsgCount(sId);//清除显示的未读计数
 			m_GroupList->ClearItemMsgCount(sId);
 			m_EAuserTreelist->ClearItemMsgCount(sId);
+
+            //更新总未读计数
+            module::getSessionModule()->asynNotifyObserver(module::KEY_SESSION_UPDATE_TOTAL_UNREADMSG_COUNT);
 			//停止托盘闪烁
 			module::getSessionModule()->asynNotifyObserver(module::KEY_SESSION_TRAY_STOPEMOT);
 		}

@@ -34,6 +34,10 @@ void protobuf_ShutdownFile_IM_2eBuddy_2eproto() {
   delete IMRemoveSessionNotify::default_instance_;
   delete IMDepartmentReq::default_instance_;
   delete IMDepartmentRsp::default_instance_;
+  delete IMAvatarChangedNotify::default_instance_;
+  delete IMChangeSignInfoReq::default_instance_;
+  delete IMChangeSignInfoRsp::default_instance_;
+  delete IMSignInfoChangedNotify::default_instance_;
 }
 
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
@@ -66,6 +70,10 @@ void protobuf_AddDesc_IM_2eBuddy_2eproto() {
   IMRemoveSessionNotify::default_instance_ = new IMRemoveSessionNotify();
   IMDepartmentReq::default_instance_ = new IMDepartmentReq();
   IMDepartmentRsp::default_instance_ = new IMDepartmentRsp();
+  IMAvatarChangedNotify::default_instance_ = new IMAvatarChangedNotify();
+  IMChangeSignInfoReq::default_instance_ = new IMChangeSignInfoReq();
+  IMChangeSignInfoRsp::default_instance_ = new IMChangeSignInfoRsp();
+  IMSignInfoChangedNotify::default_instance_ = new IMSignInfoChangedNotify();
   IMRecentContactSessionReq::default_instance_->InitAsDefaultInstance();
   IMRecentContactSessionRsp::default_instance_->InitAsDefaultInstance();
   IMUserStatNotify::default_instance_->InitAsDefaultInstance();
@@ -83,6 +91,10 @@ void protobuf_AddDesc_IM_2eBuddy_2eproto() {
   IMRemoveSessionNotify::default_instance_->InitAsDefaultInstance();
   IMDepartmentReq::default_instance_->InitAsDefaultInstance();
   IMDepartmentRsp::default_instance_->InitAsDefaultInstance();
+  IMAvatarChangedNotify::default_instance_->InitAsDefaultInstance();
+  IMChangeSignInfoReq::default_instance_->InitAsDefaultInstance();
+  IMChangeSignInfoRsp::default_instance_->InitAsDefaultInstance();
+  IMSignInfoChangedNotify::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_IM_2eBuddy_2eproto);
 }
 
@@ -4853,6 +4865,1073 @@ void IMDepartmentRsp::Swap(IMDepartmentRsp* other) {
 
 ::std::string IMDepartmentRsp::GetTypeName() const {
   return "IM.Buddy.IMDepartmentRsp";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int IMAvatarChangedNotify::kChangedUserIdFieldNumber;
+const int IMAvatarChangedNotify::kAvatarUrlFieldNumber;
+#endif  // !_MSC_VER
+
+IMAvatarChangedNotify::IMAvatarChangedNotify()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:IM.Buddy.IMAvatarChangedNotify)
+}
+
+void IMAvatarChangedNotify::InitAsDefaultInstance() {
+}
+
+IMAvatarChangedNotify::IMAvatarChangedNotify(const IMAvatarChangedNotify& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:IM.Buddy.IMAvatarChangedNotify)
+}
+
+void IMAvatarChangedNotify::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  changed_user_id_ = 0u;
+  avatar_url_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+IMAvatarChangedNotify::~IMAvatarChangedNotify() {
+  // @@protoc_insertion_point(destructor:IM.Buddy.IMAvatarChangedNotify)
+  SharedDtor();
+}
+
+void IMAvatarChangedNotify::SharedDtor() {
+  if (avatar_url_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete avatar_url_;
+  }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void IMAvatarChangedNotify::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const IMAvatarChangedNotify& IMAvatarChangedNotify::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_IM_2eBuddy_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_IM_2eBuddy_2eproto();
+#endif
+  return *default_instance_;
+}
+
+IMAvatarChangedNotify* IMAvatarChangedNotify::default_instance_ = NULL;
+
+IMAvatarChangedNotify* IMAvatarChangedNotify::New() const {
+  return new IMAvatarChangedNotify;
+}
+
+void IMAvatarChangedNotify::Clear() {
+  if (_has_bits_[0 / 32] & 3) {
+    changed_user_id_ = 0u;
+    if (has_avatar_url()) {
+      if (avatar_url_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        avatar_url_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->clear();
+}
+
+bool IMAvatarChangedNotify::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
+  // @@protoc_insertion_point(parse_start:IM.Buddy.IMAvatarChangedNotify)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 changed_user_id = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &changed_user_id_)));
+          set_has_changed_user_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_avatar_url;
+        break;
+      }
+
+      // required string avatar_url = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_avatar_url:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_avatar_url()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:IM.Buddy.IMAvatarChangedNotify)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:IM.Buddy.IMAvatarChangedNotify)
+  return false;
+#undef DO_
+}
+
+void IMAvatarChangedNotify::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:IM.Buddy.IMAvatarChangedNotify)
+  // required uint32 changed_user_id = 1;
+  if (has_changed_user_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->changed_user_id(), output);
+  }
+
+  // required string avatar_url = 2;
+  if (has_avatar_url()) {
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->avatar_url(), output);
+  }
+
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
+  // @@protoc_insertion_point(serialize_end:IM.Buddy.IMAvatarChangedNotify)
+}
+
+int IMAvatarChangedNotify::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 changed_user_id = 1;
+    if (has_changed_user_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->changed_user_id());
+    }
+
+    // required string avatar_url = 2;
+    if (has_avatar_url()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->avatar_url());
+    }
+
+  }
+  total_size += unknown_fields().size();
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void IMAvatarChangedNotify::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const IMAvatarChangedNotify*>(&from));
+}
+
+void IMAvatarChangedNotify::MergeFrom(const IMAvatarChangedNotify& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_changed_user_id()) {
+      set_changed_user_id(from.changed_user_id());
+    }
+    if (from.has_avatar_url()) {
+      set_avatar_url(from.avatar_url());
+    }
+  }
+  mutable_unknown_fields()->append(from.unknown_fields());
+}
+
+void IMAvatarChangedNotify::CopyFrom(const IMAvatarChangedNotify& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool IMAvatarChangedNotify::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void IMAvatarChangedNotify::Swap(IMAvatarChangedNotify* other) {
+  if (other != this) {
+    std::swap(changed_user_id_, other->changed_user_id_);
+    std::swap(avatar_url_, other->avatar_url_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.swap(other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string IMAvatarChangedNotify::GetTypeName() const {
+  return "IM.Buddy.IMAvatarChangedNotify";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int IMChangeSignInfoReq::kUserIdFieldNumber;
+const int IMChangeSignInfoReq::kSignInfoFieldNumber;
+const int IMChangeSignInfoReq::kAttachDataFieldNumber;
+#endif  // !_MSC_VER
+
+IMChangeSignInfoReq::IMChangeSignInfoReq()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:IM.Buddy.IMChangeSignInfoReq)
+}
+
+void IMChangeSignInfoReq::InitAsDefaultInstance() {
+}
+
+IMChangeSignInfoReq::IMChangeSignInfoReq(const IMChangeSignInfoReq& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:IM.Buddy.IMChangeSignInfoReq)
+}
+
+void IMChangeSignInfoReq::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  user_id_ = 0u;
+  sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  attach_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+IMChangeSignInfoReq::~IMChangeSignInfoReq() {
+  // @@protoc_insertion_point(destructor:IM.Buddy.IMChangeSignInfoReq)
+  SharedDtor();
+}
+
+void IMChangeSignInfoReq::SharedDtor() {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sign_info_;
+  }
+  if (attach_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete attach_data_;
+  }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void IMChangeSignInfoReq::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const IMChangeSignInfoReq& IMChangeSignInfoReq::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_IM_2eBuddy_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_IM_2eBuddy_2eproto();
+#endif
+  return *default_instance_;
+}
+
+IMChangeSignInfoReq* IMChangeSignInfoReq::default_instance_ = NULL;
+
+IMChangeSignInfoReq* IMChangeSignInfoReq::New() const {
+  return new IMChangeSignInfoReq;
+}
+
+void IMChangeSignInfoReq::Clear() {
+  if (_has_bits_[0 / 32] & 7) {
+    user_id_ = 0u;
+    if (has_sign_info()) {
+      if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        sign_info_->clear();
+      }
+    }
+    if (has_attach_data()) {
+      if (attach_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        attach_data_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->clear();
+}
+
+bool IMChangeSignInfoReq::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
+  // @@protoc_insertion_point(parse_start:IM.Buddy.IMChangeSignInfoReq)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(16383);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 user_id = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &user_id_)));
+          set_has_user_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_sign_info;
+        break;
+      }
+
+      // required string sign_info = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_sign_info:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign_info()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(162)) goto parse_attach_data;
+        break;
+      }
+
+      // optional bytes attach_data = 20;
+      case 20: {
+        if (tag == 162) {
+         parse_attach_data:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_attach_data()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:IM.Buddy.IMChangeSignInfoReq)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:IM.Buddy.IMChangeSignInfoReq)
+  return false;
+#undef DO_
+}
+
+void IMChangeSignInfoReq::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:IM.Buddy.IMChangeSignInfoReq)
+  // required uint32 user_id = 1;
+  if (has_user_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->user_id(), output);
+  }
+
+  // required string sign_info = 2;
+  if (has_sign_info()) {
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->sign_info(), output);
+  }
+
+  // optional bytes attach_data = 20;
+  if (has_attach_data()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      20, this->attach_data(), output);
+  }
+
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
+  // @@protoc_insertion_point(serialize_end:IM.Buddy.IMChangeSignInfoReq)
+}
+
+int IMChangeSignInfoReq::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 user_id = 1;
+    if (has_user_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->user_id());
+    }
+
+    // required string sign_info = 2;
+    if (has_sign_info()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sign_info());
+    }
+
+    // optional bytes attach_data = 20;
+    if (has_attach_data()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->attach_data());
+    }
+
+  }
+  total_size += unknown_fields().size();
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void IMChangeSignInfoReq::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const IMChangeSignInfoReq*>(&from));
+}
+
+void IMChangeSignInfoReq::MergeFrom(const IMChangeSignInfoReq& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_user_id()) {
+      set_user_id(from.user_id());
+    }
+    if (from.has_sign_info()) {
+      set_sign_info(from.sign_info());
+    }
+    if (from.has_attach_data()) {
+      set_attach_data(from.attach_data());
+    }
+  }
+  mutable_unknown_fields()->append(from.unknown_fields());
+}
+
+void IMChangeSignInfoReq::CopyFrom(const IMChangeSignInfoReq& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool IMChangeSignInfoReq::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void IMChangeSignInfoReq::Swap(IMChangeSignInfoReq* other) {
+  if (other != this) {
+    std::swap(user_id_, other->user_id_);
+    std::swap(sign_info_, other->sign_info_);
+    std::swap(attach_data_, other->attach_data_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.swap(other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string IMChangeSignInfoReq::GetTypeName() const {
+  return "IM.Buddy.IMChangeSignInfoReq";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int IMChangeSignInfoRsp::kUserIdFieldNumber;
+const int IMChangeSignInfoRsp::kResultCodeFieldNumber;
+const int IMChangeSignInfoRsp::kSignInfoFieldNumber;
+const int IMChangeSignInfoRsp::kAttachDataFieldNumber;
+#endif  // !_MSC_VER
+
+IMChangeSignInfoRsp::IMChangeSignInfoRsp()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:IM.Buddy.IMChangeSignInfoRsp)
+}
+
+void IMChangeSignInfoRsp::InitAsDefaultInstance() {
+}
+
+IMChangeSignInfoRsp::IMChangeSignInfoRsp(const IMChangeSignInfoRsp& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:IM.Buddy.IMChangeSignInfoRsp)
+}
+
+void IMChangeSignInfoRsp::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  user_id_ = 0u;
+  result_code_ = 0u;
+  sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  attach_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+IMChangeSignInfoRsp::~IMChangeSignInfoRsp() {
+  // @@protoc_insertion_point(destructor:IM.Buddy.IMChangeSignInfoRsp)
+  SharedDtor();
+}
+
+void IMChangeSignInfoRsp::SharedDtor() {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sign_info_;
+  }
+  if (attach_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete attach_data_;
+  }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void IMChangeSignInfoRsp::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const IMChangeSignInfoRsp& IMChangeSignInfoRsp::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_IM_2eBuddy_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_IM_2eBuddy_2eproto();
+#endif
+  return *default_instance_;
+}
+
+IMChangeSignInfoRsp* IMChangeSignInfoRsp::default_instance_ = NULL;
+
+IMChangeSignInfoRsp* IMChangeSignInfoRsp::New() const {
+  return new IMChangeSignInfoRsp;
+}
+
+void IMChangeSignInfoRsp::Clear() {
+#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
+  &reinterpret_cast<IMChangeSignInfoRsp*>(16)->f) - \
+   reinterpret_cast<char*>(16))
+
+#define ZR_(first, last) do {                              \
+    size_t f = OFFSET_OF_FIELD_(first);                    \
+    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
+    ::memset(&first, 0, n);                                \
+  } while (0)
+
+  if (_has_bits_[0 / 32] & 15) {
+    ZR_(user_id_, result_code_);
+    if (has_sign_info()) {
+      if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        sign_info_->clear();
+      }
+    }
+    if (has_attach_data()) {
+      if (attach_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        attach_data_->clear();
+      }
+    }
+  }
+
+#undef OFFSET_OF_FIELD_
+#undef ZR_
+
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->clear();
+}
+
+bool IMChangeSignInfoRsp::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
+  // @@protoc_insertion_point(parse_start:IM.Buddy.IMChangeSignInfoRsp)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(16383);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 user_id = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &user_id_)));
+          set_has_user_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_result_code;
+        break;
+      }
+
+      // required uint32 result_code = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_result_code:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &result_code_)));
+          set_has_result_code();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(26)) goto parse_sign_info;
+        break;
+      }
+
+      // optional string sign_info = 3;
+      case 3: {
+        if (tag == 26) {
+         parse_sign_info:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign_info()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(162)) goto parse_attach_data;
+        break;
+      }
+
+      // optional bytes attach_data = 20;
+      case 20: {
+        if (tag == 162) {
+         parse_attach_data:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_attach_data()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:IM.Buddy.IMChangeSignInfoRsp)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:IM.Buddy.IMChangeSignInfoRsp)
+  return false;
+#undef DO_
+}
+
+void IMChangeSignInfoRsp::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:IM.Buddy.IMChangeSignInfoRsp)
+  // required uint32 user_id = 1;
+  if (has_user_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->user_id(), output);
+  }
+
+  // required uint32 result_code = 2;
+  if (has_result_code()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->result_code(), output);
+  }
+
+  // optional string sign_info = 3;
+  if (has_sign_info()) {
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->sign_info(), output);
+  }
+
+  // optional bytes attach_data = 20;
+  if (has_attach_data()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      20, this->attach_data(), output);
+  }
+
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
+  // @@protoc_insertion_point(serialize_end:IM.Buddy.IMChangeSignInfoRsp)
+}
+
+int IMChangeSignInfoRsp::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 user_id = 1;
+    if (has_user_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->user_id());
+    }
+
+    // required uint32 result_code = 2;
+    if (has_result_code()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->result_code());
+    }
+
+    // optional string sign_info = 3;
+    if (has_sign_info()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sign_info());
+    }
+
+    // optional bytes attach_data = 20;
+    if (has_attach_data()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->attach_data());
+    }
+
+  }
+  total_size += unknown_fields().size();
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void IMChangeSignInfoRsp::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const IMChangeSignInfoRsp*>(&from));
+}
+
+void IMChangeSignInfoRsp::MergeFrom(const IMChangeSignInfoRsp& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_user_id()) {
+      set_user_id(from.user_id());
+    }
+    if (from.has_result_code()) {
+      set_result_code(from.result_code());
+    }
+    if (from.has_sign_info()) {
+      set_sign_info(from.sign_info());
+    }
+    if (from.has_attach_data()) {
+      set_attach_data(from.attach_data());
+    }
+  }
+  mutable_unknown_fields()->append(from.unknown_fields());
+}
+
+void IMChangeSignInfoRsp::CopyFrom(const IMChangeSignInfoRsp& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool IMChangeSignInfoRsp::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void IMChangeSignInfoRsp::Swap(IMChangeSignInfoRsp* other) {
+  if (other != this) {
+    std::swap(user_id_, other->user_id_);
+    std::swap(result_code_, other->result_code_);
+    std::swap(sign_info_, other->sign_info_);
+    std::swap(attach_data_, other->attach_data_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.swap(other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string IMChangeSignInfoRsp::GetTypeName() const {
+  return "IM.Buddy.IMChangeSignInfoRsp";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int IMSignInfoChangedNotify::kChangedUserIdFieldNumber;
+const int IMSignInfoChangedNotify::kSignInfoFieldNumber;
+#endif  // !_MSC_VER
+
+IMSignInfoChangedNotify::IMSignInfoChangedNotify()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:IM.Buddy.IMSignInfoChangedNotify)
+}
+
+void IMSignInfoChangedNotify::InitAsDefaultInstance() {
+}
+
+IMSignInfoChangedNotify::IMSignInfoChangedNotify(const IMSignInfoChangedNotify& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:IM.Buddy.IMSignInfoChangedNotify)
+}
+
+void IMSignInfoChangedNotify::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  changed_user_id_ = 0u;
+  sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+IMSignInfoChangedNotify::~IMSignInfoChangedNotify() {
+  // @@protoc_insertion_point(destructor:IM.Buddy.IMSignInfoChangedNotify)
+  SharedDtor();
+}
+
+void IMSignInfoChangedNotify::SharedDtor() {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sign_info_;
+  }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void IMSignInfoChangedNotify::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const IMSignInfoChangedNotify& IMSignInfoChangedNotify::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_IM_2eBuddy_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_IM_2eBuddy_2eproto();
+#endif
+  return *default_instance_;
+}
+
+IMSignInfoChangedNotify* IMSignInfoChangedNotify::default_instance_ = NULL;
+
+IMSignInfoChangedNotify* IMSignInfoChangedNotify::New() const {
+  return new IMSignInfoChangedNotify;
+}
+
+void IMSignInfoChangedNotify::Clear() {
+  if (_has_bits_[0 / 32] & 3) {
+    changed_user_id_ = 0u;
+    if (has_sign_info()) {
+      if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        sign_info_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->clear();
+}
+
+bool IMSignInfoChangedNotify::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
+  // @@protoc_insertion_point(parse_start:IM.Buddy.IMSignInfoChangedNotify)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 changed_user_id = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &changed_user_id_)));
+          set_has_changed_user_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_sign_info;
+        break;
+      }
+
+      // required string sign_info = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_sign_info:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign_info()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:IM.Buddy.IMSignInfoChangedNotify)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:IM.Buddy.IMSignInfoChangedNotify)
+  return false;
+#undef DO_
+}
+
+void IMSignInfoChangedNotify::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:IM.Buddy.IMSignInfoChangedNotify)
+  // required uint32 changed_user_id = 1;
+  if (has_changed_user_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->changed_user_id(), output);
+  }
+
+  // required string sign_info = 2;
+  if (has_sign_info()) {
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->sign_info(), output);
+  }
+
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
+  // @@protoc_insertion_point(serialize_end:IM.Buddy.IMSignInfoChangedNotify)
+}
+
+int IMSignInfoChangedNotify::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 changed_user_id = 1;
+    if (has_changed_user_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->changed_user_id());
+    }
+
+    // required string sign_info = 2;
+    if (has_sign_info()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sign_info());
+    }
+
+  }
+  total_size += unknown_fields().size();
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void IMSignInfoChangedNotify::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const IMSignInfoChangedNotify*>(&from));
+}
+
+void IMSignInfoChangedNotify::MergeFrom(const IMSignInfoChangedNotify& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_changed_user_id()) {
+      set_changed_user_id(from.changed_user_id());
+    }
+    if (from.has_sign_info()) {
+      set_sign_info(from.sign_info());
+    }
+  }
+  mutable_unknown_fields()->append(from.unknown_fields());
+}
+
+void IMSignInfoChangedNotify::CopyFrom(const IMSignInfoChangedNotify& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool IMSignInfoChangedNotify::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void IMSignInfoChangedNotify::Swap(IMSignInfoChangedNotify* other) {
+  if (other != this) {
+    std::swap(changed_user_id_, other->changed_user_id_);
+    std::swap(sign_info_, other->sign_info_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.swap(other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string IMSignInfoChangedNotify::GetTypeName() const {
+  return "IM.Buddy.IMSignInfoChangedNotify";
 }
 
 

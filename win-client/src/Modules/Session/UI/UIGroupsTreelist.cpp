@@ -267,22 +267,7 @@ BOOL CGroupsTreelistUI::UpdateItemBySId(const std::string& sId)
 			return FALSE;
 		}
 		UInt32 nCnt = ReceiveMsgManage::getInstance()->getUnReadMsgCountBySId(sId);
-		if (0 == nCnt)
-		{
-			Unreadcnt_button->SetVisible(false);
-			//没有消息不用更新
-			return FALSE;
-		}
-		else if (nCnt <= 99)
-		{
-			Unreadcnt_button->SetText(util::int32ToCString(nCnt));
-			Unreadcnt_button->SetVisible(true);
-		}
-		else if (nCnt > 99)
-		{
-			Unreadcnt_button->SetText(_T("99+"));
-			Unreadcnt_button->SetVisible(true);
-		}
+        SetTextUICount(Unreadcnt_button, nCnt);
 	}
 
 	return TRUE;

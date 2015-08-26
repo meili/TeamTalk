@@ -1,1 +1,0 @@
-../../../MWPhotoBrowser/MWPhotoBrowser/Classes/MWPhotoBrowserPrivate.h

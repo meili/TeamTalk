@@ -28,6 +28,7 @@ CProxyTask::~CProxyTask()
 
 void CProxyTask::run()
 {
+
 	if (!m_pPdu) {
 		// tell CProxyConn to close connection with m_conn_uuid
 		CProxyConn::AddResponsePdu(m_conn_uuid, NULL);

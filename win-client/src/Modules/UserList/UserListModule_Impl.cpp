@@ -70,6 +70,15 @@ void UserListModule_Impl::onPacket(imcore::TTPBHeader& header, std::string& pbBo
 	case IM::BaseDefine::CID_BUDDY_LIST_DEPARTMENT_RESPONSE:
 		_departmentResponse(pbBody);
 		break;
+    case IM::BaseDefine::BuddyListCmdID::CID_BUDDY_LIST_AVATAR_CHANGED_NOTIFY:
+        _avatarChangeNotify(pbBody);
+        break;
+    case IM::BaseDefine::BuddyListCmdID::CID_BUDDY_LIST_CHANGE_SIGN_INFO_RESPONSE:
+        _changeSignInfoResponse(pbBody);
+        break;
+    case IM::BaseDefine::BuddyListCmdID::CID_BUDDY_LIST_SIGN_INFO_CHANGED_NOTIFY:
+        _signInfoChangedNotify(pbBody);
+        break;
 	default:
 		LOG__(ERR, _T("Unknow commandID:%d"), header.getCommandId());
 		return;
@@ -105,6 +114,7 @@ void UserListModule_Impl::_allUserlistResponse(IN string& pbBody)
 			userInfoEntity.user_domain = userInfo.user_domain();
 			userInfoEntity.telephone = userInfo.user_tel();
 			userInfoEntity.status = userInfo.status();
+            userInfoEntity.signature = userInfo.sign_info();
 			if (userInfoEntity.sId != module::getSysConfigModule()->userID())
 			{
 				CAutoLock lock(&m_lock);
@@ -267,6 +277,17 @@ void UserListModule_Impl::_recentlistResponse(IN string& pbBody)//最近联系人群信
 		if (recentSessionInfo.updatedTime > Globaltime)
 		{
 			module::getSessionModule()->setGlobalUpdateTime(recentSessionInfo.updatedTime);
+            //如果是讨论组的话，需要更新讨论组的信息
+            if (IM::BaseDefine::SessionType::SESSION_TYPE_GROUP == recentSessionInfo.sessionType)
+            {
+                LOG__(APP, _T("discs group update:%d"), contactSessionInfo.session_id());
+                module::GroupInfoEntity groupInfo;
+                if (module::getGroupListModule()->getGroupInfoBySId(recentSessionInfo.sessionID, groupInfo)
+                    && groupInfo.type == 2)
+                {
+                    module::getGroupListModule()->tcpGetGroupInfo(util::uint32ToString(contactSessionInfo.session_id()));
+                }
+            }
 		}
 		module::getSessionModule()->setSessionEntity(recentSessionInfo);
 		vecSessionEntities.push_back(recentSessionInfo);
@@ -318,6 +339,7 @@ void UserListModule_Impl::_usersInfoResponse(IN string& pbBody)
 		userInfoEntity.user_domain = userInfo.user_domain();
 		userInfoEntity.telephone = userInfo.user_tel();
 		userInfoEntity.status = userInfo.status();
+        userInfoEntity.signature = userInfo.sign_info();//个性签名
 		if (userInfoEntity.sId != module::getSysConfigModule()->userID())
 		{
 			CAutoLock lock(&m_lock);
@@ -805,8 +827,109 @@ std::string UserListModule_Impl::randomGetUser(void)
 }
 
 
+void UserListModule_Impl::_changeSignInfoResponse(IN std::string& pbBody)
+{
+    IM::Buddy::IMChangeSignInfoRsp imChangeSignInfoRsp;
+    if (!imChangeSignInfoRsp.ParseFromString(pbBody))
+    {
+        LOG__(ERR, _T("ParseFromString failed:%s"), util::stringToCString(pbBody));
+        return;
+    }
+    if (0 != imChangeSignInfoRsp.result_code())
+    {
+        LOG__(ERR, _T("result_code isn't succeed:%d"), imChangeSignInfoRsp.result_code());
+        module::getUserListModule()->asynNotifyObserver(module::KEY_USERLIST_USERSIGNINFO_CHANGED
+            , module::getSysConfigModule()->userID());//修改失败？
+        return;
+    }
+    std::string sid = util::uint32ToString(imChangeSignInfoRsp.user_id());
+    std::string sSignInfo = imChangeSignInfoRsp.sign_info();
+    LOG__(APP, _T("IMChangeSignInfoRsp,sid = %s,SignInfo=%s")
+        , util::stringToCString(sid), util::stringToCString(sSignInfo));
+    module::UserInfoEntity userInfo;
+    if (!getUserInfoBySId(sid, userInfo))
+    {
+        LOG__(DEBG, _T("Can't find the sid"));
+        return;
+    }
+    {
+        CAutoLock lock(&m_lock);
+        userInfo.signature = sSignInfo;
+        m_mapUsers[userInfo.sId] = userInfo;
+    }
+    module::getUserListModule()->asynNotifyObserver(module::KEY_USERLIST_USERSIGNINFO_CHANGED, sid);
+}
+void UserListModule_Impl::_avatarChangeNotify(IN std::string& pbBody)//修改头像签名通知
+{
+    IM::Buddy::IMAvatarChangedNotify imAvatarChangedNotify;
+    if (!imAvatarChangedNotify.ParseFromString(pbBody))
+    {
+        LOG__(ERR, _T("ParseFromString failed:%s"), util::stringToCString(pbBody));
+        return;
+    }
+    std::string sid = util::uint32ToString(imAvatarChangedNotify.changed_user_id());
+    std::string sAvatarUrl = imAvatarChangedNotify.avatar_url();
+    LOG__(APP, _T("IMAvatarChangedNotify,sid = %s,sAvatarUrl=%s")
+        , util::stringToCString(sid), util::stringToCString(sAvatarUrl));
+    module::UserInfoEntity userInfo;
+    if (!getUserInfoBySId(sid, userInfo))
+    {
+        LOG__(DEBG, _T("Can't find the sid"));
+        return;
+    }
+    {
+        CAutoLock lock(&m_lock);
+        userInfo.avatarUrl = sAvatarUrl;
+        m_mapUsers[userInfo.sId] = userInfo;
+    }
+    _downloadAvatarImgBySId(sid);//下载头像
+}
+void UserListModule_Impl::_signInfoChangedNotify(IN std::string& pbBody)//修改个性签名通知
+{
+    IM::Buddy::IMSignInfoChangedNotify imSignInfoChangedNotify;
+    if (!imSignInfoChangedNotify.ParseFromString(pbBody))
+    {
+        LOG__(ERR, _T("ParseFromString failed:%s"), util::stringToCString(pbBody));
+        return;
+    }
 
+    std::string sid = util::uint32ToString(imSignInfoChangedNotify.changed_user_id());
+    std::string sSignInfo = imSignInfoChangedNotify.sign_info();
+    LOG__(APP, _T("IMSignInfoChangedNotify,sid = %s,sSignInfo=%s")
+        , util::stringToCString(sid), util::stringToCString(sSignInfo));
+    module::UserInfoEntity userInfo;
+    if (!getUserInfoBySId(sid, userInfo))
+    {
+        LOG__(DEBG, _T("Can't find the sid"));
+        return;
+    }
+    {
+        CAutoLock lock(&m_lock);
+        userInfo.signature = sSignInfo;
+        m_mapUsers[userInfo.sId] = userInfo;
+    }
+    module::getUserListModule()->asynNotifyObserver(module::KEY_USERLIST_USERSIGNINFO_CHANGED, sid);
+}
+void UserListModule_Impl::tcpChangeMySignInfo(IN const std::string sSignInfo)
+{
+    if (sSignInfo.empty())//空的，是取消签名
+    {
+        LOG__(APP, _T("sSignInfo empty"));
+    }
+    imcore::IMLibCoreStartOperationWithLambda(
+        [=]()
+    {
+        IM::Buddy::IMChangeSignInfoReq imChangeSignInfoReq;
+        imChangeSignInfoReq.set_user_id(module::getSysConfigModule()->userId());
+        imChangeSignInfoReq.set_sign_info(sSignInfo);
 
+        LOG__(APP, _T("IMChangeSignInfoReq:%s"), util::stringToCString(sSignInfo));
+        module::getTcpClientModule()->sendPacket(IM::BaseDefine::ServiceID::SID_BUDDY_LIST
+            , IM::BaseDefine::BuddyListCmdID::CID_BUDDY_LIST_CHANGE_SIGN_INFO_REQUEST
+            , &imChangeSignInfoReq);
+    }
+    );
+}
 
 
 /******************************************************************************/

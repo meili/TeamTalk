@@ -8,8 +8,8 @@
 	<MenuElement name="SysSettingMenuItem" text="系统设置" />
 	<MenuElement name="LogDir" text="打开日志目录" />
 	<MenuElement name="inner" text="打开内网"  visible="false" bkimage="file='menu/inner.png' source='0,0,15,15' dest='5,5,20,20'"/>
-	<MenuElement name="serverAddressSetting" text="服务器地址配置"  visible="true"/>	
-    <MenuElement name="showFileTransferDialog" text="文件传输管理器"  visible="false" />    
+	<MenuElement name="serverAddressSetting" text="服务器地址配置"  />	
+    <MenuElement name="showFileTransferDialog" text="文件传输管理器"  />    
 	<MenuElement name="exitMenuItem" text="退出" />
   </Menu>
 </Window>

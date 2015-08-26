@@ -9,6 +9,7 @@
 #include "Modules/IMessageModule.h"
 #include "Modules/IUserListModule.h"
 #include "UIIMEdit.h"
+#include "Modules/IScreenCaptureModule.h"
 #include "Modules/ITcpClientModule.h"
 #include "utility/utilStrCodingAPI.h"
 
@@ -47,6 +48,7 @@ SessionDialog::SessionDialog(const std::string& sId)
 , m_pTxtName(nullptr)
 , m_pBtnMax(nullptr)
 , m_pBtnRestore(nullptr)
+, m_pEditSignature(nullptr)
 {
 }
 
@@ -57,6 +59,7 @@ SessionDialog::~SessionDialog()
 	module::getLoginModule()->removeObserver(this);
 	module::getUserListModule()->removeObserver(this);
 	module::getTcpClientModule()->removeObserver(this);
+    module::getScreenCaptureModule()->removeObserver(this);
 }
 
 LPCTSTR SessionDialog::GetWindowClassName() const
@@ -140,6 +143,15 @@ void SessionDialog::OnWindowInitialized(TNotifyUI& msg)
 	PTR_VOID(m_pBtnAvatar);
 	m_pBtnAvatar->SetBkImage(util::stringToCString(pSessionInfo->getAvatarPath()));
 
+    //群的话，获取下人数
+    if (module::SESSION_GROUPTYPE == pSessionInfo->sessionType)
+    {
+        if (m_pSessionLayout)
+        {
+            m_pBtnAvatar->SetToolTip(util::int32ToCString(m_pSessionLayout->GetGroupItemCnt()) + _T("人"));
+        }
+    }
+
 	m_pBtnMax = (CButtonUI*)m_PaintManager.FindControl(_T("maxbtn"));
 	PTR_VOID(m_pBtnMax);
 	m_pBtnRestore = (CButtonUI*)m_PaintManager.FindControl(_T("restorebtn"));
@@ -153,11 +165,17 @@ void SessionDialog::OnWindowInitialized(TNotifyUI& msg)
 	m_pWritingStatus = (CTextUI*)m_PaintManager.FindControl(_T("writingStatus"));
 	PTR_VOID(m_pWritingStatus);
 
+    m_pEditSignature = (CEditUI*)m_PaintManager.FindControl(_T("userSignature"));
+    PTR_VOID(m_pEditSignature);
+
+    _FreshSignature();//更新头像
+
 	module::getSessionModule()->addObserver(this, BIND_CALLBACK_2(SessionDialog::MKOForSessionModuleCallback));
 	module::getSysConfigModule()->addObserver(this, BIND_CALLBACK_2(SessionDialog::MKOForSysConfigModuleCallback));
 	module::getLoginModule()->addObserver(this, BIND_CALLBACK_2(SessionDialog::MKOForLoginModuleCallback));
 	module::getUserListModule()->addObserver(this, BIND_CALLBACK_2(SessionDialog::MKOForUserListModuleCallback));
 	module::getTcpClientModule()->addObserver(this, BIND_CALLBACK_2(SessionDialog::MKOForTcpClientModuleCallback));
+    module::getScreenCaptureModule()->addObserver(this, BIND_CALLBACK_2(SessionDialog::MKOForScreenCaptureModuleCallback));
 }
 
 void SessionDialog::Notify(TNotifyUI& msg)
@@ -329,6 +347,35 @@ void SessionDialog::MKOForUserListModuleCallback(const std::string& keyId, MKO_T
 			m_pSessionLayout->FreshGroupMemberAvatar(sId);
 		}
 	}
+    else if (module::KEY_USERLIST_USERSIGNINFO_CHANGED == keyId)
+    {
+        //更新个性签名
+        std::string& sId = std::get<MKO_STRING>(mkoParam);
+        if (sId != m_sId)
+        {
+            return;
+        }
+        _FreshSignature();
+    }
+}
+
+void SessionDialog::MKOForScreenCaptureModuleCallback(const std::string& keyId, MKO_TUPLE_PARAM mkoParam)
+{
+    std::string strImgPath = std::get<MKO_STRING>(mkoParam);
+
+    //检查当前窗口是不是最上层的窗口，如果是最上层的，则插入图片
+    for (HWND hWnd = GetTopWindow(NULL); NULL != hWnd; hWnd = GetWindow(hWnd, GW_HWNDNEXT))
+    {
+        wchar_t szClsName[MAX_PATH] = { 0 };
+        GetClassName(hWnd, szClsName, MAX_PATH);
+        if (!_wcsicmp(szClsName, L"SessionDialog"))
+        {
+            if (m_hWnd == hWnd)
+                m_pSessionLayout->OnFinishScreenCapture(util::s2ws(strImgPath).c_str());
+
+            break;
+        }
+    }
 }
 
 BOOL SessionDialog::StopPlayingAnimate(std::string& sAudioPlayingID)
@@ -370,6 +417,16 @@ LRESULT SessionDialog::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BO
 {
 	//SendMessage(WM_NCLBUTTONDOWN, HTCAPTION, lParam);
 	return __super::OnLButtonDown(uMsg,wParam,lParam,bHandled);
+}
+void SessionDialog::_FreshSignature(void)
+{
+    PTR_VOID(m_pEditSignature);
+    module::UserInfoEntity userInfo;
+    if (module::getUserListModule()->getUserInfoBySId(m_sId, userInfo))
+    {
+        m_pEditSignature->SetText(util::stringToCString(userInfo.signature));
+        m_pEditSignature->SetToolTip(util::stringToCString(userInfo.signature));
+    }
 }
 
 

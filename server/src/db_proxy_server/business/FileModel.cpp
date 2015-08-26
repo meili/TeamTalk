@@ -46,7 +46,7 @@ void CFileModel::getOfflineFile(uint32_t userId, list<IM::BaseDefine::OfflineFil
                 IM::BaseDefine::OfflineFileInfo offlineFile;
                 offlineFile.set_from_user_id(pResultSet->GetInt("fromId"));
                 offlineFile.set_task_id(pResultSet->GetString("taskId"));
-                offlineFile.set_file_name(pResultSet->GetString("path"));
+                offlineFile.set_file_name(pResultSet->GetString("fileName"));
                 offlineFile.set_file_size(pResultSet->GetInt("size"));
                 lsOffline.push_back(offlineFile);
             }

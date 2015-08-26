@@ -26,7 +26,7 @@ namespace
 		"    [user_domain]					TEXT DEFAULT NULL,"						//9.用户花名拼音
 		"    [telephone]					TEXT DEFAULT NULL,"						//10.电话
 		"    [status]						INTEGER DEFAULT 0,"						//11:在职  3:离职
-		"    [reserve1]                     TEXT DEFAULT NULL,"
+        "    [reserve1]                     TEXT DEFAULT NULL,"                     //12:个性签名
 		"    [reserve2]                     INTEGER DEFAULT NULL,"
 		"    [reserve3]                     INTEGER DEFAULT NULL"
 		");";
@@ -37,10 +37,10 @@ namespace
 	const std::string getUserInfoBySIdSql
 		= "select * from userinfo where userId=? limit 1";
 	const std::string insertUserInfoSql
-		= "INSERT OR REPLACE into userinfo(userId,name,nickName,avatarUrl,departmentId,departmentName,email,gender,user_domain,telephone,status) "
-		"VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+		= "INSERT OR REPLACE into userinfo(userId,name,nickName,avatarUrl,departmentId,departmentName,email,gender,user_domain,telephone,status,reserve1) "
+		"VALUES(?,?,?,?,?,?,?,?,?,?,?,?);";
 	const std::string updateUserInfoBySIdSql
-		= "update userinfo set name=?,nickName=?,avatarUrl=?,departmentId=?,departmentName=?,email=?,gender=?,user_domain=?,telephone=?,status=? where userId=?";
+		= "update userinfo set name=?,nickName=?,avatarUrl=?,departmentId=?,departmentName=?,email=?,gender=?,user_domain=?,telephone=?,status=?,reserve1=? where userId=?";
 	const std::string BeginInsert
 		= "BEGIN TRANSACTION;";
 	const std::string EndInsert
@@ -64,7 +64,8 @@ BOOL DatabaseModule_Impl::sqlUpdateUserInfoEntity(std::string& sId, IN const mod
 		stmt.bind(8, userInfo.user_domain.c_str());
 		stmt.bind(9, userInfo.telephone.c_str());
 		stmt.bind(10, (int)userInfo.status);
-		stmt.bind(11, userInfo.sId.c_str());
+        stmt.bind(11, userInfo.signature.c_str());
+		stmt.bind(12, userInfo.sId.c_str()); 
 		int countUpdate = stmt.execDML();
 		if (0 == countUpdate)
 		{
@@ -112,6 +113,7 @@ BOOL DatabaseModule_Impl::sqlBatchInsertUserInfos(IN module::UserInfoEntityMap& 
 			stmt.bind(9, userInfo.user_domain.c_str());
 			stmt.bind(10, userInfo.telephone.c_str());
 			stmt.bind(11, (int)userInfo.status);
+            stmt.bind(12, userInfo.signature.c_str());
 			stmt.execDML();
 		}
 
@@ -151,6 +153,7 @@ BOOL DatabaseModule_Impl::sqlInsertUserInfoEntity(IN const module::UserInfoEntit
 		stmt.bind(9, userInfo.user_domain.c_str());
 		stmt.bind(10, userInfo.telephone.c_str());
 		stmt.bind(11, (int)userInfo.status);
+        stmt.bind(12, userInfo.signature.c_str());
 		stmt.execDML();
 	}
 	catch (CppSQLite3Exception& sqliteException)
@@ -193,6 +196,7 @@ BOOL DatabaseModule_Impl::sqlGetUserInfoBySId(IN std::string& sId, OUT module::U
 			userInfo.user_domain = query.getStringField(9);
 			userInfo.telephone = query.getStringField(10);
 			userInfo.status = query.getIntField(11);
+            userInfo.signature = query.getStringField(12);
 		}
 		else
 		{
@@ -239,6 +243,7 @@ BOOL DatabaseModule_Impl::sqlGetAllUsersInfo(OUT std::vector<module::UserInfoEnt
 			userInfo.user_domain = query.getStringField(9);
 			userInfo.telephone = query.getStringField(10);
 			userInfo.status = query.getIntField(11);
+            userInfo.signature = query.getStringField(12);
 
 			userList.push_back(userInfo);
 			query.nextRow();
