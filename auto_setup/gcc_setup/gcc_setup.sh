@@ -5,9 +5,9 @@
 
 # setup gcc
 
-VERSION=4.9.2
+VERSION=5.2.0
 GCC=gcc-$VERSION
-GCC_DOWNLOAD_PATH=http://gcc.skazkaforyou.com/releases/$GCC/$GCC.tar.gz
+GCC_DOWNLOAD_PATH=http://mirrors.ustc.edu.cn/gnu/gcc/$GCC/$GCC.tar.gz
 GDB=gdb-7.9
 TERMCAP=termcap-1.3.1
 TERMCAP_DOWNLOAD_PATH=ftp://prep.ai.mit.edu/pub/gnu/termcap/$TERMCAP.tar.gz
