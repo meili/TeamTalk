@@ -32,7 +32,7 @@ public:
 	bool IsOpen() { return m_bOpen; }
 
     net_handle_t connect(const string& strIp, uint16_t nPort, const string& strName, const string& strPass);
-    
+    void setcallback(IPacketCallback *callback) { m_pCallback = callback;}
     virtual void Close();
 public:
     uint32_t login(const string& strName, const string& strPass);
@@ -43,6 +43,11 @@ public:
     uint32_t getRecentSession(uint32_t nUserId, uint32_t nLastTime);
     uint32_t getMsgList(uint32_t nUserId, IM::BaseDefine::SessionType nType, uint32_t nPeerId, uint32_t nMsgId, uint32_t nMsgCnt);
     uint32_t sendMsgAck(uint32_t nUserId, uint32_t nPeerId, IM::BaseDefine::SessionType nType, uint32_t nMsgId);
+	uint32_t sendMsgReadAck(uint32_t nUserId, uint32_t nPeerId, IM::BaseDefine::SessionType nType, uint32_t nMsgId);
+	uint32_t getDepartMentInfo(uint32_t nUserId , uint32_t nLastTime);
+	uint32_t getGroupList(uint32_t nUserId);
+	uint32_t getGroupInfo(uint32_t nUserId , const list<IM::BaseDefine::GroupVersionInfo> &lsGroupVersionInfo);
+	
 public:
 	virtual void OnConfirm();
 	virtual void OnClose();
@@ -58,8 +63,12 @@ private:
     void _HandleRecentSession(CImPdu* pPdu);
     void _HandleMsgList(CImPdu* pPdu);
     void _HandleMsgData(CImPdu* pPdu);
+	void _HandleDepartMentInfo(CImPdu *pPdu);
+	void _HandleGroupList(CImPdu *pPdu);
+	void _HandleGroupInfo(CImPdu *pPdu);
     
 private:
+    ConnMap_t		m_connMap;
 	bool 		m_bOpen;
     IPacketCallback* m_pCallback;
     CSeqAlloctor*   m_pSeqAlloctor;

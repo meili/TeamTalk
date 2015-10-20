@@ -32,6 +32,9 @@ public:
     virtual void onGetRecentSession(uint32_t nSeqNo, uint32_t nUserId, const list<IM::BaseDefine::ContactSessionInfo>& lsSession) = 0;
     virtual void onGetMsgList(uint32_t nSeqNo, uint32_t nUserId, uint32_t nPeerId, IM::BaseDefine::SessionType nSessionType, uint32_t nMsgId, uint32_t nMsgCnt, const list<IM::BaseDefine::MsgInfo>& lsMsg) = 0;
     virtual void onRecvMsg(uint32_t nSeqNo, uint32_t nFromId, uint32_t nToId, uint32_t nMsgId, uint32_t nCreateTime, IM::BaseDefine::MsgType nMsgType, const string& strMsgData) = 0;
+	virtual void onGetDepartMentInfo(uint32_t nSeqNo , uint32_t nUserId , uint32_t latest_update_time , const list<IM::BaseDefine::DepartInfo> &lsDepartInfo) = 0;
+	virtual void onGroupList(uint32_t nSeqNo , uint32_t nUserId , const list<IM::BaseDefine::GroupVersionInfo> &lsGroupVersionInfo) = 0;
+	virtual void onGroupInfo(uint32_t nSeqNo , uint32_t nUserId , const list<IM::BaseDefine::GroupInfo> &lsGroupInfo) = 0;
 };
 
 #endif /*defined(__IPACKETCALLBACK_H__) */
