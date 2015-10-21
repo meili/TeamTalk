@@ -240,9 +240,17 @@ BOOL DatabaseModule_Impl::sqlBatchInsertMessage(IN std::list<MessageEntity>& msg
 			if (msg.msgId <= 0)//非法的msg消息不用存储
 			{
 				std::string msgDecrptyCnt;
-				DECRYPT_MSG(msg.content,msgDecrptyCnt);
-				LOG__(ERR, _T("msgid <= 0, msgid:%d msg_content:%s Don't save to DB!")
-					, msg.msgId, util::stringToCString(msgDecrptyCnt));
+				if (msg.msgId != 0)
+				{
+					DECRYPT_MSG(msg.content, msgDecrptyCnt);
+					LOG__(ERR, _T("msgid <= 0, msgid:%d msg_content:%s Don't save to DB!")
+						, msg.msgId, util::stringToCString(msgDecrptyCnt));
+				}
+				else
+				{
+					LOG__(ERR, _T("msgid <= 0, msgid:%d msg_content:%s Don't save to DB!")
+						, msg.msgId, msg.content);
+				}
 				continue;
 			}
 			CppSQLite3Statement stmt = m_pSqliteDB->compileStatement(insertMessageSql.c_str());
