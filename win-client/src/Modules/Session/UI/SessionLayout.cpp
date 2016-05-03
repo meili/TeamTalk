@@ -155,6 +155,7 @@ void SessionLayout::OnWindowInitialized(TNotifyUI& msg)
 
 	m_pBtnEmotion = dynamic_cast <CButtonUI*>(m_pManager->FindSubControlByName(this, _T("emotionbtn")));
 	m_pBtnSendImage = dynamic_cast <CButtonUI*>(m_pManager->FindSubControlByName(this, _T("imagebtn")));
+    m_pBtnScreenShot = dynamic_cast <CButtonUI*>(m_pManager->FindSubControlByName(this, _T("screenshot")));
 	m_pBtnshock = dynamic_cast <CButtonUI*>(m_pManager->FindSubControlByName(this, _T("shockbtn")));
 	m_pBtnsendfile = dynamic_cast <CButtonUI*>(m_pManager->FindSubControlByName(this, _T("sendfilebtn")));
 	m_pBtnbanGroupMsg = dynamic_cast <CButtonUI*>(m_pManager->FindSubControlByName(this, _T("banGroupMsg")));
@@ -218,7 +219,7 @@ void SessionLayout::_AsynSendReadAck(IN MessageEntity& msg)
 		imMsgDataReadAck.set_msg_id(msg.msgId);
 		imMsgDataReadAck.set_session_type(static_cast<IM::BaseDefine::SessionType>(msg.msgSessionType));
 		module::getTcpClientModule()->sendPacket(IM::BaseDefine::SID_MSG, IM::BaseDefine::CID_MSG_READ_ACK, &imMsgDataReadAck);
-	}
+    },0, imcore::OPERATION_NAME_MSG_READ_ACK
 	);
 }
 
@@ -427,9 +428,13 @@ void SessionLayout::_SendImage(CString& csFilePath)
 	_DisplayMsgToIE(msg);
 }
 
-
-
-
-
+UInt32 SessionLayout::GetGroupItemCnt(void)
+{
+    if (m_pGroupMemberList)
+    {
+        return m_pGroupMemberList->GetCount();
+    }
+    return 0;
+}
 
 /******************************************************************************/

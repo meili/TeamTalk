@@ -4,8 +4,8 @@
  *  @brief     $end$
  ******************************************************************************/
 
-#ifndef $FILE_BASE_UPPER$_$GUID_STRING$_$FILE_EXT_UPPER$__
-#define $FILE_BASE_UPPER$_$GUID_STRING$_$FILE_EXT_UPPER$__
+#ifndef $FILE_BASE_UPPER$_$GUID_SYMBOL_UPPER$_$FILE_EXT_UPPER$__
+#define $FILE_BASE_UPPER$_$GUID_SYMBOL_UPPER$_$FILE_EXT_UPPER$__
 
 #include <>
 /******************************************************************************/
@@ -31,4 +31,4 @@ public:
     //@}
 };
 /******************************************************************************/
-#endif// $FILE_BASE_UPPER$_$GUID_STRING$_$FILE_EXT_UPPER$__
+#endif// $FILE_BASE_UPPER$_$GUID_SYMBOL_UPPER$_$FILE_EXT_UPPER$__

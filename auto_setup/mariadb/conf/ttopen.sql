@@ -548,6 +548,8 @@ CREATE TABLE `IMUser` (
   `status` tinyint(2) unsigned DEFAULT '0' COMMENT '1. 试用期 2. 正式 3. 离职 4.实习',
   `created` int(11) unsigned NOT NULL COMMENT '创建时间',
   `updated` int(11) unsigned NOT NULL COMMENT '更新时间',
+  `push_shield_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0关闭勿扰 1开启勿扰',
+  `sign_info` varchar(128) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '个性签名',
   PRIMARY KEY (`id`),
   KEY `idx_domain` (`domain`),
   KEY `idx_name` (`name`),

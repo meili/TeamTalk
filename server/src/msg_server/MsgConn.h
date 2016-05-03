@@ -73,10 +73,14 @@ private:
 	void _HandleClientRemoveSessionRequest(CImPdu* pPdu);
 	void _HandleClientAllUserRequest(CImPdu* pPdu);
     void _HandleChangeAvatarRequest(CImPdu* pPdu);
+    void _HandleChangeSignInfoRequest(CImPdu* pPdu);
+
     void _HandleClientDeviceToken(CImPdu* pPdu);
     void _HandleKickPCClient(CImPdu* pPdu);
     void _HandleClientDepartmentRequest(CImPdu* pPdu);
     void _SendFriendStatusNotify(uint32_t status);
+    void _HandlePushShieldRequest(CImPdu* pPdu);
+    void _HandleQueryPushShieldRequest(CImPdu* pPdu);
 private:
     string          m_login_name;        //登录名拼音
     uint32_t        m_user_id;

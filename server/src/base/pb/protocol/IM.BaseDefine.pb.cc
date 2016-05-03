@@ -31,6 +31,7 @@ void protobuf_ShutdownFile_IM_2eBaseDefine_2eproto() {
   delete ShieldStatus::default_instance_;
   delete OfflineFileInfo::default_instance_;
   delete DepartInfo::default_instance_;
+  delete PushShieldStatus::default_instance_;
 }
 
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
@@ -59,6 +60,7 @@ void protobuf_AddDesc_IM_2eBaseDefine_2eproto() {
   ShieldStatus::default_instance_ = new ShieldStatus();
   OfflineFileInfo::default_instance_ = new OfflineFileInfo();
   DepartInfo::default_instance_ = new DepartInfo();
+  PushShieldStatus::default_instance_ = new PushShieldStatus();
   IpAddr::default_instance_->InitAsDefaultInstance();
   UserInfo::default_instance_->InitAsDefaultInstance();
   ContactSessionInfo::default_instance_->InitAsDefaultInstance();
@@ -73,6 +75,7 @@ void protobuf_AddDesc_IM_2eBaseDefine_2eproto() {
   ShieldStatus::default_instance_->InitAsDefaultInstance();
   OfflineFileInfo::default_instance_->InitAsDefaultInstance();
   DepartInfo::default_instance_->InitAsDefaultInstance();
+  PushShieldStatus::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_IM_2eBaseDefine_2eproto);
 }
 
@@ -119,6 +122,10 @@ bool LoginCmdID_IsValid(int value) {
     case 265:
     case 266:
     case 267:
+    case 268:
+    case 269:
+    case 270:
+    case 271:
       return true;
     default:
       return false;
@@ -144,6 +151,10 @@ bool BuddyListCmdID_IsValid(int value) {
     case 527:
     case 528:
     case 529:
+    case 530:
+    case 531:
+    case 532:
+    case 533:
       return true;
     default:
       return false;
@@ -349,7 +360,7 @@ bool GroupModifyType_IsValid(int value) {
   }
 }
 
-bool FileType_IsValid(int value) {
+bool TransferFileType_IsValid(int value) {
   switch(value) {
     case 1:
     case 2:
@@ -673,6 +684,7 @@ const int UserInfo::kUserRealNameFieldNumber;
 const int UserInfo::kUserTelFieldNumber;
 const int UserInfo::kUserDomainFieldNumber;
 const int UserInfo::kStatusFieldNumber;
+const int UserInfo::kSignInfoFieldNumber;
 #endif  // !_MSC_VER
 
 UserInfo::UserInfo()
@@ -704,6 +716,7 @@ void UserInfo::SharedCtor() {
   user_tel_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   user_domain_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   status_ = 0u;
+  sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -730,6 +743,9 @@ void UserInfo::SharedDtor() {
   }
   if (user_domain_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete user_domain_;
+  }
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sign_info_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
@@ -799,13 +815,18 @@ void UserInfo::Clear() {
       }
     }
   }
-  if (_has_bits_[8 / 32] & 768) {
+  if (_has_bits_[8 / 32] & 1792) {
     if (has_user_domain()) {
       if (user_domain_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
         user_domain_->clear();
       }
     }
     status_ = 0u;
+    if (has_sign_info()) {
+      if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        sign_info_->clear();
+      }
+    }
   }
 
 #undef OFFSET_OF_FIELD_
@@ -962,6 +983,19 @@ bool UserInfo::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(90)) goto parse_sign_info;
+        break;
+      }
+
+      // optional string sign_info = 11;
+      case 11: {
+        if (tag == 90) {
+         parse_sign_info:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign_info()));
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -1047,6 +1081,12 @@ void UserInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->status(), output);
   }
 
+  // optional string sign_info = 11;
+  if (has_sign_info()) {
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      11, this->sign_info(), output);
+  }
+
   output->WriteRaw(unknown_fields().data(),
                    unknown_fields().size());
   // @@protoc_insertion_point(serialize_end:IM.BaseDefine.UserInfo)
@@ -1128,6 +1168,13 @@ int UserInfo::ByteSize() const {
           this->status());
     }
 
+    // optional string sign_info = 11;
+    if (has_sign_info()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sign_info());
+    }
+
   }
   total_size += unknown_fields().size();
 
@@ -1177,6 +1224,9 @@ void UserInfo::MergeFrom(const UserInfo& from) {
     if (from.has_status()) {
       set_status(from.status());
     }
+    if (from.has_sign_info()) {
+      set_sign_info(from.sign_info());
+    }
   }
   mutable_unknown_fields()->append(from.unknown_fields());
 }
@@ -1205,6 +1255,7 @@ void UserInfo::Swap(UserInfo* other) {
     std::swap(user_tel_, other->user_tel_);
     std::swap(user_domain_, other->user_domain_);
     std::swap(status_, other->status_);
+    std::swap(sign_info_, other->sign_info_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -5224,6 +5275,245 @@ void DepartInfo::Swap(DepartInfo* other) {
 
 ::std::string DepartInfo::GetTypeName() const {
   return "IM.BaseDefine.DepartInfo";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int PushShieldStatus::kUserIdFieldNumber;
+const int PushShieldStatus::kShieldStatusFieldNumber;
+#endif  // !_MSC_VER
+
+PushShieldStatus::PushShieldStatus()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:IM.BaseDefine.PushShieldStatus)
+}
+
+void PushShieldStatus::InitAsDefaultInstance() {
+}
+
+PushShieldStatus::PushShieldStatus(const PushShieldStatus& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:IM.BaseDefine.PushShieldStatus)
+}
+
+void PushShieldStatus::SharedCtor() {
+  _cached_size_ = 0;
+  user_id_ = 0u;
+  shield_status_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+PushShieldStatus::~PushShieldStatus() {
+  // @@protoc_insertion_point(destructor:IM.BaseDefine.PushShieldStatus)
+  SharedDtor();
+}
+
+void PushShieldStatus::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void PushShieldStatus::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const PushShieldStatus& PushShieldStatus::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_IM_2eBaseDefine_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_IM_2eBaseDefine_2eproto();
+#endif
+  return *default_instance_;
+}
+
+PushShieldStatus* PushShieldStatus::default_instance_ = NULL;
+
+PushShieldStatus* PushShieldStatus::New() const {
+  return new PushShieldStatus;
+}
+
+void PushShieldStatus::Clear() {
+#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
+  &reinterpret_cast<PushShieldStatus*>(16)->f) - \
+   reinterpret_cast<char*>(16))
+
+#define ZR_(first, last) do {                              \
+    size_t f = OFFSET_OF_FIELD_(first);                    \
+    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
+    ::memset(&first, 0, n);                                \
+  } while (0)
+
+  ZR_(user_id_, shield_status_);
+
+#undef OFFSET_OF_FIELD_
+#undef ZR_
+
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->clear();
+}
+
+bool PushShieldStatus::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
+  // @@protoc_insertion_point(parse_start:IM.BaseDefine.PushShieldStatus)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 user_id = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &user_id_)));
+          set_has_user_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_shield_status;
+        break;
+      }
+
+      // required uint32 shield_status = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_shield_status:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &shield_status_)));
+          set_has_shield_status();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:IM.BaseDefine.PushShieldStatus)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:IM.BaseDefine.PushShieldStatus)
+  return false;
+#undef DO_
+}
+
+void PushShieldStatus::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:IM.BaseDefine.PushShieldStatus)
+  // required uint32 user_id = 1;
+  if (has_user_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->user_id(), output);
+  }
+
+  // required uint32 shield_status = 2;
+  if (has_shield_status()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->shield_status(), output);
+  }
+
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
+  // @@protoc_insertion_point(serialize_end:IM.BaseDefine.PushShieldStatus)
+}
+
+int PushShieldStatus::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 user_id = 1;
+    if (has_user_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->user_id());
+    }
+
+    // required uint32 shield_status = 2;
+    if (has_shield_status()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->shield_status());
+    }
+
+  }
+  total_size += unknown_fields().size();
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void PushShieldStatus::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const PushShieldStatus*>(&from));
+}
+
+void PushShieldStatus::MergeFrom(const PushShieldStatus& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_user_id()) {
+      set_user_id(from.user_id());
+    }
+    if (from.has_shield_status()) {
+      set_shield_status(from.shield_status());
+    }
+  }
+  mutable_unknown_fields()->append(from.unknown_fields());
+}
+
+void PushShieldStatus::CopyFrom(const PushShieldStatus& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PushShieldStatus::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void PushShieldStatus::Swap(PushShieldStatus* other) {
+  if (other != this) {
+    std::swap(user_id_, other->user_id_);
+    std::swap(shield_status_, other->shield_status_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.swap(other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string PushShieldStatus::GetTypeName() const {
+  return "IM.BaseDefine.PushShieldStatus";
 }
 
 

@@ -23,6 +23,8 @@ class ClientConn;
 struct ITcpSocketCallback;
 NAMESPACE_BEGIN(imcore)
 
+const std::string OPERATION_NAME_MSG_READ_ACK = "operation_name_msg_read_ack";
+
 class Operation;
 
 #ifdef  __cplusplus
@@ -62,8 +64,19 @@ class Operation;
 	* @param   std::function<void()> operationRun
 	* @return  void
 	*/
-	NETWORK_DLL void IMLibCoreStartOperationWithLambda(std::function<void()> operationRun, Int32 delay = 0);
+	NETWORK_DLL void IMLibCoreStartOperationWithLambda(std::function<void()> operationRun
+        , Int32 delay = 0
+        , std::string oper_name = "_common_operation_name");
+    /**
+    * 从任务队列中删除
+    *
+    * @param   std::function<void()> operationRun
+    * @return  void
+    */
+    NETWORK_DLL void IMLibCoreClearOperationByName(std::string oper_name);
 	//@}
+
+    
 
 #ifdef ANDROID
 	JNIEXPORT void JNICALL Java_com_mogujie_im_libcore_LibCore_setJNIEnv(JNIEnv *, jobject);

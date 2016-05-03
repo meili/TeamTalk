@@ -46,8 +46,8 @@ class UserTokenInfo;
 class PushResult;
 class ShieldStatus;
 class OfflineFileInfo;
-class AuthInfo;
 class DepartInfo;
+class PushShieldStatus;
 
 enum ServiceID {
   SID_LOGIN = 1,
@@ -75,11 +75,15 @@ enum LoginCmdID {
   CID_LOGIN_REQ_DEVICETOKEN = 264,
   CID_LOGIN_RES_DEVICETOKEN = 265,
   CID_LOGIN_REQ_KICKPCCLIENT = 266,
-  CID_LOGIN_RES_KICKPCCLIENT = 267
+  CID_LOGIN_RES_KICKPCCLIENT = 267,
+  CID_LOGIN_REQ_PUSH_SHIELD = 268,
+  CID_LOGIN_RES_PUSH_SHIELD = 269,
+  CID_LOGIN_REQ_QUERY_PUSH_SHIELD = 270,
+  CID_LOGIN_RES_QUERY_PUSH_SHIELD = 271
 };
 bool LoginCmdID_IsValid(int value);
 const LoginCmdID LoginCmdID_MIN = CID_LOGIN_REQ_MSGSERVER;
-const LoginCmdID LoginCmdID_MAX = CID_LOGIN_RES_KICKPCCLIENT;
+const LoginCmdID LoginCmdID_MAX = CID_LOGIN_RES_QUERY_PUSH_SHIELD;
 const int LoginCmdID_ARRAYSIZE = LoginCmdID_MAX + 1;
 
 enum BuddyListCmdID {
@@ -99,11 +103,15 @@ enum BuddyListCmdID {
   CID_BUDDY_LIST_PC_LOGIN_STATUS_NOTIFY = 526,
   CID_BUDDY_LIST_REMOVE_SESSION_NOTIFY = 527,
   CID_BUDDY_LIST_DEPARTMENT_REQUEST = 528,
-  CID_BUDDY_LIST_DEPARTMENT_RESPONSE = 529
+  CID_BUDDY_LIST_DEPARTMENT_RESPONSE = 529,
+  CID_BUDDY_LIST_AVATAR_CHANGED_NOTIFY = 530,
+  CID_BUDDY_LIST_CHANGE_SIGN_INFO_REQUEST = 531,
+  CID_BUDDY_LIST_CHANGE_SIGN_INFO_RESPONSE = 532,
+  CID_BUDDY_LIST_SIGN_INFO_CHANGED_NOTIFY = 533
 };
 bool BuddyListCmdID_IsValid(int value);
 const BuddyListCmdID BuddyListCmdID_MIN = CID_BUDDY_LIST_RECENT_CONTACT_SESSION_REQUEST;
-const BuddyListCmdID BuddyListCmdID_MAX = CID_BUDDY_LIST_DEPARTMENT_RESPONSE;
+const BuddyListCmdID BuddyListCmdID_MAX = CID_BUDDY_LIST_SIGN_INFO_CHANGED_NOTIFY;
 const int BuddyListCmdID_ARRAYSIZE = BuddyListCmdID_MAX + 1;
 
 enum MessageCmdID {
@@ -200,17 +208,6 @@ const OtherCmdID OtherCmdID_MIN = CID_OTHER_HEARTBEAT;
 const OtherCmdID OtherCmdID_MAX = CID_OTHER_FILE_SERVER_IP_RSP;
 const int OtherCmdID_ARRAYSIZE = OtherCmdID_MAX + 1;
 
-enum InternalCmdID {
-  CID_INTERNAL_SYNC_AUTH_INFO_REQ = 2049,
-  CID_INTERNAL_SYNC_AUTH_INFO_RSP = 2050,
-  CID_INTERNAL_USER_ID_BY_NICK_NAME_REQ = 2051,
-  CID_INTERNAL_USER_ID_BY_NICK_NAME_RSP = 2052
-};
-bool InternalCmdID_IsValid(int value);
-const InternalCmdID InternalCmdID_MIN = CID_INTERNAL_SYNC_AUTH_INFO_REQ;
-const InternalCmdID InternalCmdID_MAX = CID_INTERNAL_USER_ID_BY_NICK_NAME_RSP;
-const int InternalCmdID_ARRAYSIZE = InternalCmdID_MAX + 1;
-
 enum ResultType {
   REFUSE_REASON_NONE = 0,
   REFUSE_REASON_NO_MSG_SERVER = 1,
@@ -302,14 +299,14 @@ const GroupModifyType GroupModifyType_MIN = GROUP_MODIFY_TYPE_ADD;
 const GroupModifyType GroupModifyType_MAX = GROUP_MODIFY_TYPE_DEL;
 const int GroupModifyType_ARRAYSIZE = GroupModifyType_MAX + 1;
 
-enum FileType {
+enum TransferFileType {
   FILE_TYPE_ONLINE = 1,
   FILE_TYPE_OFFLINE = 2
 };
-bool FileType_IsValid(int value);
-const FileType FileType_MIN = FILE_TYPE_ONLINE;
-const FileType FileType_MAX = FILE_TYPE_OFFLINE;
-const int FileType_ARRAYSIZE = FileType_MAX + 1;
+bool TransferFileType_IsValid(int value);
+const TransferFileType TransferFileType_MIN = FILE_TYPE_ONLINE;
+const TransferFileType TransferFileType_MAX = FILE_TYPE_OFFLINE;
+const int TransferFileType_ARRAYSIZE = TransferFileType_MAX + 1;
 
 enum ClientFileState {
   CLIENT_FILE_PEER_READY = 0,
@@ -640,6 +637,18 @@ class UserInfo : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 status() const;
   inline void set_status(::google::protobuf::uint32 value);
 
+  // optional string sign_info = 11;
+  inline bool has_sign_info() const;
+  inline void clear_sign_info();
+  static const int kSignInfoFieldNumber = 11;
+  inline const ::std::string& sign_info() const;
+  inline void set_sign_info(const ::std::string& value);
+  inline void set_sign_info(const char* value);
+  inline void set_sign_info(const char* value, size_t size);
+  inline ::std::string* mutable_sign_info();
+  inline ::std::string* release_sign_info();
+  inline void set_allocated_sign_info(::std::string* sign_info);
+
   // @@protoc_insertion_point(class_scope:IM.BaseDefine.UserInfo)
  private:
   inline void set_has_user_id();
@@ -662,6 +671,8 @@ class UserInfo : public ::google::protobuf::MessageLite {
   inline void clear_has_user_domain();
   inline void set_has_status();
   inline void clear_has_status();
+  inline void set_has_sign_info();
+  inline void clear_has_sign_info();
 
   ::std::string _unknown_fields_;
 
@@ -677,6 +688,7 @@ class UserInfo : public ::google::protobuf::MessageLite {
   ::google::protobuf::uint32 status_;
   ::std::string* user_tel_;
   ::std::string* user_domain_;
+  ::std::string* sign_info_;
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_IM_2eBaseDefine_2eproto_impl();
   #else
@@ -2119,172 +2131,6 @@ class OfflineFileInfo : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
-class AuthInfo : public ::google::protobuf::MessageLite {
- public:
-  AuthInfo();
-  virtual ~AuthInfo();
-
-  AuthInfo(const AuthInfo& from);
-
-  inline AuthInfo& operator=(const AuthInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::std::string& unknown_fields() const {
-    return _unknown_fields_;
-  }
-
-  inline ::std::string* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-
-  static const AuthInfo& default_instance();
-
-  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  // Returns the internal default instance pointer. This function can
-  // return NULL thus should not be used by the user. This is intended
-  // for Protobuf internal code. Please use default_instance() declared
-  // above instead.
-  static inline const AuthInfo* internal_default_instance() {
-    return default_instance_;
-  }
-  #endif
-
-  void Swap(AuthInfo* other);
-
-  // implements Message ----------------------------------------------
-
-  AuthInfo* New() const;
-  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const AuthInfo& from);
-  void MergeFrom(const AuthInfo& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  void DiscardUnknownFields();
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-  ::std::string GetTypeName() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // required string app_key = 1;
-  inline bool has_app_key() const;
-  inline void clear_app_key();
-  static const int kAppKeyFieldNumber = 1;
-  inline const ::std::string& app_key() const;
-  inline void set_app_key(const ::std::string& value);
-  inline void set_app_key(const char* value);
-  inline void set_app_key(const char* value, size_t size);
-  inline ::std::string* mutable_app_key();
-  inline ::std::string* release_app_key();
-  inline void set_allocated_app_key(::std::string* app_key);
-
-  // required uint32 user_id = 2;
-  inline bool has_user_id() const;
-  inline void clear_user_id();
-  static const int kUserIdFieldNumber = 2;
-  inline ::google::protobuf::uint32 user_id() const;
-  inline void set_user_id(::google::protobuf::uint32 value);
-
-  // required string allowd_user_ids = 3;
-  inline bool has_allowd_user_ids() const;
-  inline void clear_allowd_user_ids();
-  static const int kAllowdUserIdsFieldNumber = 3;
-  inline const ::std::string& allowd_user_ids() const;
-  inline void set_allowd_user_ids(const ::std::string& value);
-  inline void set_allowd_user_ids(const char* value);
-  inline void set_allowd_user_ids(const char* value, size_t size);
-  inline ::std::string* mutable_allowd_user_ids();
-  inline ::std::string* release_allowd_user_ids();
-  inline void set_allocated_allowd_user_ids(::std::string* allowd_user_ids);
-
-  // required string allowd_group_ids = 4;
-  inline bool has_allowd_group_ids() const;
-  inline void clear_allowd_group_ids();
-  static const int kAllowdGroupIdsFieldNumber = 4;
-  inline const ::std::string& allowd_group_ids() const;
-  inline void set_allowd_group_ids(const ::std::string& value);
-  inline void set_allowd_group_ids(const char* value);
-  inline void set_allowd_group_ids(const char* value, size_t size);
-  inline ::std::string* mutable_allowd_group_ids();
-  inline ::std::string* release_allowd_group_ids();
-  inline void set_allocated_allowd_group_ids(::std::string* allowd_group_ids);
-
-  // required string auth_interfaces = 5;
-  inline bool has_auth_interfaces() const;
-  inline void clear_auth_interfaces();
-  static const int kAuthInterfacesFieldNumber = 5;
-  inline const ::std::string& auth_interfaces() const;
-  inline void set_auth_interfaces(const ::std::string& value);
-  inline void set_auth_interfaces(const char* value);
-  inline void set_auth_interfaces(const char* value, size_t size);
-  inline ::std::string* mutable_auth_interfaces();
-  inline ::std::string* release_auth_interfaces();
-  inline void set_allocated_auth_interfaces(::std::string* auth_interfaces);
-
-  // required string auth_ips = 6;
-  inline bool has_auth_ips() const;
-  inline void clear_auth_ips();
-  static const int kAuthIpsFieldNumber = 6;
-  inline const ::std::string& auth_ips() const;
-  inline void set_auth_ips(const ::std::string& value);
-  inline void set_auth_ips(const char* value);
-  inline void set_auth_ips(const char* value, size_t size);
-  inline ::std::string* mutable_auth_ips();
-  inline ::std::string* release_auth_ips();
-  inline void set_allocated_auth_ips(::std::string* auth_ips);
-
-  // @@protoc_insertion_point(class_scope:IM.BaseDefine.AuthInfo)
- private:
-  inline void set_has_app_key();
-  inline void clear_has_app_key();
-  inline void set_has_user_id();
-  inline void clear_has_user_id();
-  inline void set_has_allowd_user_ids();
-  inline void clear_has_allowd_user_ids();
-  inline void set_has_allowd_group_ids();
-  inline void clear_has_allowd_group_ids();
-  inline void set_has_auth_interfaces();
-  inline void clear_has_auth_interfaces();
-  inline void set_has_auth_ips();
-  inline void clear_has_auth_ips();
-
-  ::std::string _unknown_fields_;
-
-  ::google::protobuf::uint32 _has_bits_[1];
-  mutable int _cached_size_;
-  ::std::string* app_key_;
-  ::std::string* allowd_user_ids_;
-  ::std::string* allowd_group_ids_;
-  ::std::string* auth_interfaces_;
-  ::std::string* auth_ips_;
-  ::google::protobuf::uint32 user_id_;
-  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  friend void  protobuf_AddDesc_IM_2eBaseDefine_2eproto_impl();
-  #else
-  friend void  protobuf_AddDesc_IM_2eBaseDefine_2eproto();
-  #endif
-  friend void protobuf_AssignDesc_IM_2eBaseDefine_2eproto();
-  friend void protobuf_ShutdownFile_IM_2eBaseDefine_2eproto();
-
-  void InitAsDefaultInstance();
-  static AuthInfo* default_instance_;
-};
-// -------------------------------------------------------------------
-
 class DepartInfo : public ::google::protobuf::MessageLite {
  public:
   DepartInfo();
@@ -2418,6 +2264,107 @@ class DepartInfo : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static DepartInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PushShieldStatus : public ::google::protobuf::MessageLite {
+ public:
+  PushShieldStatus();
+  virtual ~PushShieldStatus();
+
+  PushShieldStatus(const PushShieldStatus& from);
+
+  inline PushShieldStatus& operator=(const PushShieldStatus& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const PushShieldStatus& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PushShieldStatus* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PushShieldStatus* other);
+
+  // implements Message ----------------------------------------------
+
+  PushShieldStatus* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PushShieldStatus& from);
+  void MergeFrom(const PushShieldStatus& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 user_id = 1;
+  inline bool has_user_id() const;
+  inline void clear_user_id();
+  static const int kUserIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 user_id() const;
+  inline void set_user_id(::google::protobuf::uint32 value);
+
+  // required uint32 shield_status = 2;
+  inline bool has_shield_status() const;
+  inline void clear_shield_status();
+  static const int kShieldStatusFieldNumber = 2;
+  inline ::google::protobuf::uint32 shield_status() const;
+  inline void set_shield_status(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:IM.BaseDefine.PushShieldStatus)
+ private:
+  inline void set_has_user_id();
+  inline void clear_has_user_id();
+  inline void set_has_shield_status();
+  inline void clear_has_shield_status();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 user_id_;
+  ::google::protobuf::uint32 shield_status_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_IM_2eBaseDefine_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_IM_2eBaseDefine_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_IM_2eBaseDefine_2eproto();
+  friend void protobuf_ShutdownFile_IM_2eBaseDefine_2eproto();
+
+  void InitAsDefaultInstance();
+  static PushShieldStatus* default_instance_;
 };
 // ===================================================================
 
@@ -3080,6 +3027,82 @@ inline void UserInfo::set_status(::google::protobuf::uint32 value) {
   set_has_status();
   status_ = value;
   // @@protoc_insertion_point(field_set:IM.BaseDefine.UserInfo.status)
+}
+
+// optional string sign_info = 11;
+inline bool UserInfo::has_sign_info() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+inline void UserInfo::set_has_sign_info() {
+  _has_bits_[0] |= 0x00000400u;
+}
+inline void UserInfo::clear_has_sign_info() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+inline void UserInfo::clear_sign_info() {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_->clear();
+  }
+  clear_has_sign_info();
+}
+inline const ::std::string& UserInfo::sign_info() const {
+  // @@protoc_insertion_point(field_get:IM.BaseDefine.UserInfo.sign_info)
+  return *sign_info_;
+}
+inline void UserInfo::set_sign_info(const ::std::string& value) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.BaseDefine.UserInfo.sign_info)
+}
+inline void UserInfo::set_sign_info(const char* value) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.BaseDefine.UserInfo.sign_info)
+}
+inline void UserInfo::set_sign_info(const char* value, size_t size) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.BaseDefine.UserInfo.sign_info)
+}
+inline ::std::string* UserInfo::mutable_sign_info() {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:IM.BaseDefine.UserInfo.sign_info)
+  return sign_info_;
+}
+inline ::std::string* UserInfo::release_sign_info() {
+  clear_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = sign_info_;
+    sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void UserInfo::set_allocated_sign_info(::std::string* sign_info) {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sign_info_;
+  }
+  if (sign_info) {
+    set_has_sign_info();
+    sign_info_ = sign_info;
+  } else {
+    clear_has_sign_info();
+    sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.BaseDefine.UserInfo.sign_info)
 }
 
 // -------------------------------------------------------------------
@@ -4789,414 +4812,6 @@ inline void OfflineFileInfo::set_file_size(::google::protobuf::uint32 value) {
 
 // -------------------------------------------------------------------
 
-// AuthInfo
-
-// required string app_key = 1;
-inline bool AuthInfo::has_app_key() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void AuthInfo::set_has_app_key() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void AuthInfo::clear_has_app_key() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void AuthInfo::clear_app_key() {
-  if (app_key_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    app_key_->clear();
-  }
-  clear_has_app_key();
-}
-inline const ::std::string& AuthInfo::app_key() const {
-  // @@protoc_insertion_point(field_get:IM.BaseDefine.AuthInfo.app_key)
-  return *app_key_;
-}
-inline void AuthInfo::set_app_key(const ::std::string& value) {
-  set_has_app_key();
-  if (app_key_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    app_key_ = new ::std::string;
-  }
-  app_key_->assign(value);
-  // @@protoc_insertion_point(field_set:IM.BaseDefine.AuthInfo.app_key)
-}
-inline void AuthInfo::set_app_key(const char* value) {
-  set_has_app_key();
-  if (app_key_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    app_key_ = new ::std::string;
-  }
-  app_key_->assign(value);
-  // @@protoc_insertion_point(field_set_char:IM.BaseDefine.AuthInfo.app_key)
-}
-inline void AuthInfo::set_app_key(const char* value, size_t size) {
-  set_has_app_key();
-  if (app_key_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    app_key_ = new ::std::string;
-  }
-  app_key_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:IM.BaseDefine.AuthInfo.app_key)
-}
-inline ::std::string* AuthInfo::mutable_app_key() {
-  set_has_app_key();
-  if (app_key_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    app_key_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:IM.BaseDefine.AuthInfo.app_key)
-  return app_key_;
-}
-inline ::std::string* AuthInfo::release_app_key() {
-  clear_has_app_key();
-  if (app_key_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = app_key_;
-    app_key_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void AuthInfo::set_allocated_app_key(::std::string* app_key) {
-  if (app_key_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete app_key_;
-  }
-  if (app_key) {
-    set_has_app_key();
-    app_key_ = app_key;
-  } else {
-    clear_has_app_key();
-    app_key_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:IM.BaseDefine.AuthInfo.app_key)
-}
-
-// required uint32 user_id = 2;
-inline bool AuthInfo::has_user_id() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void AuthInfo::set_has_user_id() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void AuthInfo::clear_has_user_id() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void AuthInfo::clear_user_id() {
-  user_id_ = 0u;
-  clear_has_user_id();
-}
-inline ::google::protobuf::uint32 AuthInfo::user_id() const {
-  // @@protoc_insertion_point(field_get:IM.BaseDefine.AuthInfo.user_id)
-  return user_id_;
-}
-inline void AuthInfo::set_user_id(::google::protobuf::uint32 value) {
-  set_has_user_id();
-  user_id_ = value;
-  // @@protoc_insertion_point(field_set:IM.BaseDefine.AuthInfo.user_id)
-}
-
-// required string allowd_user_ids = 3;
-inline bool AuthInfo::has_allowd_user_ids() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void AuthInfo::set_has_allowd_user_ids() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void AuthInfo::clear_has_allowd_user_ids() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void AuthInfo::clear_allowd_user_ids() {
-  if (allowd_user_ids_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_user_ids_->clear();
-  }
-  clear_has_allowd_user_ids();
-}
-inline const ::std::string& AuthInfo::allowd_user_ids() const {
-  // @@protoc_insertion_point(field_get:IM.BaseDefine.AuthInfo.allowd_user_ids)
-  return *allowd_user_ids_;
-}
-inline void AuthInfo::set_allowd_user_ids(const ::std::string& value) {
-  set_has_allowd_user_ids();
-  if (allowd_user_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_user_ids_ = new ::std::string;
-  }
-  allowd_user_ids_->assign(value);
-  // @@protoc_insertion_point(field_set:IM.BaseDefine.AuthInfo.allowd_user_ids)
-}
-inline void AuthInfo::set_allowd_user_ids(const char* value) {
-  set_has_allowd_user_ids();
-  if (allowd_user_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_user_ids_ = new ::std::string;
-  }
-  allowd_user_ids_->assign(value);
-  // @@protoc_insertion_point(field_set_char:IM.BaseDefine.AuthInfo.allowd_user_ids)
-}
-inline void AuthInfo::set_allowd_user_ids(const char* value, size_t size) {
-  set_has_allowd_user_ids();
-  if (allowd_user_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_user_ids_ = new ::std::string;
-  }
-  allowd_user_ids_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:IM.BaseDefine.AuthInfo.allowd_user_ids)
-}
-inline ::std::string* AuthInfo::mutable_allowd_user_ids() {
-  set_has_allowd_user_ids();
-  if (allowd_user_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_user_ids_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:IM.BaseDefine.AuthInfo.allowd_user_ids)
-  return allowd_user_ids_;
-}
-inline ::std::string* AuthInfo::release_allowd_user_ids() {
-  clear_has_allowd_user_ids();
-  if (allowd_user_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = allowd_user_ids_;
-    allowd_user_ids_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void AuthInfo::set_allocated_allowd_user_ids(::std::string* allowd_user_ids) {
-  if (allowd_user_ids_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete allowd_user_ids_;
-  }
-  if (allowd_user_ids) {
-    set_has_allowd_user_ids();
-    allowd_user_ids_ = allowd_user_ids;
-  } else {
-    clear_has_allowd_user_ids();
-    allowd_user_ids_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:IM.BaseDefine.AuthInfo.allowd_user_ids)
-}
-
-// required string allowd_group_ids = 4;
-inline bool AuthInfo::has_allowd_group_ids() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-inline void AuthInfo::set_has_allowd_group_ids() {
-  _has_bits_[0] |= 0x00000008u;
-}
-inline void AuthInfo::clear_has_allowd_group_ids() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline void AuthInfo::clear_allowd_group_ids() {
-  if (allowd_group_ids_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_group_ids_->clear();
-  }
-  clear_has_allowd_group_ids();
-}
-inline const ::std::string& AuthInfo::allowd_group_ids() const {
-  // @@protoc_insertion_point(field_get:IM.BaseDefine.AuthInfo.allowd_group_ids)
-  return *allowd_group_ids_;
-}
-inline void AuthInfo::set_allowd_group_ids(const ::std::string& value) {
-  set_has_allowd_group_ids();
-  if (allowd_group_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_group_ids_ = new ::std::string;
-  }
-  allowd_group_ids_->assign(value);
-  // @@protoc_insertion_point(field_set:IM.BaseDefine.AuthInfo.allowd_group_ids)
-}
-inline void AuthInfo::set_allowd_group_ids(const char* value) {
-  set_has_allowd_group_ids();
-  if (allowd_group_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_group_ids_ = new ::std::string;
-  }
-  allowd_group_ids_->assign(value);
-  // @@protoc_insertion_point(field_set_char:IM.BaseDefine.AuthInfo.allowd_group_ids)
-}
-inline void AuthInfo::set_allowd_group_ids(const char* value, size_t size) {
-  set_has_allowd_group_ids();
-  if (allowd_group_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_group_ids_ = new ::std::string;
-  }
-  allowd_group_ids_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:IM.BaseDefine.AuthInfo.allowd_group_ids)
-}
-inline ::std::string* AuthInfo::mutable_allowd_group_ids() {
-  set_has_allowd_group_ids();
-  if (allowd_group_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    allowd_group_ids_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:IM.BaseDefine.AuthInfo.allowd_group_ids)
-  return allowd_group_ids_;
-}
-inline ::std::string* AuthInfo::release_allowd_group_ids() {
-  clear_has_allowd_group_ids();
-  if (allowd_group_ids_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = allowd_group_ids_;
-    allowd_group_ids_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void AuthInfo::set_allocated_allowd_group_ids(::std::string* allowd_group_ids) {
-  if (allowd_group_ids_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete allowd_group_ids_;
-  }
-  if (allowd_group_ids) {
-    set_has_allowd_group_ids();
-    allowd_group_ids_ = allowd_group_ids;
-  } else {
-    clear_has_allowd_group_ids();
-    allowd_group_ids_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:IM.BaseDefine.AuthInfo.allowd_group_ids)
-}
-
-// required string auth_interfaces = 5;
-inline bool AuthInfo::has_auth_interfaces() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-inline void AuthInfo::set_has_auth_interfaces() {
-  _has_bits_[0] |= 0x00000010u;
-}
-inline void AuthInfo::clear_has_auth_interfaces() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-inline void AuthInfo::clear_auth_interfaces() {
-  if (auth_interfaces_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_interfaces_->clear();
-  }
-  clear_has_auth_interfaces();
-}
-inline const ::std::string& AuthInfo::auth_interfaces() const {
-  // @@protoc_insertion_point(field_get:IM.BaseDefine.AuthInfo.auth_interfaces)
-  return *auth_interfaces_;
-}
-inline void AuthInfo::set_auth_interfaces(const ::std::string& value) {
-  set_has_auth_interfaces();
-  if (auth_interfaces_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_interfaces_ = new ::std::string;
-  }
-  auth_interfaces_->assign(value);
-  // @@protoc_insertion_point(field_set:IM.BaseDefine.AuthInfo.auth_interfaces)
-}
-inline void AuthInfo::set_auth_interfaces(const char* value) {
-  set_has_auth_interfaces();
-  if (auth_interfaces_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_interfaces_ = new ::std::string;
-  }
-  auth_interfaces_->assign(value);
-  // @@protoc_insertion_point(field_set_char:IM.BaseDefine.AuthInfo.auth_interfaces)
-}
-inline void AuthInfo::set_auth_interfaces(const char* value, size_t size) {
-  set_has_auth_interfaces();
-  if (auth_interfaces_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_interfaces_ = new ::std::string;
-  }
-  auth_interfaces_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:IM.BaseDefine.AuthInfo.auth_interfaces)
-}
-inline ::std::string* AuthInfo::mutable_auth_interfaces() {
-  set_has_auth_interfaces();
-  if (auth_interfaces_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_interfaces_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:IM.BaseDefine.AuthInfo.auth_interfaces)
-  return auth_interfaces_;
-}
-inline ::std::string* AuthInfo::release_auth_interfaces() {
-  clear_has_auth_interfaces();
-  if (auth_interfaces_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = auth_interfaces_;
-    auth_interfaces_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void AuthInfo::set_allocated_auth_interfaces(::std::string* auth_interfaces) {
-  if (auth_interfaces_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete auth_interfaces_;
-  }
-  if (auth_interfaces) {
-    set_has_auth_interfaces();
-    auth_interfaces_ = auth_interfaces;
-  } else {
-    clear_has_auth_interfaces();
-    auth_interfaces_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:IM.BaseDefine.AuthInfo.auth_interfaces)
-}
-
-// required string auth_ips = 6;
-inline bool AuthInfo::has_auth_ips() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void AuthInfo::set_has_auth_ips() {
-  _has_bits_[0] |= 0x00000020u;
-}
-inline void AuthInfo::clear_has_auth_ips() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-inline void AuthInfo::clear_auth_ips() {
-  if (auth_ips_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_ips_->clear();
-  }
-  clear_has_auth_ips();
-}
-inline const ::std::string& AuthInfo::auth_ips() const {
-  // @@protoc_insertion_point(field_get:IM.BaseDefine.AuthInfo.auth_ips)
-  return *auth_ips_;
-}
-inline void AuthInfo::set_auth_ips(const ::std::string& value) {
-  set_has_auth_ips();
-  if (auth_ips_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_ips_ = new ::std::string;
-  }
-  auth_ips_->assign(value);
-  // @@protoc_insertion_point(field_set:IM.BaseDefine.AuthInfo.auth_ips)
-}
-inline void AuthInfo::set_auth_ips(const char* value) {
-  set_has_auth_ips();
-  if (auth_ips_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_ips_ = new ::std::string;
-  }
-  auth_ips_->assign(value);
-  // @@protoc_insertion_point(field_set_char:IM.BaseDefine.AuthInfo.auth_ips)
-}
-inline void AuthInfo::set_auth_ips(const char* value, size_t size) {
-  set_has_auth_ips();
-  if (auth_ips_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_ips_ = new ::std::string;
-  }
-  auth_ips_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:IM.BaseDefine.AuthInfo.auth_ips)
-}
-inline ::std::string* AuthInfo::mutable_auth_ips() {
-  set_has_auth_ips();
-  if (auth_ips_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    auth_ips_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:IM.BaseDefine.AuthInfo.auth_ips)
-  return auth_ips_;
-}
-inline ::std::string* AuthInfo::release_auth_ips() {
-  clear_has_auth_ips();
-  if (auth_ips_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = auth_ips_;
-    auth_ips_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void AuthInfo::set_allocated_auth_ips(::std::string* auth_ips) {
-  if (auth_ips_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete auth_ips_;
-  }
-  if (auth_ips) {
-    set_has_auth_ips();
-    auth_ips_ = auth_ips;
-  } else {
-    clear_has_auth_ips();
-    auth_ips_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:IM.BaseDefine.AuthInfo.auth_ips)
-}
-
-// -------------------------------------------------------------------
-
 // DepartInfo
 
 // required uint32 dept_id = 1;
@@ -5370,6 +4985,58 @@ inline void DepartInfo::set_dept_status(::IM::BaseDefine::DepartmentStatusType v
   set_has_dept_status();
   dept_status_ = value;
   // @@protoc_insertion_point(field_set:IM.BaseDefine.DepartInfo.dept_status)
+}
+
+// -------------------------------------------------------------------
+
+// PushShieldStatus
+
+// required uint32 user_id = 1;
+inline bool PushShieldStatus::has_user_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PushShieldStatus::set_has_user_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PushShieldStatus::clear_has_user_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PushShieldStatus::clear_user_id() {
+  user_id_ = 0u;
+  clear_has_user_id();
+}
+inline ::google::protobuf::uint32 PushShieldStatus::user_id() const {
+  // @@protoc_insertion_point(field_get:IM.BaseDefine.PushShieldStatus.user_id)
+  return user_id_;
+}
+inline void PushShieldStatus::set_user_id(::google::protobuf::uint32 value) {
+  set_has_user_id();
+  user_id_ = value;
+  // @@protoc_insertion_point(field_set:IM.BaseDefine.PushShieldStatus.user_id)
+}
+
+// required uint32 shield_status = 2;
+inline bool PushShieldStatus::has_shield_status() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PushShieldStatus::set_has_shield_status() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PushShieldStatus::clear_has_shield_status() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PushShieldStatus::clear_shield_status() {
+  shield_status_ = 0u;
+  clear_has_shield_status();
+}
+inline ::google::protobuf::uint32 PushShieldStatus::shield_status() const {
+  // @@protoc_insertion_point(field_get:IM.BaseDefine.PushShieldStatus.shield_status)
+  return shield_status_;
+}
+inline void PushShieldStatus::set_shield_status(::google::protobuf::uint32 value) {
+  set_has_shield_status();
+  shield_status_ = value;
+  // @@protoc_insertion_point(field_set:IM.BaseDefine.PushShieldStatus.shield_status)
 }
 
 

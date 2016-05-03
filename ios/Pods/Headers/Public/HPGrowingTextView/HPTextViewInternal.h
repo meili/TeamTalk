@@ -1,1 +1,0 @@
-../../../HPGrowingTextView/class/HPTextViewInternal.h

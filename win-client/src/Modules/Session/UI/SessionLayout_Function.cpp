@@ -286,7 +286,10 @@ BOOL SessionLayout::_DisplayUnreadMsg()
 
 	for (auto MessageInfo : msgList)
 	{
-		DECRYPT_MSG(MessageInfo.content, MessageInfo.content);
+        if (MESSAGE_RENDERTYPE_SYSTEMTIPS != MessageInfo.msgRenderType)
+        {
+            DECRYPT_MSG(MessageInfo.content, MessageInfo.content);
+        }
 		_DisplayMsgToIE(MessageInfo);
 	}
 
@@ -296,12 +299,30 @@ BOOL SessionLayout::_DisplayUnreadMsg()
 	MessageEntity msgFront = msgList.front();
 	module::getMessageModule()->setSessionTopMsgId(msgFront.sessionId, msgFront.msgId -1);
 	
+    //更新总未读计数
+    module::getSessionModule()->asynNotifyObserver(module::KEY_SESSION_UPDATE_TOTAL_UNREADMSG_COUNT);
+
 	//发送已读确认
 	auto msgBack = msgList.back();
 	_AsynSendReadAck(msgBack);
 	return TRUE;
 }
-
+void SessionLayout::_LoadFirstOpenedMsg(void)
+{
+    LOG__(APP, _T("load historyMsg or UnreadMsg! sid:%s"), util::stringToCString(m_sId));
+    module::getEventManager()->asynFireUIEventWithLambda(
+        [=]()
+    {
+        if (!_DisplayUnreadMsg())
+        {
+            _DisplayHistoryMsgToIE(FETCH_MSG_COUNT_PERTIME, TRUE);
+        }
+        //滚动条滚动到最底
+        CComVariant result;
+        m_pWebBrowser->CallJScript(_T("scrollBottom"), _T(""), &result);
+    }
+    );
+}
 void SessionLayout::_DafoNetWorkPicMsg(OUT MixedMsg& mixMsg)
 {
 	if (!mixMsg.IsPureTextMsg())

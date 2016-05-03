@@ -51,6 +51,10 @@ class IMPCLoginStatusNotify;
 class IMRemoveSessionNotify;
 class IMDepartmentReq;
 class IMDepartmentRsp;
+class IMAvatarChangedNotify;
+class IMChangeSignInfoReq;
+class IMChangeSignInfoRsp;
+class IMSignInfoChangedNotify;
 
 // ===================================================================
 
@@ -2056,6 +2060,470 @@ class IMDepartmentRsp : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static IMDepartmentRsp* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class IMAvatarChangedNotify : public ::google::protobuf::MessageLite {
+ public:
+  IMAvatarChangedNotify();
+  virtual ~IMAvatarChangedNotify();
+
+  IMAvatarChangedNotify(const IMAvatarChangedNotify& from);
+
+  inline IMAvatarChangedNotify& operator=(const IMAvatarChangedNotify& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const IMAvatarChangedNotify& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const IMAvatarChangedNotify* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(IMAvatarChangedNotify* other);
+
+  // implements Message ----------------------------------------------
+
+  IMAvatarChangedNotify* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const IMAvatarChangedNotify& from);
+  void MergeFrom(const IMAvatarChangedNotify& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 changed_user_id = 1;
+  inline bool has_changed_user_id() const;
+  inline void clear_changed_user_id();
+  static const int kChangedUserIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 changed_user_id() const;
+  inline void set_changed_user_id(::google::protobuf::uint32 value);
+
+  // required string avatar_url = 2;
+  inline bool has_avatar_url() const;
+  inline void clear_avatar_url();
+  static const int kAvatarUrlFieldNumber = 2;
+  inline const ::std::string& avatar_url() const;
+  inline void set_avatar_url(const ::std::string& value);
+  inline void set_avatar_url(const char* value);
+  inline void set_avatar_url(const char* value, size_t size);
+  inline ::std::string* mutable_avatar_url();
+  inline ::std::string* release_avatar_url();
+  inline void set_allocated_avatar_url(::std::string* avatar_url);
+
+  // @@protoc_insertion_point(class_scope:IM.Buddy.IMAvatarChangedNotify)
+ private:
+  inline void set_has_changed_user_id();
+  inline void clear_has_changed_user_id();
+  inline void set_has_avatar_url();
+  inline void clear_has_avatar_url();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* avatar_url_;
+  ::google::protobuf::uint32 changed_user_id_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_IM_2eBuddy_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_IM_2eBuddy_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_IM_2eBuddy_2eproto();
+  friend void protobuf_ShutdownFile_IM_2eBuddy_2eproto();
+
+  void InitAsDefaultInstance();
+  static IMAvatarChangedNotify* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class IMChangeSignInfoReq : public ::google::protobuf::MessageLite {
+ public:
+  IMChangeSignInfoReq();
+  virtual ~IMChangeSignInfoReq();
+
+  IMChangeSignInfoReq(const IMChangeSignInfoReq& from);
+
+  inline IMChangeSignInfoReq& operator=(const IMChangeSignInfoReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const IMChangeSignInfoReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const IMChangeSignInfoReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(IMChangeSignInfoReq* other);
+
+  // implements Message ----------------------------------------------
+
+  IMChangeSignInfoReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const IMChangeSignInfoReq& from);
+  void MergeFrom(const IMChangeSignInfoReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 user_id = 1;
+  inline bool has_user_id() const;
+  inline void clear_user_id();
+  static const int kUserIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 user_id() const;
+  inline void set_user_id(::google::protobuf::uint32 value);
+
+  // required string sign_info = 2;
+  inline bool has_sign_info() const;
+  inline void clear_sign_info();
+  static const int kSignInfoFieldNumber = 2;
+  inline const ::std::string& sign_info() const;
+  inline void set_sign_info(const ::std::string& value);
+  inline void set_sign_info(const char* value);
+  inline void set_sign_info(const char* value, size_t size);
+  inline ::std::string* mutable_sign_info();
+  inline ::std::string* release_sign_info();
+  inline void set_allocated_sign_info(::std::string* sign_info);
+
+  // optional bytes attach_data = 20;
+  inline bool has_attach_data() const;
+  inline void clear_attach_data();
+  static const int kAttachDataFieldNumber = 20;
+  inline const ::std::string& attach_data() const;
+  inline void set_attach_data(const ::std::string& value);
+  inline void set_attach_data(const char* value);
+  inline void set_attach_data(const void* value, size_t size);
+  inline ::std::string* mutable_attach_data();
+  inline ::std::string* release_attach_data();
+  inline void set_allocated_attach_data(::std::string* attach_data);
+
+  // @@protoc_insertion_point(class_scope:IM.Buddy.IMChangeSignInfoReq)
+ private:
+  inline void set_has_user_id();
+  inline void clear_has_user_id();
+  inline void set_has_sign_info();
+  inline void clear_has_sign_info();
+  inline void set_has_attach_data();
+  inline void clear_has_attach_data();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* sign_info_;
+  ::std::string* attach_data_;
+  ::google::protobuf::uint32 user_id_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_IM_2eBuddy_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_IM_2eBuddy_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_IM_2eBuddy_2eproto();
+  friend void protobuf_ShutdownFile_IM_2eBuddy_2eproto();
+
+  void InitAsDefaultInstance();
+  static IMChangeSignInfoReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class IMChangeSignInfoRsp : public ::google::protobuf::MessageLite {
+ public:
+  IMChangeSignInfoRsp();
+  virtual ~IMChangeSignInfoRsp();
+
+  IMChangeSignInfoRsp(const IMChangeSignInfoRsp& from);
+
+  inline IMChangeSignInfoRsp& operator=(const IMChangeSignInfoRsp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const IMChangeSignInfoRsp& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const IMChangeSignInfoRsp* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(IMChangeSignInfoRsp* other);
+
+  // implements Message ----------------------------------------------
+
+  IMChangeSignInfoRsp* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const IMChangeSignInfoRsp& from);
+  void MergeFrom(const IMChangeSignInfoRsp& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 user_id = 1;
+  inline bool has_user_id() const;
+  inline void clear_user_id();
+  static const int kUserIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 user_id() const;
+  inline void set_user_id(::google::protobuf::uint32 value);
+
+  // required uint32 result_code = 2;
+  inline bool has_result_code() const;
+  inline void clear_result_code();
+  static const int kResultCodeFieldNumber = 2;
+  inline ::google::protobuf::uint32 result_code() const;
+  inline void set_result_code(::google::protobuf::uint32 value);
+
+  // optional string sign_info = 3;
+  inline bool has_sign_info() const;
+  inline void clear_sign_info();
+  static const int kSignInfoFieldNumber = 3;
+  inline const ::std::string& sign_info() const;
+  inline void set_sign_info(const ::std::string& value);
+  inline void set_sign_info(const char* value);
+  inline void set_sign_info(const char* value, size_t size);
+  inline ::std::string* mutable_sign_info();
+  inline ::std::string* release_sign_info();
+  inline void set_allocated_sign_info(::std::string* sign_info);
+
+  // optional bytes attach_data = 20;
+  inline bool has_attach_data() const;
+  inline void clear_attach_data();
+  static const int kAttachDataFieldNumber = 20;
+  inline const ::std::string& attach_data() const;
+  inline void set_attach_data(const ::std::string& value);
+  inline void set_attach_data(const char* value);
+  inline void set_attach_data(const void* value, size_t size);
+  inline ::std::string* mutable_attach_data();
+  inline ::std::string* release_attach_data();
+  inline void set_allocated_attach_data(::std::string* attach_data);
+
+  // @@protoc_insertion_point(class_scope:IM.Buddy.IMChangeSignInfoRsp)
+ private:
+  inline void set_has_user_id();
+  inline void clear_has_user_id();
+  inline void set_has_result_code();
+  inline void clear_has_result_code();
+  inline void set_has_sign_info();
+  inline void clear_has_sign_info();
+  inline void set_has_attach_data();
+  inline void clear_has_attach_data();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 user_id_;
+  ::google::protobuf::uint32 result_code_;
+  ::std::string* sign_info_;
+  ::std::string* attach_data_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_IM_2eBuddy_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_IM_2eBuddy_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_IM_2eBuddy_2eproto();
+  friend void protobuf_ShutdownFile_IM_2eBuddy_2eproto();
+
+  void InitAsDefaultInstance();
+  static IMChangeSignInfoRsp* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class IMSignInfoChangedNotify : public ::google::protobuf::MessageLite {
+ public:
+  IMSignInfoChangedNotify();
+  virtual ~IMSignInfoChangedNotify();
+
+  IMSignInfoChangedNotify(const IMSignInfoChangedNotify& from);
+
+  inline IMSignInfoChangedNotify& operator=(const IMSignInfoChangedNotify& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const IMSignInfoChangedNotify& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const IMSignInfoChangedNotify* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(IMSignInfoChangedNotify* other);
+
+  // implements Message ----------------------------------------------
+
+  IMSignInfoChangedNotify* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const IMSignInfoChangedNotify& from);
+  void MergeFrom(const IMSignInfoChangedNotify& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 changed_user_id = 1;
+  inline bool has_changed_user_id() const;
+  inline void clear_changed_user_id();
+  static const int kChangedUserIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 changed_user_id() const;
+  inline void set_changed_user_id(::google::protobuf::uint32 value);
+
+  // required string sign_info = 2;
+  inline bool has_sign_info() const;
+  inline void clear_sign_info();
+  static const int kSignInfoFieldNumber = 2;
+  inline const ::std::string& sign_info() const;
+  inline void set_sign_info(const ::std::string& value);
+  inline void set_sign_info(const char* value);
+  inline void set_sign_info(const char* value, size_t size);
+  inline ::std::string* mutable_sign_info();
+  inline ::std::string* release_sign_info();
+  inline void set_allocated_sign_info(::std::string* sign_info);
+
+  // @@protoc_insertion_point(class_scope:IM.Buddy.IMSignInfoChangedNotify)
+ private:
+  inline void set_has_changed_user_id();
+  inline void clear_has_changed_user_id();
+  inline void set_has_sign_info();
+  inline void clear_has_sign_info();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* sign_info_;
+  ::google::protobuf::uint32 changed_user_id_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_IM_2eBuddy_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_IM_2eBuddy_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_IM_2eBuddy_2eproto();
+  friend void protobuf_ShutdownFile_IM_2eBuddy_2eproto();
+
+  void InitAsDefaultInstance();
+  static IMSignInfoChangedNotify* default_instance_;
 };
 // ===================================================================
 
@@ -4245,6 +4713,598 @@ inline void IMDepartmentRsp::set_allocated_attach_data(::std::string* attach_dat
     attach_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
   // @@protoc_insertion_point(field_set_allocated:IM.Buddy.IMDepartmentRsp.attach_data)
+}
+
+// -------------------------------------------------------------------
+
+// IMAvatarChangedNotify
+
+// required uint32 changed_user_id = 1;
+inline bool IMAvatarChangedNotify::has_changed_user_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void IMAvatarChangedNotify::set_has_changed_user_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void IMAvatarChangedNotify::clear_has_changed_user_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void IMAvatarChangedNotify::clear_changed_user_id() {
+  changed_user_id_ = 0u;
+  clear_has_changed_user_id();
+}
+inline ::google::protobuf::uint32 IMAvatarChangedNotify::changed_user_id() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMAvatarChangedNotify.changed_user_id)
+  return changed_user_id_;
+}
+inline void IMAvatarChangedNotify::set_changed_user_id(::google::protobuf::uint32 value) {
+  set_has_changed_user_id();
+  changed_user_id_ = value;
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMAvatarChangedNotify.changed_user_id)
+}
+
+// required string avatar_url = 2;
+inline bool IMAvatarChangedNotify::has_avatar_url() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void IMAvatarChangedNotify::set_has_avatar_url() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void IMAvatarChangedNotify::clear_has_avatar_url() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void IMAvatarChangedNotify::clear_avatar_url() {
+  if (avatar_url_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    avatar_url_->clear();
+  }
+  clear_has_avatar_url();
+}
+inline const ::std::string& IMAvatarChangedNotify::avatar_url() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMAvatarChangedNotify.avatar_url)
+  return *avatar_url_;
+}
+inline void IMAvatarChangedNotify::set_avatar_url(const ::std::string& value) {
+  set_has_avatar_url();
+  if (avatar_url_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    avatar_url_ = new ::std::string;
+  }
+  avatar_url_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMAvatarChangedNotify.avatar_url)
+}
+inline void IMAvatarChangedNotify::set_avatar_url(const char* value) {
+  set_has_avatar_url();
+  if (avatar_url_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    avatar_url_ = new ::std::string;
+  }
+  avatar_url_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.Buddy.IMAvatarChangedNotify.avatar_url)
+}
+inline void IMAvatarChangedNotify::set_avatar_url(const char* value, size_t size) {
+  set_has_avatar_url();
+  if (avatar_url_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    avatar_url_ = new ::std::string;
+  }
+  avatar_url_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.Buddy.IMAvatarChangedNotify.avatar_url)
+}
+inline ::std::string* IMAvatarChangedNotify::mutable_avatar_url() {
+  set_has_avatar_url();
+  if (avatar_url_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    avatar_url_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:IM.Buddy.IMAvatarChangedNotify.avatar_url)
+  return avatar_url_;
+}
+inline ::std::string* IMAvatarChangedNotify::release_avatar_url() {
+  clear_has_avatar_url();
+  if (avatar_url_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = avatar_url_;
+    avatar_url_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void IMAvatarChangedNotify::set_allocated_avatar_url(::std::string* avatar_url) {
+  if (avatar_url_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete avatar_url_;
+  }
+  if (avatar_url) {
+    set_has_avatar_url();
+    avatar_url_ = avatar_url;
+  } else {
+    clear_has_avatar_url();
+    avatar_url_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.Buddy.IMAvatarChangedNotify.avatar_url)
+}
+
+// -------------------------------------------------------------------
+
+// IMChangeSignInfoReq
+
+// required uint32 user_id = 1;
+inline bool IMChangeSignInfoReq::has_user_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void IMChangeSignInfoReq::set_has_user_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void IMChangeSignInfoReq::clear_has_user_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void IMChangeSignInfoReq::clear_user_id() {
+  user_id_ = 0u;
+  clear_has_user_id();
+}
+inline ::google::protobuf::uint32 IMChangeSignInfoReq::user_id() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMChangeSignInfoReq.user_id)
+  return user_id_;
+}
+inline void IMChangeSignInfoReq::set_user_id(::google::protobuf::uint32 value) {
+  set_has_user_id();
+  user_id_ = value;
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMChangeSignInfoReq.user_id)
+}
+
+// required string sign_info = 2;
+inline bool IMChangeSignInfoReq::has_sign_info() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void IMChangeSignInfoReq::set_has_sign_info() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void IMChangeSignInfoReq::clear_has_sign_info() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void IMChangeSignInfoReq::clear_sign_info() {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_->clear();
+  }
+  clear_has_sign_info();
+}
+inline const ::std::string& IMChangeSignInfoReq::sign_info() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMChangeSignInfoReq.sign_info)
+  return *sign_info_;
+}
+inline void IMChangeSignInfoReq::set_sign_info(const ::std::string& value) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMChangeSignInfoReq.sign_info)
+}
+inline void IMChangeSignInfoReq::set_sign_info(const char* value) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.Buddy.IMChangeSignInfoReq.sign_info)
+}
+inline void IMChangeSignInfoReq::set_sign_info(const char* value, size_t size) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.Buddy.IMChangeSignInfoReq.sign_info)
+}
+inline ::std::string* IMChangeSignInfoReq::mutable_sign_info() {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:IM.Buddy.IMChangeSignInfoReq.sign_info)
+  return sign_info_;
+}
+inline ::std::string* IMChangeSignInfoReq::release_sign_info() {
+  clear_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = sign_info_;
+    sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void IMChangeSignInfoReq::set_allocated_sign_info(::std::string* sign_info) {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sign_info_;
+  }
+  if (sign_info) {
+    set_has_sign_info();
+    sign_info_ = sign_info;
+  } else {
+    clear_has_sign_info();
+    sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.Buddy.IMChangeSignInfoReq.sign_info)
+}
+
+// optional bytes attach_data = 20;
+inline bool IMChangeSignInfoReq::has_attach_data() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void IMChangeSignInfoReq::set_has_attach_data() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void IMChangeSignInfoReq::clear_has_attach_data() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void IMChangeSignInfoReq::clear_attach_data() {
+  if (attach_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_->clear();
+  }
+  clear_has_attach_data();
+}
+inline const ::std::string& IMChangeSignInfoReq::attach_data() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMChangeSignInfoReq.attach_data)
+  return *attach_data_;
+}
+inline void IMChangeSignInfoReq::set_attach_data(const ::std::string& value) {
+  set_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_ = new ::std::string;
+  }
+  attach_data_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMChangeSignInfoReq.attach_data)
+}
+inline void IMChangeSignInfoReq::set_attach_data(const char* value) {
+  set_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_ = new ::std::string;
+  }
+  attach_data_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.Buddy.IMChangeSignInfoReq.attach_data)
+}
+inline void IMChangeSignInfoReq::set_attach_data(const void* value, size_t size) {
+  set_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_ = new ::std::string;
+  }
+  attach_data_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.Buddy.IMChangeSignInfoReq.attach_data)
+}
+inline ::std::string* IMChangeSignInfoReq::mutable_attach_data() {
+  set_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:IM.Buddy.IMChangeSignInfoReq.attach_data)
+  return attach_data_;
+}
+inline ::std::string* IMChangeSignInfoReq::release_attach_data() {
+  clear_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = attach_data_;
+    attach_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void IMChangeSignInfoReq::set_allocated_attach_data(::std::string* attach_data) {
+  if (attach_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete attach_data_;
+  }
+  if (attach_data) {
+    set_has_attach_data();
+    attach_data_ = attach_data;
+  } else {
+    clear_has_attach_data();
+    attach_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.Buddy.IMChangeSignInfoReq.attach_data)
+}
+
+// -------------------------------------------------------------------
+
+// IMChangeSignInfoRsp
+
+// required uint32 user_id = 1;
+inline bool IMChangeSignInfoRsp::has_user_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void IMChangeSignInfoRsp::set_has_user_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void IMChangeSignInfoRsp::clear_has_user_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void IMChangeSignInfoRsp::clear_user_id() {
+  user_id_ = 0u;
+  clear_has_user_id();
+}
+inline ::google::protobuf::uint32 IMChangeSignInfoRsp::user_id() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMChangeSignInfoRsp.user_id)
+  return user_id_;
+}
+inline void IMChangeSignInfoRsp::set_user_id(::google::protobuf::uint32 value) {
+  set_has_user_id();
+  user_id_ = value;
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMChangeSignInfoRsp.user_id)
+}
+
+// required uint32 result_code = 2;
+inline bool IMChangeSignInfoRsp::has_result_code() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void IMChangeSignInfoRsp::set_has_result_code() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void IMChangeSignInfoRsp::clear_has_result_code() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void IMChangeSignInfoRsp::clear_result_code() {
+  result_code_ = 0u;
+  clear_has_result_code();
+}
+inline ::google::protobuf::uint32 IMChangeSignInfoRsp::result_code() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMChangeSignInfoRsp.result_code)
+  return result_code_;
+}
+inline void IMChangeSignInfoRsp::set_result_code(::google::protobuf::uint32 value) {
+  set_has_result_code();
+  result_code_ = value;
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMChangeSignInfoRsp.result_code)
+}
+
+// optional string sign_info = 3;
+inline bool IMChangeSignInfoRsp::has_sign_info() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void IMChangeSignInfoRsp::set_has_sign_info() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void IMChangeSignInfoRsp::clear_has_sign_info() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void IMChangeSignInfoRsp::clear_sign_info() {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_->clear();
+  }
+  clear_has_sign_info();
+}
+inline const ::std::string& IMChangeSignInfoRsp::sign_info() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMChangeSignInfoRsp.sign_info)
+  return *sign_info_;
+}
+inline void IMChangeSignInfoRsp::set_sign_info(const ::std::string& value) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMChangeSignInfoRsp.sign_info)
+}
+inline void IMChangeSignInfoRsp::set_sign_info(const char* value) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.Buddy.IMChangeSignInfoRsp.sign_info)
+}
+inline void IMChangeSignInfoRsp::set_sign_info(const char* value, size_t size) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.Buddy.IMChangeSignInfoRsp.sign_info)
+}
+inline ::std::string* IMChangeSignInfoRsp::mutable_sign_info() {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:IM.Buddy.IMChangeSignInfoRsp.sign_info)
+  return sign_info_;
+}
+inline ::std::string* IMChangeSignInfoRsp::release_sign_info() {
+  clear_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = sign_info_;
+    sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void IMChangeSignInfoRsp::set_allocated_sign_info(::std::string* sign_info) {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sign_info_;
+  }
+  if (sign_info) {
+    set_has_sign_info();
+    sign_info_ = sign_info;
+  } else {
+    clear_has_sign_info();
+    sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.Buddy.IMChangeSignInfoRsp.sign_info)
+}
+
+// optional bytes attach_data = 20;
+inline bool IMChangeSignInfoRsp::has_attach_data() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void IMChangeSignInfoRsp::set_has_attach_data() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void IMChangeSignInfoRsp::clear_has_attach_data() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void IMChangeSignInfoRsp::clear_attach_data() {
+  if (attach_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_->clear();
+  }
+  clear_has_attach_data();
+}
+inline const ::std::string& IMChangeSignInfoRsp::attach_data() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMChangeSignInfoRsp.attach_data)
+  return *attach_data_;
+}
+inline void IMChangeSignInfoRsp::set_attach_data(const ::std::string& value) {
+  set_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_ = new ::std::string;
+  }
+  attach_data_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMChangeSignInfoRsp.attach_data)
+}
+inline void IMChangeSignInfoRsp::set_attach_data(const char* value) {
+  set_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_ = new ::std::string;
+  }
+  attach_data_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.Buddy.IMChangeSignInfoRsp.attach_data)
+}
+inline void IMChangeSignInfoRsp::set_attach_data(const void* value, size_t size) {
+  set_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_ = new ::std::string;
+  }
+  attach_data_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.Buddy.IMChangeSignInfoRsp.attach_data)
+}
+inline ::std::string* IMChangeSignInfoRsp::mutable_attach_data() {
+  set_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    attach_data_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:IM.Buddy.IMChangeSignInfoRsp.attach_data)
+  return attach_data_;
+}
+inline ::std::string* IMChangeSignInfoRsp::release_attach_data() {
+  clear_has_attach_data();
+  if (attach_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = attach_data_;
+    attach_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void IMChangeSignInfoRsp::set_allocated_attach_data(::std::string* attach_data) {
+  if (attach_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete attach_data_;
+  }
+  if (attach_data) {
+    set_has_attach_data();
+    attach_data_ = attach_data;
+  } else {
+    clear_has_attach_data();
+    attach_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.Buddy.IMChangeSignInfoRsp.attach_data)
+}
+
+// -------------------------------------------------------------------
+
+// IMSignInfoChangedNotify
+
+// required uint32 changed_user_id = 1;
+inline bool IMSignInfoChangedNotify::has_changed_user_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void IMSignInfoChangedNotify::set_has_changed_user_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void IMSignInfoChangedNotify::clear_has_changed_user_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void IMSignInfoChangedNotify::clear_changed_user_id() {
+  changed_user_id_ = 0u;
+  clear_has_changed_user_id();
+}
+inline ::google::protobuf::uint32 IMSignInfoChangedNotify::changed_user_id() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMSignInfoChangedNotify.changed_user_id)
+  return changed_user_id_;
+}
+inline void IMSignInfoChangedNotify::set_changed_user_id(::google::protobuf::uint32 value) {
+  set_has_changed_user_id();
+  changed_user_id_ = value;
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMSignInfoChangedNotify.changed_user_id)
+}
+
+// required string sign_info = 2;
+inline bool IMSignInfoChangedNotify::has_sign_info() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void IMSignInfoChangedNotify::set_has_sign_info() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void IMSignInfoChangedNotify::clear_has_sign_info() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void IMSignInfoChangedNotify::clear_sign_info() {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_->clear();
+  }
+  clear_has_sign_info();
+}
+inline const ::std::string& IMSignInfoChangedNotify::sign_info() const {
+  // @@protoc_insertion_point(field_get:IM.Buddy.IMSignInfoChangedNotify.sign_info)
+  return *sign_info_;
+}
+inline void IMSignInfoChangedNotify::set_sign_info(const ::std::string& value) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.Buddy.IMSignInfoChangedNotify.sign_info)
+}
+inline void IMSignInfoChangedNotify::set_sign_info(const char* value) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.Buddy.IMSignInfoChangedNotify.sign_info)
+}
+inline void IMSignInfoChangedNotify::set_sign_info(const char* value, size_t size) {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  sign_info_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.Buddy.IMSignInfoChangedNotify.sign_info)
+}
+inline ::std::string* IMSignInfoChangedNotify::mutable_sign_info() {
+  set_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sign_info_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:IM.Buddy.IMSignInfoChangedNotify.sign_info)
+  return sign_info_;
+}
+inline ::std::string* IMSignInfoChangedNotify::release_sign_info() {
+  clear_has_sign_info();
+  if (sign_info_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = sign_info_;
+    sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void IMSignInfoChangedNotify::set_allocated_sign_info(::std::string* sign_info) {
+  if (sign_info_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sign_info_;
+  }
+  if (sign_info) {
+    set_has_sign_info();
+    sign_info_ = sign_info;
+  } else {
+    clear_has_sign_info();
+    sign_info_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.Buddy.IMSignInfoChangedNotify.sign_info)
 }
 
 

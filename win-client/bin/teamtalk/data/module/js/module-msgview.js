@@ -201,4 +201,5 @@ window.showGoodsInfo = IMApp.MessageView.showGoodsInfo;
 
 $(document).ready(function() {
     IMApp.MessageView.init();
+	window.open("moguim://moguim/:documentcompleted");
 });

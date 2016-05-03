@@ -200,7 +200,6 @@ void CProxyConn::HandlePduBuf(uchar_t* pdu_buf, uint32_t pdu_len)
 {
     CImPdu* pPdu = NULL;
     pPdu = CImPdu::ReadPdu(pdu_buf, pdu_len);
-    
     if (pPdu->GetCommandId() == IM::BaseDefine::CID_OTHER_HEARTBEAT) {
         return;
     }

@@ -13,6 +13,7 @@
 #include <memory>
 /******************************************************************************/
 const UInt32 INIT_FOCUS_TIMER_ID = 10088;
+const UInt8	FETCH_MSG_COUNT_PERTIME = 10;
 
 using namespace DuiLib;
 class MessageEntity;
@@ -72,6 +73,8 @@ public:
 	void DoDisplayHistoryMsgToIE(std::vector<MessageEntity>& msgList, BOOL scrollBottom);
 
 	void OnSendImageCallback(std::shared_ptr<void> param);//发送图片返回
+    void OnFinishScreenCapture(__in LPCTSTR lpFilePath);
+    UInt32 GetGroupItemCnt(void);
 private:
 	/**
 	 * 展示群成员
@@ -82,6 +85,7 @@ private:
 	void _UpdateGroupMembersList();
 	void _AddGroupMemberToList(IN const std::string& sID,IN const BOOL bCreator);
 	void _UpdateSearchRsultList(IN const std::vector<std::string>& nameList);
+    void _LoadFirstOpenedMsg(void);//加载第一次打开对话康的消息（优先未读消息，其次历史消息）
 	BOOL _DisplayUnreadMsg();
 	void _DisplayHistoryMsgToIE(UInt32 nMsgCount, BOOL scrollBottom);
 	BOOL _DisplayMsgToIE(IN MessageEntity msg);
@@ -104,6 +108,7 @@ public:
 	CPaintManagerUI&	m_paint_manager;
 
 	CWebBrowserUI*		m_pWebBrowser;//聊天显示框
+    BOOL                m_bDocumentReady = FALSE;
 	UIIMEdit*			m_pInputRichEdit;
 
 	CContainerUI*		m_pRightContainer;
@@ -118,6 +123,7 @@ public:
 
 	CButtonUI*			m_pBtnEmotion;		//表情
 	CButtonUI*			m_pBtnSendImage;	//发送图片
+    CButtonUI*			m_pBtnScreenShot;	//截屏
 	CButtonUI*			m_pBtnshock;
 	CButtonUI*			m_pBtnsendfile;
 	CButtonUI*			m_pBtnbanGroupMsg;

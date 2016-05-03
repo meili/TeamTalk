@@ -73,7 +73,7 @@ namespace DB_PROXY {
     
     void delOfflineFile(CImPdu* pPdu, uint32_t conn_uuid)
     {
-        IM::File::IMFileAddOfflineReq msg;
+        IM::File::IMFileDelOfflineReq msg;
         if(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()))
         {
             uint32_t nUserId = msg.from_user_id();

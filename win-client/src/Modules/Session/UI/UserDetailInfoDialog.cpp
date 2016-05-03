@@ -69,6 +69,12 @@ void UserDetailInfoDialog::OnWindowInitialized(TNotifyUI& msg)
 	{
 		realName->SetText(userInfo.csName);
 	}
+    CControlUI* signInfo = m_PaintManager.FindControl(_T("signInfo"));
+    if (signInfo)
+    {
+        signInfo->SetText(util::stringToCString(userInfo.signature));
+        signInfo->SetToolTip(util::stringToCString(userInfo.signature));
+    }
 	CControlUI* sex = m_PaintManager.FindControl(_T("sex"));
 	if (sex)
 	{

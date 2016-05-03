@@ -79,6 +79,12 @@ void CImPdu::SetCommandId(uint16_t command_id)
     CByteStream::WriteUint16(buf + 10, command_id);
 }
 
+void CImPdu::SetError(uint16_t error)
+{
+    uchar_t* buf = GetBuffer();
+    CByteStream::WriteUint16(buf + 12, error);
+}
+
 void CImPdu::SetSeqNum(uint16_t seq_num)
 {
 	uchar_t* buf = GetBuffer();
@@ -150,7 +156,7 @@ bool CImPdu::IsPduAvailable(uchar_t* buf, uint32_t len, uint32_t& pdu_len)
 	return true;
 }
 
-void CImPdu::SetPBMsg(google::protobuf::MessageLite* msg)
+void CImPdu::SetPBMsg(const google::protobuf::MessageLite* msg)
 {
     //设置包体，则需要重置下空间
     m_buf.Read(NULL, m_buf.GetWriteOffset());

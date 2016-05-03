@@ -14,6 +14,7 @@
 #include "../HttpClient.h"
 #include "../SyncCenter.h"
 #include "Login.h"
+#include "UserModel.h"
 #include "TokenValidator.h"
 #include "json/json.h"
 #include "Common.h"
@@ -36,7 +37,6 @@ void doLogin(CImPdu* pPdu, uint32_t conn_uuid)
     
     IM::Server::IMValidateReq msg;
     IM::Server::IMValidateRsp msgResp;
-    
     if(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()))
     {
         
@@ -104,10 +104,14 @@ void doLogin(CImPdu* pPdu, uint32_t conn_uuid)
             pUser->set_user_nick_name(cUser.user_nick_name());
             pUser->set_user_domain(cUser.user_domain());
             pUser->set_avatar_url(cUser.avatar_url());
+            
             pUser->set_email(cUser.email());
             pUser->set_user_tel(cUser.user_tel());
             pUser->set_user_real_name(cUser.user_real_name());
             pUser->set_status(0);
+
+            pUser->set_sign_info(cUser.sign_info());
+           
             msgResp.set_result_code(0);
             msgResp.set_result_string("成功");
             

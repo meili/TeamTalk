@@ -69,6 +69,9 @@ void ReloginManager::doRelogin()
             return;
         }
 
+        //清理掉队列里面 未发送的 消息已读确认 Operation《不处理可能会引发丢消息》
+        imcore::IMLibCoreClearOperationByName(imcore::OPERATION_NAME_MSG_READ_ACK);
+
         LoginParam param;
 		module::TTConfig* pCfg = module::getSysConfigModule()->getSystemConfig();
 		param.mySelectedStatus = pCfg->myselectStatus;

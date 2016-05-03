@@ -31,6 +31,8 @@ void client_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pP
 // this callback will be replaced by imconn_callback() in OnConnect()
 void msg_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
+    log("msg_server come in");
+
 	if (msg == NETLIB_MSG_CONNECT)
 	{
 		CLoginConn* pConn = new CLoginConn();
@@ -68,6 +70,8 @@ int main(int argc, char* argv[])
 
 	CConfigFileReader config_file("loginserver.conf");
 
+    char* client_listen_ip = config_file.GetConfigName("ClientListenIP");
+    char* str_client_port = config_file.GetConfigName("ClientPort");
     char* http_listen_ip = config_file.GetConfigName("HttpListenIP");
     char* str_http_port = config_file.GetConfigName("HttpPort");
 	char* msg_server_listen_ip = config_file.GetConfigName("MsgServerListenIP");
@@ -81,6 +85,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
+	uint16_t client_port = atoi(str_client_port);
 	uint16_t msg_server_port = atoi(str_msg_server_port);
     uint16_t http_port = atoi(str_http_port);
     strMsfsUrl = str_msfs_url;
@@ -93,6 +98,12 @@ int main(int argc, char* argv[])
 
 	if (ret == NETLIB_ERROR)
 		return ret;
+	CStrExplode client_listen_ip_list(client_listen_ip, ';');
+	for (uint32_t i = 0; i < client_listen_ip_list.GetItemCnt(); i++) {
+		ret = netlib_listen(client_listen_ip_list.GetItem(i), client_port, client_callback, NULL);
+		if (ret == NETLIB_ERROR)
+			return ret;
+	}
 
 	CStrExplode msg_server_listen_ip_list(msg_server_listen_ip, ';');
 	for (uint32_t i = 0; i < msg_server_listen_ip_list.GetItemCnt(); i++) {
@@ -108,9 +119,9 @@ int main(int argc, char* argv[])
             return ret;
     }
     
-	printf("server start listen on:\nFor MsgServer: %s:%d\nFor http:%s:%d\n",
-			 msg_server_listen_ip, msg_server_port, http_listen_ip, http_port);
 
+			printf("server start listen on:\nFor client %s:%d\nFor MsgServer: %s:%d\nFor http:%s:%d\n",
+			client_listen_ip, client_port, msg_server_listen_ip, msg_server_port, http_listen_ip, http_port);
 	init_login_conn();
     init_http_conn();
 

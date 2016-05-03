@@ -149,10 +149,10 @@ void CGroupModel::getUserGroup(uint32_t nUserId, list<IM::BaseDefine::GroupVersi
 
 
 void CGroupModel::getGroupInfo(map<uint32_t,IM::BaseDefine::GroupVersionInfo>& mapGroupId, list<IM::BaseDefine::GroupInfo>& lsGroupInfo)
-{
-    if (!mapGroupId.empty())
+{ 
+   if (!mapGroupId.empty())
     {
-        CDBManager* pDBManager = CDBManager::getInstance();
+       CDBManager* pDBManager = CDBManager::getInstance();
         CDBConn* pDBConn = pDBManager->GetDBConn("teamtalk_slave");
         if (pDBConn)
         {
@@ -177,7 +177,7 @@ void CGroupModel::getGroupInfo(map<uint32_t,IM::BaseDefine::GroupVersionInfo>& m
                 while (pResultSet->Next()) {
                     uint32_t nGroupId = pResultSet->GetInt("id");
                     uint32_t nVersion = pResultSet->GetInt("version");
-                    if(mapGroupId[nGroupId].version() < nVersion)
+               if(mapGroupId[nGroupId].version() < nVersion)
                     {
                         IM::BaseDefine::GroupInfo cGroupInfo;
                         cGroupInfo.set_group_id(nGroupId);
@@ -204,7 +204,7 @@ void CGroupModel::getGroupInfo(map<uint32_t,IM::BaseDefine::GroupVersionInfo>& m
                 log("no result set for sql:%s", strSql.c_str());
             }
             pDBManager->RelDBConn(pDBConn);
-            if(!lsGroupInfo.empty())
+       if(!lsGroupInfo.empty())
             {
                 fillGroupMember(lsGroupInfo);
             }

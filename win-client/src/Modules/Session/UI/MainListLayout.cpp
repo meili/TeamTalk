@@ -18,6 +18,7 @@
 #include "Modules/IDatabaseModule.h"
 #include "Modules/ITcpClientModule.h"
 #include "Modules/ISessionModule.h"
+#include "Modules/IFileTransferModule.h"
 #include "../SessionManager.h"
 #include "../../Message/ReceiveMsgManage.h"
 #include "utility/Multilingual.h"
@@ -41,6 +42,7 @@
 	module::getGroupListModule()->addObserver(this, BIND_CALLBACK_2(MainListLayout::MKOForGrouplistModuleCallback));
 	module::getSessionModule()->addObserver(this, BIND_CALLBACK_2(MainListLayout::MKOForSessionModuleCallback));
 	module::getSysConfigModule()->addObserver(this, BIND_CALLBACK_2(MainListLayout::MKOForSysConfigModuleCallback));
+    module::getFileTransferModule()->addObserver(this, BIND_CALLBACK_2(MainListLayout::MKOForFileTransferModuleCallback));
 }
 
 // -----------------------------------------------------------------------------
@@ -52,6 +54,7 @@ MainListLayout::~MainListLayout()
 	module::getGroupListModule()->removeObserver(this);
 	module::getSessionModule()->removeObserver(this);
 	module::getSysConfigModule()->removeObserver(this);
+    module::getFileTransferModule()->removeObserver(this);
 }
 
 LPVOID MainListLayout::GetInterface(LPCTSTR pstrName)
@@ -352,7 +355,7 @@ void MainListLayout::_NewMsgUpdate(std::string& sId)
 		else
 			m_UIRecentConnectedList->UpdateItemConentBySId(sId);
 	}
-	
+
 	//会话窗口已经存在，则即时显示消息(离线消息返回的时候，肯定没有窗口)
 	SessionDialog* pDialog = SessionDialogManager::getInstance()->findSessionDialogBySId(sId);
 	if (pDialog)
@@ -375,6 +378,9 @@ void MainListLayout::_NewMsgUpdate(std::string& sId)
 			}
 		}
 	}
+    //更新总未读计数
+    module::getSessionModule()->asynNotifyObserver(module::KEY_SESSION_UPDATE_TOTAL_UNREADMSG_COUNT);
+
 	//播放声音
 	module::getMiscModule()->playSysConfigSound();
 }

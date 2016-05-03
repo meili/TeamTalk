@@ -73,6 +73,7 @@ public:
     void SetFlag(uint16_t flag);
     void SetServiceId(uint16_t service_id);
     void SetCommandId(uint16_t command_id);
+    void SetError(uint16_t error);
     void SetSeqNum(uint16_t seq_num);
     void SetReversed(uint32_t reversed);
     void WriteHeader();
@@ -81,7 +82,7 @@ public:
     static CImPdu* ReadPdu(uchar_t* buf, uint32_t len);
     void Write(uchar_t* buf, uint32_t len) { m_buf.Write((void*)buf, len); }
     int ReadPduHeader(uchar_t* buf, uint32_t len);
-    void SetPBMsg(google::protobuf::MessageLite* msg);
+    void SetPBMsg(const google::protobuf::MessageLite* msg);
     
 protected:
     CSimpleBuffer	m_buf;

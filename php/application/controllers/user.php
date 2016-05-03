@@ -112,9 +112,9 @@ class User extends TT_Controller {
 		);
 		$id = $this->input->post('id');
 		$result = $this->user_model->getOne(array('id'=>$id));
-		$pwd = $this->input->post('pwd');
+		$pwd = $this->input->post('password');
 		if($pwd){
-			$params['pwd'] = md5(md5($this->input->post('password')).$result["salt"]);
+			$params['password'] = md5(md5($this->input->post('password')).$result["salt"]);
 		}
 		$result = $this->user_model->update($params,$id);
 		if($result){
@@ -190,7 +190,9 @@ class User extends TT_Controller {
 	public function _upload($filename)
 	{
 		$ch = curl_init();
-		$data = array('filename'=>'@'.$filename);
+		//$data = array('filename'=>'@'.$filename);
+		$cfile = new CurlFile($filename);
+		$data = array('filename'=> $cfile);
 		curl_setopt($ch,CURLOPT_URL,$this->config->config['msfs_url']);
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 		curl_setopt($ch,CURLOPT_POST,true);

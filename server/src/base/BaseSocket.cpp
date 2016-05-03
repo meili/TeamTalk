@@ -103,17 +103,15 @@ net_handle_t CBaseSocket::Connect(const char* server_ip, uint16_t port, callback
 
 	_SetNonblock(m_socket);
 	_SetNoDelay(m_socket);
-
 	sockaddr_in serv_addr;
 	_SetAddr(server_ip, port, &serv_addr);
 	int ret = connect(m_socket, (sockaddr*)&serv_addr, sizeof(serv_addr));
 	if ( (ret == SOCKET_ERROR) && (!_IsBlock(_GetErrorCode())) )
-	{
+	{	
 		log("connect failed, err_code=%d", _GetErrorCode());
 		closesocket(m_socket);
 		return NETLIB_INVALID_HANDLE;
 	}
-
 	m_state = SOCKET_STATE_CONNECTING;
 	AddBaseSocket(this);
 	CEventDispatch::Instance()->AddEvent(m_socket, SOCKET_ALL);
@@ -320,17 +318,15 @@ void CBaseSocket::_AcceptNewSocket()
 	sockaddr_in peer_addr;
 	socklen_t addr_len = sizeof(sockaddr_in);
 	char ip_str[64];
-
 	while ( (fd = accept(m_socket, (sockaddr*)&peer_addr, &addr_len)) != INVALID_SOCKET )
 	{
 		CBaseSocket* pSocket = new CBaseSocket();
-
 		uint32_t ip = ntohl(peer_addr.sin_addr.s_addr);
 		uint16_t port = ntohs(peer_addr.sin_port);
 
 		snprintf(ip_str, sizeof(ip_str), "%d.%d.%d.%d", ip >> 24, (ip >> 16) & 0xFF, (ip >> 8) & 0xFF, ip & 0xFF);
 
-		//log("AcceptNewSocket, socket=%d from %s:%d\n", fd, ip_str, port);
+		log("AcceptNewSocket, socket=%d from %s:%d\n", fd, ip_str, port);
 
 		pSocket->SetSocket(fd);
 		pSocket->SetCallback(m_callback);

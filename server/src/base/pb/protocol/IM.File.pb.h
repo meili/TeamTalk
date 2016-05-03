@@ -467,12 +467,12 @@ class IMFilePullDataReq : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 user_id() const;
   inline void set_user_id(::google::protobuf::uint32 value);
 
-  // required .IM.BaseDefine.FileType trans_mode = 3;
+  // required .IM.BaseDefine.TransferFileType trans_mode = 3;
   inline bool has_trans_mode() const;
   inline void clear_trans_mode();
   static const int kTransModeFieldNumber = 3;
-  inline ::IM::BaseDefine::FileType trans_mode() const;
-  inline void set_trans_mode(::IM::BaseDefine::FileType value);
+  inline ::IM::BaseDefine::TransferFileType trans_mode() const;
+  inline void set_trans_mode(::IM::BaseDefine::TransferFileType value);
 
   // required uint32 offset = 4;
   inline bool has_offset() const;
@@ -617,17 +617,17 @@ class IMFilePullDataRsp : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 offset() const;
   inline void set_offset(::google::protobuf::uint32 value);
 
-  // required bytes data = 5;
-  inline bool has_data() const;
-  inline void clear_data();
-  static const int kDataFieldNumber = 5;
-  inline const ::std::string& data() const;
-  inline void set_data(const ::std::string& value);
-  inline void set_data(const char* value);
-  inline void set_data(const void* value, size_t size);
-  inline ::std::string* mutable_data();
-  inline ::std::string* release_data();
-  inline void set_allocated_data(::std::string* data);
+  // required bytes file_data = 5;
+  inline bool has_file_data() const;
+  inline void clear_file_data();
+  static const int kFileDataFieldNumber = 5;
+  inline const ::std::string& file_data() const;
+  inline void set_file_data(const ::std::string& value);
+  inline void set_file_data(const char* value);
+  inline void set_file_data(const void* value, size_t size);
+  inline ::std::string* mutable_file_data();
+  inline ::std::string* release_file_data();
+  inline void set_allocated_file_data(::std::string* file_data);
 
   // @@protoc_insertion_point(class_scope:IM.File.IMFilePullDataRsp)
  private:
@@ -639,8 +639,8 @@ class IMFilePullDataRsp : public ::google::protobuf::MessageLite {
   inline void clear_has_user_id();
   inline void set_has_offset();
   inline void clear_has_offset();
-  inline void set_has_data();
-  inline void clear_has_data();
+  inline void set_has_file_data();
+  inline void clear_has_file_data();
 
   ::std::string _unknown_fields_;
 
@@ -649,7 +649,7 @@ class IMFilePullDataRsp : public ::google::protobuf::MessageLite {
   ::std::string* task_id_;
   ::google::protobuf::uint32 result_code_;
   ::google::protobuf::uint32 user_id_;
-  ::std::string* data_;
+  ::std::string* file_data_;
   ::google::protobuf::uint32 offset_;
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_IM_2eFile_2eproto_impl();
@@ -758,12 +758,12 @@ class IMFileReq : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 file_size() const;
   inline void set_file_size(::google::protobuf::uint32 value);
 
-  // required .IM.BaseDefine.FileType trans_mode = 5;
+  // required .IM.BaseDefine.TransferFileType trans_mode = 5;
   inline bool has_trans_mode() const;
   inline void clear_trans_mode();
   static const int kTransModeFieldNumber = 5;
-  inline ::IM::BaseDefine::FileType trans_mode() const;
-  inline void set_trans_mode(::IM::BaseDefine::FileType value);
+  inline ::IM::BaseDefine::TransferFileType trans_mode() const;
+  inline void set_trans_mode(::IM::BaseDefine::TransferFileType value);
 
   // @@protoc_insertion_point(class_scope:IM.File.IMFileReq)
  private:
@@ -918,12 +918,12 @@ class IMFileRsp : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::IpAddr >*
       mutable_ip_addr_list();
 
-  // required .IM.BaseDefine.FileType trans_mode = 7;
+  // required .IM.BaseDefine.TransferFileType trans_mode = 7;
   inline bool has_trans_mode() const;
   inline void clear_trans_mode();
   static const int kTransModeFieldNumber = 7;
-  inline ::IM::BaseDefine::FileType trans_mode() const;
-  inline void set_trans_mode(::IM::BaseDefine::FileType value);
+  inline ::IM::BaseDefine::TransferFileType trans_mode() const;
+  inline void set_trans_mode(::IM::BaseDefine::TransferFileType value);
 
   // @@protoc_insertion_point(class_scope:IM.File.IMFileRsp)
  private:
@@ -1082,12 +1082,12 @@ class IMFileNotify : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::IpAddr >*
       mutable_ip_addr_list();
 
-  // required .IM.BaseDefine.FileType trans_mode = 7;
+  // required .IM.BaseDefine.TransferFileType trans_mode = 7;
   inline bool has_trans_mode() const;
   inline void clear_trans_mode();
   static const int kTransModeFieldNumber = 7;
-  inline ::IM::BaseDefine::FileType trans_mode() const;
-  inline void set_trans_mode(::IM::BaseDefine::FileType value);
+  inline ::IM::BaseDefine::TransferFileType trans_mode() const;
+  inline void set_trans_mode(::IM::BaseDefine::TransferFileType value);
 
   // required uint32 offline_ready = 8;
   inline bool has_offline_ready() const;
@@ -2100,7 +2100,7 @@ inline void IMFilePullDataReq::set_user_id(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:IM.File.IMFilePullDataReq.user_id)
 }
 
-// required .IM.BaseDefine.FileType trans_mode = 3;
+// required .IM.BaseDefine.TransferFileType trans_mode = 3;
 inline bool IMFilePullDataReq::has_trans_mode() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -2114,12 +2114,12 @@ inline void IMFilePullDataReq::clear_trans_mode() {
   trans_mode_ = 1;
   clear_has_trans_mode();
 }
-inline ::IM::BaseDefine::FileType IMFilePullDataReq::trans_mode() const {
+inline ::IM::BaseDefine::TransferFileType IMFilePullDataReq::trans_mode() const {
   // @@protoc_insertion_point(field_get:IM.File.IMFilePullDataReq.trans_mode)
-  return static_cast< ::IM::BaseDefine::FileType >(trans_mode_);
+  return static_cast< ::IM::BaseDefine::TransferFileType >(trans_mode_);
 }
-inline void IMFilePullDataReq::set_trans_mode(::IM::BaseDefine::FileType value) {
-  assert(::IM::BaseDefine::FileType_IsValid(value));
+inline void IMFilePullDataReq::set_trans_mode(::IM::BaseDefine::TransferFileType value) {
+  assert(::IM::BaseDefine::TransferFileType_IsValid(value));
   set_has_trans_mode();
   trans_mode_ = value;
   // @@protoc_insertion_point(field_set:IM.File.IMFilePullDataReq.trans_mode)
@@ -2325,80 +2325,80 @@ inline void IMFilePullDataRsp::set_offset(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:IM.File.IMFilePullDataRsp.offset)
 }
 
-// required bytes data = 5;
-inline bool IMFilePullDataRsp::has_data() const {
+// required bytes file_data = 5;
+inline bool IMFilePullDataRsp::has_file_data() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void IMFilePullDataRsp::set_has_data() {
+inline void IMFilePullDataRsp::set_has_file_data() {
   _has_bits_[0] |= 0x00000010u;
 }
-inline void IMFilePullDataRsp::clear_has_data() {
+inline void IMFilePullDataRsp::clear_has_file_data() {
   _has_bits_[0] &= ~0x00000010u;
 }
-inline void IMFilePullDataRsp::clear_data() {
-  if (data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    data_->clear();
+inline void IMFilePullDataRsp::clear_file_data() {
+  if (file_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    file_data_->clear();
   }
-  clear_has_data();
+  clear_has_file_data();
 }
-inline const ::std::string& IMFilePullDataRsp::data() const {
-  // @@protoc_insertion_point(field_get:IM.File.IMFilePullDataRsp.data)
-  return *data_;
+inline const ::std::string& IMFilePullDataRsp::file_data() const {
+  // @@protoc_insertion_point(field_get:IM.File.IMFilePullDataRsp.file_data)
+  return *file_data_;
 }
-inline void IMFilePullDataRsp::set_data(const ::std::string& value) {
-  set_has_data();
-  if (data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    data_ = new ::std::string;
+inline void IMFilePullDataRsp::set_file_data(const ::std::string& value) {
+  set_has_file_data();
+  if (file_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    file_data_ = new ::std::string;
   }
-  data_->assign(value);
-  // @@protoc_insertion_point(field_set:IM.File.IMFilePullDataRsp.data)
+  file_data_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.File.IMFilePullDataRsp.file_data)
 }
-inline void IMFilePullDataRsp::set_data(const char* value) {
-  set_has_data();
-  if (data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    data_ = new ::std::string;
+inline void IMFilePullDataRsp::set_file_data(const char* value) {
+  set_has_file_data();
+  if (file_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    file_data_ = new ::std::string;
   }
-  data_->assign(value);
-  // @@protoc_insertion_point(field_set_char:IM.File.IMFilePullDataRsp.data)
+  file_data_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.File.IMFilePullDataRsp.file_data)
 }
-inline void IMFilePullDataRsp::set_data(const void* value, size_t size) {
-  set_has_data();
-  if (data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    data_ = new ::std::string;
+inline void IMFilePullDataRsp::set_file_data(const void* value, size_t size) {
+  set_has_file_data();
+  if (file_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    file_data_ = new ::std::string;
   }
-  data_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:IM.File.IMFilePullDataRsp.data)
+  file_data_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.File.IMFilePullDataRsp.file_data)
 }
-inline ::std::string* IMFilePullDataRsp::mutable_data() {
-  set_has_data();
-  if (data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    data_ = new ::std::string;
+inline ::std::string* IMFilePullDataRsp::mutable_file_data() {
+  set_has_file_data();
+  if (file_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    file_data_ = new ::std::string;
   }
-  // @@protoc_insertion_point(field_mutable:IM.File.IMFilePullDataRsp.data)
-  return data_;
+  // @@protoc_insertion_point(field_mutable:IM.File.IMFilePullDataRsp.file_data)
+  return file_data_;
 }
-inline ::std::string* IMFilePullDataRsp::release_data() {
-  clear_has_data();
-  if (data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+inline ::std::string* IMFilePullDataRsp::release_file_data() {
+  clear_has_file_data();
+  if (file_data_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     return NULL;
   } else {
-    ::std::string* temp = data_;
-    data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    ::std::string* temp = file_data_;
+    file_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     return temp;
   }
 }
-inline void IMFilePullDataRsp::set_allocated_data(::std::string* data) {
-  if (data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete data_;
+inline void IMFilePullDataRsp::set_allocated_file_data(::std::string* file_data) {
+  if (file_data_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete file_data_;
   }
-  if (data) {
-    set_has_data();
-    data_ = data;
+  if (file_data) {
+    set_has_file_data();
+    file_data_ = file_data;
   } else {
-    clear_has_data();
-    data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    clear_has_file_data();
+    file_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  // @@protoc_insertion_point(field_set_allocated:IM.File.IMFilePullDataRsp.data)
+  // @@protoc_insertion_point(field_set_allocated:IM.File.IMFilePullDataRsp.file_data)
 }
 
 // -------------------------------------------------------------------
@@ -2553,7 +2553,7 @@ inline void IMFileReq::set_file_size(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:IM.File.IMFileReq.file_size)
 }
 
-// required .IM.BaseDefine.FileType trans_mode = 5;
+// required .IM.BaseDefine.TransferFileType trans_mode = 5;
 inline bool IMFileReq::has_trans_mode() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
@@ -2567,12 +2567,12 @@ inline void IMFileReq::clear_trans_mode() {
   trans_mode_ = 1;
   clear_has_trans_mode();
 }
-inline ::IM::BaseDefine::FileType IMFileReq::trans_mode() const {
+inline ::IM::BaseDefine::TransferFileType IMFileReq::trans_mode() const {
   // @@protoc_insertion_point(field_get:IM.File.IMFileReq.trans_mode)
-  return static_cast< ::IM::BaseDefine::FileType >(trans_mode_);
+  return static_cast< ::IM::BaseDefine::TransferFileType >(trans_mode_);
 }
-inline void IMFileReq::set_trans_mode(::IM::BaseDefine::FileType value) {
-  assert(::IM::BaseDefine::FileType_IsValid(value));
+inline void IMFileReq::set_trans_mode(::IM::BaseDefine::TransferFileType value) {
+  assert(::IM::BaseDefine::TransferFileType_IsValid(value));
   set_has_trans_mode();
   trans_mode_ = value;
   // @@protoc_insertion_point(field_set:IM.File.IMFileReq.trans_mode)
@@ -2836,7 +2836,7 @@ IMFileRsp::mutable_ip_addr_list() {
   return &ip_addr_list_;
 }
 
-// required .IM.BaseDefine.FileType trans_mode = 7;
+// required .IM.BaseDefine.TransferFileType trans_mode = 7;
 inline bool IMFileRsp::has_trans_mode() const {
   return (_has_bits_[0] & 0x00000040u) != 0;
 }
@@ -2850,12 +2850,12 @@ inline void IMFileRsp::clear_trans_mode() {
   trans_mode_ = 1;
   clear_has_trans_mode();
 }
-inline ::IM::BaseDefine::FileType IMFileRsp::trans_mode() const {
+inline ::IM::BaseDefine::TransferFileType IMFileRsp::trans_mode() const {
   // @@protoc_insertion_point(field_get:IM.File.IMFileRsp.trans_mode)
-  return static_cast< ::IM::BaseDefine::FileType >(trans_mode_);
+  return static_cast< ::IM::BaseDefine::TransferFileType >(trans_mode_);
 }
-inline void IMFileRsp::set_trans_mode(::IM::BaseDefine::FileType value) {
-  assert(::IM::BaseDefine::FileType_IsValid(value));
+inline void IMFileRsp::set_trans_mode(::IM::BaseDefine::TransferFileType value) {
+  assert(::IM::BaseDefine::TransferFileType_IsValid(value));
   set_has_trans_mode();
   trans_mode_ = value;
   // @@protoc_insertion_point(field_set:IM.File.IMFileRsp.trans_mode)
@@ -3119,7 +3119,7 @@ IMFileNotify::mutable_ip_addr_list() {
   return &ip_addr_list_;
 }
 
-// required .IM.BaseDefine.FileType trans_mode = 7;
+// required .IM.BaseDefine.TransferFileType trans_mode = 7;
 inline bool IMFileNotify::has_trans_mode() const {
   return (_has_bits_[0] & 0x00000040u) != 0;
 }
@@ -3133,12 +3133,12 @@ inline void IMFileNotify::clear_trans_mode() {
   trans_mode_ = 1;
   clear_has_trans_mode();
 }
-inline ::IM::BaseDefine::FileType IMFileNotify::trans_mode() const {
+inline ::IM::BaseDefine::TransferFileType IMFileNotify::trans_mode() const {
   // @@protoc_insertion_point(field_get:IM.File.IMFileNotify.trans_mode)
-  return static_cast< ::IM::BaseDefine::FileType >(trans_mode_);
+  return static_cast< ::IM::BaseDefine::TransferFileType >(trans_mode_);
 }
-inline void IMFileNotify::set_trans_mode(::IM::BaseDefine::FileType value) {
-  assert(::IM::BaseDefine::FileType_IsValid(value));
+inline void IMFileNotify::set_trans_mode(::IM::BaseDefine::TransferFileType value) {
+  assert(::IM::BaseDefine::TransferFileType_IsValid(value));
   set_has_trans_mode();
   trans_mode_ = value;
   // @@protoc_insertion_point(field_set:IM.File.IMFileNotify.trans_mode)

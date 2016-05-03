@@ -83,6 +83,29 @@ BOOL MixedMsg::IsPureTextMsg()
 	return m_picDataVec.empty();
 }
 
+void MixedMsg::ReplaceReturnKey(void)
+{
+    if (m_strTextData.IsEmpty())
+    {
+        return;
+    }
+
+    std::vector<std::wstring> _vecSpliter;
+    _vecSpliter.push_back(L"\r\n");
+    _vecSpliter.push_back(L"\r");
+    _vecSpliter.push_back(L"\n");
+
+    std::vector<std::wstring> _vecList;
+    util::splitString(m_strTextData.GetBuffer(), _vecSpliter, _vecList);
+
+    m_strTextData = _T("");
+    for (unsigned int i = 0; i < _vecList.size(); i++)
+    {
+        m_strTextData += _vecList[i].c_str();
+        m_strTextData += _T("\r\n");
+    }
+}
+
 /******************************************************************************/
 
 // -----------------------------------------------------------------------------
@@ -497,6 +520,8 @@ BOOL UIIMEdit::GetContent(OUT MixedMsg& mixMsg)
 	mixMsg.m_strTextData = GetTextRange(0, GetTextLength());
 	if (mixMsg.m_strTextData.IsEmpty())
 		return FALSE;
+    mixMsg.ReplaceReturnKey();
+
 	IRichEditOle *pRichEditOle = m_pRichEditOle;
 	if (NULL == pRichEditOle)
 	{

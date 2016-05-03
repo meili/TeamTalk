@@ -11,18 +11,22 @@
 /******************************************************************************/
 NAMESPACE_BEGIN(imcore)
 
+const std::string OPERATION_NAME_COMMON = "operation_name_common";
+
+
 // -----------------------------------------------------------------------------
 //  Operation: Public, Constructor
 
 Operation::Operation()
 :m_state(OPERATION_IDLE)
+, m_name(OPERATION_NAME_COMMON)
 {
 
 }
 
 Operation::Operation(const std::string& name)
 :m_state(OPERATION_IDLE)
-,m_name(name.c_str())
+,m_name(name)
 {
 
 }

@@ -72,6 +72,7 @@ public:
 	virtual CControlUI* CreateControl(LPCTSTR pstrClass);
 	virtual void InitWindow();
 	virtual void OnFinalMessage(HWND hWnd);
+    virtual void Notify(TNotifyUI& msg);
 	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	virtual LRESULT ResponseDefaultKeyEvent(WPARAM wParam);
@@ -91,7 +92,7 @@ private:
 	void OnTextChanged(TNotifyUI& msg);
 	void OnMenuClicked(IN const CString& itemName,IN const CString& strLparam);
 	void OnTrayIconNotify(WPARAM wParam, LPARAM lParam);
-
+    void OnHotkey(__in WPARAM wParam, __in LPARAM lParam);
 	/**@name MKO*/
 	//@{
 public:
@@ -114,6 +115,8 @@ public:
 	BOOL SetVersion(UINT uVersion);
 	DWORD GetShellVersion(void);
 
+    void _UpdateTotalUnReadMsgCount(void);//更新总的未读计数
+    void _FreshMySignature(void);
 	/**
 	 * 开始系统托盘闪烁
 	 *
@@ -137,6 +140,9 @@ private:
 	CButtonUI*				m_pbtnClose;
 	CButtonUI*				m_pbtnMinMize;
 	CTextUI*				m_ptxtUname;
+    CTextUI*				m_pTextUnreadMsgCount;//总的未读计数
+    CEditUI*	            m_pEditSignature;//个性签名
+
 
 	HICON                   m_hIcons[ICON_COUNT];                       //Icon对象数组	
 	CNotifyIconData			m_niData;

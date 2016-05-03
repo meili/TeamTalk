@@ -42,9 +42,13 @@ private:
 	void _HandleStopReceivePacket(CImPdu* pPdu);
 	void _HandleRemoveSessionResponse(CImPdu* pPdu);
 	void _HandleChangeAvatarResponse(CImPdu* pPdu);
+    void _HandleChangeSignInfoResponse(CImPdu* pPdu);
     void _HandleSetDeviceTokenResponse(CImPdu* pPdu);
     void _HandleGetDeviceTokenResponse(CImPdu* pPdu);
     void _HandleDepartmentResponse(CImPdu* pPdu);
+    
+    void _HandlePushShieldResponse(CImPdu* pPdu);
+    void _HandleQueryPushShieldResponse(CImPdu* pPdu);
 private:
 	bool 		m_bOpen;
 	uint32_t	m_serv_idx;

@@ -244,11 +244,14 @@ void CRouteServConn::HandlePdu(CImPdu* pPdu)
         case CID_BUDDY_LIST_REMOVE_SESSION_NOTIFY:
             _HandleRemoveSessionNotify(pPdu);
             break;
+        case CID_BUDDY_LIST_SIGN_INFO_CHANGED_NOTIFY:
+            _HandleSignInfoChangedNotify(pPdu);
         case CID_GROUP_CHANGE_MEMBER_NOTIFY:
             s_group_chat->HandleGroupChangeMemberBroadcast(pPdu);
             break;
         case CID_FILE_NOTIFY:
             s_file_handler->HandleFileNotify(pPdu);
+            break;
             break;
         default:
             log("unknown cmd id=%d ", pPdu->GetCommandId());
@@ -409,7 +412,7 @@ void CRouteServConn::_HandleUsersStatusResponse(CImPdu* pPdu)
         CHECK_PB_PARSE_MSG(msg3.ParseFromArray(attach_data.GetPdu(), attach_data.GetPduLength()));
         uint32_t handle = attach_data.GetHandle();
         
-        IM::BaseDefine::FileType trans_mode = IM::BaseDefine::FILE_TYPE_OFFLINE;
+        IM::BaseDefine::TransferFileType trans_mode = IM::BaseDefine::FILE_TYPE_OFFLINE;
         if (user_stat.status() == IM::BaseDefine::USER_STATUS_ONLINE)
         {
             trans_mode = IM::BaseDefine::FILE_TYPE_ONLINE;
@@ -494,4 +497,12 @@ void CRouteServConn::_HandlePCLoginStatusNotify(CImPdu *pPdu)
     }
 }
 
-
+void CRouteServConn::_HandleSignInfoChangedNotify(CImPdu* pPdu) {
+        IM::Buddy::IMSignInfoChangedNotify msg;
+        CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+    
+        log("HandleSignInfoChangedNotify, changed_user_id=%u, sign_info=%s ", msg.changed_user_id(), msg.sign_info().c_str());
+    
+        // send friend online message to client
+        CImUserManager::GetInstance()->BroadcastPdu(pPdu, CLIENT_TYPE_FLAG_BOTH);
+}

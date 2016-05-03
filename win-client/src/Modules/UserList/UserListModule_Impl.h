@@ -46,6 +46,7 @@ public:
 	virtual void tcpGetUserOnlieStatus(const module::UserInfoEntityVec& VecId);//要分批获取
 	virtual void tcpGetUserInfo(IN const std::string& sId);
 	virtual void tcpGetUsersInfo(IN const module::UserInfoEntityVec& VecUnKnowUserInfo);
+    virtual void tcpChangeMySignInfo(IN const std::string sSignInfo);
 
 	virtual CString getDefaultAvatartPath();
 	virtual BOOL getMyInfo(OUT module::UserInfoEntity& myInfo);
@@ -68,6 +69,10 @@ private:
 	void _changeAvatarResponse(IN std::string& pbBody);//修改头像通知
 	void _removeSessionNotify(IN std::string& pbBody);//移除会话通知
 	void _departmentResponse(IN std::string& pbBody);//部门请求返回
+
+    void _changeSignInfoResponse(IN std::string& pbBody);//修改签名返回
+    void _avatarChangeNotify(IN std::string& pbBody);//修改头像通知
+    void _signInfoChangedNotify(IN std::string& pbBody);//修改签名通知
 	//@}
 
 	/**@name 工具函数*/

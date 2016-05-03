@@ -149,6 +149,9 @@ void CRouteConn::HandlePdu(CImPdu* pPdu)
         case CID_BUDDY_LIST_REMOVE_SESSION_NOTIFY:
             _BroadcastMsg(pPdu, this);
             break;
+        case CID_BUDDY_LIST_SIGN_INFO_CHANGED_NOTIFY:
+            _BroadcastMsg(pPdu);
+            break;
         
 	default:
 		log("CRouteConn::HandlePdu, wrong cmd id: %d ", pPdu->GetCommandId());

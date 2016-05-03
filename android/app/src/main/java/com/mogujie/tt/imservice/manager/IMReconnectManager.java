@@ -34,6 +34,9 @@ public class IMReconnectManager extends IMManager {
        return inst;
     }
 
+
+
+
     /**重连所处的状态*/
     private volatile ReconnectEvent status = ReconnectEvent.NONE;
 
@@ -42,9 +45,10 @@ public class IMReconnectManager extends IMManager {
     private final int MAX_RECONNECT_INTERVAL_SECONDS = 60;
 
     private final int HANDLER_CHECK_NETWORK = 1;
-
-
     private volatile boolean isAlarmTrigger = false;
+
+    /**wakeLock锁*/
+    private PowerManager.WakeLock wakeLock;
 
     /**
      * imService 服务建立的时候
@@ -92,6 +96,8 @@ public class IMReconnectManager extends IMManager {
             logger.d("reconnect#reset stop");
         }catch (Exception e){
             logger.e("reconnect#reset error:%s",e.getCause());
+        }finally {
+            releaseWakeLock();
         }
     }
 
@@ -127,6 +133,7 @@ public class IMReconnectManager extends IMManager {
 
             case LOCAL_LOGIN_MSG_SERVICE:
                 resetReconnectTime();
+                releaseWakeLock();
                 break;
         }
     }
@@ -140,6 +147,7 @@ public class IMReconnectManager extends IMManager {
                 case HANDLER_CHECK_NETWORK:{
                       if(!NetworkUtil.isNetWorkAvalible(ctx)){
                           logger.w("reconnect#handleMessage#网络依旧不可用");
+                          releaseWakeLock();
                           EventBus.getDefault().post(ReconnectEvent.DISABLE);
                       }
                 }break;
@@ -200,16 +208,7 @@ public class IMReconnectManager extends IMManager {
                 }
 
                 /**确保之前的链接已经关闭*/
-                IMSocketManager.instance().disconnectMsgServer();
-
-                if (isAlarmTrigger) {
-                    isAlarmTrigger = false;
-                    logger.d("reconnect#定时器触发重连。。。");
-                    handleReconnectServer();
-                } else {
-                    logger.d("reconnect#正常重连，非定时器");
-                    IMSocketManager.instance().reconnectMsg();
-                }
+                handleReconnectServer();
             } else {
                 //通知上层UI修改
                 logger.d("reconnect#网络不可用!! 通知上层");
@@ -293,26 +292,52 @@ public class IMReconnectManager extends IMManager {
      */
     private void handleReconnectServer() {
         logger.d("reconnect#handleReconnectServer#定时任务触发");
-            PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
-            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "teamtalk_reconnecting_wakelock");
-            wl.acquire();
-            try {
-                if(!IMLoginManager.instance().isEverLogined() || IMLoginManager.instance().isKickout()){
-                    logger.d("reconnect#isEverLogined return!!!");
-                    return;
-                }
-                logger.d("reconnect#login#reConnect.");
-                if(reconnectInterval > 24){
-                    // 重新请求msg地址
-                    IMLoginManager.instance().relogin();
-                }else{
-                    IMSocketManager.instance().reconnectMsg();
-                }
-
-                logger.d("reconnect#trigger event reconnecting");
-            } finally {
-                wl.release();
+        acquireWakeLock();
+        IMSocketManager.instance().disconnectMsgServer();
+        if (isAlarmTrigger) {
+            isAlarmTrigger = false;
+            logger.d("reconnect#定时器触发重连。。。");
+            if(reconnectInterval > 24){
+                // 重新请求msg地址
+                IMLoginManager.instance().relogin();
+            }else{
+                IMSocketManager.instance().reconnectMsg();
             }
+        } else {
+            logger.d("reconnect#正常重连，非定时器");
+            IMSocketManager.instance().reconnectMsg();
+        }
+    }
+
+    /**
+     * 获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
+     * 由于重连流程中充满了异步操作,按照函数执行流判断加锁代码侵入性较大，而且还需要traceId跟踪（因为可能会并发）
+     * 所以这个锁定义为时间锁，15s的重连容忍时间
+     */
+    private void acquireWakeLock() {
+        try {
+            if (null == wakeLock) {
+                PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+                wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "teamtalk_reconnecting_wakelock");
+                logger.i("acquireWakeLock#call acquireWakeLock");
+                wakeLock.acquire(15000);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    // 释放设备电源锁
+    private void releaseWakeLock() {
+        try {
+            if (null != wakeLock && wakeLock.isHeld()) {
+                logger.i("releaseWakeLock##call releaseWakeLock");
+                wakeLock.release();
+                wakeLock = null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
 

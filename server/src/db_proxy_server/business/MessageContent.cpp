@@ -27,7 +27,7 @@ namespace DB_PROXY {
     void getMessage(CImPdu* pPdu, uint32_t conn_uuid)
     {
         IM::Message::IMGetMsgListReq msg;
-        if(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()))
+  if(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()))
         {
             uint32_t nUserId = msg.user_id();
             uint32_t nPeerId = msg.session_id();
