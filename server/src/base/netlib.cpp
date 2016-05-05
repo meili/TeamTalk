@@ -36,10 +36,11 @@ int netlib_listen(
 		callback_t	callback,
 		void*		callback_data)
 {
+	// socket 
 	CBaseSocket* pSocket = new CBaseSocket();
 	if (!pSocket)
 		return NETLIB_ERROR;
-
+	// bind listen
 	int ret =  pSocket->Listen(server_ip, port, callback, callback_data);
 	if (ret == NETLIB_ERROR)
 		delete pSocket;

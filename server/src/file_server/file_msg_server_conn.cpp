@@ -92,12 +92,13 @@ void FileMsgServerConn::OnWrite() {
 void FileMsgServerConn::HandlePdu(CImPdu* pdu) {
     switch (pdu->GetCommandId()) {
         case CID_OTHER_HEARTBEAT:
-            _HandleHeartBeat(pdu);
+            _HandleHeartBeat(pdu); // 心跳
             break;
-            
+			
         case CID_OTHER_FILE_TRANSFER_REQ:
             _HandleMsgFileTransferReq(pdu);
             break ;
+
         case CID_OTHER_FILE_SERVER_IP_REQ:
             _HandleGetServerAddressReq(pdu);
             break;
@@ -115,8 +116,7 @@ void FileMsgServerConn::_HandleHeartBeat(CImPdu *pdu) {
 void FileMsgServerConn::_HandleMsgFileTransferReq(CImPdu* pdu) {
     IM::Server::IMFileTransferReq transfer_req;
     CHECK_PB_PARSE_MSG(transfer_req.ParseFromArray(pdu->GetBodyData(), pdu->GetBodyLength()));
-    
-    
+        
     uint32_t from_id = transfer_req.from_user_id();
     uint32_t to_id = transfer_req.to_user_id();
     
