@@ -44,7 +44,7 @@ public class IMReconnectManager extends IMManager {
     private int reconnectInterval = INIT_RECONNECT_INTERVAL_SECONDS;
     private final int MAX_RECONNECT_INTERVAL_SECONDS = 60;
 
-    private final int HANDLER_CHECK_NETWORK = 1;
+    private final int HANDLER_CHECK_NETWORK = 1; // 一秒检测一次网络
     private volatile boolean isAlarmTrigger = false;
 
     /**wakeLock锁*/
@@ -241,9 +241,9 @@ public class IMReconnectManager extends IMManager {
      */
     private void incrementReconnectInterval() {
 		if (reconnectInterval >= MAX_RECONNECT_INTERVAL_SECONDS) {
-			reconnectInterval = MAX_RECONNECT_INTERVAL_SECONDS;
+			reconnectInterval = MAX_RECONNECT_INTERVAL_SECONDS;// 最大60秒
 		} else {
-			reconnectInterval = reconnectInterval * 2;
+			reconnectInterval = reconnectInterval * 2;// 3,6,12,24,48,96-- 60秒
 		}
 	}
 

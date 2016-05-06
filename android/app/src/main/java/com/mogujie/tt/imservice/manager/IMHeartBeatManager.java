@@ -78,6 +78,7 @@ public class IMHeartBeatManager  extends  IMManager{
             return;
         }
         AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+        //取消心跳定时器
         am.cancel(pendingIntent);
     }
 
@@ -93,8 +94,10 @@ public class IMHeartBeatManager  extends  IMManager{
                 return;
             }
         }
-
+        // 启动心跳定时器
         AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+//        AlarmManager.ELAPSED_REALTIME是关机时不唤醒
+//        AlarmManager.ELAPSED_REALTIME_WAKEUP是关机时也会唤醒，如闹钟
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + seconds, seconds, pendingIntent);
     }
 

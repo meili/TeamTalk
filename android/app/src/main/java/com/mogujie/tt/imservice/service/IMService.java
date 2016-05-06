@@ -34,6 +34,14 @@ import de.greenrobot.event.EventBus;
  * 并且Manager的状态的改变 也会影响到IMService的操作
  * 备注: 有些服务应该在LOGIN_OK 之后进行
  * todo IMManager reflect or just like  ctx.getSystemService()
+ *
+ * 如果一个 Service 已经被启动，其他代码再试图调用 startService() 方法，是不会执行 onCreate() 的，但会重新执行一次 onStart() 。
+ * Context.startService方式的生命周期：
+ *      启动时，startService –> onCreate() –> onStartCommand()
+ *      停止时，stopService –> onDestroy()
+ * Context.bindService方式的生命周期：
+ *      绑定时,bindService  -> onCreate() –> onBind()
+ *      解绑定时,unbindService –>onUnbind() –> onDestory()
  */
 public class IMService extends Service {
 	private Logger logger = Logger.getLogger(IMService.class);
@@ -84,6 +92,8 @@ public class IMService extends Service {
 		logger.i("IMService onDestroy");
         // todo 在onCreate中使用startForeground
         // 在这个地方是否执行 stopForeground呐
+        stopForeground(true);// 之前通过startForeground让服务前台运行
+
         EventBus.getDefault().unregister(this);
         handleLoginout();
         // DB的资源的释放
@@ -94,15 +104,16 @@ public class IMService extends Service {
 	}
 
     /**收到消息需要上层的activity判断 {MessageActicity onEvent(PriorityEvent event)}，这个地方是特殊分支*/
-    public void onEvent(PriorityEvent event){
-        switch (event.event){
-            case MSG_RECEIVED_MESSAGE:{
+    public void onEvent(PriorityEvent event) {
+        switch (event.event) {
+            case MSG_RECEIVED_MESSAGE: {
                 MessageEntity entity = (MessageEntity) event.object;
                 /**非当前的会话*/
                 logger.d("messageactivity#not this session msg -> id:%s", entity.getFromId());
                 messageMgr.ackReceiveMsg(entity);
                 unReadMsgMgr.add(entity);
-                }break;
+            }
+            break;
         }
     }
 
