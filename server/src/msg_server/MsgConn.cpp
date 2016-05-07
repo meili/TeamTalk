@@ -275,7 +275,6 @@ void CMsgConn::HandlePdu(CImPdu* pPdu)
         throw CPduException(pPdu->GetServiceId(), pPdu->GetCommandId(), ERROR_CODE_WRONG_SERVICE_ID, "HandlePdu error, user not login. ");
 		return;
     }
-    
 	switch (pPdu->GetCommandId()) {
         case CID_OTHER_HEARTBEAT:
             _HandleHeartBeat(pPdu);
@@ -291,6 +290,13 @@ void CMsgConn::HandlePdu(CImPdu* pPdu)
             break;
         case CID_LOGIN_REQ_KICKPCCLIENT:
             _HandleKickPCClient(pPdu);
+            break;
+        case CID_LOGIN_REQ_PUSH_SHIELD:
+            _HandlePushShieldRequest(pPdu);
+            break;
+            
+        case CID_LOGIN_REQ_QUERY_PUSH_SHIELD:
+            _HandleQueryPushShieldRequest(pPdu);
             break;
         case CID_MSG_DATA:
             _HandleClientMsgData(pPdu);
@@ -333,6 +339,9 @@ void CMsgConn::HandlePdu(CImPdu* pPdu)
             break;
         case CID_BUDDY_LIST_CHANGE_AVATAR_REQUEST:
             _HandleChangeAvatarRequest(pPdu);
+            break;
+        case CID_BUDDY_LIST_CHANGE_SIGN_INFO_REQUEST:
+            _HandleChangeSignInfoRequest(pPdu);
             break;
             
         case CID_BUDDY_LIST_USERS_STATUS_REQUEST:
@@ -398,16 +407,16 @@ void CMsgConn::_HandleLoginRequest(CImPdu* pPdu)
     if (!pDbConn) {
         result = IM::BaseDefine::REFUSE_REASON_NO_DB_SERVER;
         result_string = "服务端异常";
-    }
+	}
     else if (!is_login_server_available()) {
         result = IM::BaseDefine::REFUSE_REASON_NO_LOGIN_SERVER;
         result_string = "服务端异常";
-    }
+	}
     else if (!is_route_server_available()) {
         result = IM::BaseDefine::REFUSE_REASON_NO_ROUTE_SERVER;
         result_string = "服务端异常";
-    }
     
+}
     if (result) {
         IM::Login::IMLoginRes msg;
         msg.set_server_time(time(NULL));
@@ -422,7 +431,6 @@ void CMsgConn::_HandleLoginRequest(CImPdu* pPdu)
         Close();
         return;
     }
-    
     IM::Login::IMLoginReq msg;
     CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
     //假如是汉字，则转成拼音
@@ -438,7 +446,6 @@ void CMsgConn::_HandleLoginRequest(CImPdu* pPdu)
     m_online_status = online_status;
     log("HandleLoginReq, user_name=%s, status=%u, client_type=%u, client=%s, ",
         m_login_name.c_str(), online_status, m_client_type, m_client_version.c_str());
-    
     CImUser* pImUser = CImUserManager::GetInstance()->GetImUserByLoginName(GetLoginName());
     if (!pImUser) {
         pImUser = new CImUser(GetLoginName());
@@ -945,3 +952,46 @@ uint32_t CMsgConn::GetClientTypeFlag()
     return client_type_flag;
 }
 
+void CMsgConn::_HandleChangeSignInfoRequest(CImPdu* pPdu) {
+        IM::Buddy::IMChangeSignInfoReq msg;
+        CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+        log("HandleChangeSignInfoRequest, user_id=%u ", GetUserId());
+        CDBServConn* pDBConn = get_db_serv_conn();
+        if (pDBConn) {
+                msg.set_user_id(GetUserId());
+                CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, NULL);
+                msg.set_attach_data(attach.GetBuffer(), attach.GetLength());
+        
+                pPdu->SetPBMsg(&msg);
+                pDBConn->SendPdu(pPdu);
+            }
+    }
+void CMsgConn::_HandlePushShieldRequest(CImPdu* pPdu) {
+    IM::Login::IMPushShieldReq msg;
+    CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+    log("_HandlePushShieldRequest, user_id=%u, shield_status ", GetUserId(), msg.shield_status());
+    CDBServConn* pDBConn = get_db_serv_conn();
+    if (pDBConn) {
+        msg.set_user_id(GetUserId());
+        CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, NULL);
+        msg.set_attach_data(attach.GetBuffer(), attach.GetLength());
+        
+        pPdu->SetPBMsg(&msg);
+        pDBConn->SendPdu(pPdu);
+    }
+}
+
+void CMsgConn::_HandleQueryPushShieldRequest(CImPdu* pPdu) {
+    IM::Login::IMQueryPushShieldReq msg;
+    CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+    log("HandleChangeSignInfoRequest, user_id=%u ", GetUserId());
+    CDBServConn* pDBConn = get_db_serv_conn();
+    if (pDBConn) {
+        msg.set_user_id(GetUserId());
+        CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, NULL);
+        msg.set_attach_data(attach.GetBuffer(), attach.GetLength());
+        
+        pPdu->SetPBMsg(&msg);
+        pDBConn->SendPdu(pPdu);
+    }
+}

@@ -1,7 +1,5 @@
 package com.mogujie.tt.imservice.manager;
 
-import android.content.Context;
-import android.os.PowerManager;
 import android.text.TextUtils;
 
 import com.google.protobuf.CodedInputStream;
@@ -10,14 +8,12 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.BaseJsonHttpResponseHandler;
 import com.mogujie.tt.DB.sp.SystemConfigSp;
 import com.mogujie.tt.config.SysConstant;
-import com.mogujie.tt.config.UrlConstant;
 import com.mogujie.tt.imservice.callback.ListenerQueue;
 import com.mogujie.tt.imservice.callback.Packetlistener;
 import com.mogujie.tt.imservice.event.SocketEvent;
 import com.mogujie.tt.imservice.network.MsgServerHandler;
 import com.mogujie.tt.imservice.network.SocketThread;
 import com.mogujie.tt.protobuf.IMBaseDefine;
-import com.mogujie.tt.protobuf.IMOther;
 import com.mogujie.tt.protobuf.base.DataBuffer;
 import com.mogujie.tt.protobuf.base.DefaultHeader;
 import com.mogujie.tt.utils.Logger;
@@ -172,7 +168,8 @@ public class IMSocketManager extends IMManager {
      */
     public void reqMsgServerAddrs() {
         logger.d("socket#reqMsgServerAddrs.");
-        client.setUserAgent("Android-TT");
+        client.setUserAgent("Android-TT"); //
+//        { "backupIP" : "123.57.71.215", "code" : 0, "discovery" : "http://123.57.71.215/api/discovery", "msfsBackup" : "http://123.57.71.215.1:8700/", "msfsPrior" : "http://123.57.71.215.1:8700/", "msg" : "", "port" : "8000", "priorIP" : "123.57.71.215" }
         client.get(SystemConfigSp.instance().getStrConfig(SystemConfigSp.SysCfgDimension.LOGINSERVER), new BaseJsonHttpResponseHandler(){
             @Override
             public void onSuccess(int i, Header[] headers, String s, Object o) {
@@ -183,7 +180,7 @@ public class IMSocketManager extends IMManager {
                     return;
                 }
                 connectMsgServer(msgServer);
-                triggerEvent(SocketEvent.REQ_MSG_SERVER_ADDRS_SUCCESS);
+                triggerEvent(SocketEvent.REQ_MSG_SERVER_ADDRS_SUCCESS); // 成功解析出地址
             }
 
             @Override
@@ -194,6 +191,7 @@ public class IMSocketManager extends IMManager {
 
             @Override
             protected Object parseResponse(String s, boolean b) throws Throwable {
+                // json解析
                 /*子类需要提供实现，将请求结果解析成需要的类型 异常怎么处理*/
                 JSONObject jsonObject = new JSONObject(s);
                 MsgServerAddrsEntity msgServerAddrsEntity = onRepLoginServerAddrs(jsonObject);

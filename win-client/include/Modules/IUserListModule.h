@@ -29,6 +29,7 @@ const std::string KEY_USERLIST_UPDATE_NEWUSESADDED = MODULE_USERLIST_PREFIX + "N
 const std::string KEY_USERLIST_DOWNAVATAR_SUCC = MODULE_USERLIST_PREFIX + "DownavatarSucc";		//头像下载成功通知
 const std::string KEY_USERLIST_ALLUSERLINESTATE = MODULE_USERLIST_PREFIX + "AllUserLineState";		//列表所有用户在线状态通知
 const std::string KEY_USERLIST_USERLINESTATE = MODULE_USERLIST_PREFIX + "UserLineState";			//单个用户在线状态通知
+const std::string KEY_USERLIST_USERSIGNINFO_CHANGED = MODULE_USERLIST_PREFIX + "UserSignInfoChanged";//用户个性签名更变通知
 
 /**
 * The class <code>部门信息定义</code>
@@ -82,6 +83,7 @@ public:
 	std::string		email;					//邮箱
 	std::string     user_domain;			//用户花名拼音
 	std::string		telephone;				//电话
+    std::string     signature;              //个性签名
 	UInt32			status;					//0:在职  1:离职
 };
 typedef std::map<std::string, UserInfoEntity>    UserInfoEntityMap;
@@ -172,6 +174,8 @@ public:
 	* @return  void
 	* @exception there is no any exception to throw.
 	*/
+    virtual void tcpChangeMySignInfo(IN const std::string sSignInfo) = 0;//修改自己的个性签名
+
 	virtual void tcpGetUsersInfo(IN const module::UserInfoEntityVec& VecUnKnowUserInfo) = 0;
 	/**
 	* 获取缺省的个人头像

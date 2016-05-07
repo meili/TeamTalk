@@ -2398,9 +2398,37 @@ bool CPaintManagerUI::TranslateAccelerator(LPMSG pMsg)
 	}
 	return false;
 }
+bool CPaintManagerUI::PreTranslateMessage(const LPMSG pMsg)
+{
+    //code by nansong, adjust window handle
+    if (pMsg->message == WM_MOUSEWHEEL)
+    {
+        POINT point;
+        point.x = (short)(WORD)(pMsg->lParam);
+        point.y = (short)(WORD)(pMsg->lParam >> 16);
 
+        HWND hWnd = ::WindowFromPoint(point);
+        if (hWnd && hWnd != pMsg->hwnd)
+        {
+            DWORD dwAppProcessID, dwWndProcessID;
+            dwAppProcessID = -1;
+            dwWndProcessID = -2;
+            ::GetWindowThreadProcessId(pMsg->hwnd, &dwAppProcessID);
+            ::GetWindowThreadProcessId(hWnd, &dwWndProcessID);
+            if (dwAppProcessID == dwWndProcessID)
+                pMsg->hwnd = hWnd;
+        }
+    }
+
+    return true;
+}
 bool CPaintManagerUI::TranslateMessage(const LPMSG pMsg)
 {
+    if (!PreTranslateMessage(pMsg))
+    {
+        return false;
+    }
+
 	// Pretranslate Message takes care of system-wide messages, such as
 	// tabbing and shortcut key-combos. We'll look for all messages for
 	// each window and any child control attached.

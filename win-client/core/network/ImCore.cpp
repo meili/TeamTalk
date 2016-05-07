@@ -360,12 +360,21 @@ NAMESPACE_BEGIN(imcore)
 		}
 	}
 
-	void IMLibCoreStartOperationWithLambda(std::function<void()> operationRun, Int32 delay /*= 0*/)
-	{
-		if (getOperationManager()->startOperationWithLambda(operationRun, delay) != IMCORE_OK)
-		{
-			LOG__(ERR, _T("push operation with lambda failed"));
-		}
-	}
+    void IMLibCoreStartOperationWithLambda(std::function<void()> operationRun, Int32 delay /*= 0*/, std::string oper_name)
+    {
+        if (getOperationManager()->startOperationWithLambda(operationRun, delay, oper_name) != IMCORE_OK)
+        {
+            LOG__(ERR, _T("push operation with lambda failed"));
+        }
+    }
+
+    void IMLibCoreClearOperationByName(std::string oper_name)
+    {
+        if (getOperationManager()->clearOperationByName(oper_name) != IMCORE_OK)
+        {
+            LOG__(ERR, _T("clear operation by name failed"));
+        }
+    }
+
 
 	NAMESPACE_END(imcore)

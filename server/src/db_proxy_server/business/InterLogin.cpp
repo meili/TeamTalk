@@ -15,7 +15,6 @@
 bool CInterLoginStrategy::doLogin(const std::string &strName, const std::string &strPass, IM::BaseDefine::UserInfo& user)
 {
     bool bRet = false;
-    
     CDBManager* pDBManger = CDBManager::getInstance();
     CDBConn* pDBConn = pDBManger->GetDBConn("teamtalk_slave");
     if (pDBConn) {
@@ -25,7 +24,7 @@ bool CInterLoginStrategy::doLogin(const std::string &strName, const std::string 
         {
             string strResult, strSalt;
             uint32_t nId, nGender, nDeptId, nStatus;
-            string strNick, strAvatar, strEmail, strRealName, strTel, strDomain;
+            string strNick, strAvatar, strEmail, strRealName, strTel, strDomain,strSignInfo;
             while (pResultSet->Next()) {
                 nId = pResultSet->GetInt("id");
                 strResult = pResultSet->GetString("password");
@@ -40,7 +39,10 @@ bool CInterLoginStrategy::doLogin(const std::string &strName, const std::string 
                 strAvatar = pResultSet->GetString("avatar");
                 nDeptId = pResultSet->GetInt("departId");
                 nStatus = pResultSet->GetInt("status");
+                strSignInfo = pResultSet->GetString("sign_info");
+
             }
+
             string strInPass = strPass + strSalt;
             char szMd5[33];
             CMd5::MD5_Calculate(strInPass.c_str(), strInPass.length(), szMd5);
@@ -58,6 +60,8 @@ bool CInterLoginStrategy::doLogin(const std::string &strName, const std::string 
                 user.set_avatar_url(strAvatar);
                 user.set_department_id(nDeptId);
                 user.set_status(nStatus);
+  	        user.set_sign_info(strSignInfo);
+
             }
             delete  pResultSet;
         }

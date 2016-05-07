@@ -37,6 +37,7 @@ const std::string KEY_SESSION_TRAY_COPYDATA		= MODULE_SESSION_PREFIX + "TrayCopy
 const std::string KEY_SESSION_HISTORY_MESSAGE	= MODULE_SESSION_PREFIX + "HistoryMessage";		//接收到历史消息
 const std::string KEY_SESSION_MESSGEREADED_NOTIFY = MODULE_SESSION_PREFIX + "MessageReadEdNotify";//其他端读取了部分的消息
 const std::string KEY_SESSION_UPDATE_RECENTLY_SESSIONLIST = MODULE_SESSION_PREFIX + "UpdateRecentlySessionList";		//更新最近会话列表内容
+const std::string KEY_SESSION_UPDATE_TOTAL_UNREADMSG_COUNT = MODULE_SESSION_PREFIX + "UpdateTotalUnReadMsgCount";		//更新总未读计数
 
 /////////////////////////////////SessionEntity/////////////////////////////////////////
 enum

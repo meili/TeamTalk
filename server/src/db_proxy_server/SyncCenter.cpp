@@ -69,6 +69,25 @@ CSyncCenter::~CSyncCenter()
     }
 }
 
+void CSyncCenter::getDept(uint32_t nDeptId, DBDeptInfo_t** pDept)
+{
+    auto it = m_pDeptInfo->find(nDeptId);
+    if (it != m_pDeptInfo->end()) {
+        *pDept = it->second;
+    }
+}
+
+string CSyncCenter::getDeptName(uint32_t nDeptId)
+{
+    CAutoRWLock autoLock(g_pRWDeptLock);
+    string strDeptName;
+    DBDeptInfo_t* pDept = NULL;;
+    getDept(nDeptId, &pDept);
+    if (pDept != NULL) {
+        strDeptName =  pDept->strName;
+    }
+    return strDeptName;
+}
 /**
  *  开启内网数据同步以及群组聊天记录同步
  */
@@ -104,8 +123,18 @@ void CSyncCenter::init()
     CacheConn* pCacheConn = pCacheManager->GetCacheConn("unread");
     if (pCacheConn)
     {
+        string strTotalUpdate = pCacheConn->get("total_user_updated");
+
         string strLastUpdateGroup = pCacheConn->get("last_update_group");
         pCacheManager->RelCacheConn(pCacheConn);
+	if(strTotalUpdate != "")
+        {
+            m_nLastUpdate = string2int(strTotalUpdate);
+        }
+        else
+        {
+            updateTotalUpdate(time(NULL));
+        }
         if(strLastUpdateGroup.empty())
         {
             m_nLastUpdateGroup = string2int(strLastUpdateGroup);
@@ -114,6 +143,29 @@ void CSyncCenter::init()
         {
             updateLastUpdateGroup(time(NULL));
         }
+    }
+    else
+    {
+        log("no cache connection to get total_user_updated");
+    }
+}
+/**
+ *  更新上次同步内网信息时间
+ *
+ *  @param nUpdated 时间
+ */
+
+void CSyncCenter::updateTotalUpdate(uint32_t nUpdated)
+{
+    CacheManager* pCacheManager = CacheManager::getInstance();
+    CacheConn* pCacheConn = pCacheManager->GetCacheConn("unread");
+    if (pCacheConn) {
+        last_update_lock_.lock();
+        m_nLastUpdate = nUpdated;
+        last_update_lock_.unlock();
+        string strUpdated = int2string(nUpdated);
+        pCacheConn->set("total_user_update", strUpdated);
+        pCacheManager->RelCacheConn(pCacheConn);
     }
     else
     {
@@ -131,8 +183,11 @@ void CSyncCenter::updateLastUpdateGroup(uint32_t nUpdated)
     CacheManager* pCacheManager = CacheManager::getInstance();
     CacheConn* pCacheConn = pCacheManager->GetCacheConn("unread");
     if (pCacheConn) {
+        last_update_lock_.lock();
         m_nLastUpdateGroup = nUpdated;
         string strUpdated = int2string(nUpdated);
+        last_update_lock_.unlock();
+  
         pCacheConn->set("last_update_group", strUpdated);
         pCacheManager->RelCacheConn(pCacheConn);
     }

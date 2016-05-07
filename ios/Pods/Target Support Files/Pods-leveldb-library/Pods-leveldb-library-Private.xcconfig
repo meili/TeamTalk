@@ -1,7 +1,0 @@
-#include "Pods-leveldb-library.xcconfig"
-CC = ${PODS_LEVELDB_LIBRARY_CC}
-CXX = ${PODS_LEVELDB_LIBRARY_CXX}
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/leveldb-library" "${PODS_ROOT}/Headers/Build/leveldb-library/leveldb" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/DACircularProgress" "${PODS_ROOT}/Headers/Public/FMDB" "${PODS_ROOT}/Headers/Public/HPGrowingTextView" "${PODS_ROOT}/Headers/Public/MBProgressHUD" "${PODS_ROOT}/Headers/Public/MWPhotoBrowser" "${PODS_ROOT}/Headers/Public/PSTCollectionView" "${PODS_ROOT}/Headers/Public/ProtocolBuffers" "${PODS_ROOT}/Headers/Public/ProtocolBuffers/ProtocolBuffers" "${PODS_ROOT}/Headers/Public/SCLAlertView-Objective-C" "${PODS_ROOT}/Headers/Public/SDWebImage" "${PODS_ROOT}/Headers/Public/leveldb-library" "${PODS_ROOT}/Headers/Public/leveldb-library/leveldb" ${PODS_LEVELDB_LIBRARY_HEADER_SEARCH_PATHS}
-OTHER_LDFLAGS = ${PODS_LEVELDB_LIBRARY_OTHER_LDFLAGS} -ObjC
-PODS_ROOT = ${SRCROOT}

@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 		log("DBManager init failed");
 		return -1;
 	}
-
+puts("db init success");
 	// 主线程初始化单例，不然在工作线程可能会出现多次初始化
 	if (!CAudioModel::getInstance()) {
 		return -1;

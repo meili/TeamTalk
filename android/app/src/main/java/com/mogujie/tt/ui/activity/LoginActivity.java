@@ -60,7 +60,6 @@ public class LoginActivity extends TTBaseActivity {
     private TextView mSwitchLoginServer;
     private InputMethodManager intputManager;
 
-
     private IMService imService;
     private boolean autoLogin = true;
     private boolean loginSuccess = false;
@@ -117,7 +116,6 @@ public class LoginActivity extends TTBaseActivity {
             }
         }
     };
-
 
     /**
      * 跳转到登陆的页面
@@ -224,6 +222,7 @@ public class LoginActivity extends TTBaseActivity {
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                logger.d("sign_in_button onClick");
                 intputManager.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
                 attemptLogin();
             }
@@ -321,6 +320,7 @@ public class LoginActivity extends TTBaseActivity {
 //				boolean pwdChanged = true;
                 loginName = loginName.trim();
                 mPassword = mPassword.trim();
+//                logger.d("imService.getLoginManager().login(loginName, mPassword)");
                 imService.getLoginManager().login(loginName, mPassword);
             }
         }

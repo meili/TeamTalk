@@ -16,6 +16,7 @@
 #include "Modules/IP2PCmdModule.h"
 #include "Modules/ISessionModule.h"
 #include "Modules/IGroupListModule.h"
+#include "Modules/IFileTransferModule.h"
 #include "Modules/UIEventManager.h"
 /******************************************************************************/
 namespace module
@@ -50,6 +51,9 @@ namespace
 		case IM::BaseDefine::SID_GROUP:
 			pRet = module::getGroupListModule();
 			break;
+        case IM::BaseDefine::SID_FILE: //ÎÄ¼þ´«Êä
+            pRet = module::getFileTransferModule();
+            break;
 		default:
 			break;
 		}

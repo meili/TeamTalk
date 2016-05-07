@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window size="520,540" mininfo="520,540" caption="0,0,0,60" sizebox="4,4,4,4" roundcorner="4,4,4,4">
+<Window size="520,540" mininfo="520,540" caption="0,0,0,40" sizebox="4,4,4,4" roundcorner="4,4,4,4">
   <Font name="微软雅黑" size="12" bold="false" default="true" />
   <Font name="微软雅黑" size="14" bold="true"/>
   <Default name="VScrollBar" value="button1normalimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,0,8,7&apos;&quot; button1hotimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,0,8,7&apos;&quot; button1pushedimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,0,8,7&apos;&quot; button2normalimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,18,8,25&apos;&quot; button2hotimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,18,8,25&apos;&quot; button2pushedimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,18,8,25&apos;&quot; thumbnormalimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,25,8,72&apos; corner=&apos;2,2,2,2&apos;&quot; thumbhotimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,25,8,72&apos; corner=&apos;2,2,2,2&apos;&quot; thumbpushedimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,25,8,72&apos; corner=&apos;2,2,2,2&apos;&quot; bknormalimage=&quot;file=&apos;MainDialog/scrollbar.png&apos; source=&apos;0,6,8,17&apos;&quot;" />
@@ -9,9 +9,9 @@
 			<VerticalLayout width="48" inset="0,1,0,0" padding="10,10,0,0">
 				<Button name="UserAvatar" width="44" height="44" maxheight="44" maxwidth="44" bkimage="file='MainDialog/Face.png' corner='5,5,5,5'"/>
 			</VerticalLayout>
-			<VerticalLayout height="40" padding="5,15,0,0">
+			<VerticalLayout height="50" padding="5,10,0,0">
 				<Edit name="username" readonly="true" endellipsis="true" textcolor="#FF333333"  font="1" bkcolor="#FFF7F7F7" text="用户名" width="500"/>	
-				<Text name="description"  endellipsis="true"  textcolor="#FF333333" visible="false" text="签名" width="200"/>				
+				<Edit name="userSignature" endellipsis="true" textcolor="#FF333333" multiline="false" readonly="true" bkcolor="#FFF7F7F7" textcolor="#FF999999"/>	
 			</VerticalLayout>
 			<Text name="writingStatus" visible="false"  padding="0,40,0,0" textcolor="#FF999999"  text="对方正在输入..." />			
 			<HorizontalLayout width="68" padding="0,5,0,0">
@@ -24,15 +24,16 @@
 		<SessionLayout name="会话面板">
 			<VerticalLayout>
 				<WebBrowser name="ie" clsid="{8856F961-340A-11D0-A96B-00C04FD705A2}" delaycreate="false"/>
-				<VerticalLayout height="210" maxheight="350" minheight="80" sepheight="-6" sepimm="true">
+				<VerticalLayout height="210" maxheight="350" minheight="80" sepheight="-30" sepimm="true">
 					<HorizontalLayout height="30" inset="2,4,2,4">
 						<Button name="emotionbtn" width="23" height="21" tooltip="表情" bkimage="file='SessionDialog/toolbtn.png' source='0,0,15,13' dest='4,4,19,17'" hotimage="file='SessionDialog/btn_hot.png' corner='2,2,2,2'" selectedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />			
 						<Button name="imagebtn" width="23" height="21" padding="5,0,0,0" tooltip="发送图片" bkimage="file='SessionDialog/toolbtn.png' source='22,0,37,13' dest='3,4,18,17'" hotimage="file='SessionDialog/btn_hot.png' corner='2,3,2,2'" selectedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />			
+						<Button name="screenshot" visible="true" width="24" height="20" padding="5,0,0,0" tooltip="屏幕截图(Ctrl+Shift+Q)" bkimage="file='SessionDialog/toolbtn.png' source='44,0,60,13' dest='2,5,20,18'" hotimage="file='SessionDialog/btn_hot.png' corner='2,3,2,2'" pushedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />
 						<Button name="jisuanqibtn" visible="false" width="24" height="20" padding="5,0,0,0" bkimage="file='SessionDialog/toolbtn.png' source='67,0,85,13' dest='2,5,20,18'" hotimage="file='SessionDialog/btn_hot.png' corner='2,3,2,2'" pushedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />
 						<Button name="shockbtn" width="24" height="22" padding="5,0,0,0" tooltip="窗口抖动" bkimage="file='SessionDialog/toolbtn.png' source='91,0,113,13' dest='1,5,22,18'" hotimage="file='SessionDialog/btn_hot.png' corner='2,3,2,2'" pushedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />
 						<Button name="banGroupMsg" visible="fasle" width="23" height="21" padding="5,0,0,0" tooltip="屏蔽群消息" bkimage="file='SessionDialog/toolbtn.png' source='145,0,163,13' dest='3,5,20,18'" hotimage="file='SessionDialog/btn_hot.png' corner='2,3,2,2'" pushedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />
 						<Button name="displayGroupMsg" visible="false" width="23" height="21" padding="5,0,0,0" tooltip="显示群消息" bkimage="file='SessionDialog/toolbtn.png' source='171,0,189,13' dest='3,5,20,18'" hotimage="file='SessionDialog/btn_hot.png' corner='2,3,2,2'" pushedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />
-						<Button name="sendfilebtn"  visible="false" width="24" height="20" padding="5,0,0,0" tooltip="发送文件" bkimage="file='SessionDialog/toolbtn.png' source='119,0,136,13' dest='2,5,19,18'" hotimage="file='SessionDialog/btn_hot.png' corner='2,3,2,2'" pushedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />
+						<Button name="sendfilebtn" width="24" height="20" padding="5,0,0,0" tooltip="发送文件" bkimage="file='SessionDialog/toolbtn.png' source='119,0,136,13' dest='2,5,19,18'" hotimage="file='SessionDialog/btn_hot.png' corner='2,3,2,2'" pushedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />
 						<Control />
 						<Button name="adduserbtn" width="29" height="21" padding="0,0,5,0" tooltip="创建讨论组" bkimage="file='SessionDialog/adduser.png'  dest='5,5,28,18'" hotimage="file='SessionDialog/btn_hot.png' corner='2,3,2,2'" pushedimage="file='SessionDialog/btn_push.png' corner='2,5,2,2'"  />
 					</HorizontalLayout>

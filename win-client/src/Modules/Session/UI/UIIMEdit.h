@@ -44,6 +44,7 @@ public:
 	CString MakeMixedNetWorkMSG();
 	BOOL IsPureTextMsg();
 	static CString AddPicTeg2Pic(IN CString picPath);
+    void ReplaceReturnKey(void);
 public:
 	CString					m_strTextData;					//文字
 	std::vector<ST_picData>	m_picDataVec;				//图片所在文字中的位置，图片的本地路径；图片的网络路径

@@ -82,6 +82,21 @@
     <Filter Include="Protocol Buffer">
       <UniqueIdentifier>{65d8d9b6-ddb2-4d8f-9291-ff51686b5a70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FileTransfer">
+      <UniqueIdentifier>{2888ae8c-ff1f-402e-ac3d-6918c2092715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScreenCapture">
+      <UniqueIdentifier>{8203252e-2a7e-443b-a739-3cc840271642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScreenCapture\ScreenCapture">
+      <UniqueIdentifier>{9e28220e-9100-4b41-8e13-302b0f37f6e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScreenCapture\ScreenCapture\UI">
+      <UniqueIdentifier>{25451613-548e-4d4a-b11a-e23574841c7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScreenCapture\ScreenCapture\CaptureMode">
+      <UniqueIdentifier>{9a93c0ae-0212-4e38-b77f-7359c9d79dea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Modules.cpp">
@@ -552,6 +567,60 @@
     <ClCompile Include="Emotion\EmoCfgParseTool.cpp">
       <Filter>Emotion</Filter>
     </ClCompile>
+    <ClCompile Include="FileTransfer\FileTransferDialog.cpp">
+      <Filter>FileTransfer</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransfer\FileTransferModule_Impl.cpp">
+      <Filter>FileTransfer</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransfer\FileTransferSocket.cpp">
+      <Filter>FileTransfer</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransfer\FileTransferUIThread.cpp">
+      <Filter>FileTransfer</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransfer\TransferFile.cpp">
+      <Filter>FileTransfer</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransfer\TransferManager.cpp">
+      <Filter>FileTransfer</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\DatabaseModule_FileTransferHistory_Impl.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\ScreenCapture.cpp">
+      <Filter>ScreenCapture\ScreenCapture</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\ScreenSnapshot.cpp">
+      <Filter>ScreenCapture\ScreenCapture</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCaptureModule_Impl.cpp">
+      <Filter>ScreenCapture</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\UI\BkgroundUI.cpp">
+      <Filter>ScreenCapture\ScreenCapture\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\UI\DlgBase.cpp">
+      <Filter>ScreenCapture\ScreenCapture\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\UI\EditToolbar.cpp">
+      <Filter>ScreenCapture\ScreenCapture\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\UI\UIMgr.cpp">
+      <Filter>ScreenCapture\ScreenCapture\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\CaptureMode\AutoSelectMode.cpp">
+      <Filter>ScreenCapture\ScreenCapture\CaptureMode</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\CaptureMode\CaptureMode.cpp">
+      <Filter>ScreenCapture\ScreenCapture\CaptureMode</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\CaptureMode\ManalEditMode.cpp">
+      <Filter>ScreenCapture\ScreenCapture\CaptureMode</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenCapture\ScreenCapture\CaptureMode\ManalSelectMode.cpp">
+      <Filter>ScreenCapture\ScreenCapture\CaptureMode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Modules.h">
@@ -880,6 +949,69 @@
     </ClInclude>
     <ClInclude Include="Emotion\EmoCfgParseTool.h">
       <Filter>Emotion</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransfer\FileTransferDialog.h">
+      <Filter>FileTransfer</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransfer\FileTransferModule_Impl.h">
+      <Filter>FileTransfer</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransfer\FileTransferSocket.h">
+      <Filter>FileTransfer</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransfer\FileTransferUIThread.h">
+      <Filter>FileTransfer</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransfer\TransferFile.h">
+      <Filter>FileTransfer</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransfer\TransferManager.h">
+      <Filter>FileTransfer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Modules\IFileTransferModule.h">
+      <Filter>FileTransfer</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\Common.h">
+      <Filter>ScreenCapture\ScreenCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\ScreenCapture.h">
+      <Filter>ScreenCapture\ScreenCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\ScreenSnapshot.h">
+      <Filter>ScreenCapture\ScreenCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCaptureModule_Impl.h">
+      <Filter>ScreenCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Modules\IScreenCaptureModule.h">
+      <Filter>ScreenCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\UI\BkgroundUI.h">
+      <Filter>ScreenCapture\ScreenCapture\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\UI\Dlgbase.h">
+      <Filter>ScreenCapture\ScreenCapture\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\UI\EditToolbarUI.h">
+      <Filter>ScreenCapture\ScreenCapture\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\UI\UIMgr.h">
+      <Filter>ScreenCapture\ScreenCapture\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\CaptureMode\AutoSelectMode.h">
+      <Filter>ScreenCapture\ScreenCapture\CaptureMode</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\CaptureMode\CaptureMode.h">
+      <Filter>ScreenCapture\ScreenCapture\CaptureMode</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\CaptureMode\ManalEditMode.h">
+      <Filter>ScreenCapture\ScreenCapture\CaptureMode</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\CaptureMode\ManalSelectMode.h">
+      <Filter>ScreenCapture\ScreenCapture\CaptureMode</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenCapture\ScreenCapture\CaptureMode\ModeComm.h">
+      <Filter>ScreenCapture\ScreenCapture\CaptureMode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

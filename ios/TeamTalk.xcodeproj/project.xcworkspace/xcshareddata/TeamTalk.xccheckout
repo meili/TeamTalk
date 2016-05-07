@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>D21343C0-E675-4EE1-94E7-FC3C6F104689</string>
+	<string>48AB2CD0-F597-4298-8EE3-26C594CC2242</string>
 	<key>IDESourceControlProjectName</key>
 	<string>TeamTalk</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>438AB9C685D2126C067FC6E0A59E9C7C05914A28</key>
-		<string>gitlab.mogujie.org:im/ttopen.git</string>
+		<key>5018AB18E729C553C78C25196DC0639B4E393143</key>
+		<string>gitlab.mogujie.org:im/franky.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ios/TeamTalk.xcodeproj</string>
+	<string>TeamTalk.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>438AB9C685D2126C067FC6E0A59E9C7C05914A28</key>
-		<string>../../..</string>
+		<key>5018AB18E729C553C78C25196DC0639B4E393143</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>gitlab.mogujie.org:im/ttopen.git</string>
+	<string>gitlab.mogujie.org:im/franky.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>438AB9C685D2126C067FC6E0A59E9C7C05914A28</string>
+	<string>5018AB18E729C553C78C25196DC0639B4E393143</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>438AB9C685D2126C067FC6E0A59E9C7C05914A28</string>
+			<string>5018AB18E729C553C78C25196DC0639B4E393143</string>
 			<key>IDESourceControlWCCName</key>
-			<string>ttopen</string>
+			<string>franky</string>
 		</dict>
 	</array>
 </dict>

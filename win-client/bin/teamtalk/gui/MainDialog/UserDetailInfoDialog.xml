@@ -34,7 +34,11 @@
 			</HorizontalLayout>	
 			<HorizontalLayout>
 				<Text endellipsis="true" padding="0,6,0,0" textcolor="#FF333333"  font="1" text="邮箱：" />
-				<Edit name="mail" textcolor="#FF333333"  trans="true" readonly="true"  endellipsis="true" text="ziye@gmail.com别地加以考察的认识活动" />					
+				<Edit name="mail" textcolor="#FF333333"  trans="true" readonly="true"  endellipsis="true" text="ziye@gmail.com" />		
+			</HorizontalLayout>
+			<HorizontalLayout>
+				<Text endellipsis="true" padding="0,6,0,0" textcolor="#FF333333"  font="1" text="签名：" />
+				<Edit name="signInfo" padding="0,3,0,0" textcolor="#FF333333"  trans="true" readonly="true"  endellipsis="true" text="签名"/>	
 			</HorizontalLayout>
 			<HorizontalLayout>
 				<Control />

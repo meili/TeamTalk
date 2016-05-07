@@ -127,3 +127,33 @@ message IMDepartmentRsp{
 	repeated IM.BaseDefine.DepartInfo dept_list = 3;
 	optional bytes attach_data = 20;
 }
+
+message IMAvatarChangedNotify {
+
+    //cmd id:		0x02012
+    required uint32 changed_user_id = 1;      // 谁修改了avatar
+    required string avatar_url = 2;           //
+}
+
+message IMChangeSignInfoReq{
+   //cmd id:		0x0213
+
+    required uint32 user_id = 1;
+    required string sign_info = 2;
+    optional bytes attach_data = 20;
+}
+
+message IMChangeSignInfoRsp{
+    //cmd id:		0x0214
+    required uint32 user_id = 1;
+    required uint32 result_code = 2;
+    optional string sign_info = 3;      // 此字段服务端用，客户端直接忽略
+    optional bytes attach_data = 20;
+}
+
+    // 个性签名修改通知（广播）
+message IMSignInfoChangedNotify {
+    //cmd id:		0x0215
+    required uint32 changed_user_id = 1;     // 谁修改了个性签名
+    required string sign_info = 2;
+}

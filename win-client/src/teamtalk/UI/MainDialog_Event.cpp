@@ -12,6 +12,7 @@
 #include "Modules/IUserListModule.h"
 #include "Modules/ISessionModule.h"
 #include "Modules/ISysConfigModule.h"
+#include "Modules/IFileTransferModule.h"
 #include "ProtocolBuffer/IM.BaseDefine.pb.h"
 #include "utility/Multilingual.h"
 
@@ -152,6 +153,11 @@ void MainDialog::OnMenuClicked(IN const CString& itemName, IN const CString& str
 	{
 		module::getSysConfigModule()->showServerConfigDialog(m_hWnd);
 	}
+    else if (_T("showFileTransferDialog") == itemName)
+    {
+        //打开文件传输面板
+        module::getFileTransferModule()->showFileTransferDialog();
+    }
 	else if (_T("UserDetailInfo") == itemName)
 	{
 		if (strLparam.IsEmpty())
@@ -179,6 +185,16 @@ void MainDialog::MKOForUserListModuleCallBack(const std::string& keyId, MKO_TUPL
 				m_pbtnMyFace->SetBkImage(util::stringToCString(myInfo.getAvatarPath()));
 		}
 	}
+    else if (module::KEY_USERLIST_USERSIGNINFO_CHANGED == keyId)
+    {
+        //更新自己的签名，若失败则改回去。
+        std::string& sId = std::get<MKO_STRING>(mkoParam);
+        if (sId != module::getSysConfigModule()->userID())
+        {
+            return;
+        }
+        _FreshMySignature();
+    }
 }
 void MainDialog::MKOForSessionModuleCallBack(const std::string& keyId, MKO_TUPLE_PARAM mkoParam)
 {
@@ -190,6 +206,10 @@ void MainDialog::MKOForSessionModuleCallBack(const std::string& keyId, MKO_TUPLE
 	{
 		StopNewMsgTrayEmot();
 	}
+    else if (module::KEY_SESSION_UPDATE_TOTAL_UNREADMSG_COUNT == keyId)
+    {
+        _UpdateTotalUnReadMsgCount();//更新总未读计数
+    }
 }
 
 void MainDialog::StartNewMsgTrayEmot()

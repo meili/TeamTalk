@@ -11,10 +11,12 @@
 #include "Modules/ISessionModule.h"
 #include "Modules/ILoginModule.h"
 #include "Modules/ISysConfigModule.h"
+#include "Modules/IMessageModule.h"
 #include "Modules/IMiscModule.h"
 #include "Modules/IUserListModule.h"
 #include "Modules/ITcpClientModule.h"
 #include "Modules/UIEventManager.h"
+#include "Modules/IScreenCaptureModule.h"
 #include "utility/Multilingual.h"
 #include "ProtocolBuffer/IM.BaseDefine.pb.h"
 
@@ -38,6 +40,7 @@ MainDialog::MainDialog()
 ,m_bHidden(false)
 , m_pbtnClose(nullptr)
 , m_pbtnMinMize(nullptr)
+, m_pEditSignature(nullptr)
 {
 }
 
@@ -81,6 +84,26 @@ void MainDialog::OnFinalMessage(HWND hWnd)
 	WindowImplBase::OnFinalMessage(hWnd);
 }
 
+void MainDialog::OnHotkey(__in WPARAM wParam, __in LPARAM lParam)
+{
+    module::ScreenCaptureHotkeyId emHotkeyId = module::getScreenCaptureModule()->shouldHandle(lParam);
+    if (module::SC_HK_START_CAPTURE == emHotkeyId)
+    {
+        //ctrl + shift + A
+
+        SYSTEMTIME tm = { 0 };
+        GetLocalTime(&tm);
+        CString strFileName;
+        strFileName.Format(_T("%4d%02d%02d%02d%02d%02d.bmp"), tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute, tm.wSecond);
+        CString strFilePath = module::getMiscModule()->getUserTempDir() + strFileName;
+        module::getScreenCaptureModule()->startCapture(strFilePath.GetBuffer(), FALSE);
+    }
+    else if (module::SC_HK_ESCAPE == emHotkeyId)
+    {
+        module::getScreenCaptureModule()->cancelCapture();
+    }
+}
+
 LRESULT MainDialog::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	//禁用双击标题栏最大化
@@ -88,6 +111,11 @@ LRESULT MainDialog::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		return 0;
 	}
+    else if (WM_HOTKEY == uMsg)
+    {
+        OnHotkey(wParam, lParam);
+        return 0;
+    }
 	else if (WM_TRAYICON_NOTIFY == uMsg)
 	{
 		OnTrayIconNotify(wParam, lParam);
@@ -140,6 +168,7 @@ LRESULT MainDialog::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void MainDialog::OnWindowInitialized(TNotifyUI& msg)
 {
+    module::getScreenCaptureModule()->initCapture(m_hWnd);
 	module::getLoginModule()->addObserver(this, BIND_CALLBACK_2(MainDialog::MKOForLoginModuleCallBack));
 	module::getUserListModule()->addObserver(this, BIND_CALLBACK_2(MainDialog::MKOForUserListModuleCallBack));
 	module::getSessionModule()->addObserver(this, BIND_CALLBACK_2(MainDialog::MKOForSessionModuleCallBack));
@@ -147,9 +176,15 @@ void MainDialog::OnWindowInitialized(TNotifyUI& msg)
 	m_pbtnSysConfig = (CButtonUI*)m_PaintManager.FindControl(_T("sysconfig"));
 	m_pbtnOnlineStatus = (CButtonUI*)m_PaintManager.FindControl(_T("onlineStatus"));
 	m_pbtnMyFace = (CButtonUI*)m_PaintManager.FindControl(_T("myfacebtn"));
+    m_pEditSignature = (CEditUI*)m_PaintManager.FindControl(_T("signature"));
 	m_ptxtUname = (CTextUI*)m_PaintManager.FindControl(_T("unametxt"));
 	m_pbtnClose = (CButtonUI*)m_PaintManager.FindControl(_T("closebtn"));
 	m_pbtnMinMize = (CButtonUI*)m_PaintManager.FindControl(_T("minbtn"));
+
+    m_pTextUnreadMsgCount = static_cast<CTextUI*>(m_PaintManager.FindControl(_T("msgCount")));
+    PTR_VOID(m_pTextUnreadMsgCount);
+
+    _FreshMySignature();
 
 	if (m_ptxtUname)
 	{
@@ -321,6 +356,78 @@ LRESULT MainDialog::ResponseDefaultKeyEvent(WPARAM wParam)
 	return __super::ResponseDefaultKeyEvent(wParam);
 }
 
+void MainDialog::_UpdateTotalUnReadMsgCount(void)
+{
+    PTR_VOID(m_pTextUnreadMsgCount);
+    UInt32 nCount = module::getMessageModule()->getTotalUnReadMsgCount();
+    if (0 == nCount)//没有消息
+    {
+        m_pTextUnreadMsgCount->SetVisible(false);
+    }
+    else if (nCount <= 99)
+    {
+        m_pTextUnreadMsgCount->SetText(util::int32ToCString(nCount));
+        m_pTextUnreadMsgCount->SetVisible(true);
+    }
+    else if (nCount > 99)
+    {
+        m_pTextUnreadMsgCount->SetText(_T("99+"));
+        m_pTextUnreadMsgCount->SetVisible(true);
+    }
+
+    CString sText = util::getMultilingual()->getStringById(_T("STRID_GLOBAL_CAPTION_NAME"));
+#ifdef _DEBUG
+    sText += _T("-Debug");
+#endif
+    CString sUnreadCnt;
+    if (0 != nCount)
+    {
+        CString sFormat = util::getMultilingual()->getStringById(_T("STRID_MAINDIALOG_TOOLTIP_MSGCNT"));
+        sUnreadCnt.Format(sFormat, nCount);
+    }
+    SetTrayTooltipText(sText + sUnreadCnt);
+
+}
+
+void MainDialog::Notify(TNotifyUI& msg)
+{
+    if (msg.pSender == m_pEditSignature)
+    {
+        if (msg.sType == DUI_MSGTYPE_KILLFOCUS)
+        {
+            CString strSign = m_pEditSignature->GetText();
+            module::UserInfoEntity myInfo;
+            module::getUserListModule()->getMyInfo(myInfo);
+            if (/*!strSign.IsEmpty() &&*/  //空的也是可以的
+                strSign != util::stringToCString(myInfo.signature))//有改动
+            {
+                module::getUserListModule()->tcpChangeMySignInfo(util::cStringToString(strSign));
+            }
+        }
+        else if (msg.sType == DUI_MSGTYPE_RETURN)
+        {         
+            m_PaintManager.SetFocus(m_pbtnMyFace);//将焦点的设置到头像上
+        }
+    }
+    __super::Notify(msg);
+}
+void MainDialog::_FreshMySignature(void)
+{
+    PTR_VOID(m_pEditSignature);
+    module::UserInfoEntity myInfo;
+    if (module::getUserListModule()->getMyInfo(myInfo))
+    {
+        m_pEditSignature->SetText(util::stringToCString(myInfo.signature));
+        if (myInfo.signature.empty())
+        {
+            m_pEditSignature->SetToolTip(_T("编辑个性签名"));
+        }
+        else
+        {
+            m_pEditSignature->SetToolTip(util::stringToCString(myInfo.signature));
+        }
+    }
+}
 
 
 /******************************************************************************/

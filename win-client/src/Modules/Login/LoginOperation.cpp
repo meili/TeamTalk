@@ -90,6 +90,7 @@ void LoginOperation::processOpertion()
 	myInfo.user_domain = userInfo.user_domain();
 	myInfo.telephone = userInfo.user_tel();
 	myInfo.status = userInfo.status();
+    myInfo.signature = userInfo.sign_info();
 
 	module::getUserListModule()->createUserInfo(myInfo);
 

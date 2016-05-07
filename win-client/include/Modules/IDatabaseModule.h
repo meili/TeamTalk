@@ -84,6 +84,12 @@ public:
 	virtual BOOL sqlGetHistoryMessage(IN const std::string& sId, IN const UInt32 msgId, IN UInt32 nMsgCount
 									, OUT std::vector<MessageEntity>& msgList) = 0;
 	//@}
+
+	/**@name 文件传输相关*/
+	//@{
+	virtual BOOL sqlInsertFileTransferHistory(IN TransferFileEntity& fileInfo) = 0;
+	virtual BOOL sqlGetFileTransferHistory(OUT std::vector<TransferFileEntity>& fileList) = 0;
+	//@}
 };
 
 MODULE_API IDatabaseModule* getDatabaseModule();

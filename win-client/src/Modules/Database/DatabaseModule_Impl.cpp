@@ -58,6 +58,7 @@ BOOL DatabaseModule_Impl::_openDB()
 		_execGroupInfoCreateTableDML();	//create group info table
 		_execImMessageCreateTableDML();	//create immessage table
 		_execRecentSessionInfoCreateTableDML(); //create recent session table
+		_execFileTransferHistoryTableDML(); //create file transfer history table
 	}
 	catch (CppSQLite3Exception& sqliteException)
 	{

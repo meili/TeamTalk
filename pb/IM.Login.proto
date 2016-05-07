@@ -76,4 +76,37 @@ message IMKickPCClientRsp{
 	required uint32 user_id = 1;
 	required uint32 result_code = 2;
 }
- 
+
+
+// 一旦设置以后，22:00 -- 07:00不发送
+message IMPushShieldReq {
+    //cmd id:			0x010c
+    required uint32 user_id = 1;
+    required uint32 shield_status = 2;// 1:开启，0：关闭
+    optional bytes attach_data = 20;  // 服务端用，客户端不用设置
+}
+
+message IMPushShieldRsp {
+    //cmd id:			0x010d
+    required uint32 user_id = 1;
+    required uint32 result_code = 2;			// 值： 0:successed 1:failed
+    optional uint32 shield_status = 3;          // 值： 如果result_code值为0(successed)，则shield_status值设置， 1:开启， 0:关闭
+
+    optional bytes attach_data = 20;            // 服务端用，客户端不用设置
+}
+
+// 如果用户重新安装app，第一次启动登录成功后，app主动查询
+// 服务端返回IMQueryPushShieldRsp
+message IMQueryPushShieldReq {
+    //cmd id:			0x010e
+    required uint32 user_id = 1;
+    optional bytes attach_data = 20;// 服务端用，客户端不用设置
+}
+
+message IMQueryPushShieldRsp {
+    //cmd id:			0x010f
+    required uint32 user_id = 1;
+    required uint32 result_code = 2;			// 值： 0:successed 1:failed
+    optional uint32 shield_status = 3;          // 值： 如果result_code值为0(successed)，则shield_status值设置， 1:开启， 0:关闭
+    optional bytes attach_data = 20;
+}

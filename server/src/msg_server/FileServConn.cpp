@@ -212,7 +212,7 @@ void CFileServConn::_HandleFileMsgTransRsp(CImPdu* pPdu)
     msg2.set_to_user_id(to_id);
     msg2.set_file_name(file_name);
     msg2.set_task_id(task_id);
-    msg2.set_trans_mode((IM::BaseDefine::FileType)trans_mode);
+    msg2.set_trans_mode((IM::BaseDefine::TransferFileType)trans_mode);
     for (list<IM::BaseDefine::IpAddr>::const_iterator it = ip_addr_list->begin(); it != ip_addr_list->end(); it++)
     {
         IM::BaseDefine::IpAddr ip_addr_tmp = *it;
@@ -241,7 +241,7 @@ void CFileServConn::_HandleFileMsgTransRsp(CImPdu* pPdu)
         msg3.set_file_name(file_name);
         msg3.set_file_size(file_size);
         msg3.set_task_id(task_id);
-        msg3.set_trans_mode((IM::BaseDefine::FileType)trans_mode);
+        msg3.set_trans_mode((IM::BaseDefine::TransferFileType)trans_mode);
         msg3.set_offline_ready(0);
         for (list<IM::BaseDefine::IpAddr>::const_iterator it = ip_addr_list->begin(); it != ip_addr_list->end(); it++)
         {
