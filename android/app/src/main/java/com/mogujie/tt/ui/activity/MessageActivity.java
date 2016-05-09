@@ -378,6 +378,8 @@ public class MessageActivity extends TTBaseActivity
      * 解决: 抽离出那些需要优先级的event，在onEvent通过handler调用主线程，
      * 然后cancelEventDelivery
      * <p/>
+     * 从订阅者的事件处理方法中通过cancelEventDelivery(Object event)取消事件传递过程.
+     * 这样所有的进阶事件传递都会被取消，后续订阅者不会再收到事件。
      * todo  need find good solution
      */
     public void onEvent(PriorityEvent event) {

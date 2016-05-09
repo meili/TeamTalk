@@ -1911,13 +1911,13 @@ public final class IMFile {
     int getUserId();
 
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 3;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 3;</code>
      */
     boolean hasTransMode();
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 3;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 3;</code>
      */
-    com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode();
+    com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode();
 
     /**
      * <code>required uint32 offset = 4;</code>
@@ -2000,7 +2000,7 @@ public final class IMFile {
             }
             case 24: {
               int rawValue = input.readEnum();
-              com.mogujie.tt.protobuf.IMBaseDefine.FileType value = com.mogujie.tt.protobuf.IMBaseDefine.FileType.valueOf(rawValue);
+              com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType value = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.valueOf(rawValue);
               if (value == null) {
                 unknownFieldsCodedOutput.writeRawVarint32(tag);
                 unknownFieldsCodedOutput.writeRawVarint32(rawValue);
@@ -2124,17 +2124,17 @@ public final class IMFile {
     }
 
     public static final int TRANS_MODE_FIELD_NUMBER = 3;
-    private com.mogujie.tt.protobuf.IMBaseDefine.FileType transMode_;
+    private com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType transMode_;
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 3;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 3;</code>
      */
     public boolean hasTransMode() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 3;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 3;</code>
      */
-    public com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode() {
+    public com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode() {
       return transMode_;
     }
 
@@ -2171,7 +2171,7 @@ public final class IMFile {
     private void initFields() {
       taskId_ = "";
       userId_ = 0;
-      transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+      transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
       offset_ = 0;
       dataSize_ = 0;
     }
@@ -2350,7 +2350,7 @@ public final class IMFile {
         bitField0_ = (bitField0_ & ~0x00000001);
         userId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
         bitField0_ = (bitField0_ & ~0x00000004);
         offset_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -2602,23 +2602,23 @@ public final class IMFile {
         return this;
       }
 
-      private com.mogujie.tt.protobuf.IMBaseDefine.FileType transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+      private com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 3;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 3;</code>
        */
       public boolean hasTransMode() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 3;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 3;</code>
        */
-      public com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode() {
+      public com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode() {
         return transMode_;
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 3;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 3;</code>
        */
-      public Builder setTransMode(com.mogujie.tt.protobuf.IMBaseDefine.FileType value) {
+      public Builder setTransMode(com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -2628,11 +2628,11 @@ public final class IMFile {
         return this;
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 3;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 3;</code>
        */
       public Builder clearTransMode() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
         
         return this;
       }
@@ -2766,13 +2766,13 @@ public final class IMFile {
     int getOffset();
 
     /**
-     * <code>required bytes data = 5;</code>
+     * <code>required bytes file_data = 5;</code>
      */
-    boolean hasData();
+    boolean hasFileData();
     /**
-     * <code>required bytes data = 5;</code>
+     * <code>required bytes file_data = 5;</code>
      */
-    com.google.protobuf.ByteString getData();
+    com.google.protobuf.ByteString getFileData();
   }
   /**
    * Protobuf type {@code IM.File.IMFilePullDataRsp}
@@ -2847,7 +2847,7 @@ public final class IMFile {
             }
             case 42: {
               bitField0_ |= 0x00000010;
-              data_ = input.readBytes();
+              fileData_ = input.readBytes();
               break;
             }
           }
@@ -2979,19 +2979,19 @@ public final class IMFile {
       return offset_;
     }
 
-    public static final int DATA_FIELD_NUMBER = 5;
-    private com.google.protobuf.ByteString data_;
+    public static final int FILE_DATA_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString fileData_;
     /**
-     * <code>required bytes data = 5;</code>
+     * <code>required bytes file_data = 5;</code>
      */
-    public boolean hasData() {
+    public boolean hasFileData() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>required bytes data = 5;</code>
+     * <code>required bytes file_data = 5;</code>
      */
-    public com.google.protobuf.ByteString getData() {
-      return data_;
+    public com.google.protobuf.ByteString getFileData() {
+      return fileData_;
     }
 
     private void initFields() {
@@ -2999,7 +2999,7 @@ public final class IMFile {
       taskId_ = "";
       userId_ = 0;
       offset_ = 0;
-      data_ = com.google.protobuf.ByteString.EMPTY;
+      fileData_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3023,7 +3023,7 @@ public final class IMFile {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasData()) {
+      if (!hasFileData()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3047,7 +3047,7 @@ public final class IMFile {
         output.writeUInt32(4, offset_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(5, data_);
+        output.writeBytes(5, fileData_);
       }
       output.writeRawBytes(unknownFields);
     }
@@ -3076,7 +3076,7 @@ public final class IMFile {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, data_);
+          .computeBytesSize(5, fileData_);
       }
       size += unknownFields.size();
       memoizedSerializedSize = size;
@@ -3180,7 +3180,7 @@ public final class IMFile {
         bitField0_ = (bitField0_ & ~0x00000004);
         offset_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        data_ = com.google.protobuf.ByteString.EMPTY;
+        fileData_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
@@ -3224,7 +3224,7 @@ public final class IMFile {
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.data_ = data_;
+        result.fileData_ = fileData_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
@@ -3245,8 +3245,8 @@ public final class IMFile {
         if (other.hasOffset()) {
           setOffset(other.getOffset());
         }
-        if (other.hasData()) {
-          setData(other.getData());
+        if (other.hasFileData()) {
+          setFileData(other.getFileData());
         }
         setUnknownFields(
             getUnknownFields().concat(other.unknownFields));
@@ -3270,7 +3270,7 @@ public final class IMFile {
           
           return false;
         }
-        if (!hasData()) {
+        if (!hasFileData()) {
           
           return false;
         }
@@ -3484,37 +3484,37 @@ public final class IMFile {
         return this;
       }
 
-      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
+      private com.google.protobuf.ByteString fileData_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required bytes data = 5;</code>
+       * <code>required bytes file_data = 5;</code>
        */
-      public boolean hasData() {
+      public boolean hasFileData() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required bytes data = 5;</code>
+       * <code>required bytes file_data = 5;</code>
        */
-      public com.google.protobuf.ByteString getData() {
-        return data_;
+      public com.google.protobuf.ByteString getFileData() {
+        return fileData_;
       }
       /**
-       * <code>required bytes data = 5;</code>
+       * <code>required bytes file_data = 5;</code>
        */
-      public Builder setData(com.google.protobuf.ByteString value) {
+      public Builder setFileData(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000010;
-        data_ = value;
+        fileData_ = value;
         
         return this;
       }
       /**
-       * <code>required bytes data = 5;</code>
+       * <code>required bytes file_data = 5;</code>
        */
-      public Builder clearData() {
+      public Builder clearFileData() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        data_ = getDefaultInstance().getData();
+        fileData_ = getDefaultInstance().getFileData();
         
         return this;
       }
@@ -3584,13 +3584,13 @@ public final class IMFile {
     int getFileSize();
 
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 5;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 5;</code>
      */
     boolean hasTransMode();
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 5;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 5;</code>
      */
-    com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode();
+    com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode();
   }
   /**
    * Protobuf type {@code IM.File.IMFileReq}
@@ -3665,7 +3665,7 @@ public final class IMFile {
             }
             case 40: {
               int rawValue = input.readEnum();
-              com.mogujie.tt.protobuf.IMBaseDefine.FileType value = com.mogujie.tt.protobuf.IMBaseDefine.FileType.valueOf(rawValue);
+              com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType value = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.valueOf(rawValue);
               if (value == null) {
                 unknownFieldsCodedOutput.writeRawVarint32(tag);
                 unknownFieldsCodedOutput.writeRawVarint32(rawValue);
@@ -3805,17 +3805,17 @@ public final class IMFile {
     }
 
     public static final int TRANS_MODE_FIELD_NUMBER = 5;
-    private com.mogujie.tt.protobuf.IMBaseDefine.FileType transMode_;
+    private com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType transMode_;
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 5;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 5;</code>
      */
     public boolean hasTransMode() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 5;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 5;</code>
      */
-    public com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode() {
+    public com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode() {
       return transMode_;
     }
 
@@ -3824,7 +3824,7 @@ public final class IMFile {
       toUserId_ = 0;
       fileName_ = "";
       fileSize_ = 0;
-      transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+      transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4005,7 +4005,7 @@ public final class IMFile {
         bitField0_ = (bitField0_ & ~0x00000004);
         fileSize_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
         bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
@@ -4309,23 +4309,23 @@ public final class IMFile {
         return this;
       }
 
-      private com.mogujie.tt.protobuf.IMBaseDefine.FileType transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+      private com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 5;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 5;</code>
        */
       public boolean hasTransMode() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 5;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 5;</code>
        */
-      public com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode() {
+      public com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode() {
         return transMode_;
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 5;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 5;</code>
        */
-      public Builder setTransMode(com.mogujie.tt.protobuf.IMBaseDefine.FileType value) {
+      public Builder setTransMode(com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -4335,11 +4335,11 @@ public final class IMFile {
         return this;
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 5;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 5;</code>
        */
       public Builder clearTransMode() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
         
         return this;
       }
@@ -4437,13 +4437,13 @@ public final class IMFile {
     int getIpAddrListCount();
 
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
      */
     boolean hasTransMode();
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
      */
-    com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode();
+    com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode();
   }
   /**
    * Protobuf type {@code IM.File.IMFileRsp}
@@ -4532,7 +4532,7 @@ public final class IMFile {
             }
             case 56: {
               int rawValue = input.readEnum();
-              com.mogujie.tt.protobuf.IMBaseDefine.FileType value = com.mogujie.tt.protobuf.IMBaseDefine.FileType.valueOf(rawValue);
+              com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType value = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.valueOf(rawValue);
               if (value == null) {
                 unknownFieldsCodedOutput.writeRawVarint32(tag);
                 unknownFieldsCodedOutput.writeRawVarint32(rawValue);
@@ -4752,17 +4752,17 @@ public final class IMFile {
     }
 
     public static final int TRANS_MODE_FIELD_NUMBER = 7;
-    private com.mogujie.tt.protobuf.IMBaseDefine.FileType transMode_;
+    private com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType transMode_;
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
      */
     public boolean hasTransMode() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
      */
-    public com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode() {
+    public com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode() {
       return transMode_;
     }
 
@@ -4773,7 +4773,7 @@ public final class IMFile {
       fileName_ = "";
       taskId_ = "";
       ipAddrList_ = java.util.Collections.emptyList();
-      transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+      transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4982,7 +4982,7 @@ public final class IMFile {
         bitField0_ = (bitField0_ & ~0x00000010);
         ipAddrList_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000020);
-        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
         bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
@@ -5521,23 +5521,23 @@ public final class IMFile {
         return this;
       }
 
-      private com.mogujie.tt.protobuf.IMBaseDefine.FileType transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+      private com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
        */
       public boolean hasTransMode() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
        */
-      public com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode() {
+      public com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode() {
         return transMode_;
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
        */
-      public Builder setTransMode(com.mogujie.tt.protobuf.IMBaseDefine.FileType value) {
+      public Builder setTransMode(com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -5547,11 +5547,11 @@ public final class IMFile {
         return this;
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
        */
       public Builder clearTransMode() {
         bitField0_ = (bitField0_ & ~0x00000040);
-        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
         
         return this;
       }
@@ -5649,13 +5649,13 @@ public final class IMFile {
     int getIpAddrListCount();
 
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
      */
     boolean hasTransMode();
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
      */
-    com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode();
+    com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode();
 
     /**
      * <code>required uint32 offline_ready = 8;</code>
@@ -5761,7 +5761,7 @@ public final class IMFile {
             }
             case 56: {
               int rawValue = input.readEnum();
-              com.mogujie.tt.protobuf.IMBaseDefine.FileType value = com.mogujie.tt.protobuf.IMBaseDefine.FileType.valueOf(rawValue);
+              com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType value = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.valueOf(rawValue);
               if (value == null) {
                 unknownFieldsCodedOutput.writeRawVarint32(tag);
                 unknownFieldsCodedOutput.writeRawVarint32(rawValue);
@@ -5986,17 +5986,17 @@ public final class IMFile {
     }
 
     public static final int TRANS_MODE_FIELD_NUMBER = 7;
-    private com.mogujie.tt.protobuf.IMBaseDefine.FileType transMode_;
+    private com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType transMode_;
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
      */
     public boolean hasTransMode() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+     * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
      */
-    public com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode() {
+    public com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode() {
       return transMode_;
     }
 
@@ -6030,7 +6030,7 @@ public final class IMFile {
       fileSize_ = 0;
       taskId_ = "";
       ipAddrList_ = java.util.Collections.emptyList();
-      transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+      transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
       offlineReady_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -6251,7 +6251,7 @@ public final class IMFile {
         bitField0_ = (bitField0_ & ~0x00000010);
         ipAddrList_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000020);
-        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
         bitField0_ = (bitField0_ & ~0x00000040);
         offlineReady_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
@@ -6803,23 +6803,23 @@ public final class IMFile {
         return this;
       }
 
-      private com.mogujie.tt.protobuf.IMBaseDefine.FileType transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+      private com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
        */
       public boolean hasTransMode() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
        */
-      public com.mogujie.tt.protobuf.IMBaseDefine.FileType getTransMode() {
+      public com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType getTransMode() {
         return transMode_;
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
        */
-      public Builder setTransMode(com.mogujie.tt.protobuf.IMBaseDefine.FileType value) {
+      public Builder setTransMode(com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -6829,11 +6829,11 @@ public final class IMFile {
         return this;
       }
       /**
-       * <code>required .IM.BaseDefine.FileType trans_mode = 7;</code>
+       * <code>required .IM.BaseDefine.TransferFileType trans_mode = 7;</code>
        */
       public Builder clearTransMode() {
         bitField0_ = (bitField0_ & ~0x00000040);
-        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.FileType.FILE_TYPE_ONLINE;
+        transMode_ = com.mogujie.tt.protobuf.IMBaseDefine.TransferFileType.FILE_TYPE_ONLINE;
         
         return this;
       }
