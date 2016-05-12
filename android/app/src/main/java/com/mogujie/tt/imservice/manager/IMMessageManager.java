@@ -176,6 +176,7 @@ public class IMMessageManager extends IMManager{
 
 
         final MessageEntity messageEntity  = msgEntity;
+        // 发送到服务器
         imSocketManager.sendRequest(msgData,sid,cid,new Packetlistener(getTimeoutTolerance(messageEntity)) {
             @Override
             public void onSuccess(Object response) {
@@ -216,7 +217,7 @@ public class IMMessageManager extends IMManager{
      * 1. 解析消息的类型
      * 2. 根据不同的类型,转化成不同的消息
      * 3. 先保存在DB[insertOrreplace]中，session的更新，Unread的更新
-     * 4上层通知
+     * 4. 上层通知
      * @param imMsgData
      */
     public void onRecvMessage(IMMessage.IMMsgData imMsgData) {
@@ -244,7 +245,7 @@ public class IMMessageManager extends IMManager{
         PriorityEvent  notifyEvent = new PriorityEvent();
         notifyEvent.event = PriorityEvent.Event.MSG_RECEIVED_MESSAGE;
         notifyEvent.object = recvMessage;
-        triggerEvent(notifyEvent);
+        triggerEvent(notifyEvent);// 接收到消息
     }
 
 

@@ -137,8 +137,12 @@ int main(int argc, char* argv[])
 				client_listen_ip, client_port, msg_server_listen_ip, msg_server_port, http_listen_ip, http_port);
 
 	init_login_conn();
-    init_http_conn();
-
+    init_http_conn();  // 一秒发一个，发心跳，两分钟之后关闭
+			/*pdu.SetPBMsg(&msg);
+            pdu.SetServiceId(SID_OTHER);
+            pdu.SetCommandId(CID_OTHER_HEARTBEAT);
+			SendPdu(&pdu);
+			*/
 	printf("now enter the event loop...\n");
     
     writePid();

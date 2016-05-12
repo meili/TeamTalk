@@ -86,7 +86,7 @@ void CLoginConn::OnConnect2(net_handle_t handle, int conn_type)
 	}else
 		conn_map->insert(make_pair(handle, this));
 
-	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)imconn_callback);
+	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)imconn_callback); // 数据接收imconn_callback
 	netlib_option(handle, NETLIB_OPT_SET_CALLBACK_DATA, (void*)conn_map);
 }
 

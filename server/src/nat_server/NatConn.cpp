@@ -32,7 +32,7 @@ CUserInfo* GetUserInfo(uint32_t user_id)
     
     return pUser;
 }
- 
+/* 心跳？
 void nat_serv_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	uint64_t cur_time = get_tick_count();
@@ -49,7 +49,7 @@ void init_natconn_timer_callback()
 {
 	netlib_register_timer(nat_serv_timer_callback, NULL, 1000);
 }
-
+*/
 CNatConn::CNatConn()
 {
 	m_bMaster = false;
@@ -88,6 +88,29 @@ void CNatConn::Close()
 	ReleaseRef();
 }
 
+void CNatConn::OnClose()
+{
+	log("MsgServer onclose: handle=%d ", m_handle);
+	Close();
+}
+/*
+void CNatConn::OnExec(SOCKET m_socket)
+{
+	for(;;)
+	{
+		int dwSender = sizeof(sender);
+		int ret = recvfrom(m_socket, (char *)&recvbuf, sizeof(stMessage), 0, (sockaddr *)&sender, &dwSender);
+		if(ret <= 0)
+		{
+			printf("recv error");
+			continue;
+		}
+		
+	}
+}
+*/
+
+
 void CNatConn::OnConnect(net_handle_t handle)
 {
 	m_handle = handle;
@@ -98,29 +121,17 @@ void CNatConn::OnConnect(net_handle_t handle)
 	netlib_option(handle, NETLIB_OPT_SET_CALLBACK_DATA, (void*)&g_nat_conn_map);
 }
 
-void CNatConn::OnClose()
+// 读
+void CHttpConn::OnRead()
 {
-	log("MsgServer onclose: handle=%d ", m_handle);
-	Close();
+
 }
 
-void CNatConn::OnTimer(uint64_t curr_tick)
+// 写
+void CHttpConn::OnWrite()
 {
-	if (curr_tick > m_last_send_tick + SERVER_HEARTBEAT_INTERVAL)
-    {
-        IM::Other::IMHeartBeat msg;
-        CImPdu pdu;
-        pdu.SetPBMsg(&msg);
-        pdu.SetServiceId(SID_OTHER);
-        pdu.SetCommandId(CID_OTHER_HEARTBEAT);
-		SendPdu(&pdu);
-	}
-
-	if (curr_tick > m_last_recv_tick + SERVER_TIMEOUT) {
-		log("message server timeout ");
-		Close();
-	}
 }
+
 
 void CNatConn::HandlePdu(CImPdu* pPdu)
 {
@@ -390,4 +401,3 @@ void CNatConn::_SendPduToUser(uint32_t user_id, CImPdu* pPdu, bool bAll)
         }
     }
 }
-

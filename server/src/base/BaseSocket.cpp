@@ -263,7 +263,7 @@ void CBaseSocket::_SetNonblock(SOCKET fd)
 {
 #ifdef _WIN32
 	u_long nonblock = 1;
-	int ret = ioctlsocket(fd, FIONBIO, &nonblock);
+	int ret = ioctlsocket(fd, FIONBIO, &nonblock); // windows用完成端口  unix用epoll
 #else
 	int ret = fcntl(fd, F_SETFL, O_NONBLOCK | fcntl(fd, F_GETFL));
 #endif
@@ -292,13 +292,24 @@ void CBaseSocket::_SetNoDelay(SOCKET fd)
 		log("_SetNoDelay failed, err_code=%d", _GetErrorCode());
 	}
 }
+void CBaseSocket::_SetAddr(const uint16_t port, sockaddr_in* pAddr)
+{
+	memset(pAddr, 0, sizeof(sockaddr_in));
+	pAddr->sin_family = AF_INET;
+	pAddr->sin_port = htons(port);
+	// 有的服务器是多宿主机，至少有两个网卡，那么运行在这样的服务器上的服务程序在为其socket绑定IP地址时
+	// 可以把htonl(INADDR_ANY)置给s_addr，这样做的好处是不论哪个网段上的客户程序都能与该服务程序通信；
+	pAddr->sin_addr.s_addr = htonl(INADDR_ANY); // htonl(INADDR_ANY); 使用INADDR_ANY 指示任意地址 	
+}
 
 void CBaseSocket::_SetAddr(const char* ip, const uint16_t port, sockaddr_in* pAddr)
 {
 	memset(pAddr, 0, sizeof(sockaddr_in));
 	pAddr->sin_family = AF_INET;
 	pAddr->sin_port = htons(port);
-	pAddr->sin_addr.s_addr = inet_addr(ip);
+	// 有的服务器是多宿主机，至少有两个网卡，那么运行在这样的服务器上的服务程序在为其socket绑定IP地址时
+	// 可以把htonl(INADDR_ANY)置给s_addr，这样做的好处是不论哪个网段上的客户程序都能与该服务程序通信；
+	pAddr->sin_addr.s_addr = inet_addr(ip); // htonl(INADDR_ANY); 使用INADDR_ANY 指示任意地址 
 	if (pAddr->sin_addr.s_addr == INADDR_NONE)
 	{
 		hostent* host = gethostbyname(ip);
@@ -343,3 +354,54 @@ void CBaseSocket::_AcceptNewSocket()
 	}
 }
 
+//add by xieqq 2016-05-11  udp socket////////////////////////////
+int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t callback, void* callback_data)
+{
+	m_local_ip = server_ip;
+	m_local_port = port;
+	m_callback = callback;
+	m_callback_data = callback_data;
+
+	m_socket = socket(AF_INET, SOCK_DGRAM, 0);
+	if (m_socket == INVALID_SOCKET)
+	{
+		printf("socket failed, err_code=%d\n", _GetErrorCode());
+		return NETLIB_ERROR;
+	}
+	// 这通常是重启监听服务器时出现，若不设置此选项，则bind时将出错。
+	_SetReuseAddr(m_socket);
+	_SetNonblock(m_socket);
+
+	sockaddr_in serv_addr;
+
+	_SetAddr(port, &serv_addr);
+	// 绑定端口
+    int ret = ::bind(m_socket, (sockaddr*)&serv_addr, sizeof(serv_addr));
+	if (ret == SOCKET_ERROR)
+	{
+		log("bind failed, err_code=%d", _GetErrorCode());
+		closesocket(m_socket);
+		return NETLIB_ERROR;
+	}
+
+	//ret = listen(m_socket, 64); // udp不用listen
+	//if (ret == SOCKET_ERROR)
+	//{
+	//	log("listen failed, err_code=%d", _GetErrorCode());
+	//	closesocket(m_socket);
+	//	return NETLIB_ERROR;
+	//}
+
+	m_state = SOCKET_STATE_UDP_BIND;
+
+	log("CBaseSocket::UDP_Bind on any %s :%d", server_ip, port);
+
+	AddBaseSocket(this); // g_socket_map.insert
+	CEventDispatch::Instance()->AddEvent(m_socket, SOCKET_READ | SOCKET_EXCEP);
+	
+	// udp 只是sendto recvfrom 要不要用epoll?  
+	// 就不addEvent了  先用epoll试试
+	
+	return NETLIB_OK;
+}
+//add by xieqq 2016-05-11 end///////////////////////////////////
