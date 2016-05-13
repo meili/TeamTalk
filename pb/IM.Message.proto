@@ -12,7 +12,7 @@ message IMMsgData{
 	required uint32 msg_id = 3;
 	required uint32 create_time = 4; 
 	required IM.BaseDefine.MsgType msg_type = 5;
-	required bytes msg_data = 6;
+	required bytes msg_data = 6;				// 如果是语音请求，这里房间号
 	optional bytes attach_data = 20;
 }
 
@@ -119,4 +119,21 @@ message IMGetMsgByIdRsp{
 	required uint32 session_id = 3;
 	repeated IM.BaseDefine.MsgInfo msg_list = 4;
 	optional bytes attach_data = 20;
+}
+
+message IMAudioReq{
+	//cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+	required uint32 from_user_id = 1;		// 用户id
+	required uint32 to_room_id = 2;			// 要加入的房间id
+	required uint32 msg_id = 3;			// 消息ID （加入还是退出）
+	required uint32 create_time = 4;		// 消息时间
+	required IM.BaseDefine.MsgType msg_type = 5;	// 消息类型
+	required IM.BaseDefine.MsgType ClientType = 6;  // 客户端类型	
+}
+
+message IMAudioRsp{
+	//cmd id:		0x030f 加入房间请求 语音请求
+	required uint32 from_user_id = 1;		// 用户id自己的id
+	required uint32 count_in_room = 2;		// 当前房间的人数
+	repeated IM.BaseDefine.UserIpAddr user_list = 4; // // 要连的人的id,ip,port
 }

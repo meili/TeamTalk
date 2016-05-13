@@ -17,10 +17,7 @@
 #include "public_define.h"
 using namespace IM::BaseDefine;
 
-//typedef hash_map<uint32_t /* user_id */, UserStat_t> UserStatMap_t;
-static ConnMap_t g_nat_conn_map;
-typedef hash_map<uint32_t, CUserInfo*> UserInfoMap_t;
-static UserInfoMap_t g_user_map;
+static NatConnMap_t g_nat_conn_map;
 
 CUserInfo* GetUserInfo(uint32_t user_id)
 {
@@ -32,24 +29,48 @@ CUserInfo* GetUserInfo(uint32_t user_id)
     
     return pUser;
 }
-/* 心跳？
-void nat_serv_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
-{
-	uint64_t cur_time = get_tick_count();
-	for (ConnMap_t::iterator it = g_nat_conn_map.begin(); it != g_nat_conn_map.end(); ) {
-		ConnMap_t::iterator it_old = it;
-		it++;
 
-		CNatConn* pConn = (CNatConn*)it_old->second;
-		pConn->OnTimer(cur_time);
+
+CNatConn* FindNatConnByHandle(uint32_t conn_handle)
+{
+    CNatConn* pConn = NULL;
+    ConnMap_t::iterator it = g_nat_conn_map.find(conn_handle);
+    if (it != g_http_conn_map.end()) {
+        pConn = it->second;
+    }
+
+    return pConn;
+}
+
+void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32_t uParam, void* pParam)
+{
+	NOTUSED_ARG(uParam);
+	NOTUSED_ARG(pParam);
+
+	// convert void* to uint32_t, oops
+	uint32_t conn_handle = *((uint32_t*)(&callback_data));
+    CNatConn* pConn = FindNatConnByHandle(conn_handle);
+    if (!pConn) {
+        return;
+    }
+
+	switch (msg)
+	{
+	case NETLIB_MSG_READ:
+		pConn->OnUDPRead();
+		break;
+	case NETLIB_MSG_WRITE:
+		pConn->OnUDPWrite();
+		break;
+	case NETLIB_MSG_CLOSE:
+		pConn->OnClose();
+		break;
+	default:
+		log("!!!httpconn_callback error msg: %d ", msg);
+		break;
 	}
 }
 
-void init_natconn_timer_callback()
-{
-	netlib_register_timer(nat_serv_timer_callback, NULL, 1000);
-}
-*/
 CNatConn::CNatConn()
 {
 	m_bMaster = false;
@@ -62,9 +83,9 @@ CNatConn::~CNatConn()
 
 void CNatConn::Close()
 {
-	if (m_handle != NETLIB_INVALID_HANDLE) {
-		netlib_close(m_handle);
-		g_nat_conn_map.erase(m_handle);
+	if (m_sock_handle != NETLIB_INVALID_HANDLE) {
+		netlib_close(m_sock_handle);
+		g_nat_conn_map.erase(m_sock_handle);
 	}
 
 	// remove all user info from this MessageServer
@@ -90,50 +111,53 @@ void CNatConn::Close()
 
 void CNatConn::OnClose()
 {
-	log("MsgServer onclose: handle=%d ", m_handle);
+	log("MsgServer onclose: handle=%d ", m_sock_handle);
 	Close();
 }
-/*
-void CNatConn::OnExec(SOCKET m_socket)
-{
-	for(;;)
-	{
-		int dwSender = sizeof(sender);
-		int ret = recvfrom(m_socket, (char *)&recvbuf, sizeof(stMessage), 0, (sockaddr *)&sender, &dwSender);
-		if(ret <= 0)
-		{
-			printf("recv error");
-			continue;
-		}
-		
-	}
-}
-*/
-
 
 void CNatConn::OnConnect(net_handle_t handle)
 {
-	m_handle = handle;
+	m_sock_handle = handle;
 
 	g_nat_conn_map.insert(make_pair(handle, this));
 
-	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)imconn_callback);
+	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)nat_conn_callback);
 	netlib_option(handle, NETLIB_OPT_SET_CALLBACK_DATA, (void*)&g_nat_conn_map);
 }
 
 // 读
-void CHttpConn::OnRead()
+void CNatConn::OnUDPRead()
 {
+	sockaddr_in sender; // 发送端的地址 从哪发来的
 
+	// stMessage recvbuf; // 用 protobuf定义的IMAudioReq
+
+	IM::Message::IMAudioReq recvbuf;
+
+	memset(&recvbuf,0,sizeof(stMessage));
+	
+	int dwSender = sizeof(sender);
+	// UDP包固定大小
+	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, sizeof(IM::Message::IMAudioReq), 0, (sockaddr *)&sender, &dwSender);
+	if(ret <= 0)
+	{
+		printf("recv error");
+		return;
+	}
+	
+            
+	HandlePdu(&recvbuf);
+
+		
 }
 
 // 写
-void CHttpConn::OnWrite()
+void CHttpConn::OnUDPWrite()
 {
 }
 
 
-void CNatConn::HandlePdu(CImPdu* pPdu)
+void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
 {
 	switch (pPdu->GetCommandId()) {
         case CID_OTHER_HEARTBEAT:
@@ -274,7 +298,7 @@ void CNatConn::_HandleRoleSet(CImPdu* pPdu)
 
 	uint32_t master = msg.master();
 
-	log("HandleRoleSet, master=%u, handle=%u ", master, m_handle);
+	log("HandleRoleSet, master=%u, handle=%u ", master, m_sock_handle);
 	if (master == 1) {
 		m_bMaster = true;
 	} else {

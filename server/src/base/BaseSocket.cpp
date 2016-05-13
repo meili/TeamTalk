@@ -166,7 +166,7 @@ void CBaseSocket::OnRead()
 	{
 		_AcceptNewSocket();
 	}
-	else
+	else  // UDP的时候的状态 SOCKET_STATE_UDP_BIND 
 	{
 		u_long avail = 0;
 		if ( (ioctlsocket(m_socket, FIONREAD, &avail) == SOCKET_ERROR) || (avail == 0) )
@@ -186,7 +186,7 @@ void CBaseSocket::OnWrite()
 	CEventDispatch::Instance()->RemoveEvent(m_socket, SOCKET_WRITE);
 #endif
 
-	if (m_state == SOCKET_STATE_CONNECTING)
+	if (m_state == SOCKET_STATE_CONNECTING) // 客户端连服务端成功状态会是SOCKET_STATE_CONNECTING
 	{
 		int error = 0;
 		socklen_t len = sizeof(error);
