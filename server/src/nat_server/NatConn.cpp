@@ -159,7 +159,7 @@ void CHttpConn::OnUDPWrite()
 
 void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
 {
-	switch (pPdu->GetCommandId()) {
+	switch (recvbuf->msg_type()) {
         case CID_OTHER_HEARTBEAT:
             // do not take any action, heart beat only update m_last_recv_tick
             break;
