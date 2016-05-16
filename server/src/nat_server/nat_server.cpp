@@ -6,7 +6,7 @@
  */
 
 #include "NatConn.h"
-#include "netlib.h"
+//#include "netlib.h"
 #include "ConfigFileReader.h"
 #include "version.h"
 
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 
 	for (uint32_t i = 0; i < listen_ip_list.GetItemCnt(); i++) {
 		// socket SOCK_DGRAM  (UDP)
-		ret =  netlib_listen_udp_bind(listen_ip_list.GetItem(i), str_listen_msg_port, nat_serv_callback, NULL);
+		ret =  netlib_listen_udp_bind(listen_ip_list.GetItem(i), listen_msg_port, nat_serv_callback, NULL);
 		if (ret == NETLIB_ERROR)
 			return ret;
 
