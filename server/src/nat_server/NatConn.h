@@ -16,7 +16,6 @@
 
 #include "IM.Message.pb.h"
 
-
 class CNatConn : public CRefObject
 {
 public:
