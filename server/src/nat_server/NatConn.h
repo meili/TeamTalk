@@ -11,6 +11,9 @@
 #include "netlib.h"
 #include "util.h"
 
+#include "IM.Message.pb.h"
+
+
 class CNatConn : public CRefObject
 {
 public:
