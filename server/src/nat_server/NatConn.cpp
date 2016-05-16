@@ -159,8 +159,8 @@ void CHttpConn::OnUDPWrite()
 
 void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
 {
-	switch (recvbuf->msg_type()) {
-        case CID_OTHER_HEARTBEAT:
+	switch (recvbuf->msg_type()) { // 登录 登出 打洞
+        /*case CID_OTHER_HEARTBEAT:
             // do not take any action, heart beat only update m_last_recv_tick
             break;
         case CID_OTHER_ONLINE_USER_INFO:
@@ -187,7 +187,7 @@ void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
         case CID_BUDDY_LIST_SIGN_INFO_CHANGED_NOTIFY:
             _BroadcastMsg(pPdu);
             break;
-        
+        */
 	default:
 		log("CNatConn::HandlePdu, wrong cmd id: %d ", pPdu->GetCommandId());
 		break;

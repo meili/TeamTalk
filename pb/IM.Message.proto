@@ -128,7 +128,7 @@ message IMAudioReq{
 	required uint32 msg_id = 3;			// 消息ID （加入还是退出）
 	required uint32 create_time = 4;		// 消息时间
 	required IM.BaseDefine.MsgType msg_type = 5;	// 消息类型
-	required IM.BaseDefine.MsgType ClientType = 6;  // 客户端类型	
+//	required IM.BaseDefine.MsgType ClientType = 6;  // 客户端类型	
 }
 
 message IMAudioRsp{
