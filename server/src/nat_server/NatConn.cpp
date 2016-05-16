@@ -121,7 +121,7 @@ void CNatConn::OnUDPRead()
 }
 
 // 写
-void CHttpConn::OnUDPWrite()
+void CNatConn::OnUDPWrite()
 {
 }
 
@@ -158,7 +158,7 @@ void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
             break;
         */
 	default:
-		log("CNatConn::HandlePdu, wrong cmd id: %d ", pPdu->GetCommandId());
+		log("CNatConn::HandlePdu, wrong cmd id: %d ", recvbuf->msg_type());
 		break;
 	}
 }
