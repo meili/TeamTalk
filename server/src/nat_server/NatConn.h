@@ -8,9 +8,10 @@
 #ifndef __NATCONN_H__
 #define __NATCONN_H__
 
-#include "imconn.h"
+#include "netlib.h"
+#include "util.h"
 
-class CNatConn : public CImConn
+class CNatConn : public CRefObject
 {
 public:
 	CNatConn();
@@ -21,7 +22,7 @@ public:
 	virtual void OnConnect(net_handle_t handle);
 	virtual void OnClose();
 
-	virtual void HandlePdu(CImPdu* pPdu);
+	virtual void HandlePdu(IM::Message::IMAudioReq* recvbuf);
 private:	
 	void OnUDPRead();
 	void OnUDPWrite();
