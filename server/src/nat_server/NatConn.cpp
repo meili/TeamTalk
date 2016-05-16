@@ -22,8 +22,8 @@ static NatConnMap_t g_nat_conn_map;
 CNatConn* FindNatConnByHandle(uint32_t conn_handle)
 {
     CNatConn* pConn = NULL;
-    ConnMap_t::iterator it = g_nat_conn_map.find(conn_handle);
-    if (it != g_http_conn_map.end()) {
+    NatConnMap_t::iterator it = g_nat_conn_map.find(conn_handle);
+    if (it != g_nat_conn_map.end()) {
         pConn = it->second;
     }
 
@@ -69,29 +69,11 @@ CNatConn::~CNatConn()
 }
 
 void CNatConn::Close()
-{
-	if (m_sock_handle != NETLIB_INVALID_HANDLE) {
-		netlib_close(m_sock_handle);
-		g_nat_conn_map.erase(m_sock_handle);
-	}
+{	
+    m_state = CONN_STATE_CLOSED;
 
-	// remove all user info from this MessageServer
-    
-    UserInfoMap_t::iterator it_old;
-    for (UserInfoMap_t::iterator it = g_user_map.begin(); it != g_user_map.end(); )
-    {
-        it_old = it;
-        it++;
-        
-        CUserInfo* pUser = it_old->second;
-        pUser->RemoveNatConn(this);
-        if (pUser->GetNatConnCount() == 0)
-        {
-            delete pUser;
-            pUser = NULL;
-            g_user_map.erase(it_old);
-        }
-    }
+    g_nat_conn_map.erase(m_sock_handle);
+    netlib_close(m_sock_handle);
 
 	ReleaseRef();
 }

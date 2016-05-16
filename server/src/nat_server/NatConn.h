@@ -26,7 +26,6 @@ public:
 	virtual void OnClose();
 
 	virtual void HandlePdu(IM::Message::IMAudioReq* recvbuf);
-private:	
 	void OnUDPRead();
 	void OnUDPWrite();
 
