@@ -8,6 +8,9 @@
 #ifndef __NATCONN_H__
 #define __NATCONN_H__
 
+#include <sys/types.h>
+#include <sys/socket.h>
+
 #include "netlib.h"
 #include "util.h"
 
@@ -30,6 +33,8 @@ public:
 	void OnUDPWrite();
 
 protected:
+	uint32_t        m_state;
+
 	net_handle_t	m_sock_handle;
 };
 

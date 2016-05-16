@@ -70,7 +70,7 @@ CNatConn::~CNatConn()
 
 void CNatConn::Close()
 {	
-    m_state = CONN_STATE_CLOSED;
+    //m_state = CONN_STATE_CLOSED;
 
     g_nat_conn_map.erase(m_sock_handle);
     netlib_close(m_sock_handle);
