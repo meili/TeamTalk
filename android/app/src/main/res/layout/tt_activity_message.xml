@@ -8,8 +8,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             xmlns:ptr="http://schemas.android.com/apk/res-auto"
             android:id="@+id/message_list"
@@ -36,11 +35,8 @@
             android:gravity="center_vertical|left"
             android:visibility="gone"
             android:textColor="#01aff4"
-            android:background="@drawable/tt_new_msg_bk"
-            />
-
+            android:background="@drawable/tt_new_msg_bk"/>
         </FrameLayout>
-
 
     <RelativeLayout
         android:id="@+id/tt_layout_bottom"
@@ -272,6 +268,26 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="8dp"
                     android:text="@string/take_photo_btn_text"
+                    android:textColor="@color/default_light_black_color"
+                    android:textSize="13sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:orientation="vertical" >
+
+                <View
+                    android:id="@+id/take_audio_btn"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/tt_take_photo_btn_bg" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/take_audio_btn_text"
                     android:textColor="@color/default_light_black_color"
                     android:textSize="13sp" />
             </LinearLayout>

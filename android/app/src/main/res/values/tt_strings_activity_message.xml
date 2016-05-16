@@ -24,6 +24,7 @@
     <string name="audio_recorded_so_short">录音时间太短，请重新录制</string>
     <string name="take_photo_btn_text">照片</string>
     <string name="take_camera_btn_text">拍照</string>
+    <string name="take_audio_btn_text">语音</string>
     <string name="kick_tip">您已经被踢下线</string>
     <string name="goods_detail_title">我正在看:</string>
     <string name="goods_now_price_prefix">￥</string>

@@ -125,7 +125,6 @@ public class MessageActivity extends TTBaseActivity
     private ImageView soundVolumeImg = null;
     private LinearLayout soundVolumeLayout = null;
 
-
     private ImageView audioInputImg = null;
     private ImageView addPhotoBtn = null;
     private ImageView addEmoBtn = null;
@@ -643,8 +642,10 @@ public class MessageActivity extends TTBaseActivity
         }
         View takePhotoBtn = findViewById(R.id.take_photo_btn);
         View takeCameraBtn = findViewById(R.id.take_camera_btn);
+        View takeAudioBtn = findViewById(R.id.take_audio_btn);
         takePhotoBtn.setOnClickListener(this);
         takeCameraBtn.setOnClickListener(this);
+        takeAudioBtn.setOnClickListener(this);
 
         //EMO_LAYOUT
         emoLayout = (LinearLayout) findViewById(R.id.emo_layout);
@@ -862,7 +863,7 @@ public class MessageActivity extends TTBaseActivity
                         && emoLayout.getVisibility() == View.VISIBLE) {
                     emoLayout.setVisibility(View.GONE);
                 }
-
+                // 消息滑到底部
                 scrollToBottomListItem();
             }
             break;
@@ -894,6 +895,13 @@ public class MessageActivity extends TTBaseActivity
                 //addOthersPanelView.setVisibility(View.GONE);
                 messageEdt.clearFocus();//切记清除焦点
                 scrollToBottomListItem();
+            }
+            break;
+            case R.id.take_audio_btn:{
+                // 实时语音请求 // 发送
+                TextMessage textMessage = TextMessage.buildForSend("实时语音", loginUser, peerEntity);
+                imService.getMessageManager().sendText(textMessage);
+                imService.getNatServerMgr().sendRequest();
             }
             break;
             case R.id.show_emo_btn: {

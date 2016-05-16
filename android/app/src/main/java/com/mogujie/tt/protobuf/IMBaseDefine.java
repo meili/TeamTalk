@@ -689,6 +689,7 @@ public final class IMBaseDefine {
      * <code>CID_MSG_DATA = 769;</code>
      *
      * <pre>
+     * 发消息
      * </pre>
      */
     CID_MSG_DATA(0, 769),
@@ -696,6 +697,7 @@ public final class IMBaseDefine {
      * <code>CID_MSG_DATA_ACK = 770;</code>
      *
      * <pre>
+     *	发消息回应
      * </pre>
      */
     CID_MSG_DATA_ACK(1, 770),
@@ -770,12 +772,29 @@ public final class IMBaseDefine {
      * <code>CID_MSG_GET_BY_MSG_ID_RES = 782;</code>
      */
     CID_MSG_GET_BY_MSG_ID_RES(13, 782),
+    /**
+     * <code>CID_MSG_AUDIO_UDP_REQUEST = 783;</code>
+     *
+     * <pre>
+     * 登入UDP服务器，带上要连的房间号，两个客户端同一房间号相通	(语音请求,msg加一个消息类型)
+     * </pre>
+     */
+    CID_MSG_AUDIO_UDP_REQUEST(14, 783),
+    /**
+     * <code>CID_MSG_AUDIO_UDP_RESPONSE = 784;</code>
+     *
+     * <pre>
+     * 
+     * </pre>
+     */
+    CID_MSG_AUDIO_UDP_RESPONSE(15, 784),
     ;
 
     /**
      * <code>CID_MSG_DATA = 769;</code>
      *
      * <pre>
+     * 发消息
      * </pre>
      */
     public static final int CID_MSG_DATA_VALUE = 769;
@@ -783,6 +802,7 @@ public final class IMBaseDefine {
      * <code>CID_MSG_DATA_ACK = 770;</code>
      *
      * <pre>
+     *	发消息回应
      * </pre>
      */
     public static final int CID_MSG_DATA_ACK_VALUE = 770;
@@ -857,6 +877,22 @@ public final class IMBaseDefine {
      * <code>CID_MSG_GET_BY_MSG_ID_RES = 782;</code>
      */
     public static final int CID_MSG_GET_BY_MSG_ID_RES_VALUE = 782;
+    /**
+     * <code>CID_MSG_AUDIO_UDP_REQUEST = 783;</code>
+     *
+     * <pre>
+     * 登入UDP服务器，带上要连的房间号，两个客户端同一房间号相通	(语音请求,msg加一个消息类型)
+     * </pre>
+     */
+    public static final int CID_MSG_AUDIO_UDP_REQUEST_VALUE = 783;
+    /**
+     * <code>CID_MSG_AUDIO_UDP_RESPONSE = 784;</code>
+     *
+     * <pre>
+     * 
+     * </pre>
+     */
+    public static final int CID_MSG_AUDIO_UDP_RESPONSE_VALUE = 784;
 
 
     public final int getNumber() { return value; }
@@ -877,6 +913,8 @@ public final class IMBaseDefine {
         case 780: return CID_MSG_GET_LATEST_MSG_ID_RSP;
         case 781: return CID_MSG_GET_BY_MSG_ID_REQ;
         case 782: return CID_MSG_GET_BY_MSG_ID_RES;
+        case 783: return CID_MSG_AUDIO_UDP_REQUEST;
+        case 784: return CID_MSG_AUDIO_UDP_RESPONSE;
         default: return null;
       }
     }
@@ -1862,30 +1900,62 @@ public final class IMBaseDefine {
       implements com.google.protobuf.Internal.EnumLite {
     /**
      * <code>MSG_TYPE_SINGLE_TEXT = 1;</code>
+     *
+     * <pre>
+     * 文本
+     * </pre>
      */
     MSG_TYPE_SINGLE_TEXT(0, 1),
     /**
      * <code>MSG_TYPE_SINGLE_AUDIO = 2;</code>
+     *
+     * <pre>
+     * 语音
+     * </pre>
      */
     MSG_TYPE_SINGLE_AUDIO(1, 2),
     /**
+     * <code>MSG_TYPE_SINGLE_AUDIO_MEET = 3;</code>
+     *
+     * <pre>
+     * 语单聊天
+     * </pre>
+     */
+    MSG_TYPE_SINGLE_AUDIO_MEET(2, 3),
+    /**
      * <code>MSG_TYPE_GROUP_TEXT = 17;</code>
      */
-    MSG_TYPE_GROUP_TEXT(2, 17),
+    MSG_TYPE_GROUP_TEXT(3, 17),
     /**
      * <code>MSG_TYPE_GROUP_AUDIO = 18;</code>
      */
-    MSG_TYPE_GROUP_AUDIO(3, 18),
+    MSG_TYPE_GROUP_AUDIO(4, 18),
     ;
 
     /**
      * <code>MSG_TYPE_SINGLE_TEXT = 1;</code>
+     *
+     * <pre>
+     * 文本
+     * </pre>
      */
     public static final int MSG_TYPE_SINGLE_TEXT_VALUE = 1;
     /**
      * <code>MSG_TYPE_SINGLE_AUDIO = 2;</code>
+     *
+     * <pre>
+     * 语音
+     * </pre>
      */
     public static final int MSG_TYPE_SINGLE_AUDIO_VALUE = 2;
+    /**
+     * <code>MSG_TYPE_SINGLE_AUDIO_MEET = 3;</code>
+     *
+     * <pre>
+     * 语单聊天
+     * </pre>
+     */
+    public static final int MSG_TYPE_SINGLE_AUDIO_MEET_VALUE = 3;
     /**
      * <code>MSG_TYPE_GROUP_TEXT = 17;</code>
      */
@@ -1902,6 +1972,7 @@ public final class IMBaseDefine {
       switch (value) {
         case 1: return MSG_TYPE_SINGLE_TEXT;
         case 2: return MSG_TYPE_SINGLE_AUDIO;
+        case 3: return MSG_TYPE_SINGLE_AUDIO_MEET;
         case 17: return MSG_TYPE_GROUP_TEXT;
         case 18: return MSG_TYPE_GROUP_AUDIO;
         default: return null;
@@ -3109,6 +3180,657 @@ public final class IMBaseDefine {
     }
 
     // @@protoc_insertion_point(class_scope:IM.BaseDefine.IpAddr)
+  }
+
+  public interface UserIpAddrOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:IM.BaseDefine.UserIpAddr)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>required uint32 user_id = 1;</code>
+     *
+     * <pre>
+     * 用户id
+     * </pre>
+     */
+    boolean hasUserId();
+    /**
+     * <code>required uint32 user_id = 1;</code>
+     *
+     * <pre>
+     * 用户id
+     * </pre>
+     */
+    int getUserId();
+
+    /**
+     * <code>required string ip = 2;</code>
+     */
+    boolean hasIp();
+    /**
+     * <code>required string ip = 2;</code>
+     */
+    java.lang.String getIp();
+    /**
+     * <code>required string ip = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getIpBytes();
+
+    /**
+     * <code>required uint32 port = 3;</code>
+     */
+    boolean hasPort();
+    /**
+     * <code>required uint32 port = 3;</code>
+     */
+    int getPort();
+  }
+  /**
+   * Protobuf type {@code IM.BaseDefine.UserIpAddr}
+   *
+   * <pre>
+   * xqq add
+   * </pre>
+   */
+  public static final class UserIpAddr extends
+      com.google.protobuf.GeneratedMessageLite implements
+      // @@protoc_insertion_point(message_implements:IM.BaseDefine.UserIpAddr)
+      UserIpAddrOrBuilder {
+    // Use UserIpAddr.newBuilder() to construct.
+    private UserIpAddr(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private UserIpAddr(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+
+    private static final UserIpAddr defaultInstance;
+    public static UserIpAddr getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public UserIpAddr getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.ByteString unknownFields;
+    private UserIpAddr(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.ByteString.Output unknownFieldsOutput =
+          com.google.protobuf.ByteString.newOutput();
+      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
+          com.google.protobuf.CodedOutputStream.newInstance(
+              unknownFieldsOutput);
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              userId_ = input.readUInt32();
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              ip_ = bs;
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              port_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        try {
+          unknownFieldsCodedOutput.flush();
+        } catch (java.io.IOException e) {
+        // Should not happen
+        } finally {
+          unknownFields = unknownFieldsOutput.toByteString();
+        }
+        makeExtensionsImmutable();
+      }
+    }
+    public static com.google.protobuf.Parser<UserIpAddr> PARSER =
+        new com.google.protobuf.AbstractParser<UserIpAddr>() {
+      public UserIpAddr parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UserIpAddr(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UserIpAddr> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int USER_ID_FIELD_NUMBER = 1;
+    private int userId_;
+    /**
+     * <code>required uint32 user_id = 1;</code>
+     *
+     * <pre>
+     * 用户id
+     * </pre>
+     */
+    public boolean hasUserId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required uint32 user_id = 1;</code>
+     *
+     * <pre>
+     * 用户id
+     * </pre>
+     */
+    public int getUserId() {
+      return userId_;
+    }
+
+    public static final int IP_FIELD_NUMBER = 2;
+    private java.lang.Object ip_;
+    /**
+     * <code>required string ip = 2;</code>
+     */
+    public boolean hasIp() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string ip = 2;</code>
+     */
+    public java.lang.String getIp() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          ip_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string ip = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIpBytes() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ip_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PORT_FIELD_NUMBER = 3;
+    private int port_;
+    /**
+     * <code>required uint32 port = 3;</code>
+     */
+    public boolean hasPort() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required uint32 port = 3;</code>
+     */
+    public int getPort() {
+      return port_;
+    }
+
+    private void initFields() {
+      userId_ = 0;
+      ip_ = "";
+      port_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIp()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPort()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, userId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getIpBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeUInt32(3, port_);
+      }
+      output.writeRawBytes(unknownFields);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, userId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getIpBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, port_);
+      }
+      size += unknownFields.size();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    /**
+     * Protobuf type {@code IM.BaseDefine.UserIpAddr}
+     *
+     * <pre>
+     * xqq add
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr, Builder>
+        implements
+        // @@protoc_insertion_point(builder_implements:IM.BaseDefine.UserIpAddr)
+        com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddrOrBuilder {
+      // Construct using com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        userId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        ip_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        port_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getDefaultInstanceForType() {
+        return com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.getDefaultInstance();
+      }
+
+      public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr build() {
+        com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr buildPartial() {
+        com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr result = new com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.userId_ = userId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.ip_ = ip_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.port_ = port_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+
+      public Builder mergeFrom(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr other) {
+        if (other == com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.getDefaultInstance()) return this;
+        if (other.hasUserId()) {
+          setUserId(other.getUserId());
+        }
+        if (other.hasIp()) {
+          bitField0_ |= 0x00000002;
+          ip_ = other.ip_;
+          
+        }
+        if (other.hasPort()) {
+          setPort(other.getPort());
+        }
+        setUnknownFields(
+            getUnknownFields().concat(other.unknownFields));
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUserId()) {
+          
+          return false;
+        }
+        if (!hasIp()) {
+          
+          return false;
+        }
+        if (!hasPort()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int userId_ ;
+      /**
+       * <code>required uint32 user_id = 1;</code>
+       *
+       * <pre>
+       * 用户id
+       * </pre>
+       */
+      public boolean hasUserId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required uint32 user_id = 1;</code>
+       *
+       * <pre>
+       * 用户id
+       * </pre>
+       */
+      public int getUserId() {
+        return userId_;
+      }
+      /**
+       * <code>required uint32 user_id = 1;</code>
+       *
+       * <pre>
+       * 用户id
+       * </pre>
+       */
+      public Builder setUserId(int value) {
+        bitField0_ |= 0x00000001;
+        userId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 user_id = 1;</code>
+       *
+       * <pre>
+       * 用户id
+       * </pre>
+       */
+      public Builder clearUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userId_ = 0;
+        
+        return this;
+      }
+
+      private java.lang.Object ip_ = "";
+      /**
+       * <code>required string ip = 2;</code>
+       */
+      public boolean hasIp() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string ip = 2;</code>
+       */
+      public java.lang.String getIp() {
+        java.lang.Object ref = ip_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            ip_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string ip = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIpBytes() {
+        java.lang.Object ref = ip_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ip_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string ip = 2;</code>
+       */
+      public Builder setIp(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        ip_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required string ip = 2;</code>
+       */
+      public Builder clearIp() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        ip_ = getDefaultInstance().getIp();
+        
+        return this;
+      }
+      /**
+       * <code>required string ip = 2;</code>
+       */
+      public Builder setIpBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        ip_ = value;
+        
+        return this;
+      }
+
+      private int port_ ;
+      /**
+       * <code>required uint32 port = 3;</code>
+       */
+      public boolean hasPort() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required uint32 port = 3;</code>
+       */
+      public int getPort() {
+        return port_;
+      }
+      /**
+       * <code>required uint32 port = 3;</code>
+       */
+      public Builder setPort(int value) {
+        bitField0_ |= 0x00000004;
+        port_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 port = 3;</code>
+       */
+      public Builder clearPort() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        port_ = 0;
+        
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:IM.BaseDefine.UserIpAddr)
+    }
+
+    static {
+      defaultInstance = new UserIpAddr(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:IM.BaseDefine.UserIpAddr)
   }
 
   public interface UserInfoOrBuilder extends

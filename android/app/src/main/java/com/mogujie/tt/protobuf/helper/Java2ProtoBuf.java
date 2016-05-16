@@ -15,6 +15,8 @@ public class Java2ProtoBuf {
                 return IMBaseDefine.MsgType.MSG_TYPE_GROUP_TEXT;
             case DBConstant.MSG_TYPE_GROUP_AUDIO:
                 return IMBaseDefine.MsgType.MSG_TYPE_GROUP_AUDIO;
+            case DBConstant.MSG_TYPE_SINGLE_AUDIO_MEET:
+                return IMBaseDefine.MsgType.MSG_TYPE_SINGLE_AUDIO_MEET;
             case DBConstant.MSG_TYPE_SINGLE_AUDIO:
                 return IMBaseDefine.MsgType.MSG_TYPE_SINGLE_AUDIO;
             case DBConstant.MSG_TYPE_SINGLE_TEXT:

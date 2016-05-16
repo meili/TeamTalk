@@ -19,6 +19,7 @@ import com.mogujie.tt.imservice.manager.IMGroupManager;
 import com.mogujie.tt.imservice.manager.IMHeartBeatManager;
 import com.mogujie.tt.imservice.manager.IMLoginManager;
 import com.mogujie.tt.imservice.manager.IMMessageManager;
+import com.mogujie.tt.imservice.manager.IMNatServerManager;
 import com.mogujie.tt.imservice.manager.IMNotificationManager;
 import com.mogujie.tt.imservice.manager.IMReconnectManager;
 import com.mogujie.tt.imservice.manager.IMSessionManager;
@@ -66,7 +67,10 @@ public class IMService extends Service {
 	private IMContactManager contactMgr = IMContactManager.instance();
 	private IMGroupManager groupMgr = IMGroupManager.instance();
 	private IMMessageManager messageMgr = IMMessageManager.instance();
-	private IMSessionManager sessionMgr = IMSessionManager.instance();
+
+    private IMNatServerManager natServerMgr = IMNatServerManager.instance();
+
+    private IMSessionManager sessionMgr = IMSessionManager.instance();
 	private IMReconnectManager reconnectMgr = IMReconnectManager.instance();
 	private IMUnreadMsgManager unReadMsgMgr = IMUnreadMsgManager.instance();
 	private IMNotificationManager notificationMgr = IMNotificationManager.instance();
@@ -152,6 +156,8 @@ public class IMService extends Service {
         reconnectMgr.onStartIMManager(ctx);
         heartBeatManager.onStartIMManager(ctx);
 
+        natServerMgr.onStartIMManager(ctx);
+
         ImageLoaderUtil.initImageLoaderConfig(ctx);
 		return START_STICKY;
 	}
@@ -234,6 +240,7 @@ public class IMService extends Service {
         notificationMgr.reset();
         reconnectMgr.reset();
         heartBeatManager.reset();
+        natServerMgr.reset();
         configSp = null;
         EventBus.getDefault().removeAllStickyEvents();
 	}
@@ -256,6 +263,10 @@ public class IMService extends Service {
 
     public IMMessageManager getMessageManager() {
         return messageMgr;
+    }
+
+    public IMNatServerManager getNatServerMgr(){
+        return natServerMgr;
     }
 
 

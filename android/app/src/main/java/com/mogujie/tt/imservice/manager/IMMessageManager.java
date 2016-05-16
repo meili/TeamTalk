@@ -271,7 +271,6 @@ public class IMMessageManager extends IMManager{
 		sendMessage(audioMessage);
 	}
 
-
     public void sendSingleImage(ImageMessage msg){
         logger.d("ImMessageManager#sendImage ");
         ArrayList<ImageMessage> msgList = new ArrayList<>();

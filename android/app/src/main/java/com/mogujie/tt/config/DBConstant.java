@@ -16,6 +16,8 @@ public interface DBConstant {
     /**msgType*/
     public final int  MSG_TYPE_SINGLE_TEXT = 0x01;
     public final int  MSG_TYPE_SINGLE_AUDIO = 0x02;
+    public final int  MSG_TYPE_SINGLE_AUDIO_MEET = 0x03; // 语单聊天
+
     public final int  MSG_TYPE_GROUP_TEXT = 0x11;
     public final int  MSG_TYPE_GROUP_AUDIO = 0x12;
 
