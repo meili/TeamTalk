@@ -105,7 +105,7 @@ void CNatConn::OnUDPRead()
 
 	memset(&recvbuf,0,sizeof(IM::Message::IMAudioReq));
 	
-	int dwSender = sizeof(sender);
+	socklen_t dwSender = sizeof(sender);
 	// UDP包固定大小
 	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, sizeof(IM::Message::IMAudioReq), 0, (sockaddr *)&sender, &dwSender);
 	if(ret <= 0)
