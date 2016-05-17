@@ -900,8 +900,9 @@ public class MessageActivity extends TTBaseActivity
             case R.id.take_audio_btn:{
                 // 实时语音请求 // 发送
                 TextMessage textMessage = TextMessage.buildForSend("实时语音", loginUser, peerEntity);
-                imService.getMessageManager().sendText(textMessage);
-                imService.getNatServerMgr().sendRequest();
+//                imService.sendText(textMessage);
+                imService.getNatServerMgr().sendText(textMessage);
+                Toast.makeText(MessageActivity.this,"实时语音 请求", Toast.LENGTH_LONG).show();
             }
             break;
             case R.id.show_emo_btn: {

@@ -112,10 +112,12 @@ void CNatConn::OnUDPRead()
 	{
 		printf("recv error");
 		return;
-	}
-	
+	} else 
+
+	sendto(m_sock_handle, (const char*)&recvbuf,sizeof(IM::Message::IMAudioReq), 0, (const sockaddr*)&sender, sizeof(sender));
+
             
-	HandlePdu(&recvbuf);
+	//HandlePdu(&recvbuf);
 
 		
 }

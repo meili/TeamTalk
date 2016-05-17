@@ -75,10 +75,18 @@ public final class IMMessage {
 
     /**
      * <code>required bytes msg_data = 6;</code>
+     *
+     * <pre>
+     * 如果是语音请求，这里房间号
+     * </pre>
      */
     boolean hasMsgData();
     /**
      * <code>required bytes msg_data = 6;</code>
+     *
+     * <pre>
+     * 如果是语音请求，这里房间号
+     * </pre>
      */
     com.google.protobuf.ByteString getMsgData();
 
@@ -316,12 +324,20 @@ public final class IMMessage {
     private com.google.protobuf.ByteString msgData_;
     /**
      * <code>required bytes msg_data = 6;</code>
+     *
+     * <pre>
+     * 如果是语音请求，这里房间号
+     * </pre>
      */
     public boolean hasMsgData() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>required bytes msg_data = 6;</code>
+     *
+     * <pre>
+     * 如果是语音请求，这里房间号
+     * </pre>
      */
     public com.google.protobuf.ByteString getMsgData() {
       return msgData_;
@@ -886,18 +902,30 @@ public final class IMMessage {
       private com.google.protobuf.ByteString msgData_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes msg_data = 6;</code>
+       *
+       * <pre>
+       * 如果是语音请求，这里房间号
+       * </pre>
        */
       public boolean hasMsgData() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>required bytes msg_data = 6;</code>
+       *
+       * <pre>
+       * 如果是语音请求，这里房间号
+       * </pre>
        */
       public com.google.protobuf.ByteString getMsgData() {
         return msgData_;
       }
       /**
        * <code>required bytes msg_data = 6;</code>
+       *
+       * <pre>
+       * 如果是语音请求，这里房间号
+       * </pre>
        */
       public Builder setMsgData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -910,6 +938,10 @@ public final class IMMessage {
       }
       /**
        * <code>required bytes msg_data = 6;</code>
+       *
+       * <pre>
+       * 如果是语音请求，这里房间号
+       * </pre>
        */
       public Builder clearMsgData() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -9749,6 +9781,1692 @@ public final class IMMessage {
     }
 
     // @@protoc_insertion_point(class_scope:IM.Message.IMGetMsgByIdRsp)
+  }
+
+  public interface IMAudioReqOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:IM.Message.IMAudioReq)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     *cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+     * </pre>
+     */
+    boolean hasFromUserId();
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     *cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+     * </pre>
+     */
+    int getFromUserId();
+
+    /**
+     * <code>required uint32 to_room_id = 2;</code>
+     *
+     * <pre>
+     * 要加入的房间id
+     * </pre>
+     */
+    boolean hasToRoomId();
+    /**
+     * <code>required uint32 to_room_id = 2;</code>
+     *
+     * <pre>
+     * 要加入的房间id
+     * </pre>
+     */
+    int getToRoomId();
+
+    /**
+     * <code>required uint32 msg_id = 3;</code>
+     *
+     * <pre>
+     * 消息ID （加入还是退出）
+     * </pre>
+     */
+    boolean hasMsgId();
+    /**
+     * <code>required uint32 msg_id = 3;</code>
+     *
+     * <pre>
+     * 消息ID （加入还是退出）
+     * </pre>
+     */
+    int getMsgId();
+
+    /**
+     * <code>required uint32 create_time = 4;</code>
+     *
+     * <pre>
+     * 消息时间
+     * </pre>
+     */
+    boolean hasCreateTime();
+    /**
+     * <code>required uint32 create_time = 4;</code>
+     *
+     * <pre>
+     * 消息时间
+     * </pre>
+     */
+    int getCreateTime();
+
+    /**
+     * <code>required .IM.BaseDefine.MsgType msg_type = 5;</code>
+     *
+     * <pre>
+     * 消息类型
+     * </pre>
+     */
+    boolean hasMsgType();
+    /**
+     * <code>required .IM.BaseDefine.MsgType msg_type = 5;</code>
+     *
+     * <pre>
+     * 消息类型
+     * </pre>
+     */
+    com.mogujie.tt.protobuf.IMBaseDefine.MsgType getMsgType();
+  }
+  /**
+   * Protobuf type {@code IM.Message.IMAudioReq}
+   */
+  public static final class IMAudioReq extends
+      com.google.protobuf.GeneratedMessageLite implements
+      // @@protoc_insertion_point(message_implements:IM.Message.IMAudioReq)
+      IMAudioReqOrBuilder {
+    // Use IMAudioReq.newBuilder() to construct.
+    private IMAudioReq(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private IMAudioReq(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+
+    private static final IMAudioReq defaultInstance;
+    public static IMAudioReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public IMAudioReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.ByteString unknownFields;
+    private IMAudioReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.ByteString.Output unknownFieldsOutput =
+          com.google.protobuf.ByteString.newOutput();
+      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
+          com.google.protobuf.CodedOutputStream.newInstance(
+              unknownFieldsOutput);
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              fromUserId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              toRoomId_ = input.readUInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              msgId_ = input.readUInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              createTime_ = input.readUInt32();
+              break;
+            }
+            case 40: {
+              int rawValue = input.readEnum();
+              com.mogujie.tt.protobuf.IMBaseDefine.MsgType value = com.mogujie.tt.protobuf.IMBaseDefine.MsgType.valueOf(rawValue);
+              if (value == null) {
+                unknownFieldsCodedOutput.writeRawVarint32(tag);
+                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
+              } else {
+                bitField0_ |= 0x00000010;
+                msgType_ = value;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        try {
+          unknownFieldsCodedOutput.flush();
+        } catch (java.io.IOException e) {
+        // Should not happen
+        } finally {
+          unknownFields = unknownFieldsOutput.toByteString();
+        }
+        makeExtensionsImmutable();
+      }
+    }
+    public static com.google.protobuf.Parser<IMAudioReq> PARSER =
+        new com.google.protobuf.AbstractParser<IMAudioReq>() {
+      public IMAudioReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new IMAudioReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<IMAudioReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int FROM_USER_ID_FIELD_NUMBER = 1;
+    private int fromUserId_;
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     *cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+     * </pre>
+     */
+    public boolean hasFromUserId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     *cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+     * </pre>
+     */
+    public int getFromUserId() {
+      return fromUserId_;
+    }
+
+    public static final int TO_ROOM_ID_FIELD_NUMBER = 2;
+    private int toRoomId_;
+    /**
+     * <code>required uint32 to_room_id = 2;</code>
+     *
+     * <pre>
+     * 要加入的房间id
+     * </pre>
+     */
+    public boolean hasToRoomId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required uint32 to_room_id = 2;</code>
+     *
+     * <pre>
+     * 要加入的房间id
+     * </pre>
+     */
+    public int getToRoomId() {
+      return toRoomId_;
+    }
+
+    public static final int MSG_ID_FIELD_NUMBER = 3;
+    private int msgId_;
+    /**
+     * <code>required uint32 msg_id = 3;</code>
+     *
+     * <pre>
+     * 消息ID （加入还是退出）
+     * </pre>
+     */
+    public boolean hasMsgId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required uint32 msg_id = 3;</code>
+     *
+     * <pre>
+     * 消息ID （加入还是退出）
+     * </pre>
+     */
+    public int getMsgId() {
+      return msgId_;
+    }
+
+    public static final int CREATE_TIME_FIELD_NUMBER = 4;
+    private int createTime_;
+    /**
+     * <code>required uint32 create_time = 4;</code>
+     *
+     * <pre>
+     * 消息时间
+     * </pre>
+     */
+    public boolean hasCreateTime() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required uint32 create_time = 4;</code>
+     *
+     * <pre>
+     * 消息时间
+     * </pre>
+     */
+    public int getCreateTime() {
+      return createTime_;
+    }
+
+    public static final int MSG_TYPE_FIELD_NUMBER = 5;
+    private com.mogujie.tt.protobuf.IMBaseDefine.MsgType msgType_;
+    /**
+     * <code>required .IM.BaseDefine.MsgType msg_type = 5;</code>
+     *
+     * <pre>
+     * 消息类型
+     * </pre>
+     */
+    public boolean hasMsgType() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required .IM.BaseDefine.MsgType msg_type = 5;</code>
+     *
+     * <pre>
+     * 消息类型
+     * </pre>
+     */
+    public com.mogujie.tt.protobuf.IMBaseDefine.MsgType getMsgType() {
+      return msgType_;
+    }
+
+    private void initFields() {
+      fromUserId_ = 0;
+      toRoomId_ = 0;
+      msgId_ = 0;
+      createTime_ = 0;
+      msgType_ = com.mogujie.tt.protobuf.IMBaseDefine.MsgType.MSG_TYPE_SINGLE_TEXT;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasFromUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasToRoomId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMsgId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCreateTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMsgType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, fromUserId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, toRoomId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeUInt32(3, msgId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeUInt32(4, createTime_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeEnum(5, msgType_.getNumber());
+      }
+      output.writeRawBytes(unknownFields);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, fromUserId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, toRoomId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, msgId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, createTime_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(5, msgType_.getNumber());
+      }
+      size += unknownFields.size();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.mogujie.tt.protobuf.IMMessage.IMAudioReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    /**
+     * Protobuf type {@code IM.Message.IMAudioReq}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          com.mogujie.tt.protobuf.IMMessage.IMAudioReq, Builder>
+        implements
+        // @@protoc_insertion_point(builder_implements:IM.Message.IMAudioReq)
+        com.mogujie.tt.protobuf.IMMessage.IMAudioReqOrBuilder {
+      // Construct using com.mogujie.tt.protobuf.IMMessage.IMAudioReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        fromUserId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        toRoomId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        msgId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        createTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        msgType_ = com.mogujie.tt.protobuf.IMBaseDefine.MsgType.MSG_TYPE_SINGLE_TEXT;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.mogujie.tt.protobuf.IMMessage.IMAudioReq getDefaultInstanceForType() {
+        return com.mogujie.tt.protobuf.IMMessage.IMAudioReq.getDefaultInstance();
+      }
+
+      public com.mogujie.tt.protobuf.IMMessage.IMAudioReq build() {
+        com.mogujie.tt.protobuf.IMMessage.IMAudioReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.mogujie.tt.protobuf.IMMessage.IMAudioReq buildPartial() {
+        com.mogujie.tt.protobuf.IMMessage.IMAudioReq result = new com.mogujie.tt.protobuf.IMMessage.IMAudioReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.fromUserId_ = fromUserId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.toRoomId_ = toRoomId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.msgId_ = msgId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.createTime_ = createTime_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.msgType_ = msgType_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+
+      public Builder mergeFrom(com.mogujie.tt.protobuf.IMMessage.IMAudioReq other) {
+        if (other == com.mogujie.tt.protobuf.IMMessage.IMAudioReq.getDefaultInstance()) return this;
+        if (other.hasFromUserId()) {
+          setFromUserId(other.getFromUserId());
+        }
+        if (other.hasToRoomId()) {
+          setToRoomId(other.getToRoomId());
+        }
+        if (other.hasMsgId()) {
+          setMsgId(other.getMsgId());
+        }
+        if (other.hasCreateTime()) {
+          setCreateTime(other.getCreateTime());
+        }
+        if (other.hasMsgType()) {
+          setMsgType(other.getMsgType());
+        }
+        setUnknownFields(
+            getUnknownFields().concat(other.unknownFields));
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasFromUserId()) {
+          
+          return false;
+        }
+        if (!hasToRoomId()) {
+          
+          return false;
+        }
+        if (!hasMsgId()) {
+          
+          return false;
+        }
+        if (!hasCreateTime()) {
+          
+          return false;
+        }
+        if (!hasMsgType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.mogujie.tt.protobuf.IMMessage.IMAudioReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.mogujie.tt.protobuf.IMMessage.IMAudioReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int fromUserId_ ;
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       *cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+       * </pre>
+       */
+      public boolean hasFromUserId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       *cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+       * </pre>
+       */
+      public int getFromUserId() {
+        return fromUserId_;
+      }
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       *cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+       * </pre>
+       */
+      public Builder setFromUserId(int value) {
+        bitField0_ |= 0x00000001;
+        fromUserId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       *cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+       * </pre>
+       */
+      public Builder clearFromUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fromUserId_ = 0;
+        
+        return this;
+      }
+
+      private int toRoomId_ ;
+      /**
+       * <code>required uint32 to_room_id = 2;</code>
+       *
+       * <pre>
+       * 要加入的房间id
+       * </pre>
+       */
+      public boolean hasToRoomId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required uint32 to_room_id = 2;</code>
+       *
+       * <pre>
+       * 要加入的房间id
+       * </pre>
+       */
+      public int getToRoomId() {
+        return toRoomId_;
+      }
+      /**
+       * <code>required uint32 to_room_id = 2;</code>
+       *
+       * <pre>
+       * 要加入的房间id
+       * </pre>
+       */
+      public Builder setToRoomId(int value) {
+        bitField0_ |= 0x00000002;
+        toRoomId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 to_room_id = 2;</code>
+       *
+       * <pre>
+       * 要加入的房间id
+       * </pre>
+       */
+      public Builder clearToRoomId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        toRoomId_ = 0;
+        
+        return this;
+      }
+
+      private int msgId_ ;
+      /**
+       * <code>required uint32 msg_id = 3;</code>
+       *
+       * <pre>
+       * 消息ID （加入还是退出）
+       * </pre>
+       */
+      public boolean hasMsgId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required uint32 msg_id = 3;</code>
+       *
+       * <pre>
+       * 消息ID （加入还是退出）
+       * </pre>
+       */
+      public int getMsgId() {
+        return msgId_;
+      }
+      /**
+       * <code>required uint32 msg_id = 3;</code>
+       *
+       * <pre>
+       * 消息ID （加入还是退出）
+       * </pre>
+       */
+      public Builder setMsgId(int value) {
+        bitField0_ |= 0x00000004;
+        msgId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 msg_id = 3;</code>
+       *
+       * <pre>
+       * 消息ID （加入还是退出）
+       * </pre>
+       */
+      public Builder clearMsgId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        msgId_ = 0;
+        
+        return this;
+      }
+
+      private int createTime_ ;
+      /**
+       * <code>required uint32 create_time = 4;</code>
+       *
+       * <pre>
+       * 消息时间
+       * </pre>
+       */
+      public boolean hasCreateTime() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required uint32 create_time = 4;</code>
+       *
+       * <pre>
+       * 消息时间
+       * </pre>
+       */
+      public int getCreateTime() {
+        return createTime_;
+      }
+      /**
+       * <code>required uint32 create_time = 4;</code>
+       *
+       * <pre>
+       * 消息时间
+       * </pre>
+       */
+      public Builder setCreateTime(int value) {
+        bitField0_ |= 0x00000008;
+        createTime_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 create_time = 4;</code>
+       *
+       * <pre>
+       * 消息时间
+       * </pre>
+       */
+      public Builder clearCreateTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        createTime_ = 0;
+        
+        return this;
+      }
+
+      private com.mogujie.tt.protobuf.IMBaseDefine.MsgType msgType_ = com.mogujie.tt.protobuf.IMBaseDefine.MsgType.MSG_TYPE_SINGLE_TEXT;
+      /**
+       * <code>required .IM.BaseDefine.MsgType msg_type = 5;</code>
+       *
+       * <pre>
+       * 消息类型
+       * </pre>
+       */
+      public boolean hasMsgType() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required .IM.BaseDefine.MsgType msg_type = 5;</code>
+       *
+       * <pre>
+       * 消息类型
+       * </pre>
+       */
+      public com.mogujie.tt.protobuf.IMBaseDefine.MsgType getMsgType() {
+        return msgType_;
+      }
+      /**
+       * <code>required .IM.BaseDefine.MsgType msg_type = 5;</code>
+       *
+       * <pre>
+       * 消息类型
+       * </pre>
+       */
+      public Builder setMsgType(com.mogujie.tt.protobuf.IMBaseDefine.MsgType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000010;
+        msgType_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required .IM.BaseDefine.MsgType msg_type = 5;</code>
+       *
+       * <pre>
+       * 消息类型
+       * </pre>
+       */
+      public Builder clearMsgType() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        msgType_ = com.mogujie.tt.protobuf.IMBaseDefine.MsgType.MSG_TYPE_SINGLE_TEXT;
+        
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:IM.Message.IMAudioReq)
+    }
+
+    static {
+      defaultInstance = new IMAudioReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:IM.Message.IMAudioReq)
+  }
+
+  public interface IMAudioRspOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:IM.Message.IMAudioRsp)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     *cmd id:		0x030f 加入房间请求 语音请求
+     * </pre>
+     */
+    boolean hasFromUserId();
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     *cmd id:		0x030f 加入房间请求 语音请求
+     * </pre>
+     */
+    int getFromUserId();
+
+    /**
+     * <code>required uint32 count_in_room = 2;</code>
+     *
+     * <pre>
+     * 当前房间的人数
+     * </pre>
+     */
+    boolean hasCountInRoom();
+    /**
+     * <code>required uint32 count_in_room = 2;</code>
+     *
+     * <pre>
+     * 当前房间的人数
+     * </pre>
+     */
+    int getCountInRoom();
+
+    /**
+     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     *
+     * <pre>
+     * // 要连的人的id,ip,port
+     * </pre>
+     */
+    java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> 
+        getUserListList();
+    /**
+     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     *
+     * <pre>
+     * // 要连的人的id,ip,port
+     * </pre>
+     */
+    com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList(int index);
+    /**
+     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     *
+     * <pre>
+     * // 要连的人的id,ip,port
+     * </pre>
+     */
+    int getUserListCount();
+  }
+  /**
+   * Protobuf type {@code IM.Message.IMAudioRsp}
+   */
+  public static final class IMAudioRsp extends
+      com.google.protobuf.GeneratedMessageLite implements
+      // @@protoc_insertion_point(message_implements:IM.Message.IMAudioRsp)
+      IMAudioRspOrBuilder {
+    // Use IMAudioRsp.newBuilder() to construct.
+    private IMAudioRsp(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private IMAudioRsp(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+
+    private static final IMAudioRsp defaultInstance;
+    public static IMAudioRsp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public IMAudioRsp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.ByteString unknownFields;
+    private IMAudioRsp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.ByteString.Output unknownFieldsOutput =
+          com.google.protobuf.ByteString.newOutput();
+      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
+          com.google.protobuf.CodedOutputStream.newInstance(
+              unknownFieldsOutput);
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              fromUserId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              countInRoom_ = input.readUInt32();
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                userList_ = new java.util.ArrayList<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              userList_.add(input.readMessage(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          userList_ = java.util.Collections.unmodifiableList(userList_);
+        }
+        try {
+          unknownFieldsCodedOutput.flush();
+        } catch (java.io.IOException e) {
+        // Should not happen
+        } finally {
+          unknownFields = unknownFieldsOutput.toByteString();
+        }
+        makeExtensionsImmutable();
+      }
+    }
+    public static com.google.protobuf.Parser<IMAudioRsp> PARSER =
+        new com.google.protobuf.AbstractParser<IMAudioRsp>() {
+      public IMAudioRsp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new IMAudioRsp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<IMAudioRsp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int FROM_USER_ID_FIELD_NUMBER = 1;
+    private int fromUserId_;
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     *cmd id:		0x030f 加入房间请求 语音请求
+     * </pre>
+     */
+    public boolean hasFromUserId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     *cmd id:		0x030f 加入房间请求 语音请求
+     * </pre>
+     */
+    public int getFromUserId() {
+      return fromUserId_;
+    }
+
+    public static final int COUNT_IN_ROOM_FIELD_NUMBER = 2;
+    private int countInRoom_;
+    /**
+     * <code>required uint32 count_in_room = 2;</code>
+     *
+     * <pre>
+     * 当前房间的人数
+     * </pre>
+     */
+    public boolean hasCountInRoom() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required uint32 count_in_room = 2;</code>
+     *
+     * <pre>
+     * 当前房间的人数
+     * </pre>
+     */
+    public int getCountInRoom() {
+      return countInRoom_;
+    }
+
+    public static final int USER_LIST_FIELD_NUMBER = 4;
+    private java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> userList_;
+    /**
+     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     *
+     * <pre>
+     * // 要连的人的id,ip,port
+     * </pre>
+     */
+    public java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> getUserListList() {
+      return userList_;
+    }
+    /**
+     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     *
+     * <pre>
+     * // 要连的人的id,ip,port
+     * </pre>
+     */
+    public java.util.List<? extends com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddrOrBuilder> 
+        getUserListOrBuilderList() {
+      return userList_;
+    }
+    /**
+     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     *
+     * <pre>
+     * // 要连的人的id,ip,port
+     * </pre>
+     */
+    public int getUserListCount() {
+      return userList_.size();
+    }
+    /**
+     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     *
+     * <pre>
+     * // 要连的人的id,ip,port
+     * </pre>
+     */
+    public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList(int index) {
+      return userList_.get(index);
+    }
+    /**
+     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     *
+     * <pre>
+     * // 要连的人的id,ip,port
+     * </pre>
+     */
+    public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddrOrBuilder getUserListOrBuilder(
+        int index) {
+      return userList_.get(index);
+    }
+
+    private void initFields() {
+      fromUserId_ = 0;
+      countInRoom_ = 0;
+      userList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasFromUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCountInRoom()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getUserListCount(); i++) {
+        if (!getUserList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, fromUserId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, countInRoom_);
+      }
+      for (int i = 0; i < userList_.size(); i++) {
+        output.writeMessage(4, userList_.get(i));
+      }
+      output.writeRawBytes(unknownFields);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, fromUserId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, countInRoom_);
+      }
+      for (int i = 0; i < userList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, userList_.get(i));
+      }
+      size += unknownFields.size();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.mogujie.tt.protobuf.IMMessage.IMAudioRsp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    /**
+     * Protobuf type {@code IM.Message.IMAudioRsp}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          com.mogujie.tt.protobuf.IMMessage.IMAudioRsp, Builder>
+        implements
+        // @@protoc_insertion_point(builder_implements:IM.Message.IMAudioRsp)
+        com.mogujie.tt.protobuf.IMMessage.IMAudioRspOrBuilder {
+      // Construct using com.mogujie.tt.protobuf.IMMessage.IMAudioRsp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        fromUserId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        countInRoom_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        userList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.mogujie.tt.protobuf.IMMessage.IMAudioRsp getDefaultInstanceForType() {
+        return com.mogujie.tt.protobuf.IMMessage.IMAudioRsp.getDefaultInstance();
+      }
+
+      public com.mogujie.tt.protobuf.IMMessage.IMAudioRsp build() {
+        com.mogujie.tt.protobuf.IMMessage.IMAudioRsp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.mogujie.tt.protobuf.IMMessage.IMAudioRsp buildPartial() {
+        com.mogujie.tt.protobuf.IMMessage.IMAudioRsp result = new com.mogujie.tt.protobuf.IMMessage.IMAudioRsp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.fromUserId_ = fromUserId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.countInRoom_ = countInRoom_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          userList_ = java.util.Collections.unmodifiableList(userList_);
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.userList_ = userList_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+
+      public Builder mergeFrom(com.mogujie.tt.protobuf.IMMessage.IMAudioRsp other) {
+        if (other == com.mogujie.tt.protobuf.IMMessage.IMAudioRsp.getDefaultInstance()) return this;
+        if (other.hasFromUserId()) {
+          setFromUserId(other.getFromUserId());
+        }
+        if (other.hasCountInRoom()) {
+          setCountInRoom(other.getCountInRoom());
+        }
+        if (!other.userList_.isEmpty()) {
+          if (userList_.isEmpty()) {
+            userList_ = other.userList_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureUserListIsMutable();
+            userList_.addAll(other.userList_);
+          }
+          
+        }
+        setUnknownFields(
+            getUnknownFields().concat(other.unknownFields));
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasFromUserId()) {
+          
+          return false;
+        }
+        if (!hasCountInRoom()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getUserListCount(); i++) {
+          if (!getUserList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.mogujie.tt.protobuf.IMMessage.IMAudioRsp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.mogujie.tt.protobuf.IMMessage.IMAudioRsp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int fromUserId_ ;
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       *cmd id:		0x030f 加入房间请求 语音请求
+       * </pre>
+       */
+      public boolean hasFromUserId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       *cmd id:		0x030f 加入房间请求 语音请求
+       * </pre>
+       */
+      public int getFromUserId() {
+        return fromUserId_;
+      }
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       *cmd id:		0x030f 加入房间请求 语音请求
+       * </pre>
+       */
+      public Builder setFromUserId(int value) {
+        bitField0_ |= 0x00000001;
+        fromUserId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       *cmd id:		0x030f 加入房间请求 语音请求
+       * </pre>
+       */
+      public Builder clearFromUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fromUserId_ = 0;
+        
+        return this;
+      }
+
+      private int countInRoom_ ;
+      /**
+       * <code>required uint32 count_in_room = 2;</code>
+       *
+       * <pre>
+       * 当前房间的人数
+       * </pre>
+       */
+      public boolean hasCountInRoom() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required uint32 count_in_room = 2;</code>
+       *
+       * <pre>
+       * 当前房间的人数
+       * </pre>
+       */
+      public int getCountInRoom() {
+        return countInRoom_;
+      }
+      /**
+       * <code>required uint32 count_in_room = 2;</code>
+       *
+       * <pre>
+       * 当前房间的人数
+       * </pre>
+       */
+      public Builder setCountInRoom(int value) {
+        bitField0_ |= 0x00000002;
+        countInRoom_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 count_in_room = 2;</code>
+       *
+       * <pre>
+       * 当前房间的人数
+       * </pre>
+       */
+      public Builder clearCountInRoom() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        countInRoom_ = 0;
+        
+        return this;
+      }
+
+      private java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> userList_ =
+        java.util.Collections.emptyList();
+      private void ensureUserListIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          userList_ = new java.util.ArrayList<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr>(userList_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> getUserListList() {
+        return java.util.Collections.unmodifiableList(userList_);
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public int getUserListCount() {
+        return userList_.size();
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList(int index) {
+        return userList_.get(index);
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder setUserList(
+          int index, com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureUserListIsMutable();
+        userList_.set(index, value);
+
+        return this;
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder setUserList(
+          int index, com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.Builder builderForValue) {
+        ensureUserListIsMutable();
+        userList_.set(index, builderForValue.build());
+
+        return this;
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder addUserList(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureUserListIsMutable();
+        userList_.add(value);
+
+        return this;
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder addUserList(
+          int index, com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureUserListIsMutable();
+        userList_.add(index, value);
+
+        return this;
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder addUserList(
+          com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.Builder builderForValue) {
+        ensureUserListIsMutable();
+        userList_.add(builderForValue.build());
+
+        return this;
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder addUserList(
+          int index, com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.Builder builderForValue) {
+        ensureUserListIsMutable();
+        userList_.add(index, builderForValue.build());
+
+        return this;
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder addAllUserList(
+          java.lang.Iterable<? extends com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> values) {
+        ensureUserListIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, userList_);
+
+        return this;
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder clearUserList() {
+        userList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
+
+        return this;
+      }
+      /**
+       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       * // 要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder removeUserList(int index) {
+        ensureUserListIsMutable();
+        userList_.remove(index);
+
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:IM.Message.IMAudioRsp)
+    }
+
+    static {
+      defaultInstance = new IMAudioRsp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:IM.Message.IMAudioRsp)
   }
 
 

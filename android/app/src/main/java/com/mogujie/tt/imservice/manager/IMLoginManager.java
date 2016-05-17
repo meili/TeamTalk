@@ -35,6 +35,7 @@ public class IMLoginManager extends IMManager {
         logger.d("login#creating IMLoginManager");
     }
     IMSocketManager imSocketManager = IMSocketManager.instance();
+    IMSocketUDPManager imSocketUDPManager = IMSocketUDPManager.instance();
 
     /**登陆参数 以便重试*/
     private String loginUserName;
@@ -194,6 +195,9 @@ public class IMLoginManager extends IMManager {
         loginPwd = password;
         identityChanged = true;
         imSocketManager.reqMsgServerAddrs();
+
+        // UDP的暂时放在这里试试
+        imSocketUDPManager.reqServerAddrs();
     }
 
     /**

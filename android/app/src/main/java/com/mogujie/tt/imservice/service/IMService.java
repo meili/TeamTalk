@@ -24,6 +24,7 @@ import com.mogujie.tt.imservice.manager.IMNotificationManager;
 import com.mogujie.tt.imservice.manager.IMReconnectManager;
 import com.mogujie.tt.imservice.manager.IMSessionManager;
 import com.mogujie.tt.imservice.manager.IMSocketManager;
+import com.mogujie.tt.imservice.manager.IMSocketUDPManager;
 import com.mogujie.tt.imservice.manager.IMUnreadMsgManager;
 import com.mogujie.tt.utils.ImageLoaderUtil;
 import com.mogujie.tt.utils.Logger;
@@ -67,9 +68,6 @@ public class IMService extends Service {
 	private IMContactManager contactMgr = IMContactManager.instance();
 	private IMGroupManager groupMgr = IMGroupManager.instance();
 	private IMMessageManager messageMgr = IMMessageManager.instance();
-
-    private IMNatServerManager natServerMgr = IMNatServerManager.instance();
-
     private IMSessionManager sessionMgr = IMSessionManager.instance();
 	private IMReconnectManager reconnectMgr = IMReconnectManager.instance();
 	private IMUnreadMsgManager unReadMsgMgr = IMUnreadMsgManager.instance();
@@ -80,7 +78,12 @@ public class IMService extends Service {
     private LoginSp loginSp = LoginSp.instance();
     private DBInterface dbInterface = DBInterface.instance();
 
-	@Override
+
+    private IMNatServerManager natServerMgr = IMNatServerManager.instance();
+    private IMSocketUDPManager socketUDPMgr = IMSocketUDPManager.instance();
+
+
+    @Override
 	public void onCreate() {
 		logger.i("IMService onCreate");
 		super.onCreate();
@@ -114,7 +117,7 @@ public class IMService extends Service {
                 MessageEntity entity = (MessageEntity) event.object;
                 /**非当前的会话*/
                 logger.d("messageactivity#not this session msg -> id:%s", entity.getFromId());
-                messageMgr.ackReceiveMsg(entity);
+                messageMgr.ackReceiveMsg(entity); // 接收消息，并向服务器发送确认
                 unReadMsgMgr.add(entity);
             }
             break;
@@ -125,7 +128,8 @@ public class IMService extends Service {
     public void onEvent(LoginEvent event){
        switch (event){
            case LOGIN_OK:
-               onNormalLoginOk();break;
+               onNormalLoginOk();
+               break;
            case LOCAL_LOGIN_SUCCESS:
                onLocalLoginOk();
                break;
@@ -157,7 +161,7 @@ public class IMService extends Service {
         heartBeatManager.onStartIMManager(ctx);
 
         natServerMgr.onStartIMManager(ctx);
-
+        socketUDPMgr.onStartIMManager(ctx);
         ImageLoaderUtil.initImageLoaderConfig(ctx);
 		return START_STICKY;
 	}
@@ -268,7 +272,9 @@ public class IMService extends Service {
     public IMNatServerManager getNatServerMgr(){
         return natServerMgr;
     }
-
+    public IMSocketUDPManager getSocketUDPMgr(){
+        return socketUDPMgr;
+    }
 
     public IMGroupManager getGroupManager() {
         return groupMgr;

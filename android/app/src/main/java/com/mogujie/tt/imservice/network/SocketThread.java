@@ -55,6 +55,9 @@ public class SocketThread extends Thread {
 				// 接收的数据包解码
 				pipeline.addLast("decoder", new LengthFieldBasedFrameDecoder(
 				400 * 1024, 0, 4, -4, 0));
+				// 第一个参数为信息最大长度  第二参数为长度属性的起始
+				// 第三个参数为“长度属性”的长度  第四个参数为长度调节值  第五个参数为跳过的字节数
+
 				// 发送的数据包编码
 				//pipeline.addLast("encoder", new PacketEncoder());
 				// 具体的业务处理，这个handler只负责接收数据，并传递给dispatcher

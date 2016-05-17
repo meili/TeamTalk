@@ -176,7 +176,7 @@ public class IMMessageManager extends IMManager{
 
 
         final MessageEntity messageEntity  = msgEntity;
-        // 发送到服务器
+        // 发送到服务器 // 需要回复的 new Packetlistener
         imSocketManager.sendRequest(msgData,sid,cid,new Packetlistener(getTimeoutTolerance(messageEntity)) {
             @Override
             public void onSuccess(Object response) {
@@ -192,6 +192,7 @@ public class IMMessageManager extends IMManager{
                     dbInterface.insertOrUpdateMessage(messageEntity);
                     /**更新sessionEntity lastMsgId问题*/
                     sessionManager.updateSession(messageEntity);
+                    // 发送，发送成功 收到这个表明发送成功
                     triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_OK,messageEntity));
                 } catch (IOException e) {
                     e.printStackTrace();
