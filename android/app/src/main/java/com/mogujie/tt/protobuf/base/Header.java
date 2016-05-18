@@ -24,7 +24,7 @@ public class Header {
 
     private short commandId; // CID
 
-    private short seqnum;
+    private short seqnum;   // 包的顺序号
 
     private short reserved; // 保留，可用于如序列号等
 

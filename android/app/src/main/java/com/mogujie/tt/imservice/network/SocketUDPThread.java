@@ -67,7 +67,9 @@ public class SocketUDPThread extends Thread {
      * @return
      */
     public boolean sendUDPRequest(GeneratedMessageLite requset,Header header, String sendHost, int sendPort){
-        DataBuffer headerBuffer = header.encode();
+		logger.e("#sendUDPRequest#channel!111111111111");
+
+		DataBuffer headerBuffer = header.encode();
         DataBuffer bodyBuffer = new DataBuffer();
         int bodySize = requset.getSerializedSize();
         bodyBuffer.writeBytes(requset.toByteArray());
@@ -77,7 +79,15 @@ public class SocketUDPThread extends Thread {
         buffer.writeDataBuffer(bodyBuffer);
 
 		SocketAddress serverAddress = new InetSocketAddress(sendHost, sendPort);
+
+//		IMMessage.IMAudioReq audiodata = IMMessage.IMAudioReq.newBuilder()
+////                .setFromUserId(msgEntity.getFromId())
+//                .build();
+//		channel.write(audiodata, serverAddress);
+		logger.e("#sendUDPRequest#channel!");
+
 		channel.write(buffer.getOrignalBuffer(), serverAddress);
+
 		return true;
     }
 

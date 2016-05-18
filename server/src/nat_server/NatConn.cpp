@@ -114,6 +114,7 @@ void CNatConn::OnUDPRead()
 		return;
 	} else 
 
+	printf("%s",recvbuf);
 	sendto(m_sock_handle, (const char*)&recvbuf,sizeof(IM::Message::IMAudioReq), 0, (const sockaddr*)&sender, sizeof(sender));
 
             

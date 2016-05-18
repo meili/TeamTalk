@@ -1,5 +1,6 @@
 package com.mogujie.tt.imservice.manager;
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedInputStream;
 import com.mogujie.tt.DB.entity.MessageEntity;
 import com.mogujie.tt.config.MessageConstant;
@@ -94,25 +95,25 @@ public class IMNatServerManager extends IMManager {
         IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
         byte[] sendContent = msgEntity.getSendContent();
 
-//        IMMessage.IMMsgData msgData = IMMessage.IMMsgData.newBuilder()
-//                .setFromUserId(msgEntity.getFromId())
-//                .setToSessionId(msgEntity.getToId())
-//                .setMsgId(0)
-//                .setCreateTime(msgEntity.getCreated())
-//                .setMsgType(msgType)
-//                .setMsgData(ByteString.copyFrom(sendContent))  // 这个点要特别注意 todo ByteString.copyFrom
-//                .build();
-
-        IMMessage.IMAudioReq audiodata = IMMessage.IMAudioReq.newBuilder()
+        IMMessage.IMMsgData msgData = IMMessage.IMMsgData.newBuilder()
                 .setFromUserId(msgEntity.getFromId())
+                .setToSessionId(msgEntity.getToId())
+                .setMsgId(0)
+                .setCreateTime(msgEntity.getCreated())
+                .setMsgType(msgType)
+                .setMsgData(ByteString.copyFrom(sendContent))  // 这个点要特别注意 todo ByteString.copyFrom
                 .build();
+
+//        IMMessage.IMAudioReq audiodata = IMMessage.IMAudioReq.newBuilder()
+//                .setFromUserId(msgEntity.getFromId())
+//                .build();
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
         int cid = IMBaseDefine.MessageCmdID.CID_MSG_DATA_VALUE;
 
 
         final MessageEntity messageEntity  = msgEntity;
         // 发送到服务器 // 需要回复的 new Packetlistener
-        imSocketUDPManager.sendUDPRequest(audiodata,sid,cid,new Packetlistener(6000) {
+        imSocketUDPManager.sendUDPRequest(msgData,sid,cid,new Packetlistener(6000) {
             @Override
             public void onSuccess(Object response) {
                 try {

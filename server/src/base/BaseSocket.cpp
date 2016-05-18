@@ -374,7 +374,7 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 
 	sockaddr_in serv_addr;
 
-	_SetAddr(port, &serv_addr);
+	_SetAddr(server_ip, port, &serv_addr);
 	// 绑定端口
     int ret = ::bind(m_socket, (sockaddr*)&serv_addr, sizeof(serv_addr));
 	if (ret == SOCKET_ERROR)
@@ -397,10 +397,10 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 	log("CBaseSocket::UDP_Bind on any %s :%d", server_ip, port);
 
 	AddBaseSocket(this); // g_socket_map.insert
-	CEventDispatch::Instance()->AddEvent(m_socket, SOCKET_READ | SOCKET_EXCEP);
+	CEventDispatch::Instance()->AddEvent(m_socket, SOCKET_ALL);//SOCKET_READ | SOCKET_EXCEP);
 	
 	// udp 只是sendto recvfrom 要不要用epoll?  
-	// 就不addEvent了  先用epoll试试
+	// 就不addEvent了  先用epoll试试  epoll收不到消息?
 	
 	return NETLIB_OK;
 }

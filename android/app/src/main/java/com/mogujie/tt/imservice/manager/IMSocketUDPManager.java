@@ -14,7 +14,6 @@ import com.mogujie.tt.utils.Logger;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBufferInputStream;
-import org.jboss.netty.channel.MessageEvent;
 
 import de.greenrobot.event.EventBus;
 
@@ -99,29 +98,28 @@ public class IMSocketUDPManager extends IMManager {
             header.setLength(SysConstant.PROTOCOL_HEADER_LENGTH + bodySize);
 //            seqNo = header.getSeqnum();
 //            listenerQueue.push(seqNo, packetlistener);
-            if(eChannel != null) {
+            if(msgUDPServerThread!=null){
+                logger.e("#sendRequest#channel is close!msgUDPServerThread send");
+
                 boolean sendRes = msgUDPServerThread.sendUDPRequest(requset, header, "123.57.71.215", 8132);
             } else {
-                logger.e("#sendRequest#eChannel is null!");
+                logger.e("#sendUDPRequest#msgUDPServerThread is null!");
             }
         } catch (Exception e) {
             if (packetlistener != null) {
                 packetlistener.onFaild();
             }
 //            listenerQueue.pop(seqNo);
-            logger.e("#sendRequest#channel is close!");
+            logger.e("#sendRequest#channel is close!" + e.toString());
         }
     }
-
-    private MessageEvent eChannel = null;
 
     /**
      * 接收到数据
      *
      * @param channelBuffer
      */
-    public void packetUDPDispatch(ChannelBuffer channelBuffer, MessageEvent e) {
-        eChannel = e;
+    public void packetUDPDispatch(ChannelBuffer channelBuffer) {
         DataBuffer buffer = new DataBuffer(channelBuffer);
         com.mogujie.tt.protobuf.base.Header header = new com.mogujie.tt.protobuf.base.Header();
         header.decode(buffer);
@@ -163,6 +161,8 @@ public class IMSocketUDPManager extends IMManager {
     }
 
     public void reqServerAddrs() {
+        logger.e("#reqServerAddrs#start SocketUDPThread");
+
         // 绑定本地的UDP端口
         msgUDPServerThread = new SocketUDPThread("127.0.0.1", 8312, new UDPServerHandler());
         msgUDPServerThread.start();
