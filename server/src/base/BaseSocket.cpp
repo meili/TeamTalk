@@ -375,7 +375,7 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 
 	sockaddr_in serv_addr;
 
-	_SetAddr(server_ip, port, &serv_addr);
+	_SetAddr(port, &serv_addr);
 	// °ó¶¨¶Ë¿Ú
     int ret = ::bind(m_socket, (sockaddr*)&serv_addr, sizeof(serv_addr));
 	if (ret == SOCKET_ERROR)

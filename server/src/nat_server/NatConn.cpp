@@ -92,6 +92,8 @@ void CNatConn::OnClose()
 
 void CNatConn::OnConnect(net_handle_t handle)
 {
+	printf("CNatConn OnConnect");
+
 	m_sock_handle = handle;
 
 	g_nat_conn_map.insert(make_pair(handle, this));
