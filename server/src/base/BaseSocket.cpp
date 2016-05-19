@@ -404,7 +404,7 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 	AddBaseSocket(this); // g_socket_map.insert
 	
 	
-	CEventDispatch::Instance()->AddEvent(m_socket, SOCKET_ALL);//SOCKET_READ | SOCKET_EXCEP);
+	CEventDispatch::Instance()->AddUDPEvent(m_socket, SOCKET_ALL);//SOCKET_READ | SOCKET_EXCEP);
 	// udp 只是sendto recvfrom 要不要用epoll?  
 	//  先用epoll试试  epoll收不到消息?
 	//  就不addEvent了
