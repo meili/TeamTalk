@@ -7,8 +7,9 @@
 
 #include "ostype.h"
 #include "util.h"
-
-enum
+/*
+// ostype.h中定义过了
+enum  
 {
 	SOCKET_STATE_IDLE,
 	SOCKET_STATE_LISTENING,
@@ -16,7 +17,7 @@ enum
 	SOCKET_STATE_CONNECTED,
 	SOCKET_STATE_CLOSING,
 	SOCKET_STATE_UDP_BIND
-};
+};*/
 
 class CBaseSocket : public CRefObject
 {
