@@ -20,6 +20,7 @@ void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 	}
 	else
 	{
+		printf"!!!error msg: %d ", msg);
 		log("!!!error msg: %d ", msg);
 	}
 }
@@ -72,7 +73,7 @@ int main(int argc, char* argv[])
 
 	printf("server start udp bind wait on: %s:%d\n", listen_ip,  listen_msg_port);
 
-	//init_natconn_timer_callback(); // 心跳包没必要
+	init_natconn_timer_callback(); // 没有time不执行 CNatConn->onConnect() 心跳包没必要
 
 	printf("now enter the event loop...\n");
 

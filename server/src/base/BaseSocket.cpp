@@ -383,7 +383,7 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 		log("bind failed, err_code=%d", _GetErrorCode());
 		closesocket(m_socket);
 		return NETLIB_ERROR;
-	}
+	} 
 
 	//ret = listen(m_socket, 64); // udp≤ª”√listen
 	//if (ret == SOCKET_ERROR)
