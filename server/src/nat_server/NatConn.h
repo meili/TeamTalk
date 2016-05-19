@@ -41,7 +41,7 @@ protected:
 typedef hash_map<uint32_t, CNatConn*> NatConnMap_t;
 
 CNatConn* FindNatConnByHandle(uint32_t handle);
-
+void init_natconn_timer_callback();
 /*
 // Client登录时向服务器发送的消息
 struct stLoginMessage

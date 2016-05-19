@@ -30,6 +30,11 @@ CNatConn* FindNatConnByHandle(uint32_t conn_handle)
     return pConn;
 }
 
+void init_natconn_timer_callback()
+{
+	netlib_register_timer(login_conn_timer_callback, NULL, 1000);
+}
+
 void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32_t uParam, void* pParam)
 {
 	printf("nat_conn_callback ");
