@@ -303,7 +303,7 @@ void CBaseSocket::_SetAddr(const uint16_t port, sockaddr_in* pAddr)
 	pAddr->sin_port = htons(port);
 	// 有的服务器是多宿主机，至少有两个网卡，那么运行在这样的服务器上的服务程序在为其socket绑定IP地址时
 	// 可以把htonl(INADDR_ANY)置给s_addr，这样做的好处是不论哪个网段上的客户程序都能与该服务程序通信；
-	pAddr->sin_addr.s_addr = htonl(INADDR_ANY); // htonl(INADDR_ANY); 使用INADDR_ANY 指示任意地址 	
+	pAddr->sin_addr.s_addr = INADDR_ANY; // htonl(INADDR_ANY); 使用INADDR_ANY 指示任意地址 	
 }
 
 void CBaseSocket::_SetAddr(const char* ip, const uint16_t port, sockaddr_in* pAddr)
