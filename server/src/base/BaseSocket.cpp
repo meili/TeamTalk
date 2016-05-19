@@ -369,8 +369,9 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 		return NETLIB_ERROR;
 	}
 	// 这通常是重启监听服务器时出现，若不设置此选项，则bind时将出错。
-	_SetReuseAddr(m_socket);
-	_SetNonblock(m_socket);
+	_SetReuseAddr(m_socket); //  /*设置socket属性，端口可以重用*/
+
+	_SetNonblock(m_socket); // 设置句柄为非阻塞方式
 
 	sockaddr_in serv_addr;
 
@@ -397,11 +398,12 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 	log("CBaseSocket::UDP_Bind on any %s :%d", server_ip, port);
 
 	AddBaseSocket(this); // g_socket_map.insert
+	
+	
 	CEventDispatch::Instance()->AddEvent(m_socket, SOCKET_ALL);//SOCKET_READ | SOCKET_EXCEP);
-	
 	// udp 只是sendto recvfrom 要不要用epoll?  
-	// 就不addEvent了  先用epoll试试  epoll收不到消息?
-	
+	//  先用epoll试试  epoll收不到消息?
+	//  就不addEvent了
 	return NETLIB_OK;
 }
 //add by xieqq 2016-05-11 end///////////////////////////////////

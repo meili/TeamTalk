@@ -4,13 +4,11 @@
  *  Created on: 2016-5-6
  *      Author: 342418923@qq.com
  */
-
 #include "NatConn.h"
 #include "netlib.h"
 #include "ConfigFileReader.h"
 #include "version.h"
 #include "BaseSocket.h"
-
 
 // this callback will be replaced by imconn_callback() in OnConnect()
 void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)

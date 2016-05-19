@@ -365,6 +365,11 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
 	while (running)
 	{
 		nfds = epoll_wait(m_epfd, events, 1024, wait_timeout);
+		if (nfds == -1){
+			printf("epoll_wait error");
+			break;
+		}
+
 		for (int i = 0; i < nfds; i++)
 		{
 			int ev_fd = events[i].data.fd;

@@ -32,6 +32,7 @@ CNatConn* FindNatConnByHandle(uint32_t conn_handle)
 
 void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32_t uParam, void* pParam)
 {
+	printf("nat_conn_callback ");
 	NOTUSED_ARG(uParam);
 	NOTUSED_ARG(pParam);
 
@@ -45,15 +46,20 @@ void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32
 	switch (msg)
 	{
 	case NETLIB_MSG_READ:
+		printf("nat_conn_callback read");
+
 		pConn->OnUDPRead();
 		break;
 	case NETLIB_MSG_WRITE:
+		printf("nat_conn_callback Write");
 		pConn->OnUDPWrite();
 		break;
 	case NETLIB_MSG_CLOSE:
+		printf("nat_conn_callback Close");
 		pConn->OnClose();
 		break;
-	default:
+	default:		
+		printf("nat_conn_callback default");
 		log("!!!httpconn_callback error msg: %d ", msg);
 		break;
 	}
