@@ -298,7 +298,7 @@ void CBaseSocket::_SetNoDelay(SOCKET fd)
 }
 void CBaseSocket::_SetAddr(const uint16_t port, sockaddr_in* pAddr)
 {	
-	printf("_setaddr %d", port);
+	log("_setaddr %d", port);
 	memset(pAddr, 0, sizeof(sockaddr_in));
 	pAddr->sin_family = AF_INET;
 	pAddr->sin_port = htons(port);
@@ -383,6 +383,8 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 	_SetNonblock(m_socket); // 设置句柄为非阻塞方式
 
 	sockaddr_in serv_addr;
+
+	printf("socket success");
 
 	_SetAddr(port, &serv_addr);
 	// 绑定端口
