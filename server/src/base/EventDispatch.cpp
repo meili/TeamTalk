@@ -368,20 +368,24 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
 		if (nfds == -1){
 			printf("epoll_wait error");
 			break;
+		} else {
+			printf("epoll_wait");
 		}
 
 		for (int i = 0; i < nfds; i++)
 		{
 			int ev_fd = events[i].data.fd;
 			CBaseSocket* pSocket = FindBaseSocket(ev_fd);
-			if (!pSocket)
+			if (!pSocket){
+				printf("epoll_wait FindBaseSocket null");
 				continue;
+			}
             
             //Commit by zhfu @2015-02-28
             #ifdef EPOLLRDHUP
             if (events[i].events & EPOLLRDHUP)
             {
-                //log("On Peer Close, socket=%d, ev_fd);
+                log("On Peer Close, socket=%d, ev_fd);
                 pSocket->OnClose();
             }
             #endif
@@ -389,19 +393,19 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
 
 			if (events[i].events & EPOLLIN)
 			{
-				//log("OnRead, socket=%d\n", ev_fd);
+				log("OnRead, socket=%d\n", ev_fd);
 				pSocket->OnRead();
 			}
 
 			if (events[i].events & EPOLLOUT)
 			{
-				//log("OnWrite, socket=%d\n", ev_fd);
+				log("OnWrite, socket=%d\n", ev_fd);
 				pSocket->OnWrite();
 			}
 
 			if (events[i].events & (EPOLLPRI | EPOLLERR | EPOLLHUP))
 			{
-				//log("OnClose, socket=%d\n", ev_fd);
+				log("OnClose, socket=%d\n", ev_fd);
 				pSocket->OnClose();
 			}
 

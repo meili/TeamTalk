@@ -12,7 +12,7 @@
 
 // this callback will be replaced by imconn_callback() in OnConnect()
 void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
-{
+{	// 客户端连接时，UDP客户端不连接
 	if (msg == SOCKET_STATE_UDP_BIND)
 	{
 		CNatConn* pConn = new CNatConn();   
@@ -24,12 +24,6 @@ void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 		log("!!!error msg: %d ", msg);
 	}
 }
-/*
-void nat_serv_callback(SOCKET m_socket)
-{
-	CNatConn* pConn = new CNatConn(); 
-	pConn->OnExec(m_socket);			// bind
-}*/
 
 int main(int argc, char* argv[])
 {
@@ -68,7 +62,6 @@ int main(int argc, char* argv[])
 		ret =  netlib_listen_udp_bind(listen_ip_list.GetItem(i), listen_msg_port, nat_serv_callback, NULL);
 		if (ret == NETLIB_ERROR)
 			return ret;
-
 	}
 
 	printf("server start udp bind wait on: %s:%d\n", listen_ip,  listen_msg_port);
