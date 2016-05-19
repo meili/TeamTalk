@@ -199,6 +199,7 @@ void CBaseSocket::OnWrite()
 		if (error) {
 			m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
 		} else {
+			printf("CBaseSocket::OnWrite SOCKET_STATE_CONNECTED");
 			m_state = SOCKET_STATE_CONNECTED;
 			m_callback(m_callback_data, NETLIB_MSG_CONFIRM, (net_handle_t)m_socket, NULL);
 		}

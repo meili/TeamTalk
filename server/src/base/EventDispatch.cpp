@@ -385,7 +385,7 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
             #ifdef EPOLLRDHUP
             if (events[i].events & EPOLLRDHUP)
             {
-                log("On Peer Close, socket=%d, ev_fd);
+                log("On Peer Close, socket=%d", ev_fd);
                 pSocket->OnClose();
             }
             #endif
