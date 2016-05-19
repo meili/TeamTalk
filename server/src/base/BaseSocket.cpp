@@ -378,7 +378,7 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 		return NETLIB_ERROR;
 	}
 	// 这通常是重启监听服务器时出现，若不设置此选项，则bind时将出错。
-	_SetReuseAddr(m_socket); //  /*设置socket属性，端口可以重用*/
+	//_SetReuseAddr(m_socket); //  /*设置socket属性，端口可以重用*/
 
 	_SetNonblock(m_socket); // 设置句柄为非阻塞方式
 
