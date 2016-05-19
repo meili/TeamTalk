@@ -185,6 +185,7 @@ void CBaseSocket::OnWrite()
 #if ((defined _WIN32) || (defined __APPLE__))
 	CEventDispatch::Instance()->RemoveEvent(m_socket, SOCKET_WRITE);
 #endif
+	printf("CBaseSocket::OnWrite m_state = %d", m_state);
 
 	if (m_state == SOCKET_STATE_CONNECTING) // 客户端连服务端成功状态会是SOCKET_STATE_CONNECTING
 	{
@@ -199,13 +200,15 @@ void CBaseSocket::OnWrite()
 		if (error) {
 			m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
 		} else {
-			printf("CBaseSocket::OnWrite SOCKET_STATE_CONNECTED");
+			log("CBaseSocket::OnWrite SOCKET_STATE_CONNECTED");
 			m_state = SOCKET_STATE_CONNECTED;
 			m_callback(m_callback_data, NETLIB_MSG_CONFIRM, (net_handle_t)m_socket, NULL);
 		}
 	}
 	else
 	{
+		log("CBaseSocket::OnWrite m_state = %d", m_state);
+
 		m_callback(m_callback_data, NETLIB_MSG_WRITE, (net_handle_t)m_socket, NULL);
 	}
 }
