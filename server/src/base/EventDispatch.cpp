@@ -385,6 +385,8 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
 
 		for (int i = 0; i < nfds; i++)
 		{
+			printf("epoll_wait nfds %d", nfds);
+
 			int ev_fd = events[i].data.fd;
 			CBaseSocket* pSocket = FindBaseSocket(ev_fd);
 			if (!pSocket){
