@@ -307,7 +307,7 @@ void CBaseSocket::_SetAddr(const uint16_t port, sockaddr_in* pAddr)
 	pAddr->sin_addr.s_addr = INADDR_ANY; // htonl(INADDR_ANY); 使用INADDR_ANY 指示任意地址 	
 	if (pAddr->sin_addr.s_addr == INADDR_NONE)
 	{
-		log("sin_addr failed, ip=%s", ip);
+		log("sin_addr failed, ip=INADDR_ANY");
 	}
 }
 
