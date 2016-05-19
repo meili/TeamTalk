@@ -343,6 +343,17 @@ void CEventDispatch::AddEvent(SOCKET fd, uint8_t socket_event)
 	}
 }
 
+void CEventDispatch::AddUDPEvent(SOCKET fd, uint8_t socket_event)
+{
+	struct epoll_event ev;
+	ev.events = EPOLLIN | EPOLLET;
+	ev.data.fd = fd;
+	if (epoll_ctl(m_epfd, EPOLL_CTL_ADD, fd, &ev) != 0)
+	{
+		log("epoll_ctl() failed, errno=%d", errno);
+	}
+}
+
 void CEventDispatch::RemoveEvent(SOCKET fd, uint8_t socket_event)
 {
 	if (epoll_ctl(m_epfd, EPOLL_CTL_DEL, fd, NULL) != 0)

@@ -24,6 +24,9 @@ public:
 	virtual ~CEventDispatch();
 
 	void AddEvent(SOCKET fd, uint8_t socket_event);
+
+	void AddUDPEvent(SOCKET fd, uint8_t socket_event);
+
 	void RemoveEvent(SOCKET fd, uint8_t socket_event);
 
 	void AddTimer(callback_t callback, void* user_data, uint64_t interval);
