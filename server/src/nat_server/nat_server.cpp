@@ -20,7 +20,7 @@ void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 	}
 	else
 	{
-		printf"!!!error msg: %d ", msg);
+		//printf"!!!error msg: %d ", msg);
 		log("!!!error msg: %d ", msg);
 	}
 }
