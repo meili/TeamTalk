@@ -13,7 +13,7 @@
 // this callback will be replaced by imconn_callback() in OnConnect()
 void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {	// 客户端连接时，UDP客户端不连接
-	if (msg == SOCKET_STATE_UDP_BIND)
+	if (msg == NETLIB_MSG_CONNECT || msg == NETLIB_MSG_WRITE || msg == NETLIB_MSG_READ || msg == NETLIB_MSG_CLOSE)
 	{
 		CNatConn* pConn = new CNatConn();   
 		pConn->OnConnect(handle);			// bind callback
@@ -21,7 +21,7 @@ void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 	else
 	{
 		//printf"!!!error msg: %d ", msg);
-		log("!!!error msg: %d ", msg);
+		log("!!!error msg: %d ", msg);// UDP
 	}
 }
 
