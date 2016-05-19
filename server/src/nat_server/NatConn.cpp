@@ -47,7 +47,6 @@ void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32
 	{
 	case NETLIB_MSG_READ:
 		printf("nat_conn_callback read");
-
 		pConn->OnUDPRead();
 		break;
 	case NETLIB_MSG_WRITE:
