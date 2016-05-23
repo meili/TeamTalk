@@ -164,7 +164,7 @@ public class IMSocketUDPManager extends IMManager {
         logger.e("#reqServerAddrs#start SocketUDPThread");
 
         // 绑定本地的UDP端口
-        msgUDPServerThread = new SocketUDPThread("127.0.0.1", 8312, new UDPServerHandler());
+        msgUDPServerThread = new SocketUDPThread("127.0.0.1", 8132, new UDPServerHandler());
         msgUDPServerThread.start();
     }
 
