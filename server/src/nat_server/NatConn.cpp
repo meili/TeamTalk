@@ -32,7 +32,7 @@ CNatConn* FindNatConnByHandle(uint32_t conn_handle)
 
 void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32_t uParam, void* pParam)
 {
-	printf("nat_conn_callback ");
+	printf("nat_conn_callback \n");
 	NOTUSED_ARG(uParam);
 	NOTUSED_ARG(pParam);
 
@@ -46,20 +46,20 @@ void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32
 	switch (msg)
 	{
 	case NETLIB_MSG_READ:
-		printf("nat_conn_callback read");
+		printf("nat_conn_callback read\n");
 		pConn->OnUDPRead();
 		break;
 	case NETLIB_MSG_WRITE:
-		printf("nat_conn_callback Write");
+		printf("nat_conn_callback Write\n");
 		pConn->OnUDPWrite();
 		break;
 	case NETLIB_MSG_CLOSE:
-		printf("nat_conn_callback Close");
+		printf("nat_conn_callback Close\n");
 		pConn->OnClose();
 		break;
 	default:		
-		printf("nat_conn_callback default");
-		log("!!!httpconn_callback error msg: %d ", msg);
+		printf("nat_conn_callback default\n");
+		log("!!!httpconn_callback error msg: %d\n ", msg);
 		break;
 	}
 }
@@ -95,7 +95,7 @@ void CNatConn::OnClose()
 
 void CNatConn::OnConnect(net_handle_t handle)
 {
-	printf("CNatConn OnConnect");
+	printf("CNatConn OnConnect\n");
 
 	m_sock_handle = handle;
 
