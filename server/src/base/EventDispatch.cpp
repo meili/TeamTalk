@@ -380,7 +380,7 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
 			printf("epoll_wait error");
 			break;
 		} else {
-			//printf("epoll_wait \n");
+			printf("epoll_wait %d \n",nfds);
 		}
 
 		for (int i = 0; i < nfds; i++)
