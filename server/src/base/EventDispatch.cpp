@@ -422,7 +422,7 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
 				pSocket->OnClose();
 			}
 
-			pSocket->ReleaseRef();
+			pSocket->ReleaseRef();// udp这个释放后会有问题 
 		}
 
 		_CheckTimer();
@@ -431,7 +431,7 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
 }
 //xieqq 2016-05-12///////////////////
 // 基本同上面的，不用_CheckTimer(); _CheckLoop();
-/*void StartDispatchUDP(uint32_t wait_timeout)
+void StartDispatchUDP(uint32_t wait_timeout)
 {
 struct epoll_event events[1024];
 	int nfds = 0;
@@ -478,13 +478,13 @@ struct epoll_event events[1024];
 				pSocket->OnClose();
 			}
 
-			pSocket->ReleaseRef();
+			//pSocket->ReleaseRef();
 		}
 
 		//_CheckTimer();
         //_CheckLoop();
 	}
-}*/
+}
 /////////////////////////////////////
 
 
