@@ -12,7 +12,7 @@
 
 // this callback will be replaced by imconn_callback() in OnConnect()
 void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
-{	// 客户端连接时，UDP客户端不连接
+{	// 客户端连接时，UDP客户端不连接 不会执行到这里
 	if (msg == NETLIB_MSG_CONNECT || msg == NETLIB_MSG_WRITE || msg == NETLIB_MSG_READ || msg == NETLIB_MSG_CLOSE)
 	{
 		CNatConn* pConn = new CNatConn();   
