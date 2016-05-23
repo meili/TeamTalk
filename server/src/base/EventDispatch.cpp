@@ -431,9 +431,9 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
 }
 //xieqq 2016-05-12///////////////////
 // 基本同上面的，不用_CheckTimer(); _CheckLoop();
-void StartDispatchUDP(uint32_t wait_timeout)
+void CEventDispatch::StartDispatchUDP(uint32_t wait_timeout)
 {
-struct epoll_event events[1024];
+	struct epoll_event events[1024];
 	int nfds = 0;
 
     if(running)

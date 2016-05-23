@@ -11,7 +11,7 @@
 #include "BaseSocket.h"
 
 // this callback will be replaced by imconn_callback() in OnConnect()
-void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
+/*void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {	// 客户端连接时，UDP客户端不连接 不会执行到这里
 	if (msg == NETLIB_MSG_CONNECT || msg == NETLIB_MSG_WRITE || msg == NETLIB_MSG_READ || msg == NETLIB_MSG_CLOSE)
 	{
@@ -25,7 +25,7 @@ void nat_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 
 		log("!!!error msg: %d \n", msg);// UDP
 	}
-}
+}*/
 
 int main(int argc, char* argv[])
 {
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 
 	for (uint32_t i = 0; i < listen_ip_list.GetItemCnt(); i++) {
 		// socket SOCK_DGRAM  (UDP)
-		ret =  netlib_listen_udp_bind(listen_ip_list.GetItem(i), listen_msg_port, nat_serv_callback, NULL);
+		ret =  netlib_listen_udp_bind(listen_ip_list.GetItem(i), listen_msg_port, nat_conn_callback, NULL);
 		if (ret == NETLIB_ERROR)
 			return ret;
 	}

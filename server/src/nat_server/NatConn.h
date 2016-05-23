@@ -40,8 +40,10 @@ protected:
 
 typedef hash_map<uint32_t, CNatConn*> NatConnMap_t;
 
+void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam);
+
 CNatConn* FindNatConnByHandle(uint32_t handle);
-void init_natconn_timer_callback();
+// void init_natconn_timer_callback(); // UDP不用timer心跳
 /*
 // Client登录时向服务器发送的消息
 struct stLoginMessage
