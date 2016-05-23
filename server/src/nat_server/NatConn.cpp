@@ -22,6 +22,7 @@ static NatConnMap_t g_nat_conn_map;
 CNatConn* FindNatConnByHandle(uint32_t conn_handle)
 {
     CNatConn* pConn = NULL;
+	printf("find handler %d \n", conn_handle);
     NatConnMap_t::iterator it = g_nat_conn_map.find(conn_handle);
     if (it != g_nat_conn_map.end()) {
         pConn = it->second;
@@ -30,9 +31,9 @@ CNatConn* FindNatConnByHandle(uint32_t conn_handle)
     return pConn;
 }
 
-void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32_t uParam, void* pParam)
+void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
-	printf("nat_conn_callback \n");
+	printf("nat_conn_callback %d\n",*((uint32_t*)&callback_data));
 	NOTUSED_ARG(uParam);
 	NOTUSED_ARG(pParam);
 
@@ -40,6 +41,7 @@ void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32
 	uint32_t conn_handle = *((uint32_t*)(&callback_data));
     CNatConn* pConn = FindNatConnByHandle(conn_handle);
     if (!pConn) {
+	printf("CNatConn is null   not find NatConnByHandle \n");
         return;
     }
 
@@ -95,7 +97,7 @@ void CNatConn::OnClose()
 
 void CNatConn::OnConnect(net_handle_t handle)
 {
-	printf("CNatConn OnConnect\n");
+	printf("CNatConn OnConnect insert handle %d \n", handle);
 
 	m_sock_handle = handle;
 
