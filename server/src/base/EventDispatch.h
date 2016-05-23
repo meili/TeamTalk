@@ -35,7 +35,9 @@ public:
     void AddLoop(callback_t callback, void* user_data);
 
 	void StartDispatch(uint32_t wait_timeout = 100);
-    void StopDispatch();
+	
+	void StartDispatchUDP(uint32_t wait_timeout = 100);	
+	void StopDispatch();
     
     bool isRunning() {return running;}
 

@@ -161,11 +161,11 @@ void netlib_eventloop(uint32_t wait_timeout)
 	CEventDispatch::Instance()->StartDispatch(wait_timeout);
 }
 
-//xqq 2016-05-12/////////////////
-/*void netlib_eventloop_UDP(uint32_t wait_timeout)
+//xqq 2016-05-23/////////////////
+void netlib_eventloop_UDP(uint32_t wait_timeout)
 {
 	CEventDispatch::Instance()->StartDispatchUDP(wait_timeout);
-}*/
+}
 /////////////////
 void netlib_stop_event()
 {
