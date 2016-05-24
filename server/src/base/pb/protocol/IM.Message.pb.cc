@@ -31,6 +31,8 @@ void protobuf_ShutdownFile_IM_2eMessage_2eproto() {
   delete IMGetLatestMsgIdRsp::default_instance_;
   delete IMGetMsgByIdReq::default_instance_;
   delete IMGetMsgByIdRsp::default_instance_;
+  delete IMAudioReq::default_instance_;
+  delete IMAudioRsp::default_instance_;
 }
 
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
@@ -60,6 +62,8 @@ void protobuf_AddDesc_IM_2eMessage_2eproto() {
   IMGetLatestMsgIdRsp::default_instance_ = new IMGetLatestMsgIdRsp();
   IMGetMsgByIdReq::default_instance_ = new IMGetMsgByIdReq();
   IMGetMsgByIdRsp::default_instance_ = new IMGetMsgByIdRsp();
+  IMAudioReq::default_instance_ = new IMAudioReq();
+  IMAudioRsp::default_instance_ = new IMAudioRsp();
   IMMsgData::default_instance_->InitAsDefaultInstance();
   IMMsgDataAck::default_instance_->InitAsDefaultInstance();
   IMMsgDataReadAck::default_instance_->InitAsDefaultInstance();
@@ -74,6 +78,8 @@ void protobuf_AddDesc_IM_2eMessage_2eproto() {
   IMGetLatestMsgIdRsp::default_instance_->InitAsDefaultInstance();
   IMGetMsgByIdReq::default_instance_->InitAsDefaultInstance();
   IMGetMsgByIdRsp::default_instance_->InitAsDefaultInstance();
+  IMAudioReq::default_instance_->InitAsDefaultInstance();
+  IMAudioRsp::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_IM_2eMessage_2eproto);
 }
 
@@ -4483,6 +4489,625 @@ void IMGetMsgByIdRsp::Swap(IMGetMsgByIdRsp* other) {
 
 ::std::string IMGetMsgByIdRsp::GetTypeName() const {
   return "IM.Message.IMGetMsgByIdRsp";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int IMAudioReq::kFromUserIdFieldNumber;
+const int IMAudioReq::kToRoomIdFieldNumber;
+const int IMAudioReq::kMsgIdFieldNumber;
+const int IMAudioReq::kCreateTimeFieldNumber;
+const int IMAudioReq::kMsgTypeFieldNumber;
+#endif  // !_MSC_VER
+
+IMAudioReq::IMAudioReq()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:IM.Message.IMAudioReq)
+}
+
+void IMAudioReq::InitAsDefaultInstance() {
+}
+
+IMAudioReq::IMAudioReq(const IMAudioReq& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:IM.Message.IMAudioReq)
+}
+
+void IMAudioReq::SharedCtor() {
+  _cached_size_ = 0;
+  from_user_id_ = 0u;
+  to_room_id_ = 0u;
+  msg_id_ = 0u;
+  create_time_ = 0u;
+  msg_type_ = 1;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+IMAudioReq::~IMAudioReq() {
+  // @@protoc_insertion_point(destructor:IM.Message.IMAudioReq)
+  SharedDtor();
+}
+
+void IMAudioReq::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void IMAudioReq::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const IMAudioReq& IMAudioReq::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_IM_2eMessage_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_IM_2eMessage_2eproto();
+#endif
+  return *default_instance_;
+}
+
+IMAudioReq* IMAudioReq::default_instance_ = NULL;
+
+IMAudioReq* IMAudioReq::New() const {
+  return new IMAudioReq;
+}
+
+void IMAudioReq::Clear() {
+#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
+  &reinterpret_cast<IMAudioReq*>(16)->f) - \
+   reinterpret_cast<char*>(16))
+
+#define ZR_(first, last) do {                              \
+    size_t f = OFFSET_OF_FIELD_(first);                    \
+    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
+    ::memset(&first, 0, n);                                \
+  } while (0)
+
+  if (_has_bits_[0 / 32] & 31) {
+    ZR_(from_user_id_, create_time_);
+    msg_type_ = 1;
+  }
+
+#undef OFFSET_OF_FIELD_
+#undef ZR_
+
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->clear();
+}
+
+bool IMAudioReq::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
+  // @@protoc_insertion_point(parse_start:IM.Message.IMAudioReq)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 from_user_id = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &from_user_id_)));
+          set_has_from_user_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_to_room_id;
+        break;
+      }
+
+      // required uint32 to_room_id = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_to_room_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &to_room_id_)));
+          set_has_to_room_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(24)) goto parse_msg_id;
+        break;
+      }
+
+      // required uint32 msg_id = 3;
+      case 3: {
+        if (tag == 24) {
+         parse_msg_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &msg_id_)));
+          set_has_msg_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(32)) goto parse_create_time;
+        break;
+      }
+
+      // required uint32 create_time = 4;
+      case 4: {
+        if (tag == 32) {
+         parse_create_time:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &create_time_)));
+          set_has_create_time();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(40)) goto parse_msg_type;
+        break;
+      }
+
+      // required .IM.BaseDefine.MsgType msg_type = 5;
+      case 5: {
+        if (tag == 40) {
+         parse_msg_type:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::IM::BaseDefine::MsgType_IsValid(value)) {
+            set_msg_type(static_cast< ::IM::BaseDefine::MsgType >(value));
+          } else {
+            unknown_fields_stream.WriteVarint32(tag);
+            unknown_fields_stream.WriteVarint32(value);
+          }
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:IM.Message.IMAudioReq)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:IM.Message.IMAudioReq)
+  return false;
+#undef DO_
+}
+
+void IMAudioReq::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:IM.Message.IMAudioReq)
+  // required uint32 from_user_id = 1;
+  if (has_from_user_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->from_user_id(), output);
+  }
+
+  // required uint32 to_room_id = 2;
+  if (has_to_room_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->to_room_id(), output);
+  }
+
+  // required uint32 msg_id = 3;
+  if (has_msg_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->msg_id(), output);
+  }
+
+  // required uint32 create_time = 4;
+  if (has_create_time()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->create_time(), output);
+  }
+
+  // required .IM.BaseDefine.MsgType msg_type = 5;
+  if (has_msg_type()) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      5, this->msg_type(), output);
+  }
+
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
+  // @@protoc_insertion_point(serialize_end:IM.Message.IMAudioReq)
+}
+
+int IMAudioReq::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 from_user_id = 1;
+    if (has_from_user_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->from_user_id());
+    }
+
+    // required uint32 to_room_id = 2;
+    if (has_to_room_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->to_room_id());
+    }
+
+    // required uint32 msg_id = 3;
+    if (has_msg_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->msg_id());
+    }
+
+    // required uint32 create_time = 4;
+    if (has_create_time()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->create_time());
+    }
+
+    // required .IM.BaseDefine.MsgType msg_type = 5;
+    if (has_msg_type()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->msg_type());
+    }
+
+  }
+  total_size += unknown_fields().size();
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void IMAudioReq::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const IMAudioReq*>(&from));
+}
+
+void IMAudioReq::MergeFrom(const IMAudioReq& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_from_user_id()) {
+      set_from_user_id(from.from_user_id());
+    }
+    if (from.has_to_room_id()) {
+      set_to_room_id(from.to_room_id());
+    }
+    if (from.has_msg_id()) {
+      set_msg_id(from.msg_id());
+    }
+    if (from.has_create_time()) {
+      set_create_time(from.create_time());
+    }
+    if (from.has_msg_type()) {
+      set_msg_type(from.msg_type());
+    }
+  }
+  mutable_unknown_fields()->append(from.unknown_fields());
+}
+
+void IMAudioReq::CopyFrom(const IMAudioReq& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool IMAudioReq::IsInitialized() const {
+  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
+
+  return true;
+}
+
+void IMAudioReq::Swap(IMAudioReq* other) {
+  if (other != this) {
+    std::swap(from_user_id_, other->from_user_id_);
+    std::swap(to_room_id_, other->to_room_id_);
+    std::swap(msg_id_, other->msg_id_);
+    std::swap(create_time_, other->create_time_);
+    std::swap(msg_type_, other->msg_type_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.swap(other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string IMAudioReq::GetTypeName() const {
+  return "IM.Message.IMAudioReq";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int IMAudioRsp::kFromUserIdFieldNumber;
+const int IMAudioRsp::kCountInRoomFieldNumber;
+const int IMAudioRsp::kUserListFieldNumber;
+#endif  // !_MSC_VER
+
+IMAudioRsp::IMAudioRsp()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:IM.Message.IMAudioRsp)
+}
+
+void IMAudioRsp::InitAsDefaultInstance() {
+}
+
+IMAudioRsp::IMAudioRsp(const IMAudioRsp& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:IM.Message.IMAudioRsp)
+}
+
+void IMAudioRsp::SharedCtor() {
+  _cached_size_ = 0;
+  from_user_id_ = 0u;
+  count_in_room_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+IMAudioRsp::~IMAudioRsp() {
+  // @@protoc_insertion_point(destructor:IM.Message.IMAudioRsp)
+  SharedDtor();
+}
+
+void IMAudioRsp::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void IMAudioRsp::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const IMAudioRsp& IMAudioRsp::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_IM_2eMessage_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_IM_2eMessage_2eproto();
+#endif
+  return *default_instance_;
+}
+
+IMAudioRsp* IMAudioRsp::default_instance_ = NULL;
+
+IMAudioRsp* IMAudioRsp::New() const {
+  return new IMAudioRsp;
+}
+
+void IMAudioRsp::Clear() {
+#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
+  &reinterpret_cast<IMAudioRsp*>(16)->f) - \
+   reinterpret_cast<char*>(16))
+
+#define ZR_(first, last) do {                              \
+    size_t f = OFFSET_OF_FIELD_(first);                    \
+    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
+    ::memset(&first, 0, n);                                \
+  } while (0)
+
+  ZR_(from_user_id_, count_in_room_);
+
+#undef OFFSET_OF_FIELD_
+#undef ZR_
+
+  user_list_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->clear();
+}
+
+bool IMAudioRsp::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
+  // @@protoc_insertion_point(parse_start:IM.Message.IMAudioRsp)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 from_user_id = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &from_user_id_)));
+          set_has_from_user_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_count_in_room;
+        break;
+      }
+
+      // required uint32 count_in_room = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_count_in_room:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &count_in_room_)));
+          set_has_count_in_room();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(34)) goto parse_user_list;
+        break;
+      }
+
+      // repeated .IM.BaseDefine.UserIpAddr user_list = 4;
+      case 4: {
+        if (tag == 34) {
+         parse_user_list:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_user_list()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(34)) goto parse_user_list;
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:IM.Message.IMAudioRsp)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:IM.Message.IMAudioRsp)
+  return false;
+#undef DO_
+}
+
+void IMAudioRsp::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:IM.Message.IMAudioRsp)
+  // required uint32 from_user_id = 1;
+  if (has_from_user_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->from_user_id(), output);
+  }
+
+  // required uint32 count_in_room = 2;
+  if (has_count_in_room()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->count_in_room(), output);
+  }
+
+  // repeated .IM.BaseDefine.UserIpAddr user_list = 4;
+  for (int i = 0; i < this->user_list_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      4, this->user_list(i), output);
+  }
+
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
+  // @@protoc_insertion_point(serialize_end:IM.Message.IMAudioRsp)
+}
+
+int IMAudioRsp::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 from_user_id = 1;
+    if (has_from_user_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->from_user_id());
+    }
+
+    // required uint32 count_in_room = 2;
+    if (has_count_in_room()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->count_in_room());
+    }
+
+  }
+  // repeated .IM.BaseDefine.UserIpAddr user_list = 4;
+  total_size += 1 * this->user_list_size();
+  for (int i = 0; i < this->user_list_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->user_list(i));
+  }
+
+  total_size += unknown_fields().size();
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void IMAudioRsp::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const IMAudioRsp*>(&from));
+}
+
+void IMAudioRsp::MergeFrom(const IMAudioRsp& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  user_list_.MergeFrom(from.user_list_);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_from_user_id()) {
+      set_from_user_id(from.from_user_id());
+    }
+    if (from.has_count_in_room()) {
+      set_count_in_room(from.count_in_room());
+    }
+  }
+  mutable_unknown_fields()->append(from.unknown_fields());
+}
+
+void IMAudioRsp::CopyFrom(const IMAudioRsp& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool IMAudioRsp::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  if (!::google::protobuf::internal::AllAreInitialized(this->user_list())) return false;
+  return true;
+}
+
+void IMAudioRsp::Swap(IMAudioRsp* other) {
+  if (other != this) {
+    std::swap(from_user_id_, other->from_user_id_);
+    std::swap(count_in_room_, other->count_in_room_);
+    user_list_.Swap(&other->user_list_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.swap(other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string IMAudioRsp::GetTypeName() const {
+  return "IM.Message.IMAudioRsp";
 }
 
 

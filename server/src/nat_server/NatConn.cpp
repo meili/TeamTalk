@@ -36,10 +36,11 @@ void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 	printf("nat_conn_callback %d\n",*((uint32_t*)&callback_data));
 	//NOTUSED_ARG(uParam);
 	NOTUSED_ARG(pParam);
-
+	CNatConn* pConn = new CNatConn();
+        pConn->OnConnect(handle);
 	// convert void* to uint32_t, oops
-	uint32_t conn_handle = *((uint32_t*)(&callback_data));
-    CNatConn* pConn = FindNatConnByHandle(conn_handle);
+	//uint32_t conn_handle = *((uint32_t*)(&callback_data));
+    	pConn = FindNatConnByHandle(handle);
     if (!pConn) {
 	printf("CNatConn is null   not find NatConnByHandle \n");
         return;
@@ -113,12 +114,13 @@ void CNatConn::OnUDPRead()
 	sockaddr_in sender; // 发送端的地址 从哪发来的
 
 	// stMessage recvbuf; // 用 protobuf定义的IMAudioReq
-
+	printf("1111111111\n");
 	IM::Message::IMAudioReq recvbuf;
-
+	printf("22222222222=%d\n", sizeof(IM::Message::IMAudioReq));
 	memset(&recvbuf,0,sizeof(IM::Message::IMAudioReq));
-	
+	printf("333333333333333");
 	socklen_t dwSender = sizeof(sender);
+	printf("4444444444444444");
 	//for(;;){
 		//	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, sizeof(IM::Message::IMAudioReq), 0, (sockaddr *)&sender, &dwSender);
 		//if(ret <= 0)
@@ -128,6 +130,7 @@ void CNatConn::OnUDPRead()
 		//}
 	// recv到发生EAGAIN为
 	//}
+	//printf("OnUDPRead m_sock_handle=%d", m_sock_handle);
 	// UDP包固定大小
 	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, sizeof(IM::Message::IMAudioReq), 0, (sockaddr *)&sender, &dwSender);
 	if(ret <= 0)

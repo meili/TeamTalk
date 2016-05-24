@@ -48,6 +48,8 @@ class IMGetLatestMsgIdReq;
 class IMGetLatestMsgIdRsp;
 class IMGetMsgByIdReq;
 class IMGetMsgByIdRsp;
+class IMAudioReq;
+class IMAudioRsp;
 
 // ===================================================================
 
@@ -1814,6 +1816,251 @@ class IMGetMsgByIdRsp : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static IMGetMsgByIdRsp* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class IMAudioReq : public ::google::protobuf::MessageLite {
+ public:
+  IMAudioReq();
+  virtual ~IMAudioReq();
+
+  IMAudioReq(const IMAudioReq& from);
+
+  inline IMAudioReq& operator=(const IMAudioReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const IMAudioReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const IMAudioReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(IMAudioReq* other);
+
+  // implements Message ----------------------------------------------
+
+  IMAudioReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const IMAudioReq& from);
+  void MergeFrom(const IMAudioReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 from_user_id = 1;
+  inline bool has_from_user_id() const;
+  inline void clear_from_user_id();
+  static const int kFromUserIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 from_user_id() const;
+  inline void set_from_user_id(::google::protobuf::uint32 value);
+
+  // required uint32 to_room_id = 2;
+  inline bool has_to_room_id() const;
+  inline void clear_to_room_id();
+  static const int kToRoomIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 to_room_id() const;
+  inline void set_to_room_id(::google::protobuf::uint32 value);
+
+  // required uint32 msg_id = 3;
+  inline bool has_msg_id() const;
+  inline void clear_msg_id();
+  static const int kMsgIdFieldNumber = 3;
+  inline ::google::protobuf::uint32 msg_id() const;
+  inline void set_msg_id(::google::protobuf::uint32 value);
+
+  // required uint32 create_time = 4;
+  inline bool has_create_time() const;
+  inline void clear_create_time();
+  static const int kCreateTimeFieldNumber = 4;
+  inline ::google::protobuf::uint32 create_time() const;
+  inline void set_create_time(::google::protobuf::uint32 value);
+
+  // required .IM.BaseDefine.MsgType msg_type = 5;
+  inline bool has_msg_type() const;
+  inline void clear_msg_type();
+  static const int kMsgTypeFieldNumber = 5;
+  inline ::IM::BaseDefine::MsgType msg_type() const;
+  inline void set_msg_type(::IM::BaseDefine::MsgType value);
+
+  // @@protoc_insertion_point(class_scope:IM.Message.IMAudioReq)
+ private:
+  inline void set_has_from_user_id();
+  inline void clear_has_from_user_id();
+  inline void set_has_to_room_id();
+  inline void clear_has_to_room_id();
+  inline void set_has_msg_id();
+  inline void clear_has_msg_id();
+  inline void set_has_create_time();
+  inline void clear_has_create_time();
+  inline void set_has_msg_type();
+  inline void clear_has_msg_type();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 from_user_id_;
+  ::google::protobuf::uint32 to_room_id_;
+  ::google::protobuf::uint32 msg_id_;
+  ::google::protobuf::uint32 create_time_;
+  int msg_type_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_IM_2eMessage_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_IM_2eMessage_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_IM_2eMessage_2eproto();
+  friend void protobuf_ShutdownFile_IM_2eMessage_2eproto();
+
+  void InitAsDefaultInstance();
+  static IMAudioReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class IMAudioRsp : public ::google::protobuf::MessageLite {
+ public:
+  IMAudioRsp();
+  virtual ~IMAudioRsp();
+
+  IMAudioRsp(const IMAudioRsp& from);
+
+  inline IMAudioRsp& operator=(const IMAudioRsp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const IMAudioRsp& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const IMAudioRsp* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(IMAudioRsp* other);
+
+  // implements Message ----------------------------------------------
+
+  IMAudioRsp* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const IMAudioRsp& from);
+  void MergeFrom(const IMAudioRsp& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 from_user_id = 1;
+  inline bool has_from_user_id() const;
+  inline void clear_from_user_id();
+  static const int kFromUserIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 from_user_id() const;
+  inline void set_from_user_id(::google::protobuf::uint32 value);
+
+  // required uint32 count_in_room = 2;
+  inline bool has_count_in_room() const;
+  inline void clear_count_in_room();
+  static const int kCountInRoomFieldNumber = 2;
+  inline ::google::protobuf::uint32 count_in_room() const;
+  inline void set_count_in_room(::google::protobuf::uint32 value);
+
+  // repeated .IM.BaseDefine.UserIpAddr user_list = 4;
+  inline int user_list_size() const;
+  inline void clear_user_list();
+  static const int kUserListFieldNumber = 4;
+  inline const ::IM::BaseDefine::UserIpAddr& user_list(int index) const;
+  inline ::IM::BaseDefine::UserIpAddr* mutable_user_list(int index);
+  inline ::IM::BaseDefine::UserIpAddr* add_user_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr >&
+      user_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr >*
+      mutable_user_list();
+
+  // @@protoc_insertion_point(class_scope:IM.Message.IMAudioRsp)
+ private:
+  inline void set_has_from_user_id();
+  inline void clear_has_from_user_id();
+  inline void set_has_count_in_room();
+  inline void clear_has_count_in_room();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 from_user_id_;
+  ::google::protobuf::uint32 count_in_room_;
+  ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr > user_list_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_IM_2eMessage_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_IM_2eMessage_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_IM_2eMessage_2eproto();
+  friend void protobuf_ShutdownFile_IM_2eMessage_2eproto();
+
+  void InitAsDefaultInstance();
+  static IMAudioRsp* default_instance_;
 };
 // ===================================================================
 
@@ -3794,6 +4041,213 @@ inline void IMGetMsgByIdRsp::set_allocated_attach_data(::std::string* attach_dat
     attach_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
   // @@protoc_insertion_point(field_set_allocated:IM.Message.IMGetMsgByIdRsp.attach_data)
+}
+
+// -------------------------------------------------------------------
+
+// IMAudioReq
+
+// required uint32 from_user_id = 1;
+inline bool IMAudioReq::has_from_user_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void IMAudioReq::set_has_from_user_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void IMAudioReq::clear_has_from_user_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void IMAudioReq::clear_from_user_id() {
+  from_user_id_ = 0u;
+  clear_has_from_user_id();
+}
+inline ::google::protobuf::uint32 IMAudioReq::from_user_id() const {
+  // @@protoc_insertion_point(field_get:IM.Message.IMAudioReq.from_user_id)
+  return from_user_id_;
+}
+inline void IMAudioReq::set_from_user_id(::google::protobuf::uint32 value) {
+  set_has_from_user_id();
+  from_user_id_ = value;
+  // @@protoc_insertion_point(field_set:IM.Message.IMAudioReq.from_user_id)
+}
+
+// required uint32 to_room_id = 2;
+inline bool IMAudioReq::has_to_room_id() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void IMAudioReq::set_has_to_room_id() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void IMAudioReq::clear_has_to_room_id() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void IMAudioReq::clear_to_room_id() {
+  to_room_id_ = 0u;
+  clear_has_to_room_id();
+}
+inline ::google::protobuf::uint32 IMAudioReq::to_room_id() const {
+  // @@protoc_insertion_point(field_get:IM.Message.IMAudioReq.to_room_id)
+  return to_room_id_;
+}
+inline void IMAudioReq::set_to_room_id(::google::protobuf::uint32 value) {
+  set_has_to_room_id();
+  to_room_id_ = value;
+  // @@protoc_insertion_point(field_set:IM.Message.IMAudioReq.to_room_id)
+}
+
+// required uint32 msg_id = 3;
+inline bool IMAudioReq::has_msg_id() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void IMAudioReq::set_has_msg_id() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void IMAudioReq::clear_has_msg_id() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void IMAudioReq::clear_msg_id() {
+  msg_id_ = 0u;
+  clear_has_msg_id();
+}
+inline ::google::protobuf::uint32 IMAudioReq::msg_id() const {
+  // @@protoc_insertion_point(field_get:IM.Message.IMAudioReq.msg_id)
+  return msg_id_;
+}
+inline void IMAudioReq::set_msg_id(::google::protobuf::uint32 value) {
+  set_has_msg_id();
+  msg_id_ = value;
+  // @@protoc_insertion_point(field_set:IM.Message.IMAudioReq.msg_id)
+}
+
+// required uint32 create_time = 4;
+inline bool IMAudioReq::has_create_time() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void IMAudioReq::set_has_create_time() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void IMAudioReq::clear_has_create_time() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void IMAudioReq::clear_create_time() {
+  create_time_ = 0u;
+  clear_has_create_time();
+}
+inline ::google::protobuf::uint32 IMAudioReq::create_time() const {
+  // @@protoc_insertion_point(field_get:IM.Message.IMAudioReq.create_time)
+  return create_time_;
+}
+inline void IMAudioReq::set_create_time(::google::protobuf::uint32 value) {
+  set_has_create_time();
+  create_time_ = value;
+  // @@protoc_insertion_point(field_set:IM.Message.IMAudioReq.create_time)
+}
+
+// required .IM.BaseDefine.MsgType msg_type = 5;
+inline bool IMAudioReq::has_msg_type() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void IMAudioReq::set_has_msg_type() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void IMAudioReq::clear_has_msg_type() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void IMAudioReq::clear_msg_type() {
+  msg_type_ = 1;
+  clear_has_msg_type();
+}
+inline ::IM::BaseDefine::MsgType IMAudioReq::msg_type() const {
+  // @@protoc_insertion_point(field_get:IM.Message.IMAudioReq.msg_type)
+  return static_cast< ::IM::BaseDefine::MsgType >(msg_type_);
+}
+inline void IMAudioReq::set_msg_type(::IM::BaseDefine::MsgType value) {
+  assert(::IM::BaseDefine::MsgType_IsValid(value));
+  set_has_msg_type();
+  msg_type_ = value;
+  // @@protoc_insertion_point(field_set:IM.Message.IMAudioReq.msg_type)
+}
+
+// -------------------------------------------------------------------
+
+// IMAudioRsp
+
+// required uint32 from_user_id = 1;
+inline bool IMAudioRsp::has_from_user_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void IMAudioRsp::set_has_from_user_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void IMAudioRsp::clear_has_from_user_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void IMAudioRsp::clear_from_user_id() {
+  from_user_id_ = 0u;
+  clear_has_from_user_id();
+}
+inline ::google::protobuf::uint32 IMAudioRsp::from_user_id() const {
+  // @@protoc_insertion_point(field_get:IM.Message.IMAudioRsp.from_user_id)
+  return from_user_id_;
+}
+inline void IMAudioRsp::set_from_user_id(::google::protobuf::uint32 value) {
+  set_has_from_user_id();
+  from_user_id_ = value;
+  // @@protoc_insertion_point(field_set:IM.Message.IMAudioRsp.from_user_id)
+}
+
+// required uint32 count_in_room = 2;
+inline bool IMAudioRsp::has_count_in_room() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void IMAudioRsp::set_has_count_in_room() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void IMAudioRsp::clear_has_count_in_room() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void IMAudioRsp::clear_count_in_room() {
+  count_in_room_ = 0u;
+  clear_has_count_in_room();
+}
+inline ::google::protobuf::uint32 IMAudioRsp::count_in_room() const {
+  // @@protoc_insertion_point(field_get:IM.Message.IMAudioRsp.count_in_room)
+  return count_in_room_;
+}
+inline void IMAudioRsp::set_count_in_room(::google::protobuf::uint32 value) {
+  set_has_count_in_room();
+  count_in_room_ = value;
+  // @@protoc_insertion_point(field_set:IM.Message.IMAudioRsp.count_in_room)
+}
+
+// repeated .IM.BaseDefine.UserIpAddr user_list = 4;
+inline int IMAudioRsp::user_list_size() const {
+  return user_list_.size();
+}
+inline void IMAudioRsp::clear_user_list() {
+  user_list_.Clear();
+}
+inline const ::IM::BaseDefine::UserIpAddr& IMAudioRsp::user_list(int index) const {
+  // @@protoc_insertion_point(field_get:IM.Message.IMAudioRsp.user_list)
+  return user_list_.Get(index);
+}
+inline ::IM::BaseDefine::UserIpAddr* IMAudioRsp::mutable_user_list(int index) {
+  // @@protoc_insertion_point(field_mutable:IM.Message.IMAudioRsp.user_list)
+  return user_list_.Mutable(index);
+}
+inline ::IM::BaseDefine::UserIpAddr* IMAudioRsp::add_user_list() {
+  // @@protoc_insertion_point(field_add:IM.Message.IMAudioRsp.user_list)
+  return user_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr >&
+IMAudioRsp::user_list() const {
+  // @@protoc_insertion_point(field_list:IM.Message.IMAudioRsp.user_list)
+  return user_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr >*
+IMAudioRsp::mutable_user_list() {
+  // @@protoc_insertion_point(field_mutable_list:IM.Message.IMAudioRsp.user_list)
+  return &user_list_;
 }
 
 
