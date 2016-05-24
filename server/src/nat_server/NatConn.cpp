@@ -115,16 +115,16 @@ void CNatConn::OnUDPRead()
 
 	// stMessage recvbuf; // 用 protobuf定义的IMAudioReq
 	printf("1111111111\n");
-	IM::Message::IMAudioReq recvbuf; // IMAudioReq 是个类 class
-	printf("22222222222=%d\n", sizeof(IM::Message::IMAudioReq));
+	//IM::Message::IMAudioReq recvbuf; // IMAudioReq 是个类 class
+	//printf("22222222222=%d\n", sizeof(IM::Message::IMAudioReq));
 
 	//IM::Server::IMUserStatusUpdate msg;
     //CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
-	char recvbuf[128];
-	memset(&recvbuf,0,128); 
-	printf("333333333333333");
+	char recvbuf[128]={0};
+	memset(recvbuf,0,128); 
+	printf("333333333333333\n");
 	socklen_t dwSender = sizeof(sender);
-	printf("4444444444444444");
+	printf("4444444444444444\n");
 	//for(;;){
 		//	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, sizeof(IM::Message::IMAudioReq), 0, (sockaddr *)&sender, &dwSender);
 		//if(ret <= 0)
@@ -141,11 +141,15 @@ void CNatConn::OnUDPRead()
 	{
 		printf("recv error");
 		return;
-	} else 
-		printf("recv success:%s",(char *)&recvbuf);
-
-	sendto(m_sock_handle, (const char*)&recvbuf,128, 0, (const sockaddr*)&sender, sizeof(sender));
-            
+	}
+	// else
+	//{ 
+	//	printf("recv success:%s",recvbuf);
+	//}
+	printf("Receive message from: %s :%ld:%d:%s\n",inet_ntoa(sender.sin_addr),ntohs(sender.sin_port),ret,recvbuf);
+	
+	int nsend = sendto(m_sock_handle, (const char*)&recvbuf,128, 0, (const sockaddr*)&sender, sizeof(sender));
+        printf("send message %d\n",nsend);    
 	//HandlePdu(&recvbuf);
 }
 
@@ -159,8 +163,7 @@ void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
 {
 	switch (recvbuf->msg_type()) { // 登录 登出 打洞
         /*case CID_OTHER_HEARTBEAT:
-            // do not take any action, heart beat only update m_last_recv_tick
-            break;
+            // do not take any action, heart beat only update m_last_recv_tick break;
         case CID_OTHER_ONLINE_USER_INFO:
             _HandleOnlineUserInfo( pPdu );
             break;
