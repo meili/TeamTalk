@@ -34,7 +34,7 @@ CNatConn* FindNatConnByHandle(uint32_t conn_handle)
 void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	printf("nat_conn_callback %d\n",*((uint32_t*)&callback_data));
-	NOTUSED_ARG(uParam);
+	//NOTUSED_ARG(uParam);
 	NOTUSED_ARG(pParam);
 
 	// convert void* to uint32_t, oops
