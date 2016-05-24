@@ -14,7 +14,7 @@
 
 #define HTTP_CONN_TIMEOUT			60000
 
-#define READ_BUF_SIZE	2048
+#define READ_BUF_SIZE	1420
 #define HTTP_RESPONSE_HTML          "HTTP/1.1 200 OK\r\n"\
                                     "Connection:close\r\n"\
                                     "Content-Length:%d\r\n"\

@@ -115,9 +115,13 @@ void CNatConn::OnUDPRead()
 
 	// stMessage recvbuf; // 用 protobuf定义的IMAudioReq
 	printf("1111111111\n");
-	IM::Message::IMAudioReq recvbuf;
+	IM::Message::IMAudioReq recvbuf; // IMAudioReq 是个类 class
 	printf("22222222222=%d\n", sizeof(IM::Message::IMAudioReq));
-	memset(&recvbuf,0,sizeof(IM::Message::IMAudioReq));
+
+	//IM::Server::IMUserStatusUpdate msg;
+    //CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+	char recvbuf[128];
+	memset(&recvbuf,0,128); 
 	printf("333333333333333");
 	socklen_t dwSender = sizeof(sender);
 	printf("4444444444444444");
@@ -132,7 +136,7 @@ void CNatConn::OnUDPRead()
 	//}
 	//printf("OnUDPRead m_sock_handle=%d", m_sock_handle);
 	// UDP包固定大小
-	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, sizeof(IM::Message::IMAudioReq), 0, (sockaddr *)&sender, &dwSender);
+	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
 	if(ret <= 0)
 	{
 		printf("recv error");
@@ -140,7 +144,7 @@ void CNatConn::OnUDPRead()
 	} else 
 		printf("recv success:%s",(char *)&recvbuf);
 
-	sendto(m_sock_handle, (const char*)&recvbuf,sizeof(IM::Message::IMAudioReq), 0, (const sockaddr*)&sender, sizeof(sender));
+	sendto(m_sock_handle, (const char*)&recvbuf,128, 0, (const sockaddr*)&sender, sizeof(sender));
             
 	//HandlePdu(&recvbuf);
 }

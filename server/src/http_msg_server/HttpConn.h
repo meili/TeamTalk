@@ -14,7 +14,7 @@
 
 #define HTTP_CONN_TIMEOUT			60000
 
-#define READ_BUF_SIZE	2048
+#define READ_BUF_SIZE	1420
 
 enum {
     CONN_STATE_IDLE,

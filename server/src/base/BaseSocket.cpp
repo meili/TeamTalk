@@ -408,8 +408,7 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 
 	log("CBaseSocket::UDP_Bind on any %s :%d", server_ip, port);
 
-	AddBaseSocket(this); // g_socket_map.insert
-	
+	AddBaseSocket(this); // g_socket_map.insert	
 	
 	CEventDispatch::Instance()->AddUDPEvent(m_socket, SOCKET_ALL);//SOCKET_READ | SOCKET_EXCEP);
 	// udp 只是sendto recvfrom 要不要用epoll?  
