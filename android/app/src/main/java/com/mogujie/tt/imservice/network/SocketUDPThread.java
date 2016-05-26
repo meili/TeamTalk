@@ -66,7 +66,7 @@ public class SocketUDPThread extends Thread {
      * @param header
      * @return
      */
-    public boolean sendUDPRequest(GeneratedMessageLite requset,Header header, String sendHost, int sendPort){
+    public boolean send_UDP_request(GeneratedMessageLite requset,Header header, String sendHost, int sendPort){
 		logger.e("#sendUDPRequest#channel!111111111111");
 
 		DataBuffer headerBuffer = header.encode();
@@ -75,15 +75,11 @@ public class SocketUDPThread extends Thread {
         bodyBuffer.writeBytes(requset.toByteArray());
 
         DataBuffer buffer = new DataBuffer(SysConstant.PROTOCOL_HEADER_LENGTH  + bodySize);
-        buffer.writeDataBuffer(headerBuffer);
-        buffer.writeDataBuffer(bodyBuffer);
+        buffer.writeDataBuffer(headerBuffer); 	// 头 包括：sid, cid
+        buffer.writeDataBuffer(bodyBuffer);		// body
 
 		SocketAddress serverAddress = new InetSocketAddress(sendHost, sendPort);
 
-//		IMMessage.IMAudioReq audiodata = IMMessage.IMAudioReq.newBuilder()
-////                .setFromUserId(msgEntity.getFromId())
-//                .build();
-//		channel.write(audiodata, serverAddress);
 		logger.e("#sendUDPRequest#channel!");
 
 		channel.write(buffer.getOrignalBuffer(), serverAddress);

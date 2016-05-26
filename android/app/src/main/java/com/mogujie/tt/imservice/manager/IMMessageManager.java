@@ -180,7 +180,7 @@ public class IMMessageManager extends IMManager{
         imSocketManager.sendRequest(msgData,sid,cid,new Packetlistener(getTimeoutTolerance(messageEntity)) {
             @Override
             public void onSuccess(Object response) {
-                try {
+                try { // 收到应答，表示成功发送
                     IMMessage.IMMsgDataAck imMsgDataAck = IMMessage.IMMsgDataAck.parseFrom((CodedInputStream)response);
                     logger.i("chat#onAckSendedMsg");
                     if(imMsgDataAck.getMsgId() <=0){

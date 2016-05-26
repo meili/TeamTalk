@@ -3,9 +3,11 @@ package com.mogujie.tt.imservice.manager;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedInputStream;
 import com.mogujie.tt.DB.entity.MessageEntity;
+import com.mogujie.tt.config.DBConstant;
 import com.mogujie.tt.config.MessageConstant;
 import com.mogujie.tt.imservice.callback.Packetlistener;
 import com.mogujie.tt.imservice.entity.TextMessage;
+import com.mogujie.tt.imservice.event.MessageEvent;
 import com.mogujie.tt.imservice.support.SequenceNumberMaker;
 import com.mogujie.tt.protobuf.IMBaseDefine;
 import com.mogujie.tt.protobuf.IMMessage;
@@ -13,6 +15,8 @@ import com.mogujie.tt.protobuf.helper.Java2ProtoBuf;
 import com.mogujie.tt.utils.Logger;
 
 import java.io.IOException;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * @author : xieqq on 16-05-10.
@@ -38,7 +42,7 @@ import java.io.IOException;
  *  clientB Message server接收
  *  clientB 绑定本地UDP端口, 给NAT_SERVER服务端UDP端口发登录指令（服务端把B上线通知A）
  *      开启接收线程
- *      --> 1、给clientA UDP 打洞 等待回复；（ 3秒重发一次10秒超时)
+ *      --> 1、给clientA UDP 打洞 等待回复；（ 6秒重发一次10秒超时)
  *
  *      --> 收到回复后告诉对方准备好 iReady+1
  *
@@ -53,6 +57,7 @@ public class IMNatServerManager extends IMManager {
         return inst;
     }
 
+    private IMSocketManager imSocketManager = IMSocketManager.instance();
     private IMSocketUDPManager imSocketUDPManager = IMSocketUDPManager.instance();
 
     @Override
@@ -65,35 +70,68 @@ public class IMNatServerManager extends IMManager {
 
     }
 
-    /**
-     * . 不保存DB
-     * 2. push到adapter中
-     * 3. 等待ack,更新页面
-     * */
-    public void sendText(TextMessage textMessage) {
+    //
+    public void SendCommand(TextMessage textMessage){
+        // 发送消息给msg_server
         logger.i("chat#text#textMessage");
         textMessage.setStatus(MessageConstant.MSG_SENDING);
 //        long pkId =  DBInterface.instance().insertOrUpdateMessage(textMessage);
 //        sessionManager.updateSession(textMessage);
         sendMessage(textMessage);
+
+        // 发送指令给udp_server
+        sendUDPMessage(textMessage);
+    }
+//    /**
+//     * 发送消息给 msg_server
+//     * 2. push到adapter中
+//     * 3. 等待ack,更新页面
+//     * */
+//    private void sendText(TextMessage textMessage) {
+//        logger.i("chat#text#textMessage");
+//        textMessage.setStatus(MessageConstant.MSG_SENDING);
+////        long pkId =  DBInterface.instance().insertOrUpdateMessage(textMessage);
+////        sessionManager.updateSession(textMessage);
+//
+//        sendMessage(textMessage);
+//        sendUDPMessage(textMessage); // 发送消息给 msg_server
+//    }
+
+    // 消息发送超时时间爱你设定
+    // todo eric, after testing ok, make it a longer value
+    private final long TIMEOUT_MILLISECONDS = 6 * 1000;
+    private final long IMAGE_TIMEOUT_MILLISECONDS = 4 * 60 * 1000;
+
+
+    private long getTimeoutTolerance(MessageEntity msg) {
+        switch (msg.getDisplayType()){
+            case DBConstant.SHOW_IMAGE_TYPE:
+                return IMAGE_TIMEOUT_MILLISECONDS;
+            default:break;
+        }
+        return TIMEOUT_MILLISECONDS;
     }
 
     /**
-     * 发送消息，最终的状态情况
-     * MessageManager下面的拆分
-     * 应该是自己发的信息，所以msgId为0
-     * 这个地方用DB id作为主键
+     * 自身的事件驱动
+     * @param event
      */
+    public void triggerEvent(Object event) {
+        EventBus.getDefault().post(event);
+    }
+
+
     public void sendMessage(MessageEntity msgEntity) {
-        logger.d("chat#sendMessage, msg:%s", msgEntity);
+        logger.d("chat_audio#sendMessage, msg:%s", msgEntity);
         // 发送情况下 msg_id 都是0
         // 服务端是从1开始计数的
         if(!SequenceNumberMaker.getInstance().isFailure(msgEntity.getMsgId())){
-            throw new RuntimeException("#sendMessage# msgId is wrong,cause by 0!");
+            throw new RuntimeException("#sendMessage_audio# msgId is wrong,cause by 0!");
         }
 
         IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
         byte[] sendContent = msgEntity.getSendContent();
+
 
         IMMessage.IMMsgData msgData = IMMessage.IMMsgData.newBuilder()
                 .setFromUserId(msgEntity.getFromId())
@@ -103,12 +141,79 @@ public class IMNatServerManager extends IMManager {
                 .setMsgType(msgType)
                 .setMsgData(ByteString.copyFrom(sendContent))  // 这个点要特别注意 todo ByteString.copyFrom
                 .build();
+        int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
+        int cid = IMBaseDefine.MessageCmdID.CID_MSG_DATA_VALUE;
+
+
+        final MessageEntity messageEntity  = msgEntity;
+        // 发送到服务器 // 需要回复的 new Packetlistener
+        imSocketManager.sendRequest(msgData,sid,cid,new Packetlistener(getTimeoutTolerance(messageEntity)) {
+            @Override
+            public void onSuccess(Object response) {
+                try {
+                    IMMessage.IMMsgDataAck imMsgDataAck = IMMessage.IMMsgDataAck.parseFrom((CodedInputStream)response);
+                    logger.i("chat#onAckSendedMsg");
+                    if(imMsgDataAck.getMsgId() <=0){
+                        throw  new RuntimeException("Msg ack error,cause by msgId <=0");
+                    }
+                    messageEntity.setStatus(MessageConstant.MSG_SUCCESS);
+                    messageEntity.setMsgId(imMsgDataAck.getMsgId());
+                    /**主键ID已经存在，直接替换*/
+                    //dbInterface.insertOrUpdateMessage(messageEntity);
+                    /**更新sessionEntity lastMsgId问题*/
+                    //sessionManager.updateSession(messageEntity);
+                    // 发送，发送成功 收到这个表明发送成功
+                    triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_OK,messageEntity));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFaild() {
+                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
+                //dbInterface.insertOrUpdateMessage(messageEntity);
+                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_FAILURE,messageEntity));
+            }
+            @Override
+            public void onTimeout() {
+                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
+                //dbInterface.insertOrUpdateMessage(messageEntity);
+                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_TIME_OUT,messageEntity));
+            }
+        });
+    }
+
+    /**
+     * 发送消息，最终的状态情况
+     * MessageManager下面的拆分
+     * 应该是自己发的信息，所以msgId为0
+     * 这个地方用DB id作为主键
+     */
+    public void sendUDPMessage(MessageEntity msgEntity) {
+        logger.d("chat_audio#sendUDPMessage, msg:%s", msgEntity);
+        // 发送情况下 msg_id 都是0
+        // 服务端是从1开始计数的
+        if(!SequenceNumberMaker.getInstance().isFailure(msgEntity.getMsgId())){
+            throw new RuntimeException("#sendMessage# msgId is wrong,cause by 0!");
+        }
+
+        IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
+        byte[] sendContent = msgEntity.getSendContent();
+
+        IMMessage.IMAudioReq msgData = IMMessage.IMAudioReq.newBuilder()
+                .setFromUserId(msgEntity.getFromId())
+                .setToRoomId(msgEntity.getFromId()) // 房间号暂定为请求人的id
+                .setMsgId(0)        // 0 加入 1 退出
+                .setCreateTime(msgEntity.getCreated())
+                .setMsgType(msgType)    // 消息类型  MSG_TYPE_SINGLE_AUDIO_MEET 语音
+                .setClientType(IMBaseDefine.ClientType.CLIENT_TYPE_ANDROID)
+                .build();
 
 //        IMMessage.IMAudioReq audiodata = IMMessage.IMAudioReq.newBuilder()
 //                .setFromUserId(msgEntity.getFromId())
 //                .build();
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
-        int cid = IMBaseDefine.MessageCmdID.CID_MSG_DATA_VALUE;
+        int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_REQUEST_VALUE;
 
 
         final MessageEntity messageEntity  = msgEntity;
@@ -124,6 +229,9 @@ public class IMNatServerManager extends IMManager {
                     }
                     messageEntity.setStatus(MessageConstant.MSG_SUCCESS);
                     messageEntity.setMsgId(imMsgDataAck.getMsgId());
+
+                    // 指令不存库，UDP不用管发送成功失败
+
                     /**主键ID已经存在，直接替换*/
 //                    dbInterface.insertOrUpdateMessage(messageEntity);
                     /**更新sessionEntity lastMsgId问题*/

@@ -101,7 +101,6 @@ public class IMUIHelper {
         ctx.startActivity(intent);
     }
 
-
     //跳转到用户信息页面
     public static void openUserProfileActivity(Context ctx, int contactId) {
         Intent intent = new Intent(ctx, UserInfoActivity.class);

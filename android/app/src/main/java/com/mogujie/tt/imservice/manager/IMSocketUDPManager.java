@@ -101,7 +101,7 @@ public class IMSocketUDPManager extends IMManager {
             if(msgUDPServerThread!=null){
                 logger.e("#sendRequest#channel is close!msgUDPServerThread send");
 
-                boolean sendRes = msgUDPServerThread.sendUDPRequest(requset, header, "123.57.71.215", 8132);
+                boolean sendRes = msgUDPServerThread.send_UDP_request(requset, header, "123.57.71.215", 8132);
             } else {
                 logger.e("#sendUDPRequest#msgUDPServerThread is null!");
             }
@@ -133,7 +133,7 @@ public class IMSocketUDPManager extends IMManager {
 
         // UDP 打洞成功的包确认
 //        Packetlistener listener = listenerQueue.pop(seqNo);
-//        if (listener != null) {
+//        if (listener != null) { // 需要回复的消息收到返回调用onSuccess
 //            listener.onSuccess(codedInputStream);
 //            return;
 //        }

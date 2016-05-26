@@ -134,7 +134,7 @@ public class SocketThread extends Thread {
      * @param header
      * @return
      */
-    public boolean sendRequest(GeneratedMessageLite requset,Header header){
+    public boolean send_request(GeneratedMessageLite requset,Header header){
         DataBuffer headerBuffer = header.encode();
         DataBuffer bodyBuffer = new DataBuffer();
         int bodySize = requset.getSerializedSize();

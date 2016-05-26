@@ -20,6 +20,8 @@ public interface DBConstant {
 
     public final int  MSG_TYPE_GROUP_TEXT = 0x11;
     public final int  MSG_TYPE_GROUP_AUDIO = 0x12;
+    public final int  MSG_TYPE_GROUP_AUDIO_MEET = 0x03; // 群组语单聊天 // 不考虑
+
 
     /**msgDisplayType
      * 保存在DB中，与服务端一致，图文混排也是一条

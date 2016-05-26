@@ -114,9 +114,9 @@ public class IMSocketManager extends IMManager {
             int bodySize = requset.getSerializedSize();
             header.setLength(SysConstant.PROTOCOL_HEADER_LENGTH + bodySize);
             seqNo = header.getSeqnum();
-            listenerQueue.push(seqNo, packetlistener);
+            listenerQueue.push(seqNo, packetlistener); // 为了判断消息是否发送成功
             // 发送消息
-            boolean sendRes = msgServerThread.sendRequest(requset, header);
+            boolean sendRes = msgServerThread.send_request(requset, header);
         } catch (Exception e) {
             if (packetlistener != null) {
                 packetlistener.onFaild();

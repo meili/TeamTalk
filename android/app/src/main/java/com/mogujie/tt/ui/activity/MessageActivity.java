@@ -899,9 +899,10 @@ public class MessageActivity extends TTBaseActivity
             break;
             case R.id.take_audio_btn:{
                 // 实时语音请求 // 发送
-                TextMessage textMessage = TextMessage.buildForSend("实时语音", loginUser, peerEntity);
+                TextMessage textMessage = TextMessage.buildForCommandSend(1, loginUser, peerEntity);
 //                imService.sendText(textMessage);
-                imService.getNatServerMgr().sendText(textMessage);
+                // 发送语音请求命令
+                imService.getNatServerMgr().SendCommand(textMessage);
                 Toast.makeText(MessageActivity.this,"实时语音 请求", Toast.LENGTH_LONG).show();
             }
             break;

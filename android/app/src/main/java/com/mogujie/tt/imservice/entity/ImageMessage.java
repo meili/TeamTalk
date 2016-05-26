@@ -88,20 +88,22 @@ public class ImageMessage extends MessageEntity implements Serializable {
         msgId = SequenceNumberMaker.getInstance().makelocalUniqueMsgId();
     }
 
-    /**消息拆分的时候需要*/
-    private ImageMessage(MessageEntity entity){
+    /**
+     * 消息拆分的时候需要
+     */
+    private ImageMessage(MessageEntity entity) {
         /**父类的id*/
-         id =  entity.getId();
-         msgId  = entity.getMsgId();
-         fromId = entity.getFromId();
-         toId   = entity.getToId();
+        id = entity.getId();
+        msgId = entity.getMsgId();
+        fromId = entity.getFromId();
+        toId = entity.getToId();
         sessionKey = entity.getSessionKey();
-         content=entity.getContent();
-         msgType=entity.getMsgType();
-         displayType=entity.getDisplayType();
-         status = entity.getStatus();
-         created = entity.getCreated();
-         updated = entity.getUpdated();
+        content = entity.getContent();
+        msgType = entity.getMsgType();
+        displayType = entity.getDisplayType();
+        status = entity.getStatus();
+        created = entity.getCreated();
+        updated = entity.getUpdated();
     }
 
     /**接受到网络包，解析成本地的数据*/
