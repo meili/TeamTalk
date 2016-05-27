@@ -215,7 +215,6 @@ public class IMNatServerManager extends IMManager {
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
         int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_REQUEST_VALUE;
 
-
         final MessageEntity messageEntity  = msgEntity;
         // 发送到服务器 // 需要回复的 new Packetlistener
         imSocketUDPManager.sendUDPRequest(msgData,sid,cid,new Packetlistener(6000) {

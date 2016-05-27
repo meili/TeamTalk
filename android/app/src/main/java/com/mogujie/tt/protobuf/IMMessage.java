@@ -75,18 +75,10 @@ public final class IMMessage {
 
     /**
      * <code>required bytes msg_data = 6;</code>
-     *
-     * <pre>
-     * 如果是语音请求，这里房间号
-     * </pre>
      */
     boolean hasMsgData();
     /**
      * <code>required bytes msg_data = 6;</code>
-     *
-     * <pre>
-     * 如果是语音请求，这里房间号
-     * </pre>
      */
     com.google.protobuf.ByteString getMsgData();
 
@@ -324,20 +316,12 @@ public final class IMMessage {
     private com.google.protobuf.ByteString msgData_;
     /**
      * <code>required bytes msg_data = 6;</code>
-     *
-     * <pre>
-     * 如果是语音请求，这里房间号
-     * </pre>
      */
     public boolean hasMsgData() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>required bytes msg_data = 6;</code>
-     *
-     * <pre>
-     * 如果是语音请求，这里房间号
-     * </pre>
      */
     public com.google.protobuf.ByteString getMsgData() {
       return msgData_;
@@ -902,30 +886,18 @@ public final class IMMessage {
       private com.google.protobuf.ByteString msgData_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes msg_data = 6;</code>
-       *
-       * <pre>
-       * 如果是语音请求，这里房间号
-       * </pre>
        */
       public boolean hasMsgData() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>required bytes msg_data = 6;</code>
-       *
-       * <pre>
-       * 如果是语音请求，这里房间号
-       * </pre>
        */
       public com.google.protobuf.ByteString getMsgData() {
         return msgData_;
       }
       /**
        * <code>required bytes msg_data = 6;</code>
-       *
-       * <pre>
-       * 如果是语音请求，这里房间号
-       * </pre>
        */
       public Builder setMsgData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -938,10 +910,6 @@ public final class IMMessage {
       }
       /**
        * <code>required bytes msg_data = 6;</code>
-       *
-       * <pre>
-       * 如果是语音请求，这里房间号
-       * </pre>
        */
       public Builder clearMsgData() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -9825,7 +9793,7 @@ public final class IMMessage {
      * <code>required uint32 msg_id = 3;</code>
      *
      * <pre>
-     * 消息ID （加入还是退出）
+     * 消息ID （加入还是退出） 0 加入 1退出
      * </pre>
      */
     boolean hasMsgId();
@@ -9833,7 +9801,7 @@ public final class IMMessage {
      * <code>required uint32 msg_id = 3;</code>
      *
      * <pre>
-     * 消息ID （加入还是退出）
+     * 消息ID （加入还是退出） 0 加入 1退出
      * </pre>
      */
     int getMsgId();
@@ -9871,9 +9839,30 @@ public final class IMMessage {
      * </pre>
      */
     com.mogujie.tt.protobuf.IMBaseDefine.MsgType getMsgType();
+
+    /**
+     * <code>required .IM.BaseDefine.ClientType client_type = 6;</code>
+     *
+     * <pre>
+     * 客户端类型	
+     * </pre>
+     */
+    boolean hasClientType();
+    /**
+     * <code>required .IM.BaseDefine.ClientType client_type = 6;</code>
+     *
+     * <pre>
+     * 客户端类型	
+     * </pre>
+     */
+    com.mogujie.tt.protobuf.IMBaseDefine.ClientType getClientType();
   }
   /**
    * Protobuf type {@code IM.Message.IMAudioReq}
+   *
+   * <pre>
+   * 发送给服务器的
+   * </pre>
    */
   public static final class IMAudioReq extends
       com.google.protobuf.GeneratedMessageLite implements
@@ -9951,6 +9940,18 @@ public final class IMMessage {
               } else {
                 bitField0_ |= 0x00000010;
                 msgType_ = value;
+              }
+              break;
+            }
+            case 48: {
+              int rawValue = input.readEnum();
+              com.mogujie.tt.protobuf.IMBaseDefine.ClientType value = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.valueOf(rawValue);
+              if (value == null) {
+                unknownFieldsCodedOutput.writeRawVarint32(tag);
+                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
+              } else {
+                bitField0_ |= 0x00000020;
+                clientType_ = value;
               }
               break;
             }
@@ -10040,7 +10041,7 @@ public final class IMMessage {
      * <code>required uint32 msg_id = 3;</code>
      *
      * <pre>
-     * 消息ID （加入还是退出）
+     * 消息ID （加入还是退出） 0 加入 1退出
      * </pre>
      */
     public boolean hasMsgId() {
@@ -10050,7 +10051,7 @@ public final class IMMessage {
      * <code>required uint32 msg_id = 3;</code>
      *
      * <pre>
-     * 消息ID （加入还是退出）
+     * 消息ID （加入还是退出） 0 加入 1退出
      * </pre>
      */
     public int getMsgId() {
@@ -10103,12 +10104,36 @@ public final class IMMessage {
       return msgType_;
     }
 
+    public static final int CLIENT_TYPE_FIELD_NUMBER = 6;
+    private com.mogujie.tt.protobuf.IMBaseDefine.ClientType clientType_;
+    /**
+     * <code>required .IM.BaseDefine.ClientType client_type = 6;</code>
+     *
+     * <pre>
+     * 客户端类型	
+     * </pre>
+     */
+    public boolean hasClientType() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required .IM.BaseDefine.ClientType client_type = 6;</code>
+     *
+     * <pre>
+     * 客户端类型	
+     * </pre>
+     */
+    public com.mogujie.tt.protobuf.IMBaseDefine.ClientType getClientType() {
+      return clientType_;
+    }
+
     private void initFields() {
       fromUserId_ = 0;
       toRoomId_ = 0;
       msgId_ = 0;
       createTime_ = 0;
       msgType_ = com.mogujie.tt.protobuf.IMBaseDefine.MsgType.MSG_TYPE_SINGLE_TEXT;
+      clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10136,6 +10161,10 @@ public final class IMMessage {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasClientType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -10157,6 +10186,9 @@ public final class IMMessage {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeEnum(5, msgType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeEnum(6, clientType_.getNumber());
       }
       output.writeRawBytes(unknownFields);
     }
@@ -10186,6 +10218,10 @@ public final class IMMessage {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(5, msgType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(6, clientType_.getNumber());
       }
       size += unknownFields.size();
       memoizedSerializedSize = size;
@@ -10261,6 +10297,10 @@ public final class IMMessage {
 
     /**
      * Protobuf type {@code IM.Message.IMAudioReq}
+     *
+     * <pre>
+     * 发送给服务器的
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
@@ -10291,6 +10331,8 @@ public final class IMMessage {
         bitField0_ = (bitField0_ & ~0x00000008);
         msgType_ = com.mogujie.tt.protobuf.IMBaseDefine.MsgType.MSG_TYPE_SINGLE_TEXT;
         bitField0_ = (bitField0_ & ~0x00000010);
+        clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -10334,6 +10376,10 @@ public final class IMMessage {
           to_bitField0_ |= 0x00000010;
         }
         result.msgType_ = msgType_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.clientType_ = clientType_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
@@ -10354,6 +10400,9 @@ public final class IMMessage {
         }
         if (other.hasMsgType()) {
           setMsgType(other.getMsgType());
+        }
+        if (other.hasClientType()) {
+          setClientType(other.getClientType());
         }
         setUnknownFields(
             getUnknownFields().concat(other.unknownFields));
@@ -10378,6 +10427,10 @@ public final class IMMessage {
           return false;
         }
         if (!hasMsgType()) {
+          
+          return false;
+        }
+        if (!hasClientType()) {
           
           return false;
         }
@@ -10504,7 +10557,7 @@ public final class IMMessage {
        * <code>required uint32 msg_id = 3;</code>
        *
        * <pre>
-       * 消息ID （加入还是退出）
+       * 消息ID （加入还是退出） 0 加入 1退出
        * </pre>
        */
       public boolean hasMsgId() {
@@ -10514,7 +10567,7 @@ public final class IMMessage {
        * <code>required uint32 msg_id = 3;</code>
        *
        * <pre>
-       * 消息ID （加入还是退出）
+       * 消息ID （加入还是退出） 0 加入 1退出
        * </pre>
        */
       public int getMsgId() {
@@ -10524,7 +10577,7 @@ public final class IMMessage {
        * <code>required uint32 msg_id = 3;</code>
        *
        * <pre>
-       * 消息ID （加入还是退出）
+       * 消息ID （加入还是退出） 0 加入 1退出
        * </pre>
        */
       public Builder setMsgId(int value) {
@@ -10537,7 +10590,7 @@ public final class IMMessage {
        * <code>required uint32 msg_id = 3;</code>
        *
        * <pre>
-       * 消息ID （加入还是退出）
+       * 消息ID （加入还是退出） 0 加入 1退出
        * </pre>
        */
       public Builder clearMsgId() {
@@ -10646,6 +10699,57 @@ public final class IMMessage {
         return this;
       }
 
+      private com.mogujie.tt.protobuf.IMBaseDefine.ClientType clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
+      /**
+       * <code>required .IM.BaseDefine.ClientType client_type = 6;</code>
+       *
+       * <pre>
+       * 客户端类型	
+       * </pre>
+       */
+      public boolean hasClientType() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required .IM.BaseDefine.ClientType client_type = 6;</code>
+       *
+       * <pre>
+       * 客户端类型	
+       * </pre>
+       */
+      public com.mogujie.tt.protobuf.IMBaseDefine.ClientType getClientType() {
+        return clientType_;
+      }
+      /**
+       * <code>required .IM.BaseDefine.ClientType client_type = 6;</code>
+       *
+       * <pre>
+       * 客户端类型	
+       * </pre>
+       */
+      public Builder setClientType(com.mogujie.tt.protobuf.IMBaseDefine.ClientType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000020;
+        clientType_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required .IM.BaseDefine.ClientType client_type = 6;</code>
+       *
+       * <pre>
+       * 客户端类型	
+       * </pre>
+       */
+      public Builder clearClientType() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
+        
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:IM.Message.IMAudioReq)
     }
 
@@ -10665,7 +10769,7 @@ public final class IMMessage {
      * <code>required uint32 from_user_id = 1;</code>
      *
      * <pre>
-     *cmd id:		0x030f 加入房间请求 语音请求
+     *cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
      * </pre>
      */
     boolean hasFromUserId();
@@ -10673,13 +10777,30 @@ public final class IMMessage {
      * <code>required uint32 from_user_id = 1;</code>
      *
      * <pre>
-     *cmd id:		0x030f 加入房间请求 语音请求
+     *cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
      * </pre>
      */
     int getFromUserId();
 
     /**
-     * <code>required uint32 count_in_room = 2;</code>
+     * <code>required uint32 to_room_id = 2;</code>
+     *
+     * <pre>
+     * 房间id，看时否与本人的房间号相符
+     * </pre>
+     */
+    boolean hasToRoomId();
+    /**
+     * <code>required uint32 to_room_id = 2;</code>
+     *
+     * <pre>
+     * 房间id，看时否与本人的房间号相符
+     * </pre>
+     */
+    int getToRoomId();
+
+    /**
+     * <code>required uint32 count_in_room = 3;</code>
      *
      * <pre>
      * 当前房间的人数
@@ -10687,7 +10808,7 @@ public final class IMMessage {
      */
     boolean hasCountInRoom();
     /**
-     * <code>required uint32 count_in_room = 2;</code>
+     * <code>required uint32 count_in_room = 3;</code>
      *
      * <pre>
      * 当前房间的人数
@@ -10699,7 +10820,7 @@ public final class IMMessage {
      * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     * // 要连的人的id,ip,port
+     *要连的人的id,ip,port
      * </pre>
      */
     java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> 
@@ -10708,7 +10829,7 @@ public final class IMMessage {
      * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     * // 要连的人的id,ip,port
+     *要连的人的id,ip,port
      * </pre>
      */
     com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList(int index);
@@ -10716,13 +10837,17 @@ public final class IMMessage {
      * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     * // 要连的人的id,ip,port
+     *要连的人的id,ip,port
      * </pre>
      */
     int getUserListCount();
   }
   /**
    * Protobuf type {@code IM.Message.IMAudioRsp}
+   *
+   * <pre>
+   * UDP服务器回的 包括IP
+   * </pre>
    */
   public static final class IMAudioRsp extends
       com.google.protobuf.GeneratedMessageLite implements
@@ -10778,13 +10903,18 @@ public final class IMMessage {
             }
             case 16: {
               bitField0_ |= 0x00000002;
+              toRoomId_ = input.readUInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
               countInRoom_ = input.readUInt32();
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 userList_ = new java.util.ArrayList<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000008;
               }
               userList_.add(input.readMessage(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.PARSER, extensionRegistry));
               break;
@@ -10797,7 +10927,7 @@ public final class IMMessage {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           userList_ = java.util.Collections.unmodifiableList(userList_);
         }
         try {
@@ -10832,7 +10962,7 @@ public final class IMMessage {
      * <code>required uint32 from_user_id = 1;</code>
      *
      * <pre>
-     *cmd id:		0x030f 加入房间请求 语音请求
+     *cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
      * </pre>
      */
     public boolean hasFromUserId() {
@@ -10842,27 +10972,50 @@ public final class IMMessage {
      * <code>required uint32 from_user_id = 1;</code>
      *
      * <pre>
-     *cmd id:		0x030f 加入房间请求 语音请求
+     *cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
      * </pre>
      */
     public int getFromUserId() {
       return fromUserId_;
     }
 
-    public static final int COUNT_IN_ROOM_FIELD_NUMBER = 2;
+    public static final int TO_ROOM_ID_FIELD_NUMBER = 2;
+    private int toRoomId_;
+    /**
+     * <code>required uint32 to_room_id = 2;</code>
+     *
+     * <pre>
+     * 房间id，看时否与本人的房间号相符
+     * </pre>
+     */
+    public boolean hasToRoomId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required uint32 to_room_id = 2;</code>
+     *
+     * <pre>
+     * 房间id，看时否与本人的房间号相符
+     * </pre>
+     */
+    public int getToRoomId() {
+      return toRoomId_;
+    }
+
+    public static final int COUNT_IN_ROOM_FIELD_NUMBER = 3;
     private int countInRoom_;
     /**
-     * <code>required uint32 count_in_room = 2;</code>
+     * <code>required uint32 count_in_room = 3;</code>
      *
      * <pre>
      * 当前房间的人数
      * </pre>
      */
     public boolean hasCountInRoom() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required uint32 count_in_room = 2;</code>
+     * <code>required uint32 count_in_room = 3;</code>
      *
      * <pre>
      * 当前房间的人数
@@ -10878,7 +11031,7 @@ public final class IMMessage {
      * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     * // 要连的人的id,ip,port
+     *要连的人的id,ip,port
      * </pre>
      */
     public java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> getUserListList() {
@@ -10888,7 +11041,7 @@ public final class IMMessage {
      * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     * // 要连的人的id,ip,port
+     *要连的人的id,ip,port
      * </pre>
      */
     public java.util.List<? extends com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddrOrBuilder> 
@@ -10899,7 +11052,7 @@ public final class IMMessage {
      * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     * // 要连的人的id,ip,port
+     *要连的人的id,ip,port
      * </pre>
      */
     public int getUserListCount() {
@@ -10909,7 +11062,7 @@ public final class IMMessage {
      * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     * // 要连的人的id,ip,port
+     *要连的人的id,ip,port
      * </pre>
      */
     public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList(int index) {
@@ -10919,7 +11072,7 @@ public final class IMMessage {
      * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     * // 要连的人的id,ip,port
+     *要连的人的id,ip,port
      * </pre>
      */
     public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddrOrBuilder getUserListOrBuilder(
@@ -10929,6 +11082,7 @@ public final class IMMessage {
 
     private void initFields() {
       fromUserId_ = 0;
+      toRoomId_ = 0;
       countInRoom_ = 0;
       userList_ = java.util.Collections.emptyList();
     }
@@ -10939,6 +11093,10 @@ public final class IMMessage {
       if (isInitialized == 0) return false;
 
       if (!hasFromUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasToRoomId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -10963,7 +11121,10 @@ public final class IMMessage {
         output.writeUInt32(1, fromUserId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeUInt32(2, countInRoom_);
+        output.writeUInt32(2, toRoomId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeUInt32(3, countInRoom_);
       }
       for (int i = 0; i < userList_.size(); i++) {
         output.writeMessage(4, userList_.get(i));
@@ -10983,7 +11144,11 @@ public final class IMMessage {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, countInRoom_);
+          .computeUInt32Size(2, toRoomId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, countInRoom_);
       }
       for (int i = 0; i < userList_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -11063,6 +11228,10 @@ public final class IMMessage {
 
     /**
      * Protobuf type {@code IM.Message.IMAudioRsp}
+     *
+     * <pre>
+     * UDP服务器回的 包括IP
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
@@ -11085,10 +11254,12 @@ public final class IMMessage {
         super.clear();
         fromUserId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        countInRoom_ = 0;
+        toRoomId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        userList_ = java.util.Collections.emptyList();
+        countInRoom_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        userList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -11119,10 +11290,14 @@ public final class IMMessage {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
+        result.toRoomId_ = toRoomId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
         result.countInRoom_ = countInRoom_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
           userList_ = java.util.Collections.unmodifiableList(userList_);
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.userList_ = userList_;
         result.bitField0_ = to_bitField0_;
@@ -11134,13 +11309,16 @@ public final class IMMessage {
         if (other.hasFromUserId()) {
           setFromUserId(other.getFromUserId());
         }
+        if (other.hasToRoomId()) {
+          setToRoomId(other.getToRoomId());
+        }
         if (other.hasCountInRoom()) {
           setCountInRoom(other.getCountInRoom());
         }
         if (!other.userList_.isEmpty()) {
           if (userList_.isEmpty()) {
             userList_ = other.userList_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000008);
           } else {
             ensureUserListIsMutable();
             userList_.addAll(other.userList_);
@@ -11154,6 +11332,10 @@ public final class IMMessage {
 
       public final boolean isInitialized() {
         if (!hasFromUserId()) {
+          
+          return false;
+        }
+        if (!hasToRoomId()) {
           
           return false;
         }
@@ -11194,7 +11376,7 @@ public final class IMMessage {
        * <code>required uint32 from_user_id = 1;</code>
        *
        * <pre>
-       *cmd id:		0x030f 加入房间请求 语音请求
+       *cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
        * </pre>
        */
       public boolean hasFromUserId() {
@@ -11204,7 +11386,7 @@ public final class IMMessage {
        * <code>required uint32 from_user_id = 1;</code>
        *
        * <pre>
-       *cmd id:		0x030f 加入房间请求 语音请求
+       *cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
        * </pre>
        */
       public int getFromUserId() {
@@ -11214,7 +11396,7 @@ public final class IMMessage {
        * <code>required uint32 from_user_id = 1;</code>
        *
        * <pre>
-       *cmd id:		0x030f 加入房间请求 语音请求
+       *cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
        * </pre>
        */
       public Builder setFromUserId(int value) {
@@ -11227,7 +11409,7 @@ public final class IMMessage {
        * <code>required uint32 from_user_id = 1;</code>
        *
        * <pre>
-       *cmd id:		0x030f 加入房间请求 语音请求
+       *cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
        * </pre>
        */
       public Builder clearFromUserId() {
@@ -11237,19 +11419,67 @@ public final class IMMessage {
         return this;
       }
 
+      private int toRoomId_ ;
+      /**
+       * <code>required uint32 to_room_id = 2;</code>
+       *
+       * <pre>
+       * 房间id，看时否与本人的房间号相符
+       * </pre>
+       */
+      public boolean hasToRoomId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required uint32 to_room_id = 2;</code>
+       *
+       * <pre>
+       * 房间id，看时否与本人的房间号相符
+       * </pre>
+       */
+      public int getToRoomId() {
+        return toRoomId_;
+      }
+      /**
+       * <code>required uint32 to_room_id = 2;</code>
+       *
+       * <pre>
+       * 房间id，看时否与本人的房间号相符
+       * </pre>
+       */
+      public Builder setToRoomId(int value) {
+        bitField0_ |= 0x00000002;
+        toRoomId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 to_room_id = 2;</code>
+       *
+       * <pre>
+       * 房间id，看时否与本人的房间号相符
+       * </pre>
+       */
+      public Builder clearToRoomId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        toRoomId_ = 0;
+        
+        return this;
+      }
+
       private int countInRoom_ ;
       /**
-       * <code>required uint32 count_in_room = 2;</code>
+       * <code>required uint32 count_in_room = 3;</code>
        *
        * <pre>
        * 当前房间的人数
        * </pre>
        */
       public boolean hasCountInRoom() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required uint32 count_in_room = 2;</code>
+       * <code>required uint32 count_in_room = 3;</code>
        *
        * <pre>
        * 当前房间的人数
@@ -11259,27 +11489,27 @@ public final class IMMessage {
         return countInRoom_;
       }
       /**
-       * <code>required uint32 count_in_room = 2;</code>
+       * <code>required uint32 count_in_room = 3;</code>
        *
        * <pre>
        * 当前房间的人数
        * </pre>
        */
       public Builder setCountInRoom(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         countInRoom_ = value;
         
         return this;
       }
       /**
-       * <code>required uint32 count_in_room = 2;</code>
+       * <code>required uint32 count_in_room = 3;</code>
        *
        * <pre>
        * 当前房间的人数
        * </pre>
        */
       public Builder clearCountInRoom() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         countInRoom_ = 0;
         
         return this;
@@ -11288,9 +11518,9 @@ public final class IMMessage {
       private java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> userList_ =
         java.util.Collections.emptyList();
       private void ensureUserListIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           userList_ = new java.util.ArrayList<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr>(userList_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
          }
       }
 
@@ -11298,7 +11528,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> getUserListList() {
@@ -11308,7 +11538,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public int getUserListCount() {
@@ -11318,7 +11548,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList(int index) {
@@ -11328,7 +11558,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public Builder setUserList(
@@ -11345,7 +11575,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public Builder setUserList(
@@ -11359,7 +11589,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public Builder addUserList(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr value) {
@@ -11375,7 +11605,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public Builder addUserList(
@@ -11392,7 +11622,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public Builder addUserList(
@@ -11406,7 +11636,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public Builder addUserList(
@@ -11420,7 +11650,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public Builder addAllUserList(
@@ -11435,12 +11665,12 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public Builder clearUserList() {
         userList_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
 
         return this;
       }
@@ -11448,7 +11678,7 @@ public final class IMMessage {
        * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       * // 要连的人的id,ip,port
+       *要连的人的id,ip,port
        * </pre>
        */
       public Builder removeUserList(int index) {
@@ -11467,6 +11697,773 @@ public final class IMMessage {
     }
 
     // @@protoc_insertion_point(class_scope:IM.Message.IMAudioRsp)
+  }
+
+  public interface IMAudioDataOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:IM.Message.IMAudioData)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     * 发送人的ID
+     * </pre>
+     */
+    boolean hasFromUserId();
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     * 发送人的ID
+     * </pre>
+     */
+    int getFromUserId();
+
+    /**
+     * <code>required .IM.BaseDefine.ClientType client_type = 2;</code>
+     *
+     * <pre>
+     * 客户端类型
+     * </pre>
+     */
+    boolean hasClientType();
+    /**
+     * <code>required .IM.BaseDefine.ClientType client_type = 2;</code>
+     *
+     * <pre>
+     * 客户端类型
+     * </pre>
+     */
+    com.mogujie.tt.protobuf.IMBaseDefine.ClientType getClientType();
+
+    /**
+     * <code>required uint32 seq_num = 3;</code>
+     *
+     * <pre>
+     * 音频打洞数据序号  0 为打洞测试数据
+     * </pre>
+     */
+    boolean hasSeqNum();
+    /**
+     * <code>required uint32 seq_num = 3;</code>
+     *
+     * <pre>
+     * 音频打洞数据序号  0 为打洞测试数据
+     * </pre>
+     */
+    int getSeqNum();
+
+    /**
+     * <code>required bytes msg_data = 4;</code>
+     *
+     * <pre>
+     * 音频数据？？	
+     * </pre>
+     */
+    boolean hasMsgData();
+    /**
+     * <code>required bytes msg_data = 4;</code>
+     *
+     * <pre>
+     * 音频数据？？	
+     * </pre>
+     */
+    com.google.protobuf.ByteString getMsgData();
+  }
+  /**
+   * Protobuf type {@code IM.Message.IMAudioData}
+   *
+   * <pre>
+   * 音频数据包
+   * </pre>
+   */
+  public static final class IMAudioData extends
+      com.google.protobuf.GeneratedMessageLite implements
+      // @@protoc_insertion_point(message_implements:IM.Message.IMAudioData)
+      IMAudioDataOrBuilder {
+    // Use IMAudioData.newBuilder() to construct.
+    private IMAudioData(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private IMAudioData(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+
+    private static final IMAudioData defaultInstance;
+    public static IMAudioData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public IMAudioData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.ByteString unknownFields;
+    private IMAudioData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.ByteString.Output unknownFieldsOutput =
+          com.google.protobuf.ByteString.newOutput();
+      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
+          com.google.protobuf.CodedOutputStream.newInstance(
+              unknownFieldsOutput);
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              fromUserId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.mogujie.tt.protobuf.IMBaseDefine.ClientType value = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.valueOf(rawValue);
+              if (value == null) {
+                unknownFieldsCodedOutput.writeRawVarint32(tag);
+                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                clientType_ = value;
+              }
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              seqNum_ = input.readUInt32();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              msgData_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        try {
+          unknownFieldsCodedOutput.flush();
+        } catch (java.io.IOException e) {
+        // Should not happen
+        } finally {
+          unknownFields = unknownFieldsOutput.toByteString();
+        }
+        makeExtensionsImmutable();
+      }
+    }
+    public static com.google.protobuf.Parser<IMAudioData> PARSER =
+        new com.google.protobuf.AbstractParser<IMAudioData>() {
+      public IMAudioData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new IMAudioData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<IMAudioData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int FROM_USER_ID_FIELD_NUMBER = 1;
+    private int fromUserId_;
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     * 发送人的ID
+     * </pre>
+     */
+    public boolean hasFromUserId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required uint32 from_user_id = 1;</code>
+     *
+     * <pre>
+     * 发送人的ID
+     * </pre>
+     */
+    public int getFromUserId() {
+      return fromUserId_;
+    }
+
+    public static final int CLIENT_TYPE_FIELD_NUMBER = 2;
+    private com.mogujie.tt.protobuf.IMBaseDefine.ClientType clientType_;
+    /**
+     * <code>required .IM.BaseDefine.ClientType client_type = 2;</code>
+     *
+     * <pre>
+     * 客户端类型
+     * </pre>
+     */
+    public boolean hasClientType() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .IM.BaseDefine.ClientType client_type = 2;</code>
+     *
+     * <pre>
+     * 客户端类型
+     * </pre>
+     */
+    public com.mogujie.tt.protobuf.IMBaseDefine.ClientType getClientType() {
+      return clientType_;
+    }
+
+    public static final int SEQ_NUM_FIELD_NUMBER = 3;
+    private int seqNum_;
+    /**
+     * <code>required uint32 seq_num = 3;</code>
+     *
+     * <pre>
+     * 音频打洞数据序号  0 为打洞测试数据
+     * </pre>
+     */
+    public boolean hasSeqNum() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required uint32 seq_num = 3;</code>
+     *
+     * <pre>
+     * 音频打洞数据序号  0 为打洞测试数据
+     * </pre>
+     */
+    public int getSeqNum() {
+      return seqNum_;
+    }
+
+    public static final int MSG_DATA_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString msgData_;
+    /**
+     * <code>required bytes msg_data = 4;</code>
+     *
+     * <pre>
+     * 音频数据？？	
+     * </pre>
+     */
+    public boolean hasMsgData() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required bytes msg_data = 4;</code>
+     *
+     * <pre>
+     * 音频数据？？	
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getMsgData() {
+      return msgData_;
+    }
+
+    private void initFields() {
+      fromUserId_ = 0;
+      clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
+      seqNum_ = 0;
+      msgData_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasFromUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasClientType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSeqNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMsgData()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, fromUserId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeEnum(2, clientType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeUInt32(3, seqNum_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, msgData_);
+      }
+      output.writeRawBytes(unknownFields);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, fromUserId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, clientType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, seqNum_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, msgData_);
+      }
+      size += unknownFields.size();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.mogujie.tt.protobuf.IMMessage.IMAudioData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.mogujie.tt.protobuf.IMMessage.IMAudioData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    /**
+     * Protobuf type {@code IM.Message.IMAudioData}
+     *
+     * <pre>
+     * 音频数据包
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          com.mogujie.tt.protobuf.IMMessage.IMAudioData, Builder>
+        implements
+        // @@protoc_insertion_point(builder_implements:IM.Message.IMAudioData)
+        com.mogujie.tt.protobuf.IMMessage.IMAudioDataOrBuilder {
+      // Construct using com.mogujie.tt.protobuf.IMMessage.IMAudioData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        fromUserId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        seqNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        msgData_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.mogujie.tt.protobuf.IMMessage.IMAudioData getDefaultInstanceForType() {
+        return com.mogujie.tt.protobuf.IMMessage.IMAudioData.getDefaultInstance();
+      }
+
+      public com.mogujie.tt.protobuf.IMMessage.IMAudioData build() {
+        com.mogujie.tt.protobuf.IMMessage.IMAudioData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.mogujie.tt.protobuf.IMMessage.IMAudioData buildPartial() {
+        com.mogujie.tt.protobuf.IMMessage.IMAudioData result = new com.mogujie.tt.protobuf.IMMessage.IMAudioData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.fromUserId_ = fromUserId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.clientType_ = clientType_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.seqNum_ = seqNum_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.msgData_ = msgData_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+
+      public Builder mergeFrom(com.mogujie.tt.protobuf.IMMessage.IMAudioData other) {
+        if (other == com.mogujie.tt.protobuf.IMMessage.IMAudioData.getDefaultInstance()) return this;
+        if (other.hasFromUserId()) {
+          setFromUserId(other.getFromUserId());
+        }
+        if (other.hasClientType()) {
+          setClientType(other.getClientType());
+        }
+        if (other.hasSeqNum()) {
+          setSeqNum(other.getSeqNum());
+        }
+        if (other.hasMsgData()) {
+          setMsgData(other.getMsgData());
+        }
+        setUnknownFields(
+            getUnknownFields().concat(other.unknownFields));
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasFromUserId()) {
+          
+          return false;
+        }
+        if (!hasClientType()) {
+          
+          return false;
+        }
+        if (!hasSeqNum()) {
+          
+          return false;
+        }
+        if (!hasMsgData()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.mogujie.tt.protobuf.IMMessage.IMAudioData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.mogujie.tt.protobuf.IMMessage.IMAudioData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int fromUserId_ ;
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       * 发送人的ID
+       * </pre>
+       */
+      public boolean hasFromUserId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       * 发送人的ID
+       * </pre>
+       */
+      public int getFromUserId() {
+        return fromUserId_;
+      }
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       * 发送人的ID
+       * </pre>
+       */
+      public Builder setFromUserId(int value) {
+        bitField0_ |= 0x00000001;
+        fromUserId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 from_user_id = 1;</code>
+       *
+       * <pre>
+       * 发送人的ID
+       * </pre>
+       */
+      public Builder clearFromUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fromUserId_ = 0;
+        
+        return this;
+      }
+
+      private com.mogujie.tt.protobuf.IMBaseDefine.ClientType clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
+      /**
+       * <code>required .IM.BaseDefine.ClientType client_type = 2;</code>
+       *
+       * <pre>
+       * 客户端类型
+       * </pre>
+       */
+      public boolean hasClientType() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .IM.BaseDefine.ClientType client_type = 2;</code>
+       *
+       * <pre>
+       * 客户端类型
+       * </pre>
+       */
+      public com.mogujie.tt.protobuf.IMBaseDefine.ClientType getClientType() {
+        return clientType_;
+      }
+      /**
+       * <code>required .IM.BaseDefine.ClientType client_type = 2;</code>
+       *
+       * <pre>
+       * 客户端类型
+       * </pre>
+       */
+      public Builder setClientType(com.mogujie.tt.protobuf.IMBaseDefine.ClientType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        clientType_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required .IM.BaseDefine.ClientType client_type = 2;</code>
+       *
+       * <pre>
+       * 客户端类型
+       * </pre>
+       */
+      public Builder clearClientType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
+        
+        return this;
+      }
+
+      private int seqNum_ ;
+      /**
+       * <code>required uint32 seq_num = 3;</code>
+       *
+       * <pre>
+       * 音频打洞数据序号  0 为打洞测试数据
+       * </pre>
+       */
+      public boolean hasSeqNum() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required uint32 seq_num = 3;</code>
+       *
+       * <pre>
+       * 音频打洞数据序号  0 为打洞测试数据
+       * </pre>
+       */
+      public int getSeqNum() {
+        return seqNum_;
+      }
+      /**
+       * <code>required uint32 seq_num = 3;</code>
+       *
+       * <pre>
+       * 音频打洞数据序号  0 为打洞测试数据
+       * </pre>
+       */
+      public Builder setSeqNum(int value) {
+        bitField0_ |= 0x00000004;
+        seqNum_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 seq_num = 3;</code>
+       *
+       * <pre>
+       * 音频打洞数据序号  0 为打洞测试数据
+       * </pre>
+       */
+      public Builder clearSeqNum() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        seqNum_ = 0;
+        
+        return this;
+      }
+
+      private com.google.protobuf.ByteString msgData_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes msg_data = 4;</code>
+       *
+       * <pre>
+       * 音频数据？？	
+       * </pre>
+       */
+      public boolean hasMsgData() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required bytes msg_data = 4;</code>
+       *
+       * <pre>
+       * 音频数据？？	
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getMsgData() {
+        return msgData_;
+      }
+      /**
+       * <code>required bytes msg_data = 4;</code>
+       *
+       * <pre>
+       * 音频数据？？	
+       * </pre>
+       */
+      public Builder setMsgData(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        msgData_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required bytes msg_data = 4;</code>
+       *
+       * <pre>
+       * 音频数据？？	
+       * </pre>
+       */
+      public Builder clearMsgData() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        msgData_ = getDefaultInstance().getMsgData();
+        
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:IM.Message.IMAudioData)
+    }
+
+    static {
+      defaultInstance = new IMAudioData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:IM.Message.IMAudioData)
   }
 
 
