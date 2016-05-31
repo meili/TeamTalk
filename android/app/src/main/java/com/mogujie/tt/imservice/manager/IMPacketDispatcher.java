@@ -116,7 +116,7 @@ public class IMPacketDispatcher {
                     break;
 
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_REQUEST_VALUE:
-                    // 收到实时语音请求的
+                    // 收到实时语音请求的(好友发来的语音请求)
                     // 进入到确认接受通话页面
 //                    IMUIHelper.openConfirmAudioActivity(getActivity(),currentUser.getSessionKey());
 //                    getActivity().finish();
@@ -127,9 +127,14 @@ public class IMPacketDispatcher {
                     // udp_server 返回的UDP
                     IMMessage.IMAudioRsp audioRsp = IMMessage.IMAudioRsp.parseFrom(buffer);
 
+                    // 发送打洞数据 (几秒重发一次直到成功)
+                    IMNatServerManager.instance().SendAudioData(audioRsp);
+
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE:
                     IMMessage.IMAudioData audioData = IMMessage.IMAudioData.parseFrom(buffer);
+                    // 音频数据
+                    IMMessageManager.instance().onRecvAudioData(audioData);
 
                     break;
 

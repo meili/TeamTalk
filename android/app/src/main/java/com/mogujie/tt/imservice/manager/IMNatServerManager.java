@@ -82,6 +82,12 @@ public class IMNatServerManager extends IMManager {
         // 发送指令给udp_server
         sendUDPMessage(textMessage);
     }
+
+    //
+    public void SendAudioData(IMMessage.IMAudioRsp audioRsp){
+        // 发送指令给udp_server
+//        sendUDPData(textMessage);
+    }
 //    /**
 //     * 发送消息给 msg_server
 //     * 2. push到adapter中
@@ -199,8 +205,8 @@ public class IMNatServerManager extends IMManager {
         IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
         byte[] sendContent = msgEntity.getSendContent();
 
-        //
-        IMMessage.IMAudioReq audioData = IMMessage.IMAudioReq.newBuilder()
+        // 发送给UDP SERVER的
+        IMMessage.IMAudioReq audioReq = IMMessage.IMAudioReq.newBuilder()
                 .setFromUserId(msgEntity.getFromId())
                 .setToRoomId(msgEntity.getFromId()) // 房间号暂定为请求人的id
                 .setMsgId(0)        // 0 加入 1 退出
@@ -218,7 +224,7 @@ public class IMNatServerManager extends IMManager {
 
         final MessageEntity messageEntity  = msgEntity;
         // 发送到服务器 // 需要回复的 new Packetlistener （服务端回复）
-        imSocketUDPManager.sendUDPRequest(audioData,sid,cid,new Packetlistener(6000) {
+        imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,new Packetlistener(6000) {
             @Override
             public void onSuccess(Object response) {
                 try {
