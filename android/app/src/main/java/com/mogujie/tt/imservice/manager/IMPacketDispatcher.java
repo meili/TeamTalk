@@ -85,40 +85,57 @@ public class IMPacketDispatcher {
         }
     }
 
-    public static void msgPacketDispatcher(int commandId,CodedInputStream buffer){
+    public static void msgPacketDispatcher(int commandId, CodedInputStream buffer) {
         try {
-        switch (commandId) {
-            case  IMBaseDefine.MessageCmdID.CID_MSG_DATA_ACK_VALUE:
-                // have some problem  todo
-            return;
+            switch (commandId) {
+                case IMBaseDefine.MessageCmdID.CID_MSG_DATA_ACK_VALUE:
+                    // have some problem  todo
+                    return;
+                case IMBaseDefine.MessageCmdID.CID_MSG_LIST_RESPONSE_VALUE:
+                    IMMessage.IMGetMsgListRsp rsp = IMMessage.IMGetMsgListRsp.parseFrom(buffer);
+                    IMMessageManager.instance().onReqHistoryMsg(rsp);
+                    return;
 
-            case IMBaseDefine.MessageCmdID.CID_MSG_LIST_RESPONSE_VALUE:
-                IMMessage.IMGetMsgListRsp rsp = IMMessage.IMGetMsgListRsp.parseFrom(buffer);
-                IMMessageManager.instance().onReqHistoryMsg(rsp);
-            return;
+                case IMBaseDefine.MessageCmdID.CID_MSG_DATA_VALUE:
+                    IMMessage.IMMsgData imMsgData = IMMessage.IMMsgData.parseFrom(buffer);
+                    IMMessageManager.instance().onRecvMessage(imMsgData);
+                    return;
 
-            case IMBaseDefine.MessageCmdID.CID_MSG_DATA_VALUE:
-                IMMessage.IMMsgData imMsgData = IMMessage.IMMsgData.parseFrom(buffer);
-                IMMessageManager.instance().onRecvMessage(imMsgData);
-                return;
+                case IMBaseDefine.MessageCmdID.CID_MSG_READ_NOTIFY_VALUE:
+                    IMMessage.IMMsgDataReadNotify readNotify = IMMessage.IMMsgDataReadNotify.parseFrom(buffer);
+                    IMUnreadMsgManager.instance().onNotifyRead(readNotify);
+                    return;
+                case IMBaseDefine.MessageCmdID.CID_MSG_UNREAD_CNT_RESPONSE_VALUE:
+                    IMMessage.IMUnreadMsgCntRsp unreadMsgCntRsp = IMMessage.IMUnreadMsgCntRsp.parseFrom(buffer);
+                    IMUnreadMsgManager.instance().onRepUnreadMsgContactList(unreadMsgCntRsp);
+                    return;
 
-            case IMBaseDefine.MessageCmdID.CID_MSG_READ_NOTIFY_VALUE:
-                IMMessage.IMMsgDataReadNotify readNotify = IMMessage.IMMsgDataReadNotify.parseFrom(buffer);
-                IMUnreadMsgManager.instance().onNotifyRead(readNotify);
-                return;
-            case IMBaseDefine.MessageCmdID.CID_MSG_UNREAD_CNT_RESPONSE_VALUE:
-                IMMessage.IMUnreadMsgCntRsp unreadMsgCntRsp = IMMessage.IMUnreadMsgCntRsp.parseFrom(buffer);
-                IMUnreadMsgManager.instance().onRepUnreadMsgContactList(unreadMsgCntRsp);
-                return;
+                case IMBaseDefine.MessageCmdID.CID_MSG_GET_BY_MSG_ID_RES_VALUE:
+                    IMMessage.IMGetMsgByIdRsp getMsgByIdRsp = IMMessage.IMGetMsgByIdRsp.parseFrom(buffer);
+                    IMMessageManager.instance().onReqMsgById(getMsgByIdRsp);
+                    break;
 
-            case IMBaseDefine.MessageCmdID.CID_MSG_GET_BY_MSG_ID_RES_VALUE:
-                IMMessage.IMGetMsgByIdRsp getMsgByIdRsp = IMMessage.IMGetMsgByIdRsp.parseFrom(buffer);
-                IMMessageManager.instance().onReqMsgById(getMsgByIdRsp);
-                break;
+                case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_REQUEST_VALUE:
+                    // 收到实时语音请求的
+                    // 进入到确认接受通话页面
+//                    IMUIHelper.openConfirmAudioActivity(getActivity(),currentUser.getSessionKey());
+//                    getActivity().finish();
+                    IMMessage.IMMsgData imMsgAData = IMMessage.IMMsgData.parseFrom(buffer);
+                    IMMessageManager.instance().onRecvAMessage(imMsgAData);
+                    break;
+                case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_RESPONSE_VALUE:
+                    // udp_server 返回的UDP
+                    IMMessage.IMAudioRsp audioRsp = IMMessage.IMAudioRsp.parseFrom(buffer);
 
-        }
+                    break;
+                case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE:
+                    IMMessage.IMAudioData audioData = IMMessage.IMAudioData.parseFrom(buffer);
+
+                    break;
+
+            }
         } catch (IOException e) {
-            logger.e("msgPacketDispatcher# error,cid:%d",commandId);
+            logger.e("msgPacketDispatcher# error,cid:%d", commandId);
         }
     }
 

@@ -77,7 +77,7 @@ public class IMNatServerManager extends IMManager {
         textMessage.setStatus(MessageConstant.MSG_SENDING);
 //        long pkId =  DBInterface.instance().insertOrUpdateMessage(textMessage);
 //        sessionManager.updateSession(textMessage);
-        sendMessage(textMessage);
+        sendMessage(textMessage); // 发给msg_server 的
 
         // 发送指令给udp_server
         sendUDPMessage(textMessage);
@@ -120,7 +120,7 @@ public class IMNatServerManager extends IMManager {
         EventBus.getDefault().post(event);
     }
 
-
+    // 发送给msg_server的
     public void sendMessage(MessageEntity msgEntity) {
         logger.d("chat_audio#sendMessage, msg:%s", msgEntity);
         // 发送情况下 msg_id 都是0
@@ -132,7 +132,7 @@ public class IMNatServerManager extends IMManager {
         IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
         byte[] sendContent = msgEntity.getSendContent();
 
-
+        // 消息数据
         IMMessage.IMMsgData msgData = IMMessage.IMMsgData.newBuilder()
                 .setFromUserId(msgEntity.getFromId())
                 .setToSessionId(msgEntity.getToId())
@@ -142,8 +142,7 @@ public class IMNatServerManager extends IMManager {
                 .setMsgData(ByteString.copyFrom(sendContent))  // 这个点要特别注意 todo ByteString.copyFrom
                 .build();
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
-        int cid = IMBaseDefine.MessageCmdID.CID_MSG_DATA_VALUE;
-
+        int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_REQUEST_VALUE;//CID_MSG_DATA_VALUE;
 
         final MessageEntity messageEntity  = msgEntity;
         // 发送到服务器 // 需要回复的 new Packetlistener
@@ -200,7 +199,8 @@ public class IMNatServerManager extends IMManager {
         IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
         byte[] sendContent = msgEntity.getSendContent();
 
-        IMMessage.IMAudioReq msgData = IMMessage.IMAudioReq.newBuilder()
+        //
+        IMMessage.IMAudioReq audioData = IMMessage.IMAudioReq.newBuilder()
                 .setFromUserId(msgEntity.getFromId())
                 .setToRoomId(msgEntity.getFromId()) // 房间号暂定为请求人的id
                 .setMsgId(0)        // 0 加入 1 退出
@@ -213,11 +213,12 @@ public class IMNatServerManager extends IMManager {
 //                .setFromUserId(msgEntity.getFromId())
 //                .build();
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
+        // 登入UDP服务器，带上要连的房间号，两个客户端同一房间号相通	(语音请求,msg加一个消息类型)
         int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_REQUEST_VALUE;
 
         final MessageEntity messageEntity  = msgEntity;
-        // 发送到服务器 // 需要回复的 new Packetlistener
-        imSocketUDPManager.sendUDPRequest(msgData,sid,cid,new Packetlistener(6000) {
+        // 发送到服务器 // 需要回复的 new Packetlistener （服务端回复）
+        imSocketUDPManager.sendUDPRequest(audioData,sid,cid,new Packetlistener(6000) {
             @Override
             public void onSuccess(Object response) {
                 try {

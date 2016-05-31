@@ -107,7 +107,6 @@ public class IMMessageManager extends IMManager{
         EventBus.getDefault().post(event);
     }
 
-
     /**图片的处理放在这里，因为在发送图片的过程中，很可能messageActivity已经关闭掉*/
     public void onEvent(MessageEvent event){
         MessageEvent.Event  type = event.getEvent();
@@ -162,7 +161,6 @@ public class IMMessageManager extends IMManager{
         IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
         byte[] sendContent = msgEntity.getSendContent();
 
-
         IMMessage.IMMsgData msgData = IMMessage.IMMsgData.newBuilder()
                 .setFromUserId(msgEntity.getFromId())
                 .setToSessionId(msgEntity.getToId())
@@ -173,7 +171,6 @@ public class IMMessageManager extends IMManager{
                 .build();
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
         int cid = IMBaseDefine.MessageCmdID.CID_MSG_DATA_VALUE;
-
 
         final MessageEntity messageEntity  = msgEntity;
         // 发送到服务器 // 需要回复的 new Packetlistener
@@ -211,6 +208,20 @@ public class IMMessageManager extends IMManager{
                 triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_TIME_OUT,messageEntity));
             }
         });
+    }
+
+    /**
+     * 收到语音请求
+     * @param imMsgAData
+     */
+    public void onRecvAMessage(IMMessage.IMMsgData imMsgAData){
+
+        MessageEntity recvMessage = ProtoBuf2JavaBean.getMessageEntity(imMsgAData);
+
+        PriorityEvent  notifyEvent = new PriorityEvent();
+        notifyEvent.event = PriorityEvent.Event.Audio_RECEIVED_MESSAGE;
+        notifyEvent.object = recvMessage;
+        triggerEvent(notifyEvent);// 接收到消息
     }
 
     /**
@@ -363,8 +374,6 @@ public class IMMessageManager extends IMManager{
                 throw new IllegalArgumentException("#resendMessage#enum type is wrong!!,cause by displayType"+msgType);
         }
 	}
-
-
 
     // 拉取历史消息 {from MessageActivity}
     public List<MessageEntity> loadHistoryMsg(int pullTimes,String sessionKey,PeerEntity peerEntity){

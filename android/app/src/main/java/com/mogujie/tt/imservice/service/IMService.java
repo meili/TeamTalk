@@ -26,6 +26,7 @@ import com.mogujie.tt.imservice.manager.IMSessionManager;
 import com.mogujie.tt.imservice.manager.IMSocketManager;
 import com.mogujie.tt.imservice.manager.IMSocketUDPManager;
 import com.mogujie.tt.imservice.manager.IMUnreadMsgManager;
+import com.mogujie.tt.utils.IMUIHelper;
 import com.mogujie.tt.utils.ImageLoaderUtil;
 import com.mogujie.tt.utils.Logger;
 
@@ -110,7 +111,9 @@ public class IMService extends Service {
 		super.onDestroy();
 	}
 
-    /**收到消息需要上层的activity判断 {MessageActicity onEvent(PriorityEvent event)}，这个地方是特殊分支*/
+    /**
+     * 收到消息需要上层的activity判断 {MessageActicity onEvent(PriorityEvent event)}，这个地方是特殊分支
+     */
     public void onEvent(PriorityEvent event) {
         switch (event.event) {
             case MSG_RECEIVED_MESSAGE: {
@@ -119,6 +122,11 @@ public class IMService extends Service {
                 logger.d("messageactivity#not this session msg -> id:%s", entity.getFromId());
                 messageMgr.ackReceiveMsg(entity); // 接收消息，并向服务器发送确认
                 unReadMsgMgr.add(entity);
+            }
+            break;
+            case Audio_RECEIVED_MESSAGE: {
+                Context ctx = getApplicationContext();
+                IMUIHelper.openConfirmAudioActivity(ctx, "");
             }
             break;
         }

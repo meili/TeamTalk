@@ -3,6 +3,7 @@ package com.mogujie.tt.imservice.manager;
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.GeneratedMessageLite;
 import com.mogujie.tt.config.SysConstant;
+import com.mogujie.tt.imservice.callback.ListenerQueue;
 import com.mogujie.tt.imservice.callback.Packetlistener;
 import com.mogujie.tt.imservice.event.SocketEvent;
 import com.mogujie.tt.imservice.network.SocketUDPThread;
@@ -38,7 +39,7 @@ public class IMSocketUDPManager extends IMManager {
         logger.d("login#creating IMSocketManager");
     }
 
-//    private ListenerQueue listenerQueue = ListenerQueue.instance();
+    private ListenerQueue listenerQueue = ListenerQueue.instance();
 
     // 请求消息服务器地址
     //private AsyncHttpClient client = new AsyncHttpClient();
@@ -59,7 +60,7 @@ public class IMSocketUDPManager extends IMManager {
     @Override
     public void doOnStart() {
         socketStatus = SocketEvent.NONE;
-//        listenerQueue.onStart();
+        listenerQueue.onStart();
     }
 
 
@@ -87,7 +88,11 @@ public class IMSocketUDPManager extends IMManager {
     }
 
     /**
-     * todo check exception
+     *
+     * @param requset
+     * @param sid
+     * @param cid
+     * @param packetlistener 不需要回复的这个传参 null
      */
     public void sendUDPRequest(GeneratedMessageLite requset, int sid, int cid, Packetlistener packetlistener) {
         int seqNo = 0;
@@ -96,8 +101,8 @@ public class IMSocketUDPManager extends IMManager {
             com.mogujie.tt.protobuf.base.Header header = new DefaultHeader(sid, cid);
             int bodySize = requset.getSerializedSize();
             header.setLength(SysConstant.PROTOCOL_HEADER_LENGTH + bodySize);
-//            seqNo = header.getSeqnum();
-//            listenerQueue.push(seqNo, packetlistener);
+            seqNo = header.getSeqnum();
+            listenerQueue.push(seqNo, packetlistener);
             if(msgUDPServerThread!=null){
                 logger.e("#sendRequest#channel is close!msgUDPServerThread send");
 
@@ -109,7 +114,7 @@ public class IMSocketUDPManager extends IMManager {
             if (packetlistener != null) {
                 packetlistener.onFaild();
             }
-//            listenerQueue.pop(seqNo);
+            listenerQueue.pop(seqNo);
             logger.e("#sendRequest#channel is close!" + e.toString());
         }
     }
@@ -131,12 +136,12 @@ public class IMSocketUDPManager extends IMManager {
                 commandId);
         CodedInputStream codedInputStream = CodedInputStream.newInstance(new ChannelBufferInputStream(buffer.getOrignalBuffer()));
 
-        // UDP 打洞成功的包确认
-//        Packetlistener listener = listenerQueue.pop(seqNo);
-//        if (listener != null) { // 需要回复的消息收到返回调用onSuccess
-//            listener.onSuccess(codedInputStream);
-//            return;
-//        }
+        // UDP 打洞成功的包确认 如果是回复的消息，调用到onsuccess
+        Packetlistener listener = listenerQueue.pop(seqNo);
+        if (listener != null) { // 需要回复的消息收到返回调用onSuccess
+            listener.onSuccess(codedInputStream);
+            return;
+        }
 
         // todo eric make it a table
         // 抽象 父类执行

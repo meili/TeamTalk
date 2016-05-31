@@ -76,7 +76,8 @@ enum MessageCmdID{
     CID_MSG_GET_BY_MSG_ID_REQ       = 0x030d;
     CID_MSG_GET_BY_MSG_ID_RES       = 0x030e;
     CID_MSG_AUDIO_UDP_REQUEST           = 0x030f;	// 登入UDP服务器，带上要连的房间号，两个客户端同一房间号相通	(语音请求,msg加一个消息类型)
-    CID_MSG_AUDIO_UDP_RESPONSE         = 0x0310;	// 
+    CID_MSG_AUDIO_UDP_RESPONSE		= 0x0310;	// UDP回复
+    CID_MSG_AUDIO_UDP_DATA		= 0x0311;	// 音频数据
 }
 
 // command id for group message
@@ -174,7 +175,7 @@ enum SessionType{
 enum MsgType{
 	MSG_TYPE_SINGLE_TEXT    = 0x01;		// 文本
 	MSG_TYPE_SINGLE_AUDIO   = 0x02;		// 语音
-	MSG_TYPE_SINGLE_AUDIO_MEET   = 0x03;	// 语单聊天
+	MSG_TYPE_SINGLE_AUDIO_MEET   = 0x03;	// 语音聊天
 	MSG_TYPE_GROUP_TEXT     = 0x11;
 	MSG_TYPE_GROUP_AUDIO    = 0x12;
 }
