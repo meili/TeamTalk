@@ -784,10 +784,18 @@ public final class IMBaseDefine {
      * <code>CID_MSG_AUDIO_UDP_RESPONSE = 784;</code>
      *
      * <pre>
-     * 
+     * UDP回复
      * </pre>
      */
     CID_MSG_AUDIO_UDP_RESPONSE(15, 784),
+    /**
+     * <code>CID_MSG_AUDIO_UDP_DATA = 785;</code>
+     *
+     * <pre>
+     * 音频数据
+     * </pre>
+     */
+    CID_MSG_AUDIO_UDP_DATA(16, 785),
     ;
 
     /**
@@ -889,10 +897,18 @@ public final class IMBaseDefine {
      * <code>CID_MSG_AUDIO_UDP_RESPONSE = 784;</code>
      *
      * <pre>
-     * 
+     * UDP回复
      * </pre>
      */
     public static final int CID_MSG_AUDIO_UDP_RESPONSE_VALUE = 784;
+    /**
+     * <code>CID_MSG_AUDIO_UDP_DATA = 785;</code>
+     *
+     * <pre>
+     * 音频数据
+     * </pre>
+     */
+    public static final int CID_MSG_AUDIO_UDP_DATA_VALUE = 785;
 
 
     public final int getNumber() { return value; }
@@ -915,6 +931,7 @@ public final class IMBaseDefine {
         case 782: return CID_MSG_GET_BY_MSG_ID_RES;
         case 783: return CID_MSG_AUDIO_UDP_REQUEST;
         case 784: return CID_MSG_AUDIO_UDP_RESPONSE;
+        case 785: return CID_MSG_AUDIO_UDP_DATA;
         default: return null;
       }
     }
@@ -1918,7 +1935,7 @@ public final class IMBaseDefine {
      * <code>MSG_TYPE_SINGLE_AUDIO_MEET = 3;</code>
      *
      * <pre>
-     * 语单聊天
+     * 语音聊天
      * </pre>
      */
     MSG_TYPE_SINGLE_AUDIO_MEET(2, 3),
@@ -1952,7 +1969,7 @@ public final class IMBaseDefine {
      * <code>MSG_TYPE_SINGLE_AUDIO_MEET = 3;</code>
      *
      * <pre>
-     * 语单聊天
+     * 语音聊天
      * </pre>
      */
     public static final int MSG_TYPE_SINGLE_AUDIO_MEET_VALUE = 3;
