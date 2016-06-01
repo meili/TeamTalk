@@ -146,6 +146,5 @@ message IMAudioData{
 	required uint32 from_user_id = 1;		// 发送人的ID
 	required IM.BaseDefine.ClientType client_type = 2; // 客户端类型
 	required uint32 seq_num = 3;			// 音频打洞数据序号  0 为打洞测试数据
-	required IM.BaseDefine.UserIpAddr user_list = 4;// 发送的IP,port(好回复???)
 	required bytes msg_data = 4;			// 音频数据？？	
 }
