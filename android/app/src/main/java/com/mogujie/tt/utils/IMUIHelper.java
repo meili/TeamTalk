@@ -102,7 +102,7 @@ public class IMUIHelper {
      */
 	public static void openConfirmAudioActivity(Context ctx, String sessionKey) {
 		Intent intent = new Intent(ctx, ConfirmAudioActivity.class);
-//		intent.putExtra(IntentConstant.KEY_SESSION_KEY, sessionKey);
+		intent.putExtra(IntentConstant.KEY_SESSION_KEY, sessionKey);
 		ctx.startActivity(intent);
 	}
 

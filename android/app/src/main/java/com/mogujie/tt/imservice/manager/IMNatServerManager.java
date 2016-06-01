@@ -272,7 +272,7 @@ public class IMNatServerManager extends IMManager {
         // 发送情况下 msg_id 都是0
         // 服务端是从1开始计数的
         if(!SequenceNumberMaker.getInstance().isFailure(msgEntity.getMsgId())){
-            throw new RuntimeException("#sendMessage# msgId is wrong,cause by 0!");
+            throw new RuntimeException("#sendUDPMessage# msgId is wrong,cause by 0!");
         }
 
         IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());

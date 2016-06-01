@@ -126,7 +126,7 @@ public class IMService extends Service {
             break;
             case Audio_RECEIVED_MESSAGE: {
                 Context ctx = getApplicationContext();
-                IMUIHelper.openConfirmAudioActivity(ctx, "");
+                IMUIHelper.openConfirmAudioActivity(ctx, );
             }
             break;
         }

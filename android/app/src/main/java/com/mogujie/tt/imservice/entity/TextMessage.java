@@ -86,8 +86,8 @@ public class TextMessage extends MessageEntity implements Serializable {
         switch (ntype){
             case 1:
                 // 群消息，还是单个消息
-                msgType = peerType == DBConstant.SESSION_TYPE_GROUP ? DBConstant.MSG_TYPE_GROUP_AUDIO_MEET
-                        : DBConstant.MSG_TYPE_SINGLE_AUDIO_MEET;
+                msgType = (peerType == DBConstant.SESSION_TYPE_GROUP ? DBConstant.MSG_TYPE_GROUP_AUDIO_MEET
+                        : DBConstant.MSG_TYPE_SINGLE_AUDIO_MEET);
                 break;
         }
 
