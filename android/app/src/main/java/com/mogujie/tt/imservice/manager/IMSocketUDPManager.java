@@ -15,6 +15,9 @@ import com.mogujie.tt.utils.Logger;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBufferInputStream;
+import org.jboss.netty.channel.MessageEvent;
+
+import java.net.SocketAddress;
 
 import de.greenrobot.event.EventBus;
 
@@ -83,9 +86,10 @@ public class IMSocketUDPManager extends IMManager {
      * -------------------------------功能方法--------------------------------------
      */
 
-    public void sendUDPRequest(GeneratedMessageLite requset, int sid, int cid) {
-        sendUDPRequest(requset, sid, cid, null);
-    }
+//    public void sendUDPRequest(GeneratedMessageLite requset, int sid, int cid) {
+//        SocketAddress serverAddress = new InetSocketAddress("123.57.71.215", 8132);
+//        sendUDPRequest(requset, sid, cid, null,serverAddress);
+//    }
 
     /**
      *
@@ -94,7 +98,7 @@ public class IMSocketUDPManager extends IMManager {
      * @param cid
      * @param packetlistener 不需要回复的这个传参 null
      */
-    public void sendUDPRequest(GeneratedMessageLite requset, int sid, int cid, Packetlistener packetlistener) {
+    public void sendUDPRequest(GeneratedMessageLite requset, int sid, int cid, Packetlistener packetlistener,SocketAddress serverAddress) {
         int seqNo = 0;
         try {
             //组装包头 header
@@ -106,7 +110,7 @@ public class IMSocketUDPManager extends IMManager {
             if(msgUDPServerThread!=null){
                 logger.e("#sendRequest#channel is close!msgUDPServerThread send");
 
-                boolean sendRes = msgUDPServerThread.send_UDP_request(requset, header, "123.57.71.215", 8132);
+                boolean sendRes = msgUDPServerThread.send_UDP_request(requset, header, serverAddress);
             } else {
                 logger.e("#sendUDPRequest#msgUDPServerThread is null!");
             }
@@ -119,12 +123,44 @@ public class IMSocketUDPManager extends IMManager {
         }
     }
 
+//    /**
+//     *
+//     * @param requset
+//     * @param sid
+//     * @param cid
+//     * @param packetlistener 不需要回复的这个传参 null
+//     */
+//    public void sendUDPRequest(GeneratedMessageLite requset, int sid, int cid, Packetlistener packetlistener) {
+//        int seqNo = 0;
+//        try {
+//            //组装包头 header
+//            com.mogujie.tt.protobuf.base.Header header = new DefaultHeader(sid, cid);
+//            int bodySize = requset.getSerializedSize();
+//            header.setLength(SysConstant.PROTOCOL_HEADER_LENGTH + bodySize);
+//            seqNo = header.getSeqnum();
+//            listenerQueue.push(seqNo, packetlistener);
+//            if(msgUDPServerThread!=null){
+//                logger.e("#sendRequest#channel is close!msgUDPServerThread send");
+//
+//                boolean sendRes = msgUDPServerThread.send_UDP_request(requset, header, "123.57.71.215", 8132);
+//            } else {
+//                logger.e("#sendUDPRequest#msgUDPServerThread is null!");
+//            }
+//        } catch (Exception e) {
+//            if (packetlistener != null) {
+//                packetlistener.onFaild();
+//            }
+//            listenerQueue.pop(seqNo);
+//            logger.e("#sendRequest#channel is close!" + e.toString());
+//        }
+//    }
+
     /**
      * 接收到数据
      *
      * @param channelBuffer
      */
-    public void packetUDPDispatch(ChannelBuffer channelBuffer) {
+    public void packetUDPDispatch(ChannelBuffer channelBuffer,MessageEvent e) {
         DataBuffer buffer = new DataBuffer(channelBuffer);
         com.mogujie.tt.protobuf.base.Header header = new com.mogujie.tt.protobuf.base.Header();
         header.decode(buffer);
@@ -153,7 +189,7 @@ public class IMSocketUDPManager extends IMManager {
                 IMPacketDispatcher.buddyPacketDispatcher(commandId, codedInputStream);
                 break;
             case IMBaseDefine.ServiceID.SID_MSG_VALUE:  // 发送消息
-                IMPacketDispatcher.msgPacketDispatcher(commandId, codedInputStream);
+                IMPacketDispatcher.msgPacketDispatcher(commandId, codedInputStream,e);
                 break;
             case IMBaseDefine.ServiceID.SID_GROUP_VALUE:
                 IMPacketDispatcher.groupPacketDispatcher(commandId, codedInputStream);

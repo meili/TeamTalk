@@ -1,6 +1,9 @@
 package com.mogujie.tt.imservice.manager;
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedInputStream;
+import com.mogujie.tt.DB.entity.UserEntity;
+import com.mogujie.tt.app.IMApplication;
 import com.mogujie.tt.protobuf.IMBaseDefine;
 import com.mogujie.tt.protobuf.IMBuddy;
 import com.mogujie.tt.protobuf.IMGroup;
@@ -8,7 +11,11 @@ import com.mogujie.tt.protobuf.IMLogin;
 import com.mogujie.tt.protobuf.IMMessage;
 import com.mogujie.tt.utils.Logger;
 
+import org.jboss.netty.channel.MessageEvent;
+
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 
 /**
  * yingmu
@@ -84,8 +91,7 @@ public class IMPacketDispatcher {
             logger.e("buddyPacketDispatcher# error,cid:%d",commandId);
         }
     }
-
-    public static void msgPacketDispatcher(int commandId, CodedInputStream buffer) {
+    public static void msgPacketDispatcher(int commandId, CodedInputStream buffer,MessageEvent msgE) {
         try {
             switch (commandId) {
                 case IMBaseDefine.MessageCmdID.CID_MSG_DATA_ACK_VALUE:
@@ -124,24 +130,72 @@ public class IMPacketDispatcher {
                     IMMessageManager.instance().onRecvAMessage(imMsgAData);
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_RESPONSE_VALUE:
-                    // udp_server 返回的UDP
+                    // udp_server 返回的UDP请求包
                     IMMessage.IMAudioRsp audioRsp = IMMessage.IMAudioRsp.parseFrom(buffer);
 
-                    // 发送打洞数据 (几秒重发一次直到成功)
-                    IMNatServerManager.instance().SendAudioData(audioRsp);
+                    UserEntity loginUser = IMLoginManager.instance().getLoginInfo();
 
+//                    if (audioRsp.getFromUserId() == loginUser.getId()) {
+//                        return;
+//                    }
+                    if (audioRsp.getUserList(0).getUserId() == loginUser.getId()) {
+                        return;
+                    }
+                    if(audioRsp.getUserList(0).getUserId() != loginUser.getId()) {
+                        // 让连谁
+
+//                        String sendContent =new String(com.mogujie.tt.Security.getInstance().EncryptMsg("poll"));
+                        String sendContent = "poll,"; // sendContent.getBytes("utf-8")
+
+                        // id ip port
+                        IMApplication.connNid = audioRsp.getUserList(0).getUserId();
+                        IMApplication.connStrIP = audioRsp.getUserList(0).getIp();
+                        IMApplication.connNport = audioRsp.getUserList(0).getPort();
+
+                        SocketAddress serverAddress = new InetSocketAddress(IMApplication.connStrIP, IMApplication.connNport);
+
+                        // 发送打洞数据 (几秒重发一次直到成功)
+                        IMNatServerManager.instance().SendAudioData(
+                                loginUser,
+                                ByteString.copyFrom(sendContent,"utf-8"),//.getBytes("utf-8"),
+                                serverAddress);
+                    }
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE:
                     IMMessage.IMAudioData audioData = IMMessage.IMAudioData.parseFrom(buffer);
-                    // 音频数据
-                    IMMessageManager.instance().onRecvAudioData(audioData);
+//                    // 音频数据
+//                    IMMessageManager.instance().onRecvAudioData(audioData);
+                    if(audioData.getSeqNum() == 0){
+                        // 打洞的包  // 把（id ip port存起来）根据ID找到IP、PORT
+//                        IMNatServerManager.instance().SendAudioData(audioRsp,
+//                                loginUser,
+//                                null,
+//                                audioRsp.getUserList(0).getIp(),
+//                                audioRsp.getUserList(0).getPort());
+                        if(audioData.getMsgData().toString("utf-8").equals("poll")){
+                            // 打洞请求，发送回复 会不会服务器的UDP包比client先到
+                            String sendContent = "poll_back";
+                            IMNatServerManager.instance().SendAudioData(
+                                    IMLoginManager.instance().getLoginInfo(),
+                                    ByteString.copyFrom(sendContent,"utf-8"),//.getBytes("utf-8"),
+                                    msgE.getRemoteAddress()); // 得到发送者回复过去
+                        } else {
+                            // 如果收到回复 // 启动开始发送音频数据的服务
 
+
+                        }
+                    } else {
+                        // 音频数据播放
+                    }
                     break;
 
             }
         } catch (IOException e) {
             logger.e("msgPacketDispatcher# error,cid:%d", commandId);
         }
+    }
+    public static void msgPacketDispatcher(int commandId, CodedInputStream buffer) {
+        msgPacketDispatcher(commandId,buffer,null);
     }
 
     public static void groupPacketDispatcher(int commandId,CodedInputStream buffer){

@@ -20,9 +20,10 @@ public class UDPServerHandler extends SimpleChannelUpstreamHandler {
 
         // 重置AlarmManager的时间
         ChannelBuffer channelBuffer = (ChannelBuffer) e.getMessage();
-
+//        SocketAddress remote = e.getRemoteAddress();
+//        remote.
         if(null!=channelBuffer) // 接收到的消息处理
-            IMSocketUDPManager.instance().packetUDPDispatch(channelBuffer);
+            IMSocketUDPManager.instance().packetUDPDispatch(channelBuffer,e);
 
         // MessageEvent中通过调用getRemoteAddress()方法获得对端的SocketAddress 地址。
         //        e.getChannel().write("", e.getRemoteAddress());

@@ -3,6 +3,7 @@ package com.mogujie.tt.imservice.manager;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedInputStream;
 import com.mogujie.tt.DB.entity.MessageEntity;
+import com.mogujie.tt.DB.entity.UserEntity;
 import com.mogujie.tt.config.DBConstant;
 import com.mogujie.tt.config.MessageConstant;
 import com.mogujie.tt.imservice.callback.Packetlistener;
@@ -15,6 +16,8 @@ import com.mogujie.tt.protobuf.helper.Java2ProtoBuf;
 import com.mogujie.tt.utils.Logger;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 
 import de.greenrobot.event.EventBus;
 
@@ -79,15 +82,11 @@ public class IMNatServerManager extends IMManager {
 //        sessionManager.updateSession(textMessage);
         sendMessage(textMessage); // 发给msg_server 的
 
+        SocketAddress serverAddress = new InetSocketAddress("123.57.71.215", 8132);
         // 发送指令给udp_server
-        sendUDPMessage(textMessage);
+        sendUDPMessage(textMessage,serverAddress);
     }
 
-    //
-    public void SendAudioData(IMMessage.IMAudioRsp audioRsp){
-        // 发送指令给udp_server
-//        sendUDPData(textMessage);
-    }
 //    /**
 //     * 发送消息给 msg_server
 //     * 2. push到adapter中
@@ -194,7 +193,81 @@ public class IMNatServerManager extends IMManager {
      * 应该是自己发的信息，所以msgId为0
      * 这个地方用DB id作为主键
      */
-    public void sendUDPMessage(MessageEntity msgEntity) {
+    public void SendAudioData(UserEntity loginUser,ByteString sendContent,SocketAddress serverAddress){
+        // 发送情况下 msg_id 都是0
+        // 服务端是从1开始计数的
+//        if(!SequenceNumberMaker.getInstance().isFailure(audioRsp.getMsgId())){
+//            throw new RuntimeException("#sendMessage# msgId is wrong,cause by 0!");
+//        }
+
+//        IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
+//        byte[] sendContent = msgEntity.getSendContent();
+
+        // 发送给UDP_client的
+        IMMessage.IMAudioData audioReq = IMMessage.IMAudioData.newBuilder()
+                .setFromUserId(loginUser.getId().intValue())
+                .setSeqNum(0)   // 0打洞数据
+                .setClientType(IMBaseDefine.ClientType.CLIENT_TYPE_ANDROID)
+                .setMsgData(sendContent)
+                .build();
+
+        // 登入UDP服务器，带上要连的房间号，两个客户端同一房间号相通	(语音请求,msg加一个消息类型)
+
+        int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
+        int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE; // 音频数据
+
+//        final MessageEntity messageEntity  = msgEntity;
+
+        // 发送到服务器 // 需要回复的 new Packetlistener （服务端回复）
+        imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,new Packetlistener(12000) {
+            @Override
+            public void onSuccess(Object response) {
+                // 打洞成功
+                // 开始发送音频数据
+//                try {
+//                    IMMessage.IMMsgDataAck imMsgDataAck = IMMessage.IMMsgDataAck.parseFrom((CodedInputStream)response);
+//                    logger.i("chat#onAckSendedMsg");
+//                    if(imMsgDataAck.getMsgId() <=0){
+//                        throw  new RuntimeException("Msg ack error,cause by msgId <=0");
+//                    }
+//                    messageEntity.setStatus(MessageConstant.MSG_SUCCESS);
+//                    messageEntity.setMsgId(imMsgDataAck.getMsgId());
+
+                    // 指令不存库，UDP不用管发送成功失败
+
+                    /**主键ID已经存在，直接替换*/
+//                    dbInterface.insertOrUpdateMessage(messageEntity);
+                    /**更新sessionEntity lastMsgId问题*/
+//                    sessionManager.updateSession(messageEntity);
+                    // 发送，发送成功 收到这个表明发送成功
+//                    triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_OK,messageEntity));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+            }
+            @Override
+            public void onFaild() {
+//                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
+//                dbInterface.insertOrUpdateMessage(messageEntity);
+//                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_FAILURE,messageEntity));
+            }
+            @Override
+            public void onTimeout() {
+                // 超时
+//                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
+//                dbInterface.insertOrUpdateMessage(messageEntity);
+//                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_TIME_OUT,messageEntity));
+            }
+        },serverAddress);
+    }
+
+    /**
+     * 发送消息，最终的状态情况
+     * MessageManager下面的拆分
+     * 应该是自己发的信息，所以msgId为0
+     * 这个地方用DB id作为主键
+     */
+    public void sendUDPMessage(MessageEntity msgEntity,SocketAddress serverAddress) {
         logger.d("chat_audio#sendUDPMessage, msg:%s", msgEntity);
         // 发送情况下 msg_id 都是0
         // 服务端是从1开始计数的
@@ -260,6 +333,6 @@ public class IMNatServerManager extends IMManager {
 //                dbInterface.insertOrUpdateMessage(messageEntity);
 //                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_TIME_OUT,messageEntity));
             }
-        });
+        },serverAddress);
     }
 }

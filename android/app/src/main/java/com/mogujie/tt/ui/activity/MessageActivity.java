@@ -900,7 +900,6 @@ public class MessageActivity extends TTBaseActivity
             case R.id.take_audio_btn:{
                 // 实时语音请求 // 发送  buildForCommandSend  (别的消息是buildForSend)
                 TextMessage textMessage = TextMessage.buildForCommandSend(1, loginUser, peerEntity);
-//                imService.sendText(textMessage);
                 // 发送语音请求命令
                 imService.getNatServerMgr().SendCommand(textMessage);
                 Toast.makeText(MessageActivity.this,"实时语音", Toast.LENGTH_LONG).show();

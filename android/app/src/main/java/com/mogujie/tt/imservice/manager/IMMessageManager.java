@@ -5,11 +5,11 @@ import android.text.TextUtils;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedInputStream;
+import com.mogujie.tt.DB.DBInterface;
+import com.mogujie.tt.DB.entity.MessageEntity;
 import com.mogujie.tt.DB.entity.PeerEntity;
 import com.mogujie.tt.DB.entity.SessionEntity;
 import com.mogujie.tt.config.DBConstant;
-import com.mogujie.tt.DB.DBInterface;
-import com.mogujie.tt.DB.entity.MessageEntity;
 import com.mogujie.tt.config.MessageConstant;
 import com.mogujie.tt.config.SysConstant;
 import com.mogujie.tt.imservice.callback.Packetlistener;
@@ -20,12 +20,12 @@ import com.mogujie.tt.imservice.event.MessageEvent;
 import com.mogujie.tt.imservice.event.PriorityEvent;
 import com.mogujie.tt.imservice.event.RefreshHistoryMsgEvent;
 import com.mogujie.tt.imservice.service.LoadImageService;
+import com.mogujie.tt.imservice.support.SequenceNumberMaker;
+import com.mogujie.tt.protobuf.IMBaseDefine;
+import com.mogujie.tt.protobuf.IMMessage;
 import com.mogujie.tt.protobuf.helper.EntityChangeEngine;
 import com.mogujie.tt.protobuf.helper.Java2ProtoBuf;
 import com.mogujie.tt.protobuf.helper.ProtoBuf2JavaBean;
-import com.mogujie.tt.protobuf.IMBaseDefine;
-import com.mogujie.tt.protobuf.IMMessage;
-import com.mogujie.tt.imservice.support.SequenceNumberMaker;
 import com.mogujie.tt.utils.Logger;
 
 import java.io.IOException;
@@ -159,7 +159,7 @@ public class IMMessageManager extends IMManager{
         }
 
         IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
-        byte[] sendContent = msgEntity.getSendContent();
+        byte[] sendContent = msgEntity.getSendContent();// TextMessage 重写的getSendContent
 
         IMMessage.IMMsgData msgData = IMMessage.IMMsgData.newBuilder()
                 .setFromUserId(msgEntity.getFromId())
@@ -383,19 +383,20 @@ public class IMMessageManager extends IMManager{
 
         /**判断信息的类型*/
         int msgType = msgInfo.getDisplayType();
-        switch (msgType){
+        switch (msgType) {
             case DBConstant.SHOW_ORIGIN_TEXT_TYPE:
-                  sendText((TextMessage)msgInfo);
-                  break;
+                sendText((TextMessage) msgInfo);
+                break;
             case DBConstant.SHOW_IMAGE_TYPE:
-                    sendSingleImage((ImageMessage) msgInfo);
+                sendSingleImage((ImageMessage) msgInfo);
                 break;
             case DBConstant.SHOW_AUDIO_TYPE:
-                   sendVoice((AudioMessage)msgInfo); break;
+                sendVoice((AudioMessage) msgInfo);
+                break;
             default:
-                throw new IllegalArgumentException("#resendMessage#enum type is wrong!!,cause by displayType"+msgType);
+                throw new IllegalArgumentException("#resendMessage#enum type is wrong!!,cause by displayType" + msgType);
         }
-	}
+    }
 
     // 拉取历史消息 {from MessageActivity}
     public List<MessageEntity> loadHistoryMsg(int pullTimes,String sessionKey,PeerEntity peerEntity){

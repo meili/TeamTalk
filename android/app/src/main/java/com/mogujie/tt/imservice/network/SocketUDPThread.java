@@ -45,7 +45,6 @@ public class SocketUDPThread extends Thread {
 		channelFactory = new NioDatagramChannelFactory(Executors.newCachedThreadPool());
 
 		bootstrap = new ConnectionlessBootstrap(channelFactory);
-
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 			@Override
 			public ChannelPipeline getPipeline() throws Exception {
@@ -56,7 +55,6 @@ public class SocketUDPThread extends Thread {
 				return pipeline;//Channels.pipeline(new UdpEventHandler());
 			}
 		});
-//		int port = 8312;
 		SocketAddress serverAddress = new InetSocketAddress(nPort);
 		channel = bootstrap.bind(serverAddress);
 	}
@@ -66,7 +64,7 @@ public class SocketUDPThread extends Thread {
      * @param header
      * @return
      */
-    public boolean send_UDP_request(GeneratedMessageLite requset,Header header, String sendHost, int sendPort){
+    public boolean send_UDP_request(GeneratedMessageLite requset,Header header, SocketAddress serverAddress){
 		logger.e("#sendUDPRequest#channel!111111111111");
 
 		DataBuffer headerBuffer = header.encode();
@@ -77,8 +75,6 @@ public class SocketUDPThread extends Thread {
         DataBuffer buffer = new DataBuffer(SysConstant.PROTOCOL_HEADER_LENGTH  + bodySize);
         buffer.writeDataBuffer(headerBuffer); 	// 头 包括：sid, cid
         buffer.writeDataBuffer(bodyBuffer);		// body
-
-		SocketAddress serverAddress = new InetSocketAddress(sendHost, sendPort);
 
 		logger.e("#sendUDPRequest#channel!");
 
