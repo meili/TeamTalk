@@ -160,6 +160,36 @@ int CBaseSocket::Close()
 	return 0;
 }
 
+//xie 2016-06-02 start//////////////////////////////
+int CBaseSocket::OnUDPClose()
+{
+	CEventDispatch::Instance()->RemoveEvent(m_socket, SOCKET_ALL);
+	RemoveBaseSocket(this);
+	closesocket(m_socket);
+	ReleaseRef();
+
+	return 0;
+}
+
+void CBaseSocket::OnUDPRead()
+{
+	u_long avail = 0;
+	if ( (ioctlsocket(m_socket, FIONREAD, &avail) == SOCKET_ERROR) || (avail == 0) )
+	{
+		m_callback(m_callback_data, NETLIB_MSG_CLOSE_UDP, (net_handle_t)m_socket, NULL);
+	}
+	else
+	{
+		m_callback(m_callback_data, NETLIB_MSG_READ_UDP, (net_handle_t)m_socket, NULL);
+	}
+}
+void CBaseSocket::OnUDPWrite()
+{		
+	m_callback(m_callback_data, NETLIB_MSG_WRITE_UDP, (net_handle_t)m_socket, NULL);
+}
+
+//xie 2016-06-02 end//////////////////////////////
+
 void CBaseSocket::OnRead()
 {
 	if (m_state == SOCKET_STATE_LISTENING)
@@ -414,6 +444,10 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 	// udp 只是sendto recvfrom 要不要用epoll?  
 	//  先用epoll试试  epoll收不到消息?
 	//  就不addEvent了
+	
+	// UDP不用连接，直接调用连接成功
+	m_callback(m_callback_data, NETLIB_MSG_CONNECT, (net_handle_t)fd, NULL);
+
 	return NETLIB_OK;
 }
 //add by xieqq 2016-05-11 end///////////////////////////////////

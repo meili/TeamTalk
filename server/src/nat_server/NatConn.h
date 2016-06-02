@@ -16,7 +16,7 @@
 
 #include "IM.Message.pb.h"
 
-class CNatConn : public CRefObject
+class CNatConn : public CImConn
 {
 public:
 	CNatConn();
@@ -28,8 +28,8 @@ public:
 	virtual void OnClose();
 
 	virtual void HandlePdu(IM::Message::IMAudioReq* recvbuf);
-	void OnUDPRead();
-	void OnUDPWrite();
+	void OnReadUDP();
+	void OnWriteUDP();
 
 protected:
 	uint32_t        m_state;

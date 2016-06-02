@@ -455,7 +455,7 @@ void CEventDispatch::StartDispatchUDP(uint32_t wait_timeout)
             if (events[i].events & EPOLLRDHUP)
             {
                 //log("On Peer Close, socket=%d, ev_fd);
-                pSocket->OnClose();
+                pSocket->OnUDPClose();
             }
             #endif
             // Commit End
@@ -463,19 +463,19 @@ void CEventDispatch::StartDispatchUDP(uint32_t wait_timeout)
 			if (events[i].events & EPOLLIN)
 			{
 				//log("OnRead, socket=%d\n", ev_fd);
-				pSocket->OnRead();
+				pSocket->OnUDPRead();
 			}
 
 			if (events[i].events & EPOLLOUT)
 			{
 				//log("OnWrite, socket=%d\n", ev_fd);
-				pSocket->OnWrite();
+				pSocket->OnUDPWrite();
 			}
 
 			if (events[i].events & (EPOLLPRI | EPOLLERR | EPOLLHUP))
 			{
 				//log("OnClose, socket=%d\n", ev_fd);
-				pSocket->OnClose();
+				pSocket->OnUDPClose();
 			}
 
 			//pSocket->ReleaseRef();

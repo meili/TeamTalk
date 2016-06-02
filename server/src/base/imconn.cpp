@@ -52,6 +52,15 @@ void imconn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pP
 	case NETLIB_MSG_CLOSE:
 		pConn->OnClose();
 		break;
+	case NETLIB_MSG_CLOSE_UDP:
+		//pConn->OnCloseUDP(); // UDP只有最后退出的时候close, 除非手动实现udp_listen
+		break;
+	case NETLIB_MSG_READ_UDP:
+		pConn->OnReadUDP();
+		break;
+	case NETLIB_MSG_WRITE_UDP:
+		pConn->OnWriteUDP();
+		break;
 	default:
 		log("!!!imconn_callback error msg: %d ", msg);
 		break;

@@ -35,12 +35,26 @@ void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 {
 	printf("nat_conn_callback %d\n",*((uint32_t*)&callback_data));
 	//NOTUSED_ARG(uParam);
-	NOTUSED_ARG(pParam);
-	CNatConn* pConn = new CNatConn();
-        pConn->OnConnect(handle);
+	//NOTUSED_ARG(pParam);
+	if (msg == NETLIB_MSG_CONNECT)
+	{
+		CNatConn* pConn = new CNatConn();
+		pConn->OnConnect(handle);// UDP不需要connect、执行OnConnect是设回调值~	UDP_Bind就会执行到这里
+	}
+	else
+	{
+		printf("!!!error msg: %d \n", msg);
+
+		log("!!!error msg: %d \n", msg);// UDP
+	}
+
+
+	// 下次直接调到 CImConn里的imconn_callback
+
 	// convert void* to uint32_t, oops
 	//uint32_t conn_handle = *((uint32_t*)(&callback_data));
-    	pConn = FindNatConnByHandle(handle);
+   /* pConn = FindNatConnByHandle(handle); // handle就是socket
+
     if (!pConn) {
 	printf("CNatConn is null   not find NatConnByHandle \n");
         return;
@@ -64,7 +78,7 @@ void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 		printf("nat_conn_callback default\n");
 		log("!!!httpconn_callback error msg: %d\n ", msg);
 		break;
-	}
+	}*/
 }
 
 //void init_natconn_timer_callback()
@@ -104,12 +118,17 @@ void CNatConn::OnConnect(net_handle_t handle)
 
 	g_nat_conn_map.insert(make_pair(handle, this));
 
-	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)nat_conn_callback);
+	//netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)nat_conn_callback);
+	//netlib_option(handle, NETLIB_OPT_SET_CALLBACK_DATA, (void*)&g_nat_conn_map);
+	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)imconn_callback); // 数据接收imconn_callback
 	netlib_option(handle, NETLIB_OPT_SET_CALLBACK_DATA, (void*)&g_nat_conn_map);
+
+	//imconn_callback(g_nat_conn_map, NETLIB_MSG_READ, (net_handle_t)m_socket, NULL);
+
 }
 
 // 读
-void CNatConn::OnUDPRead()
+void CNatConn::OnReadUDP()
 {
 	sockaddr_in sender; // 发送端的地址 从哪发来的
 
@@ -138,7 +157,7 @@ void CNatConn::OnUDPRead()
 	// UDP包固定大小
 	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
 	if(ret <= 0)
-	{
+	{	// 读取要参照 void CImConn::OnRead()
 		printf("recv error");
 		return;
 	}
@@ -156,8 +175,9 @@ void CNatConn::OnUDPRead()
 }
 
 // 写
-void CNatConn::OnUDPWrite()
+void CNatConn::OnWriteUDP()
 {
+	// 写入字段拼接要参数void CImConn::OnWrite()
 }
 
 

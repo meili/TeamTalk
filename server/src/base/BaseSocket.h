@@ -67,6 +67,9 @@ public:
 	void OnWrite();
 	void OnClose();
 
+	void OnUDPRead();
+	void OnUDPWrite();
+	void OnUDPClose();
 private:	
 	int _GetErrorCode();
 	bool _IsBlock(int error_code);
