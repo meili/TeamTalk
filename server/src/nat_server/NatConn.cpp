@@ -148,9 +148,11 @@ void CNatConn::OnUDPRead()
 	//}
 	printf("Receive message from: %s :%ld:%d:%s\n",inet_ntoa(sender.sin_addr),ntohs(sender.sin_port),ret,recvbuf);
 	
-	int nsend = sendto(m_sock_handle, (const char*)&recvbuf,128, 0, (const sockaddr*)&sender, sizeof(sender));
-        printf("send message %d\n",nsend);    
+	
 	//HandlePdu(&recvbuf);
+
+	//int nsend = sendto(m_sock_handle, (const char*)&recvbuf,128, 0, (const sockaddr*)&sender, sizeof(sender));
+    //    printf("send message %d\n",nsend);    
 }
 
 // 写

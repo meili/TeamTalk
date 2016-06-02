@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
+import com.mogujie.tt.DB.entity.MessageEntity;
 import com.mogujie.tt.config.DBConstant;
 import com.mogujie.tt.DB.entity.DepartmentEntity;
 import com.mogujie.tt.DB.entity.GroupEntity;
@@ -98,11 +99,11 @@ public class IMUIHelper {
 	/**
 	 * 跳转到视频接收确认页
 	 * @param ctx
-	 * @param sessionKey
+	 * @param entity
      */
-	public static void openConfirmAudioActivity(Context ctx, String sessionKey) {
+	public static void openConfirmAudioActivity(Context ctx, MessageEntity entity) {
 		Intent intent = new Intent(ctx, ConfirmAudioActivity.class);
-		intent.putExtra(IntentConstant.KEY_SESSION_KEY, sessionKey);
+		intent.putExtra(IntentConstant.KEY_SESSION_KEY, String.valueOf(entity.getFromId()));
 		ctx.startActivity(intent);
 	}
 

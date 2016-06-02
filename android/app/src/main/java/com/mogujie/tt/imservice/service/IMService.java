@@ -125,8 +125,10 @@ public class IMService extends Service {
             }
             break;
             case Audio_RECEIVED_MESSAGE: {
+                MessageEntity entity = (MessageEntity) event.object;
+//                entity.getPeerId(true);
                 Context ctx = getApplicationContext();
-                IMUIHelper.openConfirmAudioActivity(ctx, );
+                IMUIHelper.openConfirmAudioActivity(ctx,entity);
             }
             break;
         }

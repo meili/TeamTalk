@@ -225,28 +225,6 @@ public class IMMessageManager extends IMManager{
     }
 
     /**
-     * 收到语音请求
-     * @param imMsgAData
-     */
-    public void onRecvAudioData(IMMessage.IMAudioData imMsgAData){
-
-//        MessageEntity recvMessage = ProtoBuf2JavaBean.getMessageEntity(imMsgAData);
-//
-//        PriorityEvent  notifyEvent = new PriorityEvent();
-//        notifyEvent.event = PriorityEvent.Event.Audio_RECEIVED_MESSAGE;
-//        notifyEvent.object = recvMessage;
-//        triggerEvent(notifyEvent);// 接收到消息
-
-        if(imMsgAData.getSeqNum() == 0){
-            // 打洞数据
-            imMsgAData.getFromUserId(); // 发送人
-
-        } else {
-            // 音频数据  // 播放出来
-        }
-    }
-
-    /**
      * 收到服务端原始信息
      * 1. 解析消息的类型
      * 2. 根据不同的类型,转化成不同的消息
