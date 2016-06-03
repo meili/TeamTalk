@@ -1,0 +1,7 @@
+*.so
+*.log
+*.a
+*.o
+.DS_Store
+.svn
+*.conf
