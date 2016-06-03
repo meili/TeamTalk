@@ -213,6 +213,10 @@ void CImConn::OnReadUDP()
 		printf("recv error");
 		return;
 	} 
+	else 
+	{
+		printf("recv len = %d\n", ret);
+	}
 	
 	CImPdu* pPdu = NULL;
 	try
@@ -225,6 +229,8 @@ void CImConn::OnReadUDP()
             pPdu = NULL;
 		}
 	} catch (CPduException& ex) {
+		printf("CPduException\n");
+
 		log("!!!catch exception, sid=%u, cid=%u, err_code=%u, err_msg=%s, close the connection ",
 				ex.GetServiceId(), ex.GetCommandId(), ex.GetErrorCode(), ex.GetErrorMsg());
         if (pPdu) {
