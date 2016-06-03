@@ -202,11 +202,11 @@ void CImConn::OnWrite()
 void CImConn::OnReadUDP()
 {
 	sockaddr_in sender; // 发送端的地址 从哪发来的
-	char recvbuf[128]={0};
+	uchar_t recvbuf[128]={0};
 	memset(recvbuf,0,128); 
 	printf("CImConn OnReadUDP\n");
 	socklen_t dwSender = sizeof(sender);
-	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
+	int ret = recvfrom(m_sock_handle, (uchar_t *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
 
 	if(ret <= 0)
 	{	// 读取要参照 void CImConn::OnRead()
