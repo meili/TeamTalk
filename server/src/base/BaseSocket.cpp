@@ -161,14 +161,10 @@ int CBaseSocket::Close()
 }
 
 //xie 2016-06-02 start//////////////////////////////
-int CBaseSocket::OnUDPClose()
+void CBaseSocket::OnUDPClose()
 {
-	CEventDispatch::Instance()->RemoveEvent(m_socket, SOCKET_ALL);
-	RemoveBaseSocket(this);
-	closesocket(m_socket);
-	ReleaseRef();
-
-	return 0;
+	m_state = SOCKET_STATE_CLOSING;
+	m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
 }
 
 void CBaseSocket::OnUDPRead()
@@ -446,7 +442,7 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 	//  就不addEvent了
 	
 	// UDP不用连接，直接调用连接成功
-	m_callback(m_callback_data, NETLIB_MSG_CONNECT, (net_handle_t)fd, NULL);
+	m_callback(m_callback_data, NETLIB_MSG_CONNECT, (net_handle_t)m_socket, NULL);
 
 	return NETLIB_OK;
 }

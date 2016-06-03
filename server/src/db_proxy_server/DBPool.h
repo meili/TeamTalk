@@ -13,8 +13,8 @@
 
 #include "../base/util.h"
 #include "ThreadPool.h"
+//#include </usr/include/mysql/include/mysql.h>
 #include <mysql.h>
-
 #define MAX_ESCAPE_STRING_LEN	10240
 
 class CResultSet {

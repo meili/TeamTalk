@@ -13,7 +13,7 @@
 
 #include "netlib.h"
 #include "util.h"
-
+#include "imconn.h"
 #include "IM.Message.pb.h"
 
 class CNatConn : public CImConn

@@ -53,7 +53,7 @@ void imconn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pP
 		pConn->OnClose();
 		break;
 	case NETLIB_MSG_CLOSE_UDP:
-		//pConn->OnCloseUDP(); // UDP只有最后退出的时候close, 除非手动实现udp_listen
+		pConn->OnClose(); // UDP只有最后退出的时候close, 除非手动实现udp_listen
 		break;
 	case NETLIB_MSG_READ_UDP:
 		pConn->OnReadUDP();
@@ -199,6 +199,12 @@ void CImConn::OnWrite()
 	log("onWrite, remain=%d ", m_out_buf.GetWriteOffset());
 }
 
+void CImConn::OnReadUDP()
+{
 
+}
 
+void CImConn::OnWriteUDP()
+{
+}
 
