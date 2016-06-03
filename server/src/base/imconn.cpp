@@ -206,7 +206,7 @@ void CImConn::OnReadUDP()
 	memset(recvbuf,0,128); 
 	printf("CImConn OnReadUDP\n");
 	socklen_t dwSender = sizeof(sender);
-	int ret = recvfrom(m_sock_handle, (uchar_t *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
+	int ret = recvfrom(m_handle, (uchar_t *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
 
 	if(ret <= 0)
 	{	// 读取要参照 void CImConn::OnRead()

@@ -223,7 +223,7 @@ void CNatConn::HandlePdu(CImPdu* pPdu)
             break;
         */
 	default:
-		log("CNatConn::HandlePdu, wrong cmd id: %d ", recvbuf->msg_type());
+	//	log("CNatConn::HandlePdu, wrong cmd id: %d ", recvbuf->msg_type());
 		break;
 	}
 }
@@ -240,9 +240,9 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu)
 	//required IM.BaseDefine.ClientType client_type = 6;  // 客户端类型
 	// MSG_TYPE_SINGLE_AUDIO_MEET
 	CHECK_PB_PARSE_MSG(audioReq.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
-	
+	printf("recv ok\n");	
 	// 测试看收的到吗，能不解析
-	printf("from_user_id = %d, to_room_id = %d,msg_id = %d", audioReq.from_user_id, audioReq.to_room_id, audioReq.msg_id);
+//	printf("from_user_id = %d, to_room_id = %d,msg_id = %d", audioReq.from_user_id, audioReq.to_room_id, audioReq.msg_id);
 	
 }
 
@@ -251,10 +251,10 @@ void CNatConn::_HandleClientMsgData(CImPdu* pPdu)
     IM::Message::IMMsgData msg;
     CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
 	if (msg.msg_data().length() == 0) {
-		log("discard an empty message, uid=%u ", GetUserId());
+//		log("discard an empty message, uid=%u ", GetUserId());
 		return;
 	}
-
+/*
 	if (m_msg_cnt_per_sec >= MAX_MSG_CNT_PER_SECOND) {
 		log("!!!too much msg cnt in one second, uid=%u ", GetUserId());
 		return;
@@ -283,9 +283,10 @@ void CNatConn::_HandleClientMsgData(CImPdu* pPdu)
     msg.set_create_time(cur_time);
     msg.set_attach_data(attach_data.GetBuffer(), attach_data.GetLength());
     pPdu->SetPBMsg(&msg);
+*/
 	// send to DB storage server
-	CDBServConn* pDbConn = get_db_serv_conn();
-	if (pDbConn) {
-		pDbConn->SendPdu(pPdu);
-	}
+//	CDBServConn* pDbConn = get_db_serv_conn();
+//	if (pDbConn) {
+//		pDbConn->SendPdu(pPdu);
+//	}
 }

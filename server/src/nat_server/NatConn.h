@@ -27,12 +27,12 @@ public:
 	virtual void OnConnect(net_handle_t handle);
 	virtual void OnClose();
 
-	virtual void HandlePdu(IM::Message::IMAudioReq* recvbuf);
+	virtual void HandlePdu(CImPdu* pPdu);
 	void OnReadUDP();
 	void OnWriteUDP();
 
 	void _HandleClientAudioData(CImPdu* pPdu);
-	void _HandleClientMsgData(CImPdu* pPdu)
+	void _HandleClientMsgData(CImPdu* pPdu);
 
 
 protected:
