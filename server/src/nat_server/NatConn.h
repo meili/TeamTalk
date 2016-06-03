@@ -28,8 +28,8 @@ public:
 	virtual void OnClose();
 
 	virtual void HandlePdu(CImPdu* pPdu);
-	void OnReadUDP();
-	void OnWriteUDP();
+	//void OnReadUDP();
+	//void OnWriteUDP();
 
 	void _HandleClientAudioData(CImPdu* pPdu);
 	void _HandleClientMsgData(CImPdu* pPdu);

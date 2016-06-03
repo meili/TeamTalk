@@ -126,7 +126,7 @@ void CNatConn::OnConnect(net_handle_t handle)
 	//imconn_callback(g_nat_conn_map, NETLIB_MSG_READ, (net_handle_t)m_socket, NULL);
 
 }
-
+/*
 // 读
 void CNatConn::OnReadUDP()
 {
@@ -179,7 +179,7 @@ void CNatConn::OnWriteUDP()
 {
 	// 写入字段拼接要参数void CImConn::OnWrite()
 }
-
+*/
 
 //void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
 //{
