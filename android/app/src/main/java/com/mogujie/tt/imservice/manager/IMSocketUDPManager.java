@@ -161,14 +161,26 @@ public class IMSocketUDPManager extends IMManager {
      * @param channelBuffer
      */
     public void packetUDPDispatch(ChannelBuffer channelBuffer,MessageEvent e) {
+        logger.d("channel#messageUDPReceived#packetUDPDispatch#1");
+
         DataBuffer buffer = new DataBuffer(channelBuffer);
         com.mogujie.tt.protobuf.base.Header header = new com.mogujie.tt.protobuf.base.Header();
+        logger.d("channel#messageUDPReceived#packetUDPDispatch#2");
+
         header.decode(buffer);
+
+        logger.d("channel#messageUDPReceived#packetUDPDispatch#3");
+
         /**buffer 的指针位于body的地方*/
         int commandId = header.getCommandId();
+//        logger.d("channel#messageUDPReceived#packetUDPDispatch#4 commandId:%d", commandId);
+
         int serviceId = header.getServiceId();
+//        logger.d("channel#messageUDPReceived#packetUDPDispatch#4 serviceId:%d", serviceId);
         int seqNo = header.getSeqnum();
-        logger.d("dispatch packet, serviceId:%d, commandId:%d", serviceId,
+//        logger.d("channel#messageUDPReceived#packetUDPDispatch#4 seqNo:%d", seqNo);
+
+        logger.d("channel#messageUDPReceived#dispatch packet, serviceId:%d, commandId:%d", serviceId,
                 commandId);
         CodedInputStream codedInputStream = CodedInputStream.newInstance(new ChannelBufferInputStream(buffer.getOrignalBuffer()));
 
@@ -176,6 +188,7 @@ public class IMSocketUDPManager extends IMManager {
         Packetlistener listener = listenerQueue.pop(seqNo);
         if (listener != null) { // 需要回复的消息收到返回调用onSuccess
             listener.onSuccess(codedInputStream);
+            logger.d("channel#messageUDPReceived#onsuccess");
             return;
         }
 

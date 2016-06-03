@@ -92,6 +92,7 @@ public class IMPacketDispatcher {
         }
     }
     public static void msgPacketDispatcher(int commandId, CodedInputStream buffer,MessageEvent msgE) {
+        logger.d("channel#messageUDPReceived#msgPacketDispatcher commandId:%d", commandId);
         try {
             switch (commandId) {
                 case IMBaseDefine.MessageCmdID.CID_MSG_DATA_ACK_VALUE:
@@ -122,6 +123,8 @@ public class IMPacketDispatcher {
                     break;
 
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_REQUEST_VALUE:
+                    logger.d("channel#messageUDPReceived#msgPacketDispatcher CID_MSG_AUDIO_UDP_REQUEST_VALUE");
+
                     // 收到实时语音请求的(好友发来的语音请求)
                     // 进入到确认接受通话页面
 //                    IMUIHelper.openConfirmAudioActivity(getActivity(),currentUser.getSessionKey());

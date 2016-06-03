@@ -24,7 +24,10 @@ public class UDPServerHandler extends SimpleChannelUpstreamHandler {
 //        remote.
         if(null!=channelBuffer) // 接收到的消息处理
             IMSocketUDPManager.instance().packetUDPDispatch(channelBuffer,e);
+        else {
+            logger.d("channel#messageUDPReceived#channelBuffer is null");
 
+        }
         // MessageEvent中通过调用getRemoteAddress()方法获得对端的SocketAddress 地址。
         //        e.getChannel().write("", e.getRemoteAddress());
 

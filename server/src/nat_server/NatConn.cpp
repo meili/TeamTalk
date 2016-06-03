@@ -17,9 +17,9 @@
 #include "public_define.h"
 using namespace IM::BaseDefine;
 
-static NatConnMap_t g_nat_conn_map;
+static ConnMap_t g_nat_conn_map;
 
-CNatConn* FindNatConnByHandle(uint32_t conn_handle)
+/*CNatConn* FindNatConnByHandle(uint32_t conn_handle)
 {
     CNatConn* pConn = NULL;
 	printf("find handler %d \n", conn_handle);
@@ -30,10 +30,10 @@ CNatConn* FindNatConnByHandle(uint32_t conn_handle)
 
     return pConn;
 }
-
+*/
 void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
-	printf("nat_conn_callback %d\n",*((uint32_t*)&callback_data));
+	printf("nat_conn_callback %d handle = %d\n",*((uint32_t*)&callback_data), handle);
 	//NOTUSED_ARG(uParam);
 	//NOTUSED_ARG(pParam);
 	if (msg == NETLIB_MSG_CONNECT)
@@ -49,36 +49,6 @@ void nat_conn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 	}
 
 
-	// 下次直接调到 CImConn里的imconn_callback
-
-	// convert void* to uint32_t, oops
-	//uint32_t conn_handle = *((uint32_t*)(&callback_data));
-   /* pConn = FindNatConnByHandle(handle); // handle就是socket
-
-    if (!pConn) {
-	printf("CNatConn is null   not find NatConnByHandle \n");
-        return;
-    }
-
-	switch (msg)
-	{
-	case NETLIB_MSG_READ:
-		printf("nat_conn_callback read\n");
-		pConn->OnUDPRead();
-		break;
-	case NETLIB_MSG_WRITE:
-		printf("nat_conn_callback Write\n");
-		pConn->OnUDPWrite();
-		break;
-	case NETLIB_MSG_CLOSE:
-		printf("nat_conn_callback Close\n");
-		pConn->OnClose();
-		break;
-	default:		
-		printf("nat_conn_callback default\n");
-		log("!!!httpconn_callback error msg: %d\n ", msg);
-		break;
-	}*/
 }
 
 //void init_natconn_timer_callback()

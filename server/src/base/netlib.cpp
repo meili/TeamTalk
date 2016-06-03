@@ -184,8 +184,8 @@ bool netlib_is_running()
 int netlib_listen_udp_bind(
 		const char*	server_ip,  // ÓÃ htonl(INADDR_ANY)´úÌæ inet_addr(ip)
 		uint16_t	port,
-		callback_t	callback,
-		void*		callback_data)
+		callback_t	callback,		// nat_conn_callback
+		void*		callback_data)	// callback_data = null
 {
 	// socket 
 	CBaseSocket* pSocket = new CBaseSocket();
