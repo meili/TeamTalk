@@ -181,9 +181,20 @@ void CNatConn::OnWriteUDP()
 }
 
 
-void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
+//void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
+//{
+void CNatConn::HandlePdu(CImPdu* pPdu)
 {
-	switch (recvbuf->msg_type()) { // 登录 登出 打洞
+	switch (pPdu->GetCommandId()) {
+		case CID_MSG_AUDIO_UDP_REQUEST:
+			printf("receive CID_MSG_AUDIO_UDP_REQUEST \n");
+			_HandleClientAudioData(pPdu);	
+			break;
+		case CID_MSG_DATA:
+			printf("receive CID_MSG_DATA \n");
+			_HandleClientMsgData(pPdu);
+			break;
+	//switch (recvbuf->msg_type()) { // 登录 登出 打洞
         /*case CID_OTHER_HEARTBEAT:
             // do not take any action, heart beat only update m_last_recv_tick break;
         case CID_OTHER_ONLINE_USER_INFO:
@@ -214,5 +225,67 @@ void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
 	default:
 		log("CNatConn::HandlePdu, wrong cmd id: %d ", recvbuf->msg_type());
 		break;
+	}
+}
+
+void CNatConn::_HandleClientAudioData(CImPdu* pPdu)
+{
+    IM::Message::IMAudioReq audioReq; // 音频请求
+
+	//required uint32 from_user_id = 1;		// 用户id
+	//required uint32 to_room_id = 2;			// 要加入的房间id
+	//required uint32 msg_id = 3;			// 消息ID （加入还是退出） 0 加入 1退出
+	//required uint32 create_time = 4;		// 消息时间
+	//required IM.BaseDefine.MsgType msg_type = 5;	// 消息类型
+	//required IM.BaseDefine.ClientType client_type = 6;  // 客户端类型
+	// MSG_TYPE_SINGLE_AUDIO_MEET
+	CHECK_PB_PARSE_MSG(audioReq.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+	
+	// 测试看收的到吗，能不解析
+	printf("from_user_id = %d, to_room_id = %d,msg_id = %d", audioReq.from_user_id, audioReq.to_room_id, audioReq.msg_id);
+	
+}
+
+void CNatConn::_HandleClientMsgData(CImPdu* pPdu)
+{
+    IM::Message::IMMsgData msg;
+    CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
+	if (msg.msg_data().length() == 0) {
+		log("discard an empty message, uid=%u ", GetUserId());
+		return;
+	}
+
+	if (m_msg_cnt_per_sec >= MAX_MSG_CNT_PER_SECOND) {
+		log("!!!too much msg cnt in one second, uid=%u ", GetUserId());
+		return;
+	}
+    
+    if (msg.from_user_id() == msg.to_session_id() && CHECK_MSG_TYPE_SINGLE(msg.msg_type()))
+    {
+        log("!!!from_user_id == to_user_id. ");
+        return;
+    }
+
+	m_msg_cnt_per_sec++;
+
+	uint32_t to_session_id = msg.to_session_id();
+    uint32_t msg_id = msg.msg_id();
+	uint8_t msg_type = msg.msg_type();
+    string msg_data = msg.msg_data();
+
+	if (g_log_msg_toggle) {
+		log("HandleClientMsgData, %d->%d, msg_type=%u, msg_id=%u. ", GetUserId(), to_session_id, msg_type, msg_id);
+	}
+
+	uint32_t cur_time = time(NULL);
+    CDbAttachData attach_data(ATTACH_TYPE_HANDLE, m_handle, 0);
+    msg.set_from_user_id(GetUserId());
+    msg.set_create_time(cur_time);
+    msg.set_attach_data(attach_data.GetBuffer(), attach_data.GetLength());
+    pPdu->SetPBMsg(&msg);
+	// send to DB storage server
+	CDBServConn* pDbConn = get_db_serv_conn();
+	if (pDbConn) {
+		pDbConn->SendPdu(pPdu);
 	}
 }

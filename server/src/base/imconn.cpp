@@ -201,7 +201,38 @@ void CImConn::OnWrite()
 
 void CImConn::OnReadUDP()
 {
+	sockaddr_in sender; // 发送端的地址 从哪发来的
+	char recvbuf[128]={0};
+	memset(recvbuf,0,128); 
+	printf("CImConn OnReadUDP\n");
+	socklen_t dwSender = sizeof(sender);
+	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
 
+	if(ret <= 0)
+	{	// 读取要参照 void CImConn::OnRead()
+		printf("recv error");
+		return;
+	} 
+	
+	CImPdu* pPdu = NULL;
+	try
+    {
+		while ( ( pPdu = CImPdu::ReadPdu(recvbuf, ret) ) )
+		{
+            uint32_t pdu_len = pPdu->GetLength();            
+			HandlePdu(pPdu);
+			delete pPdu;
+            pPdu = NULL;
+		}
+	} catch (CPduException& ex) {
+		log("!!!catch exception, sid=%u, cid=%u, err_code=%u, err_msg=%s, close the connection ",
+				ex.GetServiceId(), ex.GetCommandId(), ex.GetErrorCode(), ex.GetErrorMsg());
+        if (pPdu) {
+            delete pPdu;
+            pPdu = NULL;
+        }
+        OnClose();
+	}
 }
 
 void CImConn::OnWriteUDP()
