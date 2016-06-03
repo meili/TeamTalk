@@ -1,0 +1,13 @@
+*.log
+*.a
+*.o
+*.zip
+
+*.bak
+.DS_Store
+
+
+CMakeFiles/
+.cache/
+.vscode/
+obj/
