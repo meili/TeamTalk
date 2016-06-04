@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.so
 *.log
 *.a
@@ -5,3 +6,18 @@
 .DS_Store
 .svn
 *.conf
+=======
+*.log
+*.a
+*.o
+*.zip
+
+*.bak
+.DS_Store
+
+
+CMakeFiles/
+.cache/
+.vscode/
+obj/
+>>>>>>> 677fefeda64453b72c0979c2f8fd5e260f4f1aef
