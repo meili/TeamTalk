@@ -14,7 +14,9 @@ public class UnreadEntity {
     private int sessionType;
     private int unReadCnt;
     private int laststMsgId;
+    private int laststMsgType;
     private String latestMsgData;
+    private int latestMsgFromUserId;
     private boolean isForbidden = false;
 
     public String getSessionKey() {
@@ -56,6 +58,24 @@ public class UnreadEntity {
     public void setLaststMsgId(int laststMsgId) {
         this.laststMsgId = laststMsgId;
     }
+
+    public int getLaststMsgType() {
+        return laststMsgType;
+    }
+
+
+    public void setLaststMsgType(int laststMsgType) {
+        this.laststMsgType = laststMsgType;
+    }
+
+
+    public int getLatestMsgFromUserId() {
+        return latestMsgFromUserId;
+    }
+    public void setLatestMsgFromUserId(int latestMsgFromUserId) {
+        this.latestMsgFromUserId = latestMsgFromUserId;
+    }
+
 
     public String getLatestMsgData() {
         return latestMsgData;

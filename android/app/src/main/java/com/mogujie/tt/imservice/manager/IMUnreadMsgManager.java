@@ -107,6 +107,10 @@ public class IMUnreadMsgManager extends IMManager {
             //屏蔽的设定
             addIsForbidden(unreadEntity);
             unreadMsgMap.put(unreadEntity.getSessionKey(), unreadEntity);
+
+            //update session from unread info
+            //ked 2016-06-03
+            IMSessionManager.instance().updateSession(unreadEntity);
         }
         triggerEvent(new UnreadEvent(UnreadEvent.Event.UNREAD_MSG_LIST_OK));
     }

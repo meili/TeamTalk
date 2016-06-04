@@ -12,6 +12,7 @@ import com.mogujie.tt.DB.entity.GroupEntity;
 import com.mogujie.tt.DB.entity.MessageEntity;
 import com.mogujie.tt.DB.entity.SessionEntity;
 import com.mogujie.tt.DB.sp.ConfigurationSp;
+import com.mogujie.tt.imservice.entity.MsgAnalyzeEngine;
 import com.mogujie.tt.imservice.entity.RecentInfo;
 import com.mogujie.tt.imservice.entity.UnreadEntity;
 import com.mogujie.tt.imservice.event.SessionEvent;
@@ -204,6 +205,59 @@ public class IMSessionManager extends IMManager {
         ArrayList<SessionEntity> needDb = new ArrayList<>(1);
         needDb.add(sessionEntity);
         dbInterface.batchInsertOrUpdateSession(needDb);
+        triggerEvent(SessionEvent.RECENT_SESSION_LIST_UPDATE);
+    }
+
+    /**
+     * 1.根据未读消息更新session的最后一条消息记录。
+     * @param   ue
+     */
+    public void updateSession(UnreadEntity ue) {
+        logger.d("recent#updateSession UnreadEntity:%s", ue);
+        if (ue == null) {
+            logger.d("recent#updateSession is end,cause by ue is null");
+            return;
+        }
+
+        //先从内存中找session
+        SessionEntity sessionEntity = sessionMap.get(ue.getSessionKey());
+        if (sessionEntity == null) {
+            logger.d("session#updateSession#not found ueSessionEntity");
+            sessionEntity = EntityChangeEngine.getSessionEntity(ue);
+            sessionEntity.buildSessionKey();
+            // 判断群组的信息是否存在
+            if(sessionEntity.getPeerType() == DBConstant.SESSION_TYPE_GROUP){
+                GroupEntity groupEntity = groupManager.findGroup(ue.getPeerId());
+                if(groupEntity == null){
+                    groupManager.reqGroupDetailInfo(ue.getPeerId());
+                }
+            }
+        }else{
+            logger.d("session#updateSession#ueSessionEntity already in Map");
+
+            String content  = ue.getLatestMsgData();
+            String desMessage = new String(com.mogujie.tt.Security.getInstance().DecryptMsg(content));
+            // 判断具体的类型是什么
+            int msgType = ue.getLaststMsgType();
+            if(msgType == DBConstant.MSG_TYPE_GROUP_TEXT ||
+                    msgType ==DBConstant.MSG_TYPE_SINGLE_TEXT){
+                desMessage =  MsgAnalyzeEngine.analyzeMessageDisplay(desMessage);
+            }
+            sessionEntity.setLatestMsgData(desMessage);
+
+            //sessionEntity.setUpdated(msg.getUpdated());
+            sessionEntity.setTalkId(ue.getLatestMsgFromUserId());
+            //todo check if msgid is null/0
+            sessionEntity.setLatestMsgId(ue.getLaststMsgId());
+            sessionEntity.setLatestMsgType(ue.getLaststMsgType());
+        }
+
+        /**DB 先更新*/
+        ArrayList<SessionEntity> needDb = new ArrayList<>(1);
+        needDb.add(sessionEntity);
+        dbInterface.batchInsertOrUpdateSession(needDb);
+
+        sessionMap.put(sessionEntity.getSessionKey(), sessionEntity);
         triggerEvent(SessionEvent.RECENT_SESSION_LIST_UPDATE);
     }
 
