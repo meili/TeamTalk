@@ -210,7 +210,7 @@ void CImConn::OnReadUDP()
 
 	if(ret <= 0)
 	{	// 读取要参照 void CImConn::OnRead()
-		printf("recv error \n");
+		printf("recv error error = %d\n", geterror());
 		return;
 	} 
 	else 
