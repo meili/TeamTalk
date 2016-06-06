@@ -198,7 +198,7 @@ void CImConn::OnWrite()
 
 	log("onWrite, remain=%d ", m_out_buf.GetWriteOffset());
 }
-
+extern int errno;
 void CImConn::OnReadUDP()
 {
 	sockaddr_in sender; // 发送端的地址 从哪发来的
@@ -210,7 +210,8 @@ void CImConn::OnReadUDP()
 
 	if(ret <= 0)
 	{	// 读取要参照 void CImConn::OnRead()
-		printf("recv error error = %d\n", geterror());
+		//printf("recv error error = %d\n", _GetErrorCode());
+		printf("recv error errno=%d\n", errno);
 		return;
 	} 
 	else 

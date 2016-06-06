@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 	printf("now enter the event loop...\n");
 
     writePid(); // FILE* f = fopen("server.pid", "w"); 写进程id 到文件名
-	netlib_eventloop_UDP(-1);  // 用epoll udp
+	netlib_eventloop_UDP(201);  // 用epoll udp
 	// UDP是阻塞的 开启接收处理线程 
 	// nat_serv_callback(m_socket);
 

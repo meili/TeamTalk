@@ -478,7 +478,7 @@ void CEventDispatch::StartDispatchUDP(uint32_t wait_timeout)
 				printf("OnClose, socket=%d\n", ev_fd);
 				pSocket->OnUDPClose();
 			}
-
+			printf("psocket releaseref()");
 			pSocket->ReleaseRef(); // 
 		}
 
