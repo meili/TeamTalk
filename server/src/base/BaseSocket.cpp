@@ -435,14 +435,14 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 	log("CBaseSocket::UDP_Bind on any %s :%d", server_ip, port);
 
 	AddBaseSocket(this); // g_socket_map.insert	
-	
+		
+	// UDP不用连接，直接调用连接成功
+	m_callback(m_callback_data, NETLIB_MSG_CONNECT, (net_handle_t)m_socket, NULL);
+
 	CEventDispatch::Instance()->AddUDPEvent(m_socket, SOCKET_ALL);//SOCKET_READ | SOCKET_EXCEP);
 	// udp 只是sendto recvfrom 要不要用epoll?  
 	//  先用epoll试试  epoll收不到消息?
 	//  就不addEvent了
-	
-	// UDP不用连接，直接调用连接成功
-	m_callback(m_callback_data, NETLIB_MSG_CONNECT, (net_handle_t)m_socket, NULL);
 
 	return NETLIB_OK;
 }

@@ -86,7 +86,7 @@ void CNatConn::OnConnect(net_handle_t handle)
 
 	m_sock_handle = handle;
 
-	g_nat_conn_map.insert(make_pair(handle, this));
+	g_nat_conn_map.insert(make_pair(handle, this)); // handler=m_socket
 
 	//netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)nat_conn_callback);
 	//netlib_option(handle, NETLIB_OPT_SET_CALLBACK_DATA, (void*)&g_nat_conn_map);

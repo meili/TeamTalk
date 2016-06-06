@@ -447,14 +447,15 @@ void CEventDispatch::StartDispatchUDP(uint32_t wait_timeout)
 		{
 			int ev_fd = events[i].data.fd;
 			CBaseSocket* pSocket = FindBaseSocket(ev_fd);
-			if (!pSocket)
+			if (!pSocket){
+				printf("pSocket null EventDispatch 451");
 				continue;
-            
+            }
             //Commit by zhfu @2015-02-28
             #ifdef EPOLLRDHUP
             if (events[i].events & EPOLLRDHUP)
             {
-                //log("On Peer Close, socket=%d, ev_fd);
+                printf("EventDispatch On Peer Close, socket=%d", ev_fd);
                 pSocket->OnUDPClose();
             }
             #endif
@@ -462,23 +463,23 @@ void CEventDispatch::StartDispatchUDP(uint32_t wait_timeout)
 
 			if (events[i].events & EPOLLIN)
 			{
-				//log("OnRead, socket=%d\n", ev_fd);
+				printf("EventDispatch OnRead, socket=%d\n", ev_fd);
 				pSocket->OnUDPRead();
 			}
 
 			if (events[i].events & EPOLLOUT)
 			{
-				//log("OnWrite, socket=%d\n", ev_fd);
+				printf("EventDispatch OnWrite, socket=%d\n", ev_fd);
 				pSocket->OnUDPWrite();
 			}
 
 			if (events[i].events & (EPOLLPRI | EPOLLERR | EPOLLHUP))
 			{
-				//log("OnClose, socket=%d\n", ev_fd);
+				printf("OnClose, socket=%d\n", ev_fd);
 				pSocket->OnUDPClose();
 			}
 
-			//pSocket->ReleaseRef();
+			pSocket->ReleaseRef(); // 
 		}
 
 		//_CheckTimer();
