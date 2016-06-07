@@ -38,7 +38,7 @@ public:
 protected:
 	uint32_t        m_state;
 
-	net_handle_t	m_sock_handle;
+	//net_handle_t	m_sock_handle;
 };
 
 

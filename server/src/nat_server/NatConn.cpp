@@ -67,16 +67,17 @@ CNatConn::~CNatConn()
 void CNatConn::Close()
 {	
     //m_state = CONN_STATE_CLOSED;
+	printf("CNatConn _Close_: handle=%d ", m_handle);
 
-    g_nat_conn_map.erase(m_sock_handle);
-    netlib_close(m_sock_handle);
+    g_nat_conn_map.erase(m_handle);
+    netlib_close(m_handle);
 
 	ReleaseRef();
 }
 
 void CNatConn::OnClose()
 {
-	log("MsgServer onclose: handle=%d ", m_sock_handle);
+	printf("CNatConn onclose: handle=%d ", m_handle);
 	Close();
 }
 
@@ -84,7 +85,8 @@ void CNatConn::OnConnect(net_handle_t handle)
 {
 	printf("CNatConn OnConnect insert handle %d \n", handle);
 
-	m_sock_handle = handle;
+	//m_sock_handle = handle;
+	m_handle = handle;// 用父类的m_handle要不recvform未赋值
 
 	g_nat_conn_map.insert(make_pair(handle, this)); // handler=m_socket
 
