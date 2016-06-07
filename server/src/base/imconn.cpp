@@ -222,8 +222,9 @@ void CImConn::OnReadUDP()
 	CImPdu* pPdu = NULL;
 	try
     {
-		while ( ( pPdu = CImPdu::ReadPdu(recvbuf, ret) ) )
-		{
+	//	while ( ( pPdu = CImPdu::ReadPdu(recvbuf, ret) ) )
+	pPdu = CImPdu::ReadPdu(recvbuf, ret);	
+	{
             uint32_t pdu_len = pPdu->GetLength();            
 			HandlePdu(pPdu);
 			delete pPdu;

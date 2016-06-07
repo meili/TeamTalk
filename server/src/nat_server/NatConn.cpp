@@ -159,7 +159,7 @@ void CNatConn::HandlePdu(CImPdu* pPdu)
 {
 	switch (pPdu->GetCommandId()) {
 		case CID_MSG_AUDIO_UDP_REQUEST:
-			printf("receive CID_MSG_AUDIO_UDP_REQUEST \n");
+	//		printf("receive CID_MSG_AUDIO_UDP_REQUEST \n");
 			_HandleClientAudioData(pPdu);	
 			break;
 		case CID_MSG_DATA:
