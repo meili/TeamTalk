@@ -152,6 +152,7 @@ int CBaseSocket::Recv(void* buf, int len)
 
 int CBaseSocket::Close()
 {
+	log("basesocket close \n");
 	CEventDispatch::Instance()->RemoveEvent(m_socket, SOCKET_ALL);
 	RemoveBaseSocket(this);
 	closesocket(m_socket);
@@ -163,6 +164,7 @@ int CBaseSocket::Close()
 //xie 2016-06-02 start//////////////////////////////
 void CBaseSocket::OnUDPClose()
 {
+	log("basesocket onudpclose \n");
 	m_state = SOCKET_STATE_CLOSING;
 	m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
 }
@@ -242,6 +244,7 @@ void CBaseSocket::OnWrite()
 
 void CBaseSocket::OnClose()
 {
+	log("basesocket onclose \n");
 	m_state = SOCKET_STATE_CLOSING;
 	m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
 }
@@ -405,7 +408,7 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 		return NETLIB_ERROR;
 	}
 	// 这通常是重启监听服务器时出现，若不设置此选项，则bind时将出错。
-	//_SetReuseAddr(m_socket); //  /*设置socket属性，端口可以重用*/
+	_SetReuseAddr(m_socket); //  /*设置socket属性，端口可以重用*/
 
 	_SetNonblock(m_socket); // 设置句柄为非阻塞方式
 
@@ -413,7 +416,7 @@ int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t call
 
 	printf("socket success");
 
-	_SetAddr(port, &serv_addr);
+	_SetAddr(server_ip, port, &serv_addr);
 	// 绑定端口
     int ret = ::bind(m_socket, (sockaddr*)&serv_addr, sizeof(serv_addr));
 	if (ret == SOCKET_ERROR)

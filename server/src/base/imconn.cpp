@@ -204,7 +204,7 @@ void CImConn::OnReadUDP()
 	sockaddr_in sender; // 发送端的地址 从哪发来的
 	uchar_t recvbuf[128]={0};
 	memset(recvbuf,0,128); 
-	printf("CImConn OnReadUDP\n");
+	printf("CImConn OnReadUDP %d\n", m_handle);
 	socklen_t dwSender = sizeof(sender);
 	int ret = recvfrom(m_handle, (uchar_t *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
 
