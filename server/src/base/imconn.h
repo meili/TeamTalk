@@ -27,7 +27,14 @@ public:
 
 	bool IsBusy() { return m_busy; }
 	int SendPdu(CImPdu* pPdu) { return Send(pPdu->GetBuffer(), pPdu->GetLength()); }
+
 	int Send(void* data, int len);
+
+	// xie 2016-06-07///////////
+	int SendPduUDP(CImPdu* pPdu) { return UDP_Send(pPdu->GetBuffer(), pPdu->GetLength()); }
+
+	int UDP_Send(void* data, int len);
+	////////////////////////////////////////////
 
 	virtual void OnConnect(net_handle_t handle) { m_handle = handle; }
 	virtual void OnConfirm() {}
@@ -38,6 +45,9 @@ public:
     	virtual void OnWriteCompelete() {};
 
 	virtual void HandlePdu(CImPdu* pPdu) {}
+
+	virtual void HandlePdu_UDP(CImPdu* pPdu,sockaddr_in sender) {}
+
 	
 	virtual void OnReadUDP();
 	virtual void OnWriteUDP();

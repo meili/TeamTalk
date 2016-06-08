@@ -219,31 +219,9 @@ public class IMNatServerManager extends IMManager {
 //        final MessageEntity messageEntity  = msgEntity;
 
         // 发送到服务器 // 需要回复的 new Packetlistener （服务端回复）
-        imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,new Packetlistener(12000) {
+        imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,new Packetlistener(6000) {
             @Override
             public void onSuccess(Object response) {
-                // 打洞成功
-                // 开始发送音频数据
-//                try {
-//                    IMMessage.IMMsgDataAck imMsgDataAck = IMMessage.IMMsgDataAck.parseFrom((CodedInputStream)response);
-//                    logger.i("chat#onAckSendedMsg");
-//                    if(imMsgDataAck.getMsgId() <=0){
-//                        throw  new RuntimeException("Msg ack error,cause by msgId <=0");
-//                    }
-//                    messageEntity.setStatus(MessageConstant.MSG_SUCCESS);
-//                    messageEntity.setMsgId(imMsgDataAck.getMsgId());
-
-                    // 指令不存库，UDP不用管发送成功失败
-
-                    /**主键ID已经存在，直接替换*/
-//                    dbInterface.insertOrUpdateMessage(messageEntity);
-                    /**更新sessionEntity lastMsgId问题*/
-//                    sessionManager.updateSession(messageEntity);
-                    // 发送，发送成功 收到这个表明发送成功
-//                    triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_OK,messageEntity));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
             }
             @Override
             public void onFaild() {
@@ -300,38 +278,16 @@ public class IMNatServerManager extends IMManager {
         imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,new Packetlistener(6000) {
             @Override
             public void onSuccess(Object response) {
-//                try {
-//                    IMMessage.IMMsgDataAck imMsgDataAck = IMMessage.IMMsgDataAck.parseFrom((CodedInputStream)response);
-//                    logger.i("chat#onAckSendedMsg");
-//                    if(imMsgDataAck.getMsgId() <=0){
-//                        throw  new RuntimeException("Msg ack error,cause by msgId <=0");
-//                    }
-//                    messageEntity.setStatus(MessageConstant.MSG_SUCCESS);
-//                    messageEntity.setMsgId(imMsgDataAck.getMsgId());
-//
-//                    // 指令不存库，UDP不用管发送成功失败
-//
-//                    /**主键ID已经存在，直接替换*/
-////                    dbInterface.insertOrUpdateMessage(messageEntity);
-//                    /**更新sessionEntity lastMsgId问题*/
-////                    sessionManager.updateSession(messageEntity);
-//                    // 发送，发送成功 收到这个表明发送成功
-////                    triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_OK,messageEntity));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+                //
             }
             @Override
             public void onFaild() {
                 messageEntity.setStatus(MessageConstant.MSG_FAILURE);
-//                dbInterface.insertOrUpdateMessage(messageEntity);
-//                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_FAILURE,messageEntity));
             }
             @Override
             public void onTimeout() {
                 messageEntity.setStatus(MessageConstant.MSG_FAILURE);
-//                dbInterface.insertOrUpdateMessage(messageEntity);
-//                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_TIME_OUT,messageEntity));
+                // 超时重传一次？
             }
         },serverAddress);
     }

@@ -92,75 +92,21 @@ void CNatConn::OnConnect(net_handle_t handle)
 
 	//netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)nat_conn_callback);
 	//netlib_option(handle, NETLIB_OPT_SET_CALLBACK_DATA, (void*)&g_nat_conn_map);
-	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)imconn_callback); // 数据接收imconn_callback
+	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)imconn_callback); // CImConn类的: 数据接收imconn_callback
 	netlib_option(handle, NETLIB_OPT_SET_CALLBACK_DATA, (void*)&g_nat_conn_map);
-
-	//imconn_callback(g_nat_conn_map, NETLIB_MSG_READ, (net_handle_t)m_socket, NULL);
-
 }
 /*
-// 读
-void CNatConn::OnReadUDP()
-{
-	sockaddr_in sender; // 发送端的地址 从哪发来的
 
-	// stMessage recvbuf; // 用 protobuf定义的IMAudioReq
-	printf("1111111111\n");
-	//IM::Message::IMAudioReq recvbuf; // IMAudioReq 是个类 class
-	//printf("22222222222=%d\n", sizeof(IM::Message::IMAudioReq));
-
-	//IM::Server::IMUserStatusUpdate msg;
-    //CHECK_PB_PARSE_MSG(msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
-	char recvbuf[128]={0};
-	memset(recvbuf,0,128); 
-	printf("333333333333333\n");
-	socklen_t dwSender = sizeof(sender);
-	printf("4444444444444444\n");
-	//for(;;){
-		//	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, sizeof(IM::Message::IMAudioReq), 0, (sockaddr *)&sender, &dwSender);
-		//if(ret <= 0)
-		//{
-		//	printf("recv error");
-		//	return;
-		//}
-	// recv到发生EAGAIN为
-	//}
-	//printf("OnUDPRead m_sock_handle=%d", m_sock_handle);
-	// UDP包固定大小
-	int ret = recvfrom(m_sock_handle, (char *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
-	if(ret <= 0)
-	{	// 读取要参照 void CImConn::OnRead()
-		printf("recv error");
-		return;
-	}
-	// else
-	//{ 
-	//	printf("recv success:%s",recvbuf);
-	//}
-	printf("Receive message from: %s :%ld:%d:%s\n",inet_ntoa(sender.sin_addr),ntohs(sender.sin_port),ret,recvbuf);
-	
-	
-	//HandlePdu(&recvbuf);
-
-	//int nsend = sendto(m_sock_handle, (const char*)&recvbuf,128, 0, (const sockaddr*)&sender, sizeof(sender));
-    //    printf("send message %d\n",nsend);    
-}
-
-// 写
-void CNatConn::OnWriteUDP()
-{
-	// 写入字段拼接要参数void CImConn::OnWrite()
-}
 */
 
 //void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
 //{
-void CNatConn::HandlePdu(CImPdu* pPdu)
+void CNatConn::HandlePdu_UDP(CImPdu* pPdu, sockaddr_in sender)
 {
 	switch (pPdu->GetCommandId()) {
 		case CID_MSG_AUDIO_UDP_REQUEST:
 	//		printf("receive CID_MSG_AUDIO_UDP_REQUEST \n");
-			_HandleClientAudioData(pPdu);	
+			_HandleClientAudioData(pPdu, sender);	
 			break;
 		case CID_MSG_DATA:
 			printf("receive CID_MSG_DATA \n");
@@ -200,22 +146,60 @@ void CNatConn::HandlePdu(CImPdu* pPdu)
 	}
 }
 
-void CNatConn::_HandleClientAudioData(CImPdu* pPdu)
-{
+// 根据人查找 // 房间号 ip port
+hash_map<uint32_t, user_serv_info_t*> g_user_room_info;
+
+
+void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
+{	// 收到消息要连哪个房间的处理
+
     IM::Message::IMAudioReq audioReq; // 音频请求
 
 	//required uint32 from_user_id = 1;		// 用户id
-	//required uint32 to_room_id = 2;			// 要加入的房间id
+	//required uint32 to_room_id = 2;		// 要加入的房间id
 	//required uint32 msg_id = 3;			// 消息ID （加入还是退出） 0 加入 1退出
 	//required uint32 create_time = 4;		// 消息时间
 	//required IM.BaseDefine.MsgType msg_type = 5;	// 消息类型
-	//required IM.BaseDefine.ClientType client_type = 6;  // 客户端类型
+	//required IM.BaseDefine.ClientType client_type = 6;  // 客户端类型	
 	// MSG_TYPE_SINGLE_AUDIO_MEET
+
 	CHECK_PB_PARSE_MSG(audioReq.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
 	printf("recv ok\n");	
 	// 测试看收的到吗，能不解析
-//	printf("from_user_id = %d, to_room_id = %d,msg_id = %d", audioReq.from_user_id, audioReq.to_room_id, audioReq.msg_id);
+	printf("from_user_id = %d, to_room_id = %d,msg_id = %d", audioReq.from_user_id, audioReq.to_room_id, audioReq.msg_id);
+	// 两人id 相关房间号
+	// 根据房间ID去找 (退出机制要完善，一段时间后不在房间的清掉？)
+	map<uint32_t, user_serv_info_t*>::iterator it = g_user_room_info.find(audioReq.to_room_id);
 	
+	if (it != g_user_room_info.end()) {
+		// 如果没找到，插入
+		user_serv_info_t* pMsgServInfo = new user_serv_info_t;
+
+		sprintf()
+		pMsgServInfo->ip_addr =ntohl(sender.sin_addr.S_un.S_addr);//msg.ip1();	// int
+		pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
+		pMsgServInfo->uid = audioReq.from_user_id;	// 用户ID
+		pMsgServInfo->rid = audioReq.to_room_id;	// 房ID
+		pMsgServInfo->create_time = time(NULL); // 当前时间
+		g_user_room_info->insert(make_pair(audioReq.to_room_id, pMsgServInfo));
+	} else {
+	}
+   
+
+	// 如果找到，更新 // 发送消息
+
+	// 
+	IM::Message::IMAudioRsp msgARsp;// 
+	// 消息数据填充
+
+	// sendto
+	CImPdu pdu;
+    pdu.SetPBMsg(&msgARsp);
+    pdu.SetServiceId(SID_MSG);						// service 消息ID
+    pdu.SetCommandId(CID_MSG_AUDIO_UDP_REQUEST);	// 音频返回请求
+    pdu.SetSeqNum(pPdu->GetSeqNum());				// 返回值，证明把ip、port给服务器了
+    SendPdu(&pdu);
+
 }
 
 void CNatConn::_HandleClientMsgData(CImPdu* pPdu)
@@ -226,6 +210,9 @@ void CNatConn::_HandleClientMsgData(CImPdu* pPdu)
 //		log("discard an empty message, uid=%u ", GetUserId());
 		return;
 	}
+
+	// 
+
 /*
 	if (m_msg_cnt_per_sec >= MAX_MSG_CNT_PER_SECOND) {
 		log("!!!too much msg cnt in one second, uid=%u ", GetUserId());

@@ -250,7 +250,7 @@ message IpAddr{
 // xqq add
 message UserIpAddr{
 	required uint32 user_id = 1;		// 用户id
-	required string ip = 2;
+	required uint32 ip = 2;
 	required uint32 port = 3;
 }
 

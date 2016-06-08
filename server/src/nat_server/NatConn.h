@@ -16,6 +16,14 @@
 #include "imconn.h"
 #include "IM.Message.pb.h"
 
+typedef struct  {
+    string	ip_addr;// IP
+    uint16_t	port;	// 端口
+    uint32_t	uid;	// 用户id
+    uint32_t	rid;	// 房间id
+    uint32_t	create_time;// 加入房间的时间
+} user_serv_info_t;
+
 class CNatConn : public CImConn
 {
 public:
@@ -28,10 +36,10 @@ public:
 	virtual void OnClose();
 
 	virtual void HandlePdu(CImPdu* pPdu);
-	//void OnReadUDP();
-	//void OnWriteUDP();
 
-	void _HandleClientAudioData(CImPdu* pPdu);
+	virtual void HandlePdu_UDP(CImPdu* pPdu, sockaddr_in sender);
+
+	void _HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender);
 	void _HandleClientMsgData(CImPdu* pPdu);
 
 
