@@ -258,7 +258,7 @@ int CImConn::UDP_Send(void* data, int len, sockaddr_in sender)
 	//
 	//
 
-	int ret = sendto(m_handle, (uchar_t *)&data, len, 0, (sockaddr *)&sender, &dwSender);
+	int ret = sendto(m_handle, (uchar_t *)&data, len, 0, (sockaddr *)&sender, sizeof(sender));
 	/*int ret = netlib_send_udp(m_handle, (char*)data + offset , send_size);
 	if (ret <= 0) {
 		ret = 0;

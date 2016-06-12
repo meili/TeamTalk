@@ -182,6 +182,7 @@ bool MessageCmdID_IsValid(int value) {
     case 782:
     case 783:
     case 784:
+    case 785:
       return true;
     default:
       return false;
@@ -702,10 +703,9 @@ UserIpAddr::UserIpAddr(const UserIpAddr& from)
 }
 
 void UserIpAddr::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   user_id_ = 0u;
-  ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ip_ = 0u;
   port_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -716,9 +716,6 @@ UserIpAddr::~UserIpAddr() {
 }
 
 void UserIpAddr::SharedDtor() {
-  if (ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete ip_;
-  }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
   #else
@@ -758,14 +755,7 @@ void UserIpAddr::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  if (_has_bits_[0 / 32] & 7) {
-    ZR_(user_id_, port_);
-    if (has_ip()) {
-      if (ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        ip_->clear();
-      }
-    }
-  }
+  ZR_(user_id_, port_);
 
 #undef OFFSET_OF_FIELD_
 #undef ZR_
@@ -798,16 +788,18 @@ bool UserIpAddr::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_ip;
+        if (input->ExpectTag(16)) goto parse_ip;
         break;
       }
 
-      // required string ip = 2;
+      // required uint32 ip = 2;
       case 2: {
-        if (tag == 18) {
+        if (tag == 16) {
          parse_ip:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_ip()));
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &ip_)));
+          set_has_ip();
         } else {
           goto handle_unusual;
         }
@@ -860,10 +852,9 @@ void UserIpAddr::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->user_id(), output);
   }
 
-  // required string ip = 2;
+  // required uint32 ip = 2;
   if (has_ip()) {
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->ip(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->ip(), output);
   }
 
   // required uint32 port = 3;
@@ -887,10 +878,10 @@ int UserIpAddr::ByteSize() const {
           this->user_id());
     }
 
-    // required string ip = 2;
+    // required uint32 ip = 2;
     if (has_ip()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->ip());
     }
 
