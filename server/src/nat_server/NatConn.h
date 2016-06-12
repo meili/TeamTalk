@@ -35,7 +35,7 @@ public:
 	virtual void OnConnect(net_handle_t handle);
 	virtual void OnClose();
 
-	virtual void HandlePdu(CImPdu* pPdu);
+//	virtual void HandlePdu(CImPdu* pPdu);
 
 	virtual void HandlePdu_UDP(CImPdu* pPdu, sockaddr_in sender);
 

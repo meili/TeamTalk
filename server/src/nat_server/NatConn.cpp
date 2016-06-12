@@ -150,7 +150,7 @@ void CNatConn::HandlePdu_UDP(CImPdu* pPdu, sockaddr_in sender)
 //map<uint32_t, user_serv_info_t*> g_user_info;
 // 房间ID,找出有多少人在这个房间 (map 嵌套)
 typedef map<uint32_t, user_serv_info_t*>  user_map;
-typedef hash_map<uint32_t, user_map*> room_map;
+typedef map<uint32_t, user_map*> room_map;
 //hash_map<uint32_t, map<uint32_t, user_serv_info_t*>*> g_user_room_info;
 room_map g_user_room_info;
 
@@ -180,7 +180,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 		user_map* t_user_info = new user_map;
 		user_serv_info_t* pMsgServInfo = new user_serv_info_t;
 
-		pMsgServInfo->ip_addr =ntohl(sender.sin_addr.S_un.S_addr);//msg.ip1();	// int
+		pMsgServInfo->ip_addr =ntohl(sender.sin_addr.s_addr);//.S_un.S_addr);//msg.ip1();	// int
 		pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
 		pMsgServInfo->uid = (audioReq.from_user_id());	// 用户ID
 		pMsgServInfo->rid = audioReq.to_room_id();	// 房ID
@@ -189,7 +189,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 		t_user_info->insert(make_pair(audioReq.from_user_id(), pMsgServInfo));
 
 		// 把人加入房间
-		g_user_room_info->insert(make_pair(audioReq.to_room_id(), *t_user_info));
+		g_user_room_info.insert(make_pair(audioReq.to_room_id(), t_user_info));
 	} else {
 		// 找到，插入不了
 		user_map* p_user_info = it->second;
@@ -234,13 +234,14 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					msgARsp.set_to_room_id(p_user_serv_info2->rid);	// 房间ID
 					msgARsp.set_count_in_room(p_user_info->size()); // 房间里的人数 
 
-					IM::BaseDefine::UserIpAddr ip_addr_tmp;
-					ip_addr_tmp.set_user_id(p_user_serv_info2->uid);
-					ip_addr_tmp.set_ip(p_user_serv_info2->ip_addr);
-					ip_addr_tmp.set_port(p_user_serv_info2->port);
+					IM::BaseDefine::UserIpAddr* ip_addr_tmp=msgARsp.add_user_list();
+					ip_addr_tmp->set_user_id(p_user_serv_info2->uid);
+					ip_addr_tmp->set_ip(p_user_serv_info2->ip_addr);
+					ip_addr_tmp->set_port(p_user_serv_info2->port);
 
-					msgARsp.set_user_list(ip_addr_tmp);
-					
+					//msgARsp.add_user_list(ip_addr_tmp);
+										
+
 					pdu.SetPBMsg(&msgARsp);
 
 					pdu.SetServiceId(SID_MSG);						// service 消息ID
