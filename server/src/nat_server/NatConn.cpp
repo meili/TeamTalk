@@ -173,12 +173,13 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 	printf("from_user_id = %d, to_room_id = %d,msg_id = %d", audioReq.from_user_id(), audioReq.to_room_id(), audioReq.msg_id());
 	// 两人id 相关房间号
 	// 根据房间ID去找 (退出机制要完善，一段时间后不在房间的清掉？)
-	hash_map<uint32_t, map<uint32_t, user_serv_info_t*>>::iterator it = g_user_room_info.find(audioReq.to_room_id());
+	room_map::iterator it = g_user_room_info.find(audioReq.to_room_id());
 	if (it == g_user_room_info.end()) {
 		// 如果没找到，插入
-		map<uint32_t, user_serv_info_t*>* t_user_info = new map<uint32_t, user_serv_info_t*>; // 记得delete
+		// map<uint32_t, user_serv_info_t*>* t_user_info = new map<uint32_t, user_serv_info_t*>; // 记得delete
+		user_map* t_user_info = new user_map;
 		user_serv_info_t* pMsgServInfo = new user_serv_info_t;
-		sprintf()
+
 		pMsgServInfo->ip_addr =ntohl(sender.sin_addr.S_un.S_addr);//msg.ip1();	// int
 		pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
 		pMsgServInfo->uid = (audioReq.from_user_id());	// 用户ID
@@ -191,15 +192,14 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 		g_user_room_info->insert(make_pair(audioReq.to_room_id(), *t_user_info));
 	} else {
 		// 找到，插入不了
-		map<uint32_t, user_serv_info_t*>* p_user_info = it->second;
-		map<uint32_t, user_serv_info_t*>::iterator it_user = p_user_info->find(audioReq.from_user_id());
+		user_map* p_user_info = it->second;
+		user_map::iterator it_user = p_user_info->find(audioReq.from_user_id());
 		if(it_user != p_user_info->end()){
 			// 己经加入这个房间
 				
 			
 		} else {
 			user_serv_info_t* pMsgServInfo = new user_serv_info_t;
-
 			pMsgServInfo->ip_addr =ntohl(sender.sin_addr.s_addr);//.S_un.S_addr);//msg.ip1();	// int
 			pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
 			pMsgServInfo->uid = audioReq.from_user_id();	// 用户ID
@@ -210,15 +210,15 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 		}
 
 		// 遍历发送
-		for (map<uint32_t, user_serv_info_t*>::iterator it_send = p_user_info->begin(); it_send != p_user_info->end(); ) {
-			map<uint32_t, user_serv_info_t*>::iterator it_old = it_send;
+		for (user_map::iterator it_send = p_user_info->begin(); it_send != p_user_info->end(); ) {
+			user_map::iterator it_old = it_send;
 			it_send++;
 
 			// 
 			user_serv_info_t* p_user_serv_info = it_old->second;
 
-			for (map<uint32_t, user_serv_info_t*>::iterator it_send2 = p_user_info->begin(); it_send2 != p_user_info->end(); ) {
-				map<uint32_t, user_serv_info_t*>::iterator it_old2 = it_send2;
+			for (user_map::iterator it_send2 = p_user_info->begin(); it_send2 != p_user_info->end(); ) {
+				user_map::iterator it_old2 = it_send2;
 				it_send2++;
 
 				user_serv_info_t* p_user_serv_info2 = it_old2->second;
