@@ -135,7 +135,7 @@ message IMAudioReq{	// UDP包
 // UDP服务器回的 包括IP
 message IMAudioRsp{
 	//cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
-	required uint32 from_user_id = 1;		// 请求人的ID
+	required uint32 from_user_id = 1;		// 请求人的ID （没有用）
 	required uint32 to_room_id = 2;			// 房间id，看时否与本人的房间号相符
 	required uint32 count_in_room = 3;		// 当前房间的人数
 	repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port

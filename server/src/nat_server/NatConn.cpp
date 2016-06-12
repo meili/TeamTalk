@@ -147,8 +147,9 @@ void CNatConn::HandlePdu_UDP(CImPdu* pPdu, sockaddr_in sender)
 }
 
 // 根据人查找 // 房间号 ip port
-hash_map<uint32_t, user_serv_info_t*> g_user_room_info;
-
+//map<uint32_t, user_serv_info_t*> g_user_info;
+// 房间ID,找出有多少人在这个房间 (map 嵌套)
+hash_map<uint32_t, map<uint32_t, user_serv_info_t*>> g_user_room_info;
 
 void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 {	// 收到消息要连哪个房间的处理
@@ -169,37 +170,102 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 	printf("from_user_id = %d, to_room_id = %d,msg_id = %d", audioReq.from_user_id, audioReq.to_room_id, audioReq.msg_id);
 	// 两人id 相关房间号
 	// 根据房间ID去找 (退出机制要完善，一段时间后不在房间的清掉？)
-	map<uint32_t, user_serv_info_t*>::iterator it = g_user_room_info.find(audioReq.to_room_id);
-	
-	if (it != g_user_room_info.end()) {
+	hash_map<uint32_t, map<uint32_t, user_serv_info_t*>>::iterator it = g_user_room_info.find(audioReq.to_room_id);
+	if (it == g_user_room_info.end()) {
 		// 如果没找到，插入
+		map<uint32_t, user_serv_info_t*>* t_user_info = new map<uint32_t, user_serv_info_t*>; // 记得delete
 		user_serv_info_t* pMsgServInfo = new user_serv_info_t;
-
 		sprintf()
 		pMsgServInfo->ip_addr =ntohl(sender.sin_addr.S_un.S_addr);//msg.ip1();	// int
 		pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
 		pMsgServInfo->uid = audioReq.from_user_id;	// 用户ID
 		pMsgServInfo->rid = audioReq.to_room_id;	// 房ID
 		pMsgServInfo->create_time = time(NULL); // 当前时间
-		g_user_room_info->insert(make_pair(audioReq.to_room_id, pMsgServInfo));
+		// 加人
+		t_user_info->insert(make_pair(audioReq.from_user_id, pMsgServInfo));
+
+		// 把人加入房间
+		g_user_room_info->insert(make_pair(audioReq.to_room_id, t_user_info));
 	} else {
+		// 找到，插入不了
+		map<uint32_t, user_serv_info_t*>* p_user_info = it->second;
+		map<uint32_t, user_serv_info_t*>::iterator it_user = p_user_info->find(audioReq.from_user_id);
+		if(it_user != p_user_info->end()){
+			// 己经加入这个房间
+				
+			
+		} else {
+			user_serv_info_t* pMsgServInfo = new user_serv_info_t;
+			sprintf()
+			pMsgServInfo->ip_addr =ntohl(sender.sin_addr.S_un.S_addr);//msg.ip1();	// int
+			pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
+			pMsgServInfo->uid = audioReq.from_user_id;	// 用户ID
+			pMsgServInfo->rid = audioReq.to_room_id;	// 房ID
+			pMsgServInfo->create_time = time(NULL); // 当前时间
+			// 加人
+			p_user_info->insert(make_pair(audioReq.from_user_id, pMsgServInfo));		
+		}
+
+		// 遍历发送
+		for (map<uint32_t, user_serv_info_t*>::iterator it_send = p_user_info->begin(); it_send != p_user_info->end(); ) {
+			map<uint32_t, user_serv_info_t*>::iterator it_old = it_send;
+			it_send++;
+
+			// 
+			user_serv_info_t* p_user_serv_info = it_old->second;
+
+			for (map<uint32_t, user_serv_info_t*>::iterator it_send2 = p_user_info->begin(); it_send2 != p_user_info->end(); ) {
+				map<uint32_t, user_serv_info_t*>::iterator it_old2 = it_send2;
+				it_send2++;
+
+				user_serv_info_t* p_user_serv_info2 = it_old2->second;
+
+				if(p_user_serv_info->uid == p_user_serv_info2->uid){
+					continue;	// 自己不用给自己发
+				} else {
+					// 消息发送
+					CImPdu pdu;
+					IM::Message::IMAudioRsp msgARsp;
+					
+					msgARsp.set_from_user_id(p_user_serv_info2.uid);// 用户ID
+					msgARsp.set_to_room_id(p_user_serv_info2.rid);	// 房间ID
+					msgARsp.set_count_in_room(p_user_info->size()); // 房间里的人数 
+
+					IM::BaseDefine::UserIpAddr ip_addr_tmp;
+					ip_addr_tmp.set_user_id(p_user_serv_info2->uid);
+					ip_addr_tmp.set_ip(p_user_serv_info2->ip_addr);
+					ip_addr_tmp.set_port(p_user_serv_info2->port);
+
+					msgARsp.set_user_list(ip_addr_tmp);
+					
+					pdu.SetPBMsg(&msgARsp);
+
+					pdu.SetServiceId(SID_MSG);						// service 消息ID
+					pdu.SetCommandId(CID_MSG_AUDIO_UDP_REQUEST);	// 音频返回请求
+					pdu.SetSeqNum(pPdu->GetSeqNum());				// 返回值，证明把ip、port给服务器了
+					
+					// 回复
+					sockaddr_in remote
+					remote.sin_family=AF_INET;
+					remote.sin_port= htons(p_user_serv_info->port); 
+					remote.sin_addr.s_addr = htonl(p_user_serv_info->ip_addr);
+
+					SendPduUDP(&pdu, sender);				 
+				}
+			}
+		}
+		/*	
+			// 消息发送
+			// sendto
+			CImPdu pdu;
+			pdu.SetPBMsg(&msgARsp);
+			pdu.SetServiceId(SID_MSG);						// service 消息ID
+			pdu.SetCommandId(CID_MSG_AUDIO_UDP_REQUEST);	// 音频返回请求
+			pdu.SetSeqNum(pPdu->GetSeqNum());				// 返回值，证明把ip、port给服务器了
+			SendPdu(&pdu);
+		*/
 	}
-   
-
-	// 如果找到，更新 // 发送消息
-
-	// 
-	IM::Message::IMAudioRsp msgARsp;// 
-	// 消息数据填充
-
-	// sendto
-	CImPdu pdu;
-    pdu.SetPBMsg(&msgARsp);
-    pdu.SetServiceId(SID_MSG);						// service 消息ID
-    pdu.SetCommandId(CID_MSG_AUDIO_UDP_REQUEST);	// 音频返回请求
-    pdu.SetSeqNum(pPdu->GetSeqNum());				// 返回值，证明把ip、port给服务器了
-    SendPdu(&pdu);
-
+	
 }
 
 void CNatConn::_HandleClientMsgData(CImPdu* pPdu)

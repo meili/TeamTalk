@@ -243,7 +243,7 @@ void CImConn::OnReadUDP()
 	}
 }
 
-int CImConn::UDP_Send(void* data, int len)
+int CImConn::UDP_Send(void* data, int len, sockaddr_in sender)
 {	
 	m_last_send_tick = get_tick_count();
 	if (m_busy)
@@ -252,7 +252,7 @@ int CImConn::UDP_Send(void* data, int len)
 		return len;
 	}
 
-	sockaddr_in sender; // 从哪发来的
+	//sockaddr_in sender; // 从哪发来的
 	// 根据ID找出sender
 	//
 	//

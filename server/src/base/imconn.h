@@ -31,9 +31,9 @@ public:
 	int Send(void* data, int len);
 
 	// xie 2016-06-07///////////
-	int SendPduUDP(CImPdu* pPdu) { return UDP_Send(pPdu->GetBuffer(), pPdu->GetLength()); }
+	int SendPduUDP(CImPdu* pPdu,sockaddr_in sender) { return UDP_Send(pPdu->GetBuffer(), pPdu->GetLength(), sender); }
 
-	int UDP_Send(void* data, int len);
+	int UDP_Send(void* data, int len, sockaddr_in sender);
 	////////////////////////////////////////////
 
 	virtual void OnConnect(net_handle_t handle) { m_handle = handle; }
