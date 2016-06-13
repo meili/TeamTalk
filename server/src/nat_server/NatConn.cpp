@@ -170,7 +170,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 	CHECK_PB_PARSE_MSG(audioReq.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
 	printf("recv ok\n");	
 	// 测试看收的到吗，能不解析
-	printf("from_user_id = %d, to_room_id = %d,msg_id = %d", audioReq.from_user_id(), audioReq.to_room_id(), audioReq.msg_id());
+	printf("from_user_id = %d, to_room_id = %d,msg_id = %d, ip = %s, port = %d\n", audioReq.from_user_id(), audioReq.to_room_id(), audioReq.msg_id(), inet_ntoa(sender.sin_addr), sender.sin_port);
 	// 两人id 相关房间号
 	// 根据房间ID去找 (退出机制要完善，一段时间后不在房间的清掉？)
 	room_map::iterator it = g_user_room_info.find(audioReq.to_room_id());
@@ -223,13 +223,15 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 
 				user_serv_info_t* p_user_serv_info2 = it_old2->second;
 
-				if(p_user_serv_info->uid == p_user_serv_info2->uid){
-					continue;	// 自己不用给自己发
-				} else {
+	//			if(p_user_serv_info->uid == p_user_serv_info2->uid){
+	//				continue;	// 自己不用给自己发
+	//			} else 
+				{
 					// 消息发送
 					CImPdu pdu;
-					IM::Message::IMAudioRsp msgARsp;
 					
+					IM::Message::IMAudioRsp msgARsp;
+						
 					msgARsp.set_from_user_id(p_user_serv_info2->uid);// 用户ID
 					msgARsp.set_to_room_id(p_user_serv_info2->rid);	// 房间ID
 					msgARsp.set_count_in_room(p_user_info->size()); // 房间里的人数 
@@ -239,22 +241,19 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					ip_addr_tmp->set_ip(p_user_serv_info2->ip_addr);
 					ip_addr_tmp->set_port(p_user_serv_info2->port);
 
-					//msgARsp.add_user_list(ip_addr_tmp);
-										
-
 					pdu.SetPBMsg(&msgARsp);
 
-					pdu.SetServiceId(SID_MSG);						// service 消息ID
+					pdu.SetServiceId(IM::BaseDefine::SID_MSG);						// service 消息ID
 					pdu.SetCommandId(CID_MSG_AUDIO_UDP_REQUEST);	// 音频返回请求
 					pdu.SetSeqNum(pPdu->GetSeqNum());				// 返回值，证明把ip、port给服务器了
-					
+					//pdu.SetPBMsg(&msgARsp);//	
 					// 回复
 					sockaddr_in remote;
 					remote.sin_family=AF_INET;
 					remote.sin_port= htons(p_user_serv_info->port); 
 					remote.sin_addr.s_addr = htonl(p_user_serv_info->ip_addr);
 
-					SendPduUDP(&pdu, sender);				 
+					SendPduUDP(&pdu, remote);				 
 				}
 			}
 		}
