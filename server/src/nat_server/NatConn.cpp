@@ -244,7 +244,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					pdu.SetPBMsg(&msgARsp);
 
 					pdu.SetServiceId(IM::BaseDefine::SID_MSG);						// service 消息ID
-					pdu.SetCommandId(CID_MSG_AUDIO_UDP_REQUEST);	// 音频返回请求
+					pdu.SetCommandId(CID_MSG_AUDIO_UDP_RESPONSE);	// 音频返回请求
 					pdu.SetSeqNum(pPdu->GetSeqNum());				// 返回值，证明把ip、port给服务器了
 					//pdu.SetPBMsg(&msgARsp);//	
 					// 回复
