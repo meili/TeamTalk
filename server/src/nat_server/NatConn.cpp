@@ -171,7 +171,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 	printf("recv ok\n");	
 	// 测试看收的到吗，能不解析
 	printf("from_user_id = %d, to_room_id = %d,msg_id = %d, ip = %s, port = %d\n", audioReq.from_user_id(), audioReq.to_room_id(), audioReq.msg_id(), inet_ntoa(sender.sin_addr), sender.sin_port);
-	// 两人id 相关房间号
+	// 两人id 相加房间号
 	// 根据房间ID去找 (退出机制要完善，一段时间后不在房间的清掉？)
 	room_map::iterator it = g_user_room_info.find(audioReq.to_room_id());
 	if (it == g_user_room_info.end()) {
@@ -196,7 +196,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 		user_map::iterator it_user = p_user_info->find(audioReq.from_user_id());
 		if(it_user != p_user_info->end()){
 			// 己经加入这个房间
-				
+			// 更新
 			
 		} else {
 			user_serv_info_t* pMsgServInfo = new user_serv_info_t;
