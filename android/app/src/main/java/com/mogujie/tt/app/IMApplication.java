@@ -35,6 +35,6 @@ public class IMApplication extends Application {
     public static boolean gifRunning = true;//gif是否运行
 
 	public static int connNid = 0;
-	public static String connStrIP = "";
+	public static int connNIP = 0;
 	public static int connNport = 8132;
 }

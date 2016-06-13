@@ -170,7 +170,8 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 	CHECK_PB_PARSE_MSG(audioReq.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength()));
 	printf("recv ok\n");	
 	// 测试看收的到吗，能不解析
-	printf("from_user_id = %d, to_room_id = %d,msg_id = %d, ip = %s, port = %d\n", audioReq.from_user_id(), audioReq.to_room_id(), audioReq.msg_id(), inet_ntoa(sender.sin_addr), sender.sin_port);
+	printf("from_user_id = %d, to_room_id = %d,msg_id = %d, ip = %s, port = %d\n", audioReq.from_user_id(), audioReq.to_room_id(), 
+		audioReq.msg_id(), inet_ntoa(sender.sin_addr), sender.sin_port);
 	// 两人id 相加房间号
 	// 根据房间ID去找 (退出机制要完善，一段时间后不在房间的清掉？)
 	room_map::iterator it = g_user_room_info.find(audioReq.to_room_id());
@@ -252,6 +253,9 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					remote.sin_family=AF_INET;
 					remote.sin_port= htons(p_user_serv_info->port); 
 					remote.sin_addr.s_addr = htonl(p_user_serv_info->ip_addr);
+			
+			//pMsgServInfo->ip_addr =ntohl(sender.sin_addr.s_addr);//.S_un.S_addr);//msg.ip1();	// int
+			// inet_ntoa(sender.sin_addr)  string
 
 					SendPduUDP(&pdu, remote);				 
 				}

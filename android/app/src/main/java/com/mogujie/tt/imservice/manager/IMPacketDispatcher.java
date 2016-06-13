@@ -91,6 +91,27 @@ public class IMPacketDispatcher {
             logger.e("buddyPacketDispatcher# error,cid:%d",commandId);
         }
     }
+
+    //
+    public static String inet_ntoa(long add) {
+        return ((add & 0xff000000) >> 24) + "." + ((add & 0xff0000) >> 16)
+                + "." + ((add & 0xff00) >> 8) + "." + ((add & 0xff));
+    }
+
+//    public static String inet_ntoa2(long add) {
+//        return ((add & 0xff)) + "." + ((add & 0xff00) >> 8)
+//                + "." + ((add & 0xff0000) >> 16) + "." + ((add & 0xff000000) >> 24);
+//
+////        private static byte[] toLH(int n) {
+////            byte[] b = new byte[4];
+////            b[0] = (byte) (n & 0xff);
+////            b[1] = (byte) (n >> 8 & 0xff);
+////            b[2] = (byte) (n >> 16 & 0xff);
+////            b[3] = (byte) (n >> 24 & 0xff);
+////            return b;
+////        }
+//    }
+
     public static void msgPacketDispatcher(int commandId, CodedInputStream buffer,MessageEvent msgE) {
         logger.d("channel#messageUDPReceived#msgPacketDispatcher commandId:%d", commandId);
         try {
@@ -133,14 +154,19 @@ public class IMPacketDispatcher {
                     IMMessageManager.instance().onRecvAMessage(imMsgAData);
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_RESPONSE_VALUE:
+                    logger.d("channel#messageUDPReceived#msgPacketDispatcher CID_MSG_AUDIO_UDP_RESPONSE_VALUE __ OK");
+
                     // udp_server 返回的UDP请求包
                     IMMessage.IMAudioRsp audioRsp = IMMessage.IMAudioRsp.parseFrom(buffer);
+                    logger.d("channel#messageUDPReceived# %d_%d_%d_%s" ,
+                            audioRsp.getFromUserId(),
+                            audioRsp.getUserList(0).getIp(),
+                            audioRsp.getUserList(0).getPort()
+                            ,inet_ntoa(audioRsp.getUserList(0).getIp()));
+//                    inet_ntoa2(audioRsp.getUserList(0).getIp())
 
                     UserEntity loginUser = IMLoginManager.instance().getLoginInfo();
 
-//                    if (audioRsp.getFromUserId() == loginUser.getId()) {
-//                        return;
-//                    }
                     if (audioRsp.getUserList(0).getUserId() == loginUser.getId()) {
                         return;
                     }
@@ -152,12 +178,11 @@ public class IMPacketDispatcher {
 
                         // id ip port
                         IMApplication.connNid = audioRsp.getUserList(0).getUserId();
-                        IMApplication.connStrIP = audioRsp.getUserList(0).getIp();
+                        IMApplication.connNIP = audioRsp.getUserList(0).getIp();
                         IMApplication.connNport = audioRsp.getUserList(0).getPort();
+                        SocketAddress serverAddress = new InetSocketAddress(inet_ntoa(IMApplication.connNIP), IMApplication.connNport);
 
-                        SocketAddress serverAddress = new InetSocketAddress(IMApplication.connStrIP, IMApplication.connNport);
-
-                        // 发送打洞数据 (几秒重发一次直到成功)
+//                         发送打洞数据 (几秒重发一次直到成功)
                         IMNatServerManager.instance().SendAudioData(
                                 loginUser,
                                 ByteString.copyFrom(sendContent,"utf-8"),//.getBytes("utf-8"),
@@ -165,6 +190,9 @@ public class IMPacketDispatcher {
                     }
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE:
+
+                    logger.d("channel#messageUDPReceived#CID_MSG_AUDIO_UDP_DATA_VALUE");
+
                     IMMessage.IMAudioData audioData = IMMessage.IMAudioData.parseFrom(buffer);
 //                    // 音频数据
 //                    IMMessageManager.instance().onRecvAudioData(audioData);
@@ -194,7 +222,7 @@ public class IMPacketDispatcher {
 
             }
         } catch (IOException e) {
-            logger.e("msgPacketDispatcher# error,cid:%d", commandId);
+            logger.e("msgPacketDispatcher# error,cid:%d" + e.toString(), commandId);
         }
     }
     public static void msgPacketDispatcher(int commandId, CodedInputStream buffer) {
