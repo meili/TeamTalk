@@ -171,7 +171,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 	printf("recv ok\n");	
 	// 测试看收的到吗，能不解析
 	printf("from_user_id = %d, to_room_id = %d,msg_id = %d, ip = %s, port = %d\n", audioReq.from_user_id(), audioReq.to_room_id(), 
-		audioReq.msg_id(), inet_ntoa(sender.sin_addr), sender.sin_port);
+		audioReq.msg_id(), inet_ntoa(sender.sin_addr),ntohs(sender.sin_port));
 	// 两人id 相加房间号
 	// 根据房间ID去找 (退出机制要完善，一段时间后不在房间的清掉？)
 	room_map::iterator it = g_user_room_info.find(audioReq.to_room_id());
@@ -192,7 +192,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 		// 把人加入房间
 		g_user_room_info.insert(make_pair(audioReq.to_room_id(), t_user_info));
 	} else {
-		// 找到，插入不了
+		// 找到room，is in update or insert
 		user_map* p_user_info = it->second;
 		user_map::iterator it_user = p_user_info->find(audioReq.from_user_id());
 		if(it_user != p_user_info->end()){
