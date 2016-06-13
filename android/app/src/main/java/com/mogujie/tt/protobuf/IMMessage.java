@@ -9776,7 +9776,7 @@ public final class IMMessage {
      * <code>required uint32 to_room_id = 2;</code>
      *
      * <pre>
-     * 要加入的房间id
+     * 要加入的房间id  // 如果是 0，由服务器生成房间号 /(两人ID相加，房间号唯一)
      * </pre>
      */
     boolean hasToRoomId();
@@ -9784,7 +9784,7 @@ public final class IMMessage {
      * <code>required uint32 to_room_id = 2;</code>
      *
      * <pre>
-     * 要加入的房间id
+     * 要加入的房间id  // 如果是 0，由服务器生成房间号 /(两人ID相加，房间号唯一)
      * </pre>
      */
     int getToRoomId();
@@ -10018,7 +10018,7 @@ public final class IMMessage {
      * <code>required uint32 to_room_id = 2;</code>
      *
      * <pre>
-     * 要加入的房间id
+     * 要加入的房间id  // 如果是 0，由服务器生成房间号 /(两人ID相加，房间号唯一)
      * </pre>
      */
     public boolean hasToRoomId() {
@@ -10028,7 +10028,7 @@ public final class IMMessage {
      * <code>required uint32 to_room_id = 2;</code>
      *
      * <pre>
-     * 要加入的房间id
+     * 要加入的房间id  // 如果是 0，由服务器生成房间号 /(两人ID相加，房间号唯一)
      * </pre>
      */
     public int getToRoomId() {
@@ -10509,7 +10509,7 @@ public final class IMMessage {
        * <code>required uint32 to_room_id = 2;</code>
        *
        * <pre>
-       * 要加入的房间id
+       * 要加入的房间id  // 如果是 0，由服务器生成房间号 /(两人ID相加，房间号唯一)
        * </pre>
        */
       public boolean hasToRoomId() {
@@ -10519,7 +10519,7 @@ public final class IMMessage {
        * <code>required uint32 to_room_id = 2;</code>
        *
        * <pre>
-       * 要加入的房间id
+       * 要加入的房间id  // 如果是 0，由服务器生成房间号 /(两人ID相加，房间号唯一)
        * </pre>
        */
       public int getToRoomId() {
@@ -10529,7 +10529,7 @@ public final class IMMessage {
        * <code>required uint32 to_room_id = 2;</code>
        *
        * <pre>
-       * 要加入的房间id
+       * 要加入的房间id  // 如果是 0，由服务器生成房间号 /(两人ID相加，房间号唯一)
        * </pre>
        */
       public Builder setToRoomId(int value) {
@@ -10542,7 +10542,7 @@ public final class IMMessage {
        * <code>required uint32 to_room_id = 2;</code>
        *
        * <pre>
-       * 要加入的房间id
+       * 要加入的房间id  // 如果是 0，由服务器生成房间号 /(两人ID相加，房间号唯一)
        * </pre>
        */
       public Builder clearToRoomId() {
