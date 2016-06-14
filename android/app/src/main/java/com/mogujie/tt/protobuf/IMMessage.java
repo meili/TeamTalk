@@ -9856,6 +9856,32 @@ public final class IMMessage {
      * </pre>
      */
     com.mogujie.tt.protobuf.IMBaseDefine.ClientType getClientType();
+
+    /**
+     * <code>required string local_ip = 7;</code>
+     *
+     * <pre>
+     * 如果外网IP相等，不需要NAT, 用localip直连
+     * </pre>
+     */
+    boolean hasLocalIp();
+    /**
+     * <code>required string local_ip = 7;</code>
+     *
+     * <pre>
+     * 如果外网IP相等，不需要NAT, 用localip直连
+     * </pre>
+     */
+    java.lang.String getLocalIp();
+    /**
+     * <code>required string local_ip = 7;</code>
+     *
+     * <pre>
+     * 如果外网IP相等，不需要NAT, 用localip直连
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getLocalIpBytes();
   }
   /**
    * Protobuf type {@code IM.Message.IMAudioReq}
@@ -9953,6 +9979,12 @@ public final class IMMessage {
                 bitField0_ |= 0x00000020;
                 clientType_ = value;
               }
+              break;
+            }
+            case 58: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000040;
+              localIp_ = bs;
               break;
             }
           }
@@ -10127,6 +10159,60 @@ public final class IMMessage {
       return clientType_;
     }
 
+    public static final int LOCAL_IP_FIELD_NUMBER = 7;
+    private java.lang.Object localIp_;
+    /**
+     * <code>required string local_ip = 7;</code>
+     *
+     * <pre>
+     * 如果外网IP相等，不需要NAT, 用localip直连
+     * </pre>
+     */
+    public boolean hasLocalIp() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required string local_ip = 7;</code>
+     *
+     * <pre>
+     * 如果外网IP相等，不需要NAT, 用localip直连
+     * </pre>
+     */
+    public java.lang.String getLocalIp() {
+      java.lang.Object ref = localIp_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          localIp_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string local_ip = 7;</code>
+     *
+     * <pre>
+     * 如果外网IP相等，不需要NAT, 用localip直连
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getLocalIpBytes() {
+      java.lang.Object ref = localIp_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        localIp_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       fromUserId_ = 0;
       toRoomId_ = 0;
@@ -10134,6 +10220,7 @@ public final class IMMessage {
       createTime_ = 0;
       msgType_ = com.mogujie.tt.protobuf.IMBaseDefine.MsgType.MSG_TYPE_SINGLE_TEXT;
       clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
+      localIp_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10165,6 +10252,10 @@ public final class IMMessage {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasLocalIp()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -10189,6 +10280,9 @@ public final class IMMessage {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeEnum(6, clientType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getLocalIpBytes());
       }
       output.writeRawBytes(unknownFields);
     }
@@ -10222,6 +10316,10 @@ public final class IMMessage {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(6, clientType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getLocalIpBytes());
       }
       size += unknownFields.size();
       memoizedSerializedSize = size;
@@ -10333,6 +10431,8 @@ public final class IMMessage {
         bitField0_ = (bitField0_ & ~0x00000010);
         clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
         bitField0_ = (bitField0_ & ~0x00000020);
+        localIp_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -10380,6 +10480,10 @@ public final class IMMessage {
           to_bitField0_ |= 0x00000020;
         }
         result.clientType_ = clientType_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.localIp_ = localIp_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
@@ -10403,6 +10507,11 @@ public final class IMMessage {
         }
         if (other.hasClientType()) {
           setClientType(other.getClientType());
+        }
+        if (other.hasLocalIp()) {
+          bitField0_ |= 0x00000040;
+          localIp_ = other.localIp_;
+          
         }
         setUnknownFields(
             getUnknownFields().concat(other.unknownFields));
@@ -10431,6 +10540,10 @@ public final class IMMessage {
           return false;
         }
         if (!hasClientType()) {
+          
+          return false;
+        }
+        if (!hasLocalIp()) {
           
           return false;
         }
@@ -10746,6 +10859,106 @@ public final class IMMessage {
       public Builder clearClientType() {
         bitField0_ = (bitField0_ & ~0x00000020);
         clientType_ = com.mogujie.tt.protobuf.IMBaseDefine.ClientType.CLIENT_TYPE_WINDOWS;
+        
+        return this;
+      }
+
+      private java.lang.Object localIp_ = "";
+      /**
+       * <code>required string local_ip = 7;</code>
+       *
+       * <pre>
+       * 如果外网IP相等，不需要NAT, 用localip直连
+       * </pre>
+       */
+      public boolean hasLocalIp() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required string local_ip = 7;</code>
+       *
+       * <pre>
+       * 如果外网IP相等，不需要NAT, 用localip直连
+       * </pre>
+       */
+      public java.lang.String getLocalIp() {
+        java.lang.Object ref = localIp_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            localIp_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string local_ip = 7;</code>
+       *
+       * <pre>
+       * 如果外网IP相等，不需要NAT, 用localip直连
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getLocalIpBytes() {
+        java.lang.Object ref = localIp_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          localIp_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string local_ip = 7;</code>
+       *
+       * <pre>
+       * 如果外网IP相等，不需要NAT, 用localip直连
+       * </pre>
+       */
+      public Builder setLocalIp(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        localIp_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required string local_ip = 7;</code>
+       *
+       * <pre>
+       * 如果外网IP相等，不需要NAT, 用localip直连
+       * </pre>
+       */
+      public Builder clearLocalIp() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        localIp_ = getDefaultInstance().getLocalIp();
+        
+        return this;
+      }
+      /**
+       * <code>required string local_ip = 7;</code>
+       *
+       * <pre>
+       * 如果外网IP相等，不需要NAT, 用localip直连
+       * </pre>
+       */
+      public Builder setLocalIpBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        localIp_ = value;
         
         return this;
       }
