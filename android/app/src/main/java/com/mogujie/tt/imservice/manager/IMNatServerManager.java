@@ -51,6 +51,11 @@ import de.greenrobot.event.EventBus;
  *
  *  iReady == 2开始实时传送
  *
+ *
+ *  判断 如果两个客户端外网IP相同， 不需要NAT打洞
+ *      如果有一台机器 在NAT外部 不需要打洞
+ *
+ *      如果NAT打洞失败，需要转发;
  */
 public class IMNatServerManager extends IMManager {
 

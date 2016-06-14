@@ -130,6 +130,7 @@ message IMAudioReq{	// UDP包
 	required uint32 create_time = 4;		// 消息时间
 	required IM.BaseDefine.MsgType msg_type = 5;	// 消息类型
 	required IM.BaseDefine.ClientType client_type = 6;  // 客户端类型	
+	required string local_ip = 7;			// 如果外网IP相等，不需要NAT, 用localip直连
 }
 
 // UDP服务器回的 包括IP
@@ -139,7 +140,7 @@ message IMAudioRsp{
 	required uint32 to_room_id = 2;			// 房间id，看时否与本人的房间号相符
 	required uint32 count_in_room = 3;		// 当前房间的人数
 	//repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
-	required IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
+	required IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port (公网ip相等，ip 和 port返回局域网的)
 }
 
 // 音频数据包
