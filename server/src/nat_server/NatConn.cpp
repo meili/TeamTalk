@@ -224,9 +224,9 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 
 				user_serv_info_t* p_user_serv_info2 = it_old2->second;
 
-	//			if(p_user_serv_info->uid == p_user_serv_info2->uid){
-	//				continue;	// 自己不用给自己发
-	//			} else 
+				if(p_user_serv_info->uid == p_user_serv_info2->uid){
+					continue;	// 自己不用给自己发
+				} else 
 				{
 					// 消息发送
 					CImPdu pdu;
@@ -256,7 +256,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 			
 			//pMsgServInfo->ip_addr =ntohl(sender.sin_addr.s_addr);//.S_un.S_addr);//msg.ip1();	// int
 			// inet_ntoa(sender.sin_addr)  string
-
+					printf("sendto ip = %s, port = %d, port 2 = %d",inet_ntoa(remote.sin_addr),p_user_serv_info->port, p_user_serv_info2->port);
 					SendPduUDP(&pdu, remote);				 
 				}
 			}
