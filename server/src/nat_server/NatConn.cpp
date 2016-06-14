@@ -212,22 +212,27 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 
 		// 遍历发送
 		for (user_map::iterator it_send = p_user_info->begin(); it_send != p_user_info->end(); ) {
+			printf("0.1\n");
 			user_map::iterator it_old = it_send;
+			printf("0.5\n");
 			it_send++;
-
 			// 
 			user_serv_info_t* p_user_serv_info = it_old->second;
-
+			printf("1_ %s\n", p_user_serv_info->ip_addr.c_str());
 			for (user_map::iterator it_send2 = p_user_info->begin(); it_send2 != p_user_info->end(); ) {
 				user_map::iterator it_old2 = it_send2;
 				it_send2++;
 
 				user_serv_info_t* p_user_serv_info2 = it_old2->second;
+				
+				printf("2_ %s _ %d\n",p_user_serv_info2->ip_addr.c_str(), p_user_serv_info2->port);				
 
 				if(p_user_serv_info->uid == p_user_serv_info2->uid){
+					printf("3\n");
 					continue;	// 自己不用给自己发
 				} else 
 				{
+					printf("4\n");
 					// 消息发送
 					CImPdu pdu;
 					
@@ -237,18 +242,12 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					msgARsp.set_to_room_id(p_user_serv_info2->rid);	// 房间ID
 					msgARsp.set_count_in_room(p_user_info->size()); // 房间里的人数 
 					
-					IM::BaseDefine::UserIpAddr user_ip_addr;
-					user_ip_addr.set_user_id(p_user_serv_info2->uid);
-					user_ip_addr.set_ip(p_user_serv_info2->ip_addr);
-					user_ip_addr.set_port(p_user_serv_info2->port);
-					msgARsp.set_allocated_user_list(&user_ip_addr);
+					IM::BaseDefine::UserIpAddr *user_ip_addr= msgARsp.mutable_user_list();// new IM::BaseDefine::UserIpAddr;
+					user_ip_addr->set_user_id(p_user_serv_info2->uid);
+					user_ip_addr->set_ip(p_user_serv_info2->ip_addr.c_str());
+					user_ip_addr->set_port(p_user_serv_info2->port);
+			//		msgARsp.set_allocated_user_list(user_ip_addr);
 					
-					/* // 数组的形式
-					IM::BaseDefine::UserIpAddr* ip_addr_tmp=msgARsp.add_user_list();
-					ip_addr_tmp->set_user_id(p_user_serv_info2->uid);
-					ip_addr_tmp->set_ip(p_user_serv_info2->ip_addr);
-					ip_addr_tmp->set_port(p_user_serv_info2->port);
-					*/	
 					pdu.SetPBMsg(&msgARsp);
 
 					pdu.SetServiceId(IM::BaseDefine::SID_MSG);						// service 消息ID
@@ -259,18 +258,20 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					sockaddr_in remote;
 					remote.sin_family=AF_INET;
 					remote.sin_port= htons(p_user_serv_info->port); 
-					remote.sin_addr.s_addr = inet_addr(p_user_serv_info->ip_addr);
+					remote.sin_addr.s_addr = inet_addr(p_user_serv_info->ip_addr.c_str());
 					//pAddr->sin_addr.s_addr = inet_addr(ip);
 			//pMsgServInfo->ip_addr =ntohl(sender.sin_addr.s_addr);//.S_un.S_addr);//msg.ip1();	// int
 			// inet_ntoa(sender.sin_addr)  string
-					printf("sendto ip = %s, port = %d, get ip = %s, port 2 = %d \n",
-						p_user_serv_info->ip_addr,
-						p_user_serv_info->port, 
-						p_user_serv_info2->ip_addr,
+					printf("sendto ip = %s, port = %d, get ip = %s, port2 = %d\n",
+						p_user_serv_info->ip_addr.c_str(),
+						p_user_serv_info->port,
+						p_user_serv_info2->ip_addr.c_str(),
 						p_user_serv_info2->port);
 					SendPduUDP(&pdu, remote);				 
+			//		delete user_ip_addr;
 				}
 			}
+			
 		}
 		/*	
 			// 消息发送
