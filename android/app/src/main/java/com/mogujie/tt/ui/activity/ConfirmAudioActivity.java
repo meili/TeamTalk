@@ -4,17 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.mogujie.tt.DB.entity.PeerEntity;
 import com.mogujie.tt.DB.entity.UserEntity;
 import com.mogujie.tt.R;
 import com.mogujie.tt.config.IntentConstant;
-import com.mogujie.tt.imservice.entity.TextMessage;
 import com.mogujie.tt.imservice.service.IMService;
 import com.mogujie.tt.imservice.support.IMServiceConnector;
 import com.mogujie.tt.ui.base.TTBaseFragmentActivity;
-
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 
 public class ConfirmAudioActivity extends TTBaseFragmentActivity {
 
@@ -43,7 +38,7 @@ public class ConfirmAudioActivity extends TTBaseFragmentActivity {
 
     private UserEntity loginUser;
     private IMService imService;
-    private PeerEntity peerEntity;
+  //  private PeerEntity peerEntity;
 
     private IMServiceConnector imServiceConnector =new IMServiceConnector(){
         @Override
@@ -61,7 +56,7 @@ public class ConfirmAudioActivity extends TTBaseFragmentActivity {
     private void initData() {
 
         loginUser = imService.getLoginManager().getLoginInfo();
-        peerEntity = imService.getSessionManager().findPeerEntity(currentSessionKey);
+//        peerEntity = imService.getSessionManager().findPeerEntity(currentSessionKey);
 
     }
 
@@ -73,13 +68,13 @@ public class ConfirmAudioActivity extends TTBaseFragmentActivity {
         btnok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextMessage textMessage = TextMessage.buildForCommandSend(1, loginUser, peerEntity);
-
-                //
-                SocketAddress serverAddress = new InetSocketAddress("123.57.71.215", 8132);
-                // 发送指令给udp_server
-
-                imService.getNatServerMgr().sendUDPMessage(textMessage,serverAddress);
+//                TextMessage textMessage = TextMessage.buildForSend(1, loginUser, peerEntity);
+//
+//                //
+//                SocketAddress serverAddress = new InetSocketAddress("123.57.71.215", 8132);
+//                // 发送指令给udp_server
+//
+//                imService.getNatServerMgr().sendUDPMessage(textMessage,serverAddress);
             }
         });
     }

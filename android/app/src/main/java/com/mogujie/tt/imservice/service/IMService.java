@@ -125,6 +125,8 @@ public class IMService extends Service {
             }
             break;
             case Audio_RECEIVED_MESSAGE: {
+                logger.i("chat#onRecvMessage openConfirmAudioActivity");
+
                 MessageEntity entity = (MessageEntity) event.object;
 //                entity.getPeerId(true);
                 Context ctx = getApplicationContext();

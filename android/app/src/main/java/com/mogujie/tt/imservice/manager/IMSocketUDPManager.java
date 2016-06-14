@@ -110,11 +110,10 @@ public class IMSocketUDPManager extends IMManager {
 
             listenerQueue.push(seqNo, packetlistener);
             if(msgUDPServerThread!=null){
-                logger.e("#sendRequest#channel is close!msgUDPServerThread send");
-
+                logger.d("#sendRequest#channel is not open!msgUDPServerThread send");
                 boolean sendRes = msgUDPServerThread.send_UDP_request(requset, header, serverAddress);
             } else {
-                logger.e("#sendUDPRequest#msgUDPServerThread is null!");
+                logger.d("#sendUDPRequest#msgUDPServerThread is null!");
             }
         } catch (Exception e) {
             if (packetlistener != null) {

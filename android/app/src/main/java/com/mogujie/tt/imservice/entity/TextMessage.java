@@ -82,6 +82,7 @@ public class TextMessage extends MessageEntity implements Serializable {
         textMessage.setGIfEmo(true);
         int peerType = peerEntity.getType();
 
+        // 单人语音聊天
         int msgType = DBConstant.MSG_TYPE_SINGLE_AUDIO_MEET;
         switch (ntype){
             case 1:
@@ -93,7 +94,7 @@ public class TextMessage extends MessageEntity implements Serializable {
 
         textMessage.setMsgType(msgType);
         textMessage.setStatus(MessageConstant.MSG_SENDING);
-        // 内容的设定  ，设为空
+        // 内容的设定
         textMessage.setContent(String.valueOf(ntype));
         textMessage.buildSessionKey(true);
         return textMessage;

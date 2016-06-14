@@ -233,31 +233,42 @@ public class IMMessageManager extends IMManager{
      * @param imMsgData
      */
     public void onRecvMessage(IMMessage.IMMsgData imMsgData) {
-        logger.i("chat#onRecvMessage");
         if (imMsgData == null) {
             logger.e("chat#decodeMessageInfo failed,cause by is null");
             return;
         }
-
         MessageEntity recvMessage = ProtoBuf2JavaBean.getMessageEntity(imMsgData);
-        int loginId = IMLoginManager.instance().getLoginId();
-        boolean isSend = recvMessage.isSend(loginId);
-        recvMessage.buildSessionKey(isSend);
-        recvMessage.setStatus(MessageConstant.MSG_SUCCESS);
-        /**对于混合消息，未读消息计数还是1,session已经更新*/
+        logger.i("chat#onRecvMessage" + recvMessage);
 
-        dbInterface.insertOrUpdateMessage(recvMessage);
-        sessionManager.updateSession(recvMessage);
+//        if(imMsgData.getMsgType().equals(DBConstant.MSG_TYPE_SINGLE_AUDIO_MEET)){
+         if("1!~".equals(recvMessage.getContent())){
+             logger.i("chat#onRecvMessage Audio_RECEIVED_MESSAGE");
+            PriorityEvent  notifyEvent = new PriorityEvent();
+            notifyEvent.event = PriorityEvent.Event.Audio_RECEIVED_MESSAGE;
+            notifyEvent.object = recvMessage;
+            triggerEvent(notifyEvent);// 接收到消息
+            return;
+        } else {
+//            MessageEntity recvMessage = ProtoBuf2JavaBean.getMessageEntity(imMsgData);
+            int loginId = IMLoginManager.instance().getLoginId();
+            boolean isSend = recvMessage.isSend(loginId);
+            recvMessage.buildSessionKey(isSend);
+            recvMessage.setStatus(MessageConstant.MSG_SUCCESS);
+            /**对于混合消息，未读消息计数还是1,session已经更新*/
 
-        /**
-         *  发送已读确认由上层的activity处理 特殊处理
-         *  1. 未读计数、 通知、session页面
-         *  2. 当前会话
-         * */
-        PriorityEvent  notifyEvent = new PriorityEvent();
-        notifyEvent.event = PriorityEvent.Event.MSG_RECEIVED_MESSAGE;
-        notifyEvent.object = recvMessage;
-        triggerEvent(notifyEvent);// 接收到消息
+            dbInterface.insertOrUpdateMessage(recvMessage);
+            sessionManager.updateSession(recvMessage);
+
+            /**
+             *  发送已读确认由上层的activity处理 特殊处理
+             *  1. 未读计数、 通知、session页面
+             *  2. 当前会话
+             * */
+            PriorityEvent notifyEvent = new PriorityEvent();
+            notifyEvent.event = PriorityEvent.Event.MSG_RECEIVED_MESSAGE;
+            notifyEvent.object = recvMessage;
+            triggerEvent(notifyEvent);// 接收到消息
+        }
     }
 
 

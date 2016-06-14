@@ -65,7 +65,7 @@ public class SocketUDPThread extends Thread {
      * @return
      */
     public boolean send_UDP_request(GeneratedMessageLite requset,Header header, SocketAddress serverAddress){
-		logger.e("#sendUDPRequest#channel!111111111111");
+		logger.d("#sendUDPRequest#channel!111111111111");
 
 		DataBuffer headerBuffer = header.encode();
         DataBuffer bodyBuffer = new DataBuffer();
@@ -75,8 +75,6 @@ public class SocketUDPThread extends Thread {
         DataBuffer buffer = new DataBuffer(SysConstant.PROTOCOL_HEADER_LENGTH  + bodySize);
         buffer.writeDataBuffer(headerBuffer); 	// 头 包括：sid, cid
         buffer.writeDataBuffer(bodyBuffer);		// body
-
-		logger.e("#sendUDPRequest#channel!");
 
 		channel.write(buffer.getOrignalBuffer(), serverAddress);
 

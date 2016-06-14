@@ -150,12 +150,12 @@ public class IMPacketDispatcher {
                     // 进入到确认接受通话页面
 //                    IMUIHelper.openConfirmAudioActivity(getActivity(),currentUser.getSessionKey());
 //                    getActivity().finish();
+                    // 换成了 CID_MSG_DATA_VALUE
                     IMMessage.IMMsgData imMsgAData = IMMessage.IMMsgData.parseFrom(buffer);
                     IMMessageManager.instance().onRecvAMessage(imMsgAData);
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_RESPONSE_VALUE:
                     logger.d("channel#messageUDPReceived#msgPacketDispatcher CID_MSG_AUDIO_UDP_RESPONSE_VALUE __ OK");
-
                     // udp_server 返回的UDP请求包
                     IMMessage.IMAudioRsp audioRsp = IMMessage.IMAudioRsp.parseFrom(buffer);
                     logger.d("channel#messageUDPReceived# %d_%d_%d_%s" ,
@@ -164,18 +164,18 @@ public class IMPacketDispatcher {
                             audioRsp.getUserList(0).getPort()
                             ,inet_ntoa(audioRsp.getUserList(0).getIp()));
 //                    inet_ntoa2(audioRsp.getUserList(0).getIp())
-
                     UserEntity loginUser = IMLoginManager.instance().getLoginInfo();
+//                    if (audioRsp.getUserList(0).getUserId() == loginUser.getId()) {
+//                        logger.d("channel#messageUDPReceived_loginuser" + loginUser.getId());
+//                        return;
+//                    }
+//                    if(audioRsp.getUserList(0).getUserId() != loginUser.getId())
+                    {
+                        logger.d("channel#messageUDPReceived send poll");
 
-                    if (audioRsp.getUserList(0).getUserId() == loginUser.getId()) {
-                        return;
-                    }
-                    if(audioRsp.getUserList(0).getUserId() != loginUser.getId()) {
                         // 让连谁
-
 //                        String sendContent =new String(com.mogujie.tt.Security.getInstance().EncryptMsg("poll"));
                         String sendContent = "poll,"; // sendContent.getBytes("utf-8")
-
                         // id ip port
                         IMApplication.connNid = audioRsp.getUserList(0).getUserId();
                         IMApplication.connNIP = audioRsp.getUserList(0).getIp();

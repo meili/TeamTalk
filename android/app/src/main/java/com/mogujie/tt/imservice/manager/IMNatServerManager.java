@@ -82,8 +82,8 @@ public class IMNatServerManager extends IMManager {
 //        sessionManager.updateSession(textMessage);
         sendMessage(textMessage); // 发给msg_server 的
 
-        SocketAddress serverAddress = new InetSocketAddress("123.57.71.215", 8132);
         // 发送指令给udp_server
+        SocketAddress serverAddress = new InetSocketAddress("123.57.71.215", 8132);
         sendUDPMessage(textMessage,serverAddress);
     }
 
@@ -147,7 +147,7 @@ public class IMNatServerManager extends IMManager {
                 .setMsgData(ByteString.copyFrom(sendContent))  // 这个点要特别注意 todo ByteString.copyFrom
                 .build();
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
-        int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_REQUEST_VALUE;//CID_MSG_DATA_VALUE;
+        int cid = IMBaseDefine.MessageCmdID.CID_MSG_DATA_VALUE;//CID_MSG_AUDIO_UDP_REQUEST_VALUE;
 
         final MessageEntity messageEntity  = msgEntity;
         // 发送到服务器 // 需要回复的 new Packetlistener
@@ -156,7 +156,7 @@ public class IMNatServerManager extends IMManager {
             public void onSuccess(Object response) {
                 try {
                     IMMessage.IMMsgDataAck imMsgDataAck = IMMessage.IMMsgDataAck.parseFrom((CodedInputStream)response);
-                    logger.i("chat#onAckSendedMsg");
+                    logger.i("chat#onAckSendedMsg#messageUDPReceived");
                     if(imMsgDataAck.getMsgId() <=0){
                         throw  new RuntimeException("Msg ack error,cause by msgId <=0");
                     }
@@ -174,12 +174,16 @@ public class IMNatServerManager extends IMManager {
             }
             @Override
             public void onFaild() {
+                logger.i("chat#onAckSendedMsg#onFaild");
+
                 messageEntity.setStatus(MessageConstant.MSG_FAILURE);
                 //dbInterface.insertOrUpdateMessage(messageEntity);
                 triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_FAILURE,messageEntity));
             }
             @Override
             public void onTimeout() {
+                logger.i("chat#onAckSendedMsg#onTimeout");
+
                 messageEntity.setStatus(MessageConstant.MSG_FAILURE);
                 //dbInterface.insertOrUpdateMessage(messageEntity);
                 triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_TIME_OUT,messageEntity));
@@ -215,28 +219,33 @@ public class IMNatServerManager extends IMManager {
 
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
         int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE; // 音频数据
-
+        imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,null,serverAddress);
 //        final MessageEntity messageEntity  = msgEntity;
-
-        // 发送到服务器 // 需要回复的 new Packetlistener （服务端回复）
-        imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,new Packetlistener(6000) {
-            @Override
-            public void onSuccess(Object response) {
-            }
-            @Override
-            public void onFaild() {
-//                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
-//                dbInterface.insertOrUpdateMessage(messageEntity);
-//                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_FAILURE,messageEntity));
-            }
-            @Override
-            public void onTimeout() {
-                // 超时
-//                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
-//                dbInterface.insertOrUpdateMessage(messageEntity);
-//                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_TIME_OUT,messageEntity));
-            }
-        },serverAddress);
+//        // 打洞发送
+//        imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,new Packetlistener(6000) {
+//            @Override
+//            public void onSuccess(Object response) {
+//                logger.i("chat#onAckSendedMsg#onSuccess# SendAudioData");
+//
+//            }
+//            @Override
+//            public void onFaild() {
+//                logger.i("chat#onAckSendedMsg#onFaild# SendAudioData");
+//
+////                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
+////                dbInterface.insertOrUpdateMessage(messageEntity);
+////                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_FAILURE,messageEntity));
+//            }
+//            @Override
+//            public void onTimeout() {
+//                logger.i("chat#onAckSendedMsg#onTimeout# SendAudioData");
+//
+//                // 超时
+////                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
+////                dbInterface.insertOrUpdateMessage(messageEntity);
+////                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_TIME_OUT,messageEntity));
+//            }
+//        },serverAddress);
     }
 
     /**
@@ -259,7 +268,7 @@ public class IMNatServerManager extends IMManager {
         // 发送给UDP SERVER的
         IMMessage.IMAudioReq audioReq = IMMessage.IMAudioReq.newBuilder()
                 .setFromUserId(msgEntity.getFromId())
-                .setToRoomId(msgEntity.getFromId()) // 房间号暂定为请求人的id
+                .setToRoomId(msgEntity.getFromId() + msgEntity.getToId()) // 房间号暂定为请求人的id
                 .setMsgId(0)        // 0 加入 1 退出
                 .setCreateTime(msgEntity.getCreated())
                 .setMsgType(msgType)    // 消息类型  MSG_TYPE_SINGLE_AUDIO_MEET 语音

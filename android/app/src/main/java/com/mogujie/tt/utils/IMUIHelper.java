@@ -102,7 +102,9 @@ public class IMUIHelper {
 	 * @param entity
      */
 	public static void openConfirmAudioActivity(Context ctx, MessageEntity entity) {
+		// 从service 中启动activity
 		Intent intent = new Intent(ctx, ConfirmAudioActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra(IntentConstant.KEY_SESSION_KEY, String.valueOf(entity.getFromId()));
 		ctx.startActivity(intent);
 	}
