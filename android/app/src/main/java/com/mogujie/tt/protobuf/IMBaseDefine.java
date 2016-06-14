@@ -3221,13 +3221,18 @@ public final class IMBaseDefine {
     int getUserId();
 
     /**
-     * <code>required uint32 ip = 2;</code>
+     * <code>required string ip = 2;</code>
      */
     boolean hasIp();
     /**
-     * <code>required uint32 ip = 2;</code>
+     * <code>required string ip = 2;</code>
      */
-    int getIp();
+    java.lang.String getIp();
+    /**
+     * <code>required string ip = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getIpBytes();
 
     /**
      * <code>required uint32 port = 3;</code>
@@ -3297,9 +3302,10 @@ public final class IMBaseDefine {
               userId_ = input.readUInt32();
               break;
             }
-            case 16: {
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              ip_ = input.readUInt32();
+              ip_ = bs;
               break;
             }
             case 24: {
@@ -3365,18 +3371,45 @@ public final class IMBaseDefine {
     }
 
     public static final int IP_FIELD_NUMBER = 2;
-    private int ip_;
+    private java.lang.Object ip_;
     /**
-     * <code>required uint32 ip = 2;</code>
+     * <code>required string ip = 2;</code>
      */
     public boolean hasIp() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required uint32 ip = 2;</code>
+     * <code>required string ip = 2;</code>
      */
-    public int getIp() {
-      return ip_;
+    public java.lang.String getIp() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          ip_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string ip = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIpBytes() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ip_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int PORT_FIELD_NUMBER = 3;
@@ -3396,7 +3429,7 @@ public final class IMBaseDefine {
 
     private void initFields() {
       userId_ = 0;
-      ip_ = 0;
+      ip_ = "";
       port_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -3428,7 +3461,7 @@ public final class IMBaseDefine {
         output.writeUInt32(1, userId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeUInt32(2, ip_);
+        output.writeBytes(2, getIpBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeUInt32(3, port_);
@@ -3448,7 +3481,7 @@ public final class IMBaseDefine {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, ip_);
+          .computeBytesSize(2, getIpBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3554,7 +3587,7 @@ public final class IMBaseDefine {
         super.clear();
         userId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        ip_ = 0;
+        ip_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
         port_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -3603,7 +3636,9 @@ public final class IMBaseDefine {
           setUserId(other.getUserId());
         }
         if (other.hasIp()) {
-          setIp(other.getIp());
+          bitField0_ |= 0x00000002;
+          ip_ = other.ip_;
+          
         }
         if (other.hasPort()) {
           setPort(other.getPort());
@@ -3696,34 +3731,78 @@ public final class IMBaseDefine {
         return this;
       }
 
-      private int ip_ ;
+      private java.lang.Object ip_ = "";
       /**
-       * <code>required uint32 ip = 2;</code>
+       * <code>required string ip = 2;</code>
        */
       public boolean hasIp() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required uint32 ip = 2;</code>
+       * <code>required string ip = 2;</code>
        */
-      public int getIp() {
-        return ip_;
+      public java.lang.String getIp() {
+        java.lang.Object ref = ip_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            ip_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required uint32 ip = 2;</code>
+       * <code>required string ip = 2;</code>
        */
-      public Builder setIp(int value) {
-        bitField0_ |= 0x00000002;
+      public com.google.protobuf.ByteString
+          getIpBytes() {
+        java.lang.Object ref = ip_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ip_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string ip = 2;</code>
+       */
+      public Builder setIp(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         ip_ = value;
         
         return this;
       }
       /**
-       * <code>required uint32 ip = 2;</code>
+       * <code>required string ip = 2;</code>
        */
       public Builder clearIp() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        ip_ = 0;
+        ip_ = getDefaultInstance().getIp();
+        
+        return this;
+      }
+      /**
+       * <code>required string ip = 2;</code>
+       */
+      public Builder setIpBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        ip_ = value;
         
         return this;
       }

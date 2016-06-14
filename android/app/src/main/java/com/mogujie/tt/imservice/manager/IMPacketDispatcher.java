@@ -93,10 +93,10 @@ public class IMPacketDispatcher {
     }
 
     //
-    public static String inet_ntoa(long add) {
-        return ((add & 0xff000000) >> 24) + "." + ((add & 0xff0000) >> 16)
-                + "." + ((add & 0xff00) >> 8) + "." + ((add & 0xff));
-    }
+//    public static String inet_ntoa(long add) {
+//        return ((add & 0xff000000) >> 24) + "." + ((add & 0xff0000) >> 16)
+//                + "." + ((add & 0xff00) >> 8) + "." + ((add & 0xff));
+//    }
 
 //    public static String inet_ntoa2(long add) {
 //        return ((add & 0xff)) + "." + ((add & 0xff00) >> 8)
@@ -158,11 +158,11 @@ public class IMPacketDispatcher {
                     logger.d("channel#messageUDPReceived#msgPacketDispatcher CID_MSG_AUDIO_UDP_RESPONSE_VALUE __ OK");
                     // udp_server 返回的UDP请求包
                     IMMessage.IMAudioRsp audioRsp = IMMessage.IMAudioRsp.parseFrom(buffer);
-                    logger.d("channel#messageUDPReceived# %d_%d_%d_%s" ,
+                    logger.d("channel#messageUDPReceived# %d_%s_%d" ,
                             audioRsp.getFromUserId(),
-                            audioRsp.getUserList(0).getIp(),
-                            audioRsp.getUserList(0).getPort()
-                            ,inet_ntoa(audioRsp.getUserList(0).getIp()));
+                            audioRsp.getUserList().getIp(),
+                            audioRsp.getUserList().getPort()
+                            );
 //                    inet_ntoa2(audioRsp.getUserList(0).getIp())
                     UserEntity loginUser = IMLoginManager.instance().getLoginInfo();
 //                    if (audioRsp.getUserList(0).getUserId() == loginUser.getId()) {
@@ -177,10 +177,10 @@ public class IMPacketDispatcher {
 //                        String sendContent =new String(com.mogujie.tt.Security.getInstance().EncryptMsg("poll"));
                         String sendContent = "poll,"; // sendContent.getBytes("utf-8")
                         // id ip port
-                        IMApplication.connNid = audioRsp.getUserList(0).getUserId();
-                        IMApplication.connNIP = audioRsp.getUserList(0).getIp();
-                        IMApplication.connNport = audioRsp.getUserList(0).getPort();
-                        SocketAddress serverAddress = new InetSocketAddress(inet_ntoa(IMApplication.connNIP), IMApplication.connNport);
+                        IMApplication.connNid = audioRsp.getUserList().getUserId();
+                        IMApplication.connstrIP = audioRsp.getUserList().getIp();
+                        IMApplication.connNport = audioRsp.getUserList().getPort();
+                        SocketAddress serverAddress = new InetSocketAddress(IMApplication.connstrIP, IMApplication.connNport);
 
 //                         发送打洞数据 (几秒重发一次直到成功)
                         IMNatServerManager.instance().SendAudioData(

@@ -10817,30 +10817,21 @@ public final class IMMessage {
     int getCountInRoom();
 
     /**
-     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     *要连的人的id,ip,port
+     *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
      * </pre>
      */
-    java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> 
-        getUserListList();
+    boolean hasUserList();
     /**
-     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     *要连的人的id,ip,port
+     *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
      * </pre>
      */
-    com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList(int index);
-    /**
-     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-     *
-     * <pre>
-     *要连的人的id,ip,port
-     * </pre>
-     */
-    int getUserListCount();
+    com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList();
   }
   /**
    * Protobuf type {@code IM.Message.IMAudioRsp}
@@ -10912,11 +10903,16 @@ public final class IMMessage {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                userList_ = new java.util.ArrayList<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr>();
-                mutable_bitField0_ |= 0x00000008;
+              com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = userList_.toBuilder();
               }
-              userList_.add(input.readMessage(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.PARSER, extensionRegistry));
+              userList_ = input.readMessage(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(userList_);
+                userList_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -10927,9 +10923,6 @@ public final class IMMessage {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          userList_ = java.util.Collections.unmodifiableList(userList_);
-        }
         try {
           unknownFieldsCodedOutput.flush();
         } catch (java.io.IOException e) {
@@ -11026,65 +11019,33 @@ public final class IMMessage {
     }
 
     public static final int USER_LIST_FIELD_NUMBER = 4;
-    private java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> userList_;
+    private com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr userList_;
     /**
-     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
      *
      * <pre>
-     *要连的人的id,ip,port
+     *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
      * </pre>
      */
-    public java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> getUserListList() {
+    public boolean hasUserList() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+     *
+     * <pre>
+     *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
+     * </pre>
+     */
+    public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList() {
       return userList_;
-    }
-    /**
-     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-     *
-     * <pre>
-     *要连的人的id,ip,port
-     * </pre>
-     */
-    public java.util.List<? extends com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddrOrBuilder> 
-        getUserListOrBuilderList() {
-      return userList_;
-    }
-    /**
-     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-     *
-     * <pre>
-     *要连的人的id,ip,port
-     * </pre>
-     */
-    public int getUserListCount() {
-      return userList_.size();
-    }
-    /**
-     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-     *
-     * <pre>
-     *要连的人的id,ip,port
-     * </pre>
-     */
-    public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList(int index) {
-      return userList_.get(index);
-    }
-    /**
-     * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-     *
-     * <pre>
-     *要连的人的id,ip,port
-     * </pre>
-     */
-    public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddrOrBuilder getUserListOrBuilder(
-        int index) {
-      return userList_.get(index);
     }
 
     private void initFields() {
       fromUserId_ = 0;
       toRoomId_ = 0;
       countInRoom_ = 0;
-      userList_ = java.util.Collections.emptyList();
+      userList_ = com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -11104,11 +11065,13 @@ public final class IMMessage {
         memoizedIsInitialized = 0;
         return false;
       }
-      for (int i = 0; i < getUserListCount(); i++) {
-        if (!getUserList(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
+      if (!hasUserList()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getUserList().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
       }
       memoizedIsInitialized = 1;
       return true;
@@ -11126,8 +11089,8 @@ public final class IMMessage {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeUInt32(3, countInRoom_);
       }
-      for (int i = 0; i < userList_.size(); i++) {
-        output.writeMessage(4, userList_.get(i));
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, userList_);
       }
       output.writeRawBytes(unknownFields);
     }
@@ -11150,9 +11113,9 @@ public final class IMMessage {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(3, countInRoom_);
       }
-      for (int i = 0; i < userList_.size(); i++) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, userList_.get(i));
+          .computeMessageSize(4, userList_);
       }
       size += unknownFields.size();
       memoizedSerializedSize = size;
@@ -11258,7 +11221,7 @@ public final class IMMessage {
         bitField0_ = (bitField0_ & ~0x00000002);
         countInRoom_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        userList_ = java.util.Collections.emptyList();
+        userList_ = com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
@@ -11295,9 +11258,8 @@ public final class IMMessage {
           to_bitField0_ |= 0x00000004;
         }
         result.countInRoom_ = countInRoom_;
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          userList_ = java.util.Collections.unmodifiableList(userList_);
-          bitField0_ = (bitField0_ & ~0x00000008);
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.userList_ = userList_;
         result.bitField0_ = to_bitField0_;
@@ -11315,15 +11277,8 @@ public final class IMMessage {
         if (other.hasCountInRoom()) {
           setCountInRoom(other.getCountInRoom());
         }
-        if (!other.userList_.isEmpty()) {
-          if (userList_.isEmpty()) {
-            userList_ = other.userList_;
-            bitField0_ = (bitField0_ & ~0x00000008);
-          } else {
-            ensureUserListIsMutable();
-            userList_.addAll(other.userList_);
-          }
-          
+        if (other.hasUserList()) {
+          mergeUserList(other.getUserList());
         }
         setUnknownFields(
             getUnknownFields().concat(other.unknownFields));
@@ -11343,11 +11298,13 @@ public final class IMMessage {
           
           return false;
         }
-        for (int i = 0; i < getUserListCount(); i++) {
-          if (!getUserList(i).isInitialized()) {
-            
-            return false;
-          }
+        if (!hasUserList()) {
+          
+          return false;
+        }
+        if (!getUserList().isInitialized()) {
+          
+          return false;
         }
         return true;
       }
@@ -11515,176 +11472,87 @@ public final class IMMessage {
         return this;
       }
 
-      private java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> userList_ =
-        java.util.Collections.emptyList();
-      private void ensureUserListIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          userList_ = new java.util.ArrayList<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr>(userList_);
-          bitField0_ |= 0x00000008;
-         }
+      private com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr userList_ = com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.getDefaultInstance();
+      /**
+       * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
+       * </pre>
+       */
+      public boolean hasUserList() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
+      /**
+       * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
+       * </pre>
+       */
+      public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList() {
+        return userList_;
+      }
+      /**
+       * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       *
+       * <pre>
+       *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
+       * </pre>
+       */
+      public Builder setUserList(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        userList_ = value;
 
-      /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-       *
-       * <pre>
-       *要连的人的id,ip,port
-       * </pre>
-       */
-      public java.util.List<com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> getUserListList() {
-        return java.util.Collections.unmodifiableList(userList_);
+        bitField0_ |= 0x00000008;
+        return this;
       }
       /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       *要连的人的id,ip,port
-       * </pre>
-       */
-      public int getUserListCount() {
-        return userList_.size();
-      }
-      /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-       *
-       * <pre>
-       *要连的人的id,ip,port
-       * </pre>
-       */
-      public com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr getUserList(int index) {
-        return userList_.get(index);
-      }
-      /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-       *
-       * <pre>
-       *要连的人的id,ip,port
+       *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
        * </pre>
        */
       public Builder setUserList(
-          int index, com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureUserListIsMutable();
-        userList_.set(index, value);
-
-        return this;
-      }
-      /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-       *
-       * <pre>
-       *要连的人的id,ip,port
-       * </pre>
-       */
-      public Builder setUserList(
-          int index, com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.Builder builderForValue) {
-        ensureUserListIsMutable();
-        userList_.set(index, builderForValue.build());
-
-        return this;
-      }
-      /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-       *
-       * <pre>
-       *要连的人的id,ip,port
-       * </pre>
-       */
-      public Builder addUserList(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureUserListIsMutable();
-        userList_.add(value);
-
-        return this;
-      }
-      /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-       *
-       * <pre>
-       *要连的人的id,ip,port
-       * </pre>
-       */
-      public Builder addUserList(
-          int index, com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureUserListIsMutable();
-        userList_.add(index, value);
-
-        return this;
-      }
-      /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-       *
-       * <pre>
-       *要连的人的id,ip,port
-       * </pre>
-       */
-      public Builder addUserList(
           com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.Builder builderForValue) {
-        ensureUserListIsMutable();
-        userList_.add(builderForValue.build());
+        userList_ = builderForValue.build();
 
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       *要连的人的id,ip,port
+       *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
        * </pre>
        */
-      public Builder addUserList(
-          int index, com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.Builder builderForValue) {
-        ensureUserListIsMutable();
-        userList_.add(index, builderForValue.build());
+      public Builder mergeUserList(com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr value) {
+        if (((bitField0_ & 0x00000008) == 0x00000008) &&
+            userList_ != com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.getDefaultInstance()) {
+          userList_ =
+            com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.newBuilder(userList_).mergeFrom(value).buildPartial();
+        } else {
+          userList_ = value;
+        }
 
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
+       * <code>required .IM.BaseDefine.UserIpAddr user_list = 4;</code>
        *
        * <pre>
-       *要连的人的id,ip,port
-       * </pre>
-       */
-      public Builder addAllUserList(
-          java.lang.Iterable<? extends com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr> values) {
-        ensureUserListIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, userList_);
-
-        return this;
-      }
-      /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-       *
-       * <pre>
-       *要连的人的id,ip,port
+       *repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
        * </pre>
        */
       public Builder clearUserList() {
-        userList_ = java.util.Collections.emptyList();
+        userList_ = com.mogujie.tt.protobuf.IMBaseDefine.UserIpAddr.getDefaultInstance();
+
         bitField0_ = (bitField0_ & ~0x00000008);
-
-        return this;
-      }
-      /**
-       * <code>repeated .IM.BaseDefine.UserIpAddr user_list = 4;</code>
-       *
-       * <pre>
-       *要连的人的id,ip,port
-       * </pre>
-       */
-      public Builder removeUserList(int index) {
-        ensureUserListIsMutable();
-        userList_.remove(index);
-
         return this;
       }
 
