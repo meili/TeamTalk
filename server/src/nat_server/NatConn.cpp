@@ -241,7 +241,8 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					user_ip_addr.set_user_id(p_user_serv_info2->uid);
 					user_ip_addr.set_ip(p_user_serv_info2->ip_addr);
 					user_ip_addr.set_port(p_user_serv_info2->port);
-					msgARsp.set_user_list(user_ip_addr);
+					msgARsp.set_allocated_user_list(&user_ip_addr);
+					
 					/* // 数组的形式
 					IM::BaseDefine::UserIpAddr* ip_addr_tmp=msgARsp.add_user_list();
 					ip_addr_tmp->set_user_id(p_user_serv_info2->uid);
