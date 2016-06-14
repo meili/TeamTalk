@@ -549,12 +549,17 @@ class UserIpAddr : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 user_id() const;
   inline void set_user_id(::google::protobuf::uint32 value);
 
-  // required uint32 ip = 2;
+  // required string ip = 2;
   inline bool has_ip() const;
   inline void clear_ip();
   static const int kIpFieldNumber = 2;
-  inline ::google::protobuf::uint32 ip() const;
-  inline void set_ip(::google::protobuf::uint32 value);
+  inline const ::std::string& ip() const;
+  inline void set_ip(const ::std::string& value);
+  inline void set_ip(const char* value);
+  inline void set_ip(const char* value, size_t size);
+  inline ::std::string* mutable_ip();
+  inline ::std::string* release_ip();
+  inline void set_allocated_ip(::std::string* ip);
 
   // required uint32 port = 3;
   inline bool has_port() const;
@@ -576,8 +581,8 @@ class UserIpAddr : public ::google::protobuf::MessageLite {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
+  ::std::string* ip_;
   ::google::protobuf::uint32 user_id_;
-  ::google::protobuf::uint32 ip_;
   ::google::protobuf::uint32 port_;
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_IM_2eBaseDefine_2eproto_impl();
@@ -2617,7 +2622,7 @@ inline void UserIpAddr::set_user_id(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:IM.BaseDefine.UserIpAddr.user_id)
 }
 
-// required uint32 ip = 2;
+// required string ip = 2;
 inline bool UserIpAddr::has_ip() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -2628,17 +2633,69 @@ inline void UserIpAddr::clear_has_ip() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void UserIpAddr::clear_ip() {
-  ip_ = 0u;
+  if (ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_->clear();
+  }
   clear_has_ip();
 }
-inline ::google::protobuf::uint32 UserIpAddr::ip() const {
+inline const ::std::string& UserIpAddr::ip() const {
   // @@protoc_insertion_point(field_get:IM.BaseDefine.UserIpAddr.ip)
+  return *ip_;
+}
+inline void UserIpAddr::set_ip(const ::std::string& value) {
+  set_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_ = new ::std::string;
+  }
+  ip_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.BaseDefine.UserIpAddr.ip)
+}
+inline void UserIpAddr::set_ip(const char* value) {
+  set_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_ = new ::std::string;
+  }
+  ip_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.BaseDefine.UserIpAddr.ip)
+}
+inline void UserIpAddr::set_ip(const char* value, size_t size) {
+  set_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_ = new ::std::string;
+  }
+  ip_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.BaseDefine.UserIpAddr.ip)
+}
+inline ::std::string* UserIpAddr::mutable_ip() {
+  set_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:IM.BaseDefine.UserIpAddr.ip)
   return ip_;
 }
-inline void UserIpAddr::set_ip(::google::protobuf::uint32 value) {
-  set_has_ip();
-  ip_ = value;
-  // @@protoc_insertion_point(field_set:IM.BaseDefine.UserIpAddr.ip)
+inline ::std::string* UserIpAddr::release_ip() {
+  clear_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = ip_;
+    ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void UserIpAddr::set_allocated_ip(::std::string* ip) {
+  if (ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete ip_;
+  }
+  if (ip) {
+    set_has_ip();
+    ip_ = ip;
+  } else {
+    clear_has_ip();
+    ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.BaseDefine.UserIpAddr.ip)
 }
 
 // required uint32 port = 3;

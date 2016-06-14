@@ -4898,6 +4898,12 @@ IMAudioRsp::IMAudioRsp()
 }
 
 void IMAudioRsp::InitAsDefaultInstance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  user_list_ = const_cast< ::IM::BaseDefine::UserIpAddr*>(
+      ::IM::BaseDefine::UserIpAddr::internal_default_instance());
+#else
+  user_list_ = const_cast< ::IM::BaseDefine::UserIpAddr*>(&::IM::BaseDefine::UserIpAddr::default_instance());
+#endif
 }
 
 IMAudioRsp::IMAudioRsp(const IMAudioRsp& from)
@@ -4912,6 +4918,7 @@ void IMAudioRsp::SharedCtor() {
   from_user_id_ = 0u;
   to_room_id_ = 0u;
   count_in_room_ = 0u;
+  user_list_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -4926,6 +4933,7 @@ void IMAudioRsp::SharedDtor() {
   #else
   if (this != default_instance_) {
   #endif
+    delete user_list_;
   }
 }
 
@@ -4960,15 +4968,17 @@ void IMAudioRsp::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  if (_has_bits_[0 / 32] & 7) {
+  if (_has_bits_[0 / 32] & 15) {
     ZR_(from_user_id_, to_room_id_);
     count_in_room_ = 0u;
+    if (has_user_list()) {
+      if (user_list_ != NULL) user_list_->::IM::BaseDefine::UserIpAddr::Clear();
+    }
   }
 
 #undef OFFSET_OF_FIELD_
 #undef ZR_
 
-  user_list_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->clear();
 }
@@ -5031,16 +5041,15 @@ bool IMAudioRsp::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .IM.BaseDefine.UserIpAddr user_list = 4;
+      // required .IM.BaseDefine.UserIpAddr user_list = 4;
       case 4: {
         if (tag == 34) {
          parse_user_list:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-                input, add_user_list()));
+               input, mutable_user_list()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(34)) goto parse_user_list;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -5085,10 +5094,10 @@ void IMAudioRsp::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->count_in_room(), output);
   }
 
-  // repeated .IM.BaseDefine.UserIpAddr user_list = 4;
-  for (int i = 0; i < this->user_list_size(); i++) {
+  // required .IM.BaseDefine.UserIpAddr user_list = 4;
+  if (has_user_list()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      4, this->user_list(i), output);
+      4, this->user_list(), output);
   }
 
   output->WriteRaw(unknown_fields().data(),
@@ -5121,15 +5130,14 @@ int IMAudioRsp::ByteSize() const {
           this->count_in_room());
     }
 
-  }
-  // repeated .IM.BaseDefine.UserIpAddr user_list = 4;
-  total_size += 1 * this->user_list_size();
-  for (int i = 0; i < this->user_list_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->user_list(i));
-  }
+    // required .IM.BaseDefine.UserIpAddr user_list = 4;
+    if (has_user_list()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->user_list());
+    }
 
+  }
   total_size += unknown_fields().size();
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -5145,7 +5153,6 @@ void IMAudioRsp::CheckTypeAndMergeFrom(
 
 void IMAudioRsp::MergeFrom(const IMAudioRsp& from) {
   GOOGLE_CHECK_NE(&from, this);
-  user_list_.MergeFrom(from.user_list_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_from_user_id()) {
       set_from_user_id(from.from_user_id());
@@ -5155,6 +5162,9 @@ void IMAudioRsp::MergeFrom(const IMAudioRsp& from) {
     }
     if (from.has_count_in_room()) {
       set_count_in_room(from.count_in_room());
+    }
+    if (from.has_user_list()) {
+      mutable_user_list()->::IM::BaseDefine::UserIpAddr::MergeFrom(from.user_list());
     }
   }
   mutable_unknown_fields()->append(from.unknown_fields());
@@ -5167,9 +5177,11 @@ void IMAudioRsp::CopyFrom(const IMAudioRsp& from) {
 }
 
 bool IMAudioRsp::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
 
-  if (!::google::protobuf::internal::AllAreInitialized(this->user_list())) return false;
+  if (has_user_list()) {
+    if (!this->user_list().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -5178,7 +5190,7 @@ void IMAudioRsp::Swap(IMAudioRsp* other) {
     std::swap(from_user_id_, other->from_user_id_);
     std::swap(to_room_id_, other->to_room_id_);
     std::swap(count_in_room_, other->count_in_room_);
-    user_list_.Swap(&other->user_list_);
+    std::swap(user_list_, other->user_list_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

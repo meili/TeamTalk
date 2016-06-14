@@ -2043,17 +2043,14 @@ class IMAudioRsp : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 count_in_room() const;
   inline void set_count_in_room(::google::protobuf::uint32 value);
 
-  // repeated .IM.BaseDefine.UserIpAddr user_list = 4;
-  inline int user_list_size() const;
+  // required .IM.BaseDefine.UserIpAddr user_list = 4;
+  inline bool has_user_list() const;
   inline void clear_user_list();
   static const int kUserListFieldNumber = 4;
-  inline const ::IM::BaseDefine::UserIpAddr& user_list(int index) const;
-  inline ::IM::BaseDefine::UserIpAddr* mutable_user_list(int index);
-  inline ::IM::BaseDefine::UserIpAddr* add_user_list();
-  inline const ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr >&
-      user_list() const;
-  inline ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr >*
-      mutable_user_list();
+  inline const ::IM::BaseDefine::UserIpAddr& user_list() const;
+  inline ::IM::BaseDefine::UserIpAddr* mutable_user_list();
+  inline ::IM::BaseDefine::UserIpAddr* release_user_list();
+  inline void set_allocated_user_list(::IM::BaseDefine::UserIpAddr* user_list);
 
   // @@protoc_insertion_point(class_scope:IM.Message.IMAudioRsp)
  private:
@@ -2063,6 +2060,8 @@ class IMAudioRsp : public ::google::protobuf::MessageLite {
   inline void clear_has_to_room_id();
   inline void set_has_count_in_room();
   inline void clear_has_count_in_room();
+  inline void set_has_user_list();
+  inline void clear_has_user_list();
 
   ::std::string _unknown_fields_;
 
@@ -2070,7 +2069,7 @@ class IMAudioRsp : public ::google::protobuf::MessageLite {
   mutable int _cached_size_;
   ::google::protobuf::uint32 from_user_id_;
   ::google::protobuf::uint32 to_room_id_;
-  ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr > user_list_;
+  ::IM::BaseDefine::UserIpAddr* user_list_;
   ::google::protobuf::uint32 count_in_room_;
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_IM_2eMessage_2eproto_impl();
@@ -4416,34 +4415,49 @@ inline void IMAudioRsp::set_count_in_room(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:IM.Message.IMAudioRsp.count_in_room)
 }
 
-// repeated .IM.BaseDefine.UserIpAddr user_list = 4;
-inline int IMAudioRsp::user_list_size() const {
-  return user_list_.size();
+// required .IM.BaseDefine.UserIpAddr user_list = 4;
+inline bool IMAudioRsp::has_user_list() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void IMAudioRsp::set_has_user_list() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void IMAudioRsp::clear_has_user_list() {
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void IMAudioRsp::clear_user_list() {
-  user_list_.Clear();
+  if (user_list_ != NULL) user_list_->::IM::BaseDefine::UserIpAddr::Clear();
+  clear_has_user_list();
 }
-inline const ::IM::BaseDefine::UserIpAddr& IMAudioRsp::user_list(int index) const {
+inline const ::IM::BaseDefine::UserIpAddr& IMAudioRsp::user_list() const {
   // @@protoc_insertion_point(field_get:IM.Message.IMAudioRsp.user_list)
-  return user_list_.Get(index);
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return user_list_ != NULL ? *user_list_ : *default_instance().user_list_;
+#else
+  return user_list_ != NULL ? *user_list_ : *default_instance_->user_list_;
+#endif
 }
-inline ::IM::BaseDefine::UserIpAddr* IMAudioRsp::mutable_user_list(int index) {
+inline ::IM::BaseDefine::UserIpAddr* IMAudioRsp::mutable_user_list() {
+  set_has_user_list();
+  if (user_list_ == NULL) user_list_ = new ::IM::BaseDefine::UserIpAddr;
   // @@protoc_insertion_point(field_mutable:IM.Message.IMAudioRsp.user_list)
-  return user_list_.Mutable(index);
-}
-inline ::IM::BaseDefine::UserIpAddr* IMAudioRsp::add_user_list() {
-  // @@protoc_insertion_point(field_add:IM.Message.IMAudioRsp.user_list)
-  return user_list_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr >&
-IMAudioRsp::user_list() const {
-  // @@protoc_insertion_point(field_list:IM.Message.IMAudioRsp.user_list)
   return user_list_;
 }
-inline ::google::protobuf::RepeatedPtrField< ::IM::BaseDefine::UserIpAddr >*
-IMAudioRsp::mutable_user_list() {
-  // @@protoc_insertion_point(field_mutable_list:IM.Message.IMAudioRsp.user_list)
-  return &user_list_;
+inline ::IM::BaseDefine::UserIpAddr* IMAudioRsp::release_user_list() {
+  clear_has_user_list();
+  ::IM::BaseDefine::UserIpAddr* temp = user_list_;
+  user_list_ = NULL;
+  return temp;
+}
+inline void IMAudioRsp::set_allocated_user_list(::IM::BaseDefine::UserIpAddr* user_list) {
+  delete user_list_;
+  user_list_ = user_list;
+  if (user_list) {
+    set_has_user_list();
+  } else {
+    clear_has_user_list();
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.Message.IMAudioRsp.user_list)
 }
 
 // -------------------------------------------------------------------

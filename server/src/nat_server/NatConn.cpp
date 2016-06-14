@@ -238,7 +238,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					msgARsp.set_count_in_room(p_user_info->size()); // 房间里的人数 
 					
 					IM::BaseDefine::UserIpAddr user_ip_addr;
-					user_ip_addr.set_user_id(p_user_serv_info2->uid)
+					user_ip_addr.set_user_id(p_user_serv_info2->uid);
 					user_ip_addr.set_ip(p_user_serv_info2->ip_addr);
 					user_ip_addr.set_port(p_user_serv_info2->port);
 					msgARsp.set_user_list(user_ip_addr);
