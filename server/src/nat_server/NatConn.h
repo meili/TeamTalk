@@ -17,7 +17,8 @@
 #include "IM.Message.pb.h"
 
 typedef struct  {
-    string	ip_addr;// IP
+    string	ip_addr;	// IP
+    string	local_ip;	// 局哉网IP
     uint16_t	port;	// 端口
     uint32_t	uid;	// 用户id
     uint32_t	rid;	// 房间id

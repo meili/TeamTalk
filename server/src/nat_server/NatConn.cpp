@@ -98,9 +98,6 @@ void CNatConn::OnConnect(net_handle_t handle)
 /*
 
 */
-
-//void CNatConn::HandlePdu(IM::Message::IMAudioReq* recvbuf)
-//{
 void CNatConn::HandlePdu_UDP(CImPdu* pPdu, sockaddr_in sender)
 {
 	switch (pPdu->GetCommandId()) {
@@ -180,6 +177,8 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 		// map<uint32_t, user_serv_info_t*>* t_user_info = new map<uint32_t, user_serv_info_t*>; // 记得delete
 		user_map* t_user_info = new user_map;
 		user_serv_info_t* pMsgServInfo = new user_serv_info_t;
+		
+		pMsgServInfo->local_ip = audioReq.local_ip; // 局域网IP
 
 		pMsgServInfo->ip_addr =inet_ntoa(sender.sin_addr);//ntohl(sender.sin_addr.s_addr);//.S_un.S_addr);//msg.ip1();	// int
 		pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
@@ -201,6 +200,9 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 			
 		} else {
 			user_serv_info_t* pMsgServInfo = new user_serv_info_t;
+
+			pMsgServInfo->local_ip = audioReq.local_ip; // 局域网IP
+
 			pMsgServInfo->ip_addr =inet_ntoa(sender.sin_addr);//ntohl(sender.sin_addr.s_addr);//.S_un.S_addr);//msg.ip1();	// int
 			pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
 			pMsgServInfo->uid = audioReq.from_user_id();	// 用户ID
@@ -241,13 +243,22 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					msgARsp.set_from_user_id(p_user_serv_info2->uid);// 用户ID
 					msgARsp.set_to_room_id(p_user_serv_info2->rid);	// 房间ID
 					msgARsp.set_count_in_room(p_user_info->size()); // 房间里的人数 
-					
-					IM::BaseDefine::UserIpAddr *user_ip_addr= msgARsp.mutable_user_list();// new IM::BaseDefine::UserIpAddr;
-					user_ip_addr->set_user_id(p_user_serv_info2->uid);
-					user_ip_addr->set_ip(p_user_serv_info2->ip_addr.c_str());
-					user_ip_addr->set_port(p_user_serv_info2->port);
-			//		msgARsp.set_allocated_user_list(user_ip_addr);
-					
+					if(	p_user_serv_info->ip_addr == p_user_serv_info2-->ip_addr)
+					{	
+						// 两个客户端的外网IP相等，证明可能在一个局域网内，可以直连
+						IM::BaseDefine::UserIpAddr *user_ip_addr= msgARsp.mutable_user_list();// new IM::BaseDefine::UserIpAddr;
+						user_ip_addr->set_user_id(p_user_serv_info2->uid);
+						user_ip_addr->set_ip(p_user_serv_info2->local_ip.c_str());
+						user_ip_addr->set_port(8132);						
+					}
+					else 
+					{
+						IM::BaseDefine::UserIpAddr *user_ip_addr= msgARsp.mutable_user_list();// new IM::BaseDefine::UserIpAddr;
+						user_ip_addr->set_user_id(p_user_serv_info2->uid);
+						user_ip_addr->set_ip(p_user_serv_info2->ip_addr.c_str());
+						user_ip_addr->set_port(p_user_serv_info2->port);
+				//		msgARsp.set_allocated_user_list(user_ip_addr);
+					}
 					pdu.SetPBMsg(&msgARsp);
 
 					pdu.SetServiceId(IM::BaseDefine::SID_MSG);						// service 消息ID
