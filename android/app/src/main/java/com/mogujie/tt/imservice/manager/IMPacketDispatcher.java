@@ -171,7 +171,9 @@ public class IMPacketDispatcher {
 //                    }
 //                    if(audioRsp.getUserList(0).getUserId() != loginUser.getId())
                     {
-                        logger.d("channel#messageUDPReceived send poll");
+                        logger.d("channel#messageUDPReceived send poll_%s_%d",
+                                audioRsp.getUserList().getIp(),
+                                audioRsp.getUserList().getPort());
 
                         // 让连谁
 //                        String sendContent =new String(com.mogujie.tt.Security.getInstance().EncryptMsg("poll"));
@@ -190,6 +192,7 @@ public class IMPacketDispatcher {
                     }
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE:
+//                    SpeekerToast.show(, "1111", Toast.LENGTH_SHORT);
 
                     logger.d("channel#messageUDPReceived#CID_MSG_AUDIO_UDP_DATA_VALUE");
 

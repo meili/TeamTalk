@@ -175,8 +175,8 @@ public class IMNatServerManager extends IMManager {
                     //dbInterface.insertOrUpdateMessage(messageEntity);
                     /**更新sessionEntity lastMsgId问题*/
                     //sessionManager.updateSession(messageEntity);
-                    // 发送，发送成功 收到这个表明发送成功
-                    triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_OK,messageEntity));
+                    // 发送，发送成功 收到这个表明发送成功 ACK_SEND_MESSAGE_OK处理中会出错
+                    //triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_OK,messageEntity));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -215,46 +215,25 @@ public class IMNatServerManager extends IMManager {
 
 //        IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
 //        byte[] sendContent = msgEntity.getSendContent();
-
+//        logger.d("channel#messageUDPReceived send poll_ok 1111" + loginUser);
+        // loginUser.getId().intValue() == null
         // 发送给UDP_client的
         IMMessage.IMAudioData audioReq = IMMessage.IMAudioData.newBuilder()
-                .setFromUserId(loginUser.getId().intValue())
+                .setFromUserId(1)
                 .setSeqNum(0)   // 0打洞数据
                 .setClientType(IMBaseDefine.ClientType.CLIENT_TYPE_ANDROID)
                 .setMsgData(sendContent)
                 .build();
+//        logger.d("channel#messageUDPReceived send poll_ok 2222");
 
         // 登入UDP服务器，带上要连的房间号，两个客户端同一房间号相通	(语音请求,msg加一个消息类型)
 
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
         int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE; // 音频数据
         imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,null,serverAddress);
-//        final MessageEntity messageEntity  = msgEntity;
-//        // 打洞发送
-//        imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,new Packetlistener(6000) {
-//            @Override
-//            public void onSuccess(Object response) {
-//                logger.i("chat#onAckSendedMsg#onSuccess# SendAudioData");
-//
-//            }
-//            @Override
-//            public void onFaild() {
-//                logger.i("chat#onAckSendedMsg#onFaild# SendAudioData");
-//
-////                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
-////                dbInterface.insertOrUpdateMessage(messageEntity);
-////                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_FAILURE,messageEntity));
-//            }
-//            @Override
-//            public void onTimeout() {
-//                logger.i("chat#onAckSendedMsg#onTimeout# SendAudioData");
-//
-//                // 超时
-////                messageEntity.setStatus(MessageConstant.MSG_FAILURE);
-////                dbInterface.insertOrUpdateMessage(messageEntity);
-////                triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_TIME_OUT,messageEntity));
-//            }
-//        },serverAddress);
+
+        logger.d("channel#messageUDPReceived send poll_ok");
+
     }
 
     /**
