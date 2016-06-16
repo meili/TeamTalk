@@ -177,18 +177,18 @@ public class IMPacketDispatcher {
 
                         // 让连谁
 //                        String sendContent =new String(com.mogujie.tt.Security.getInstance().EncryptMsg("poll"));
-                        String sendContent = "poll,"; // sendContent.getBytes("utf-8")
+                        String sendContent = "poll"; // sendContent.getBytes("utf-8")
                         // id ip port
                         IMApplication.connNid = audioRsp.getUserList().getUserId();
                         IMApplication.connstrIP = audioRsp.getUserList().getIp();
                         IMApplication.connNport = audioRsp.getUserList().getPort();
                         SocketAddress serverAddress = new InetSocketAddress(IMApplication.connstrIP, IMApplication.connNport);
-
+// 局域网直连发送为啥不能？
 //                         发送打洞数据 (几秒重发一次直到成功)
                         IMNatServerManager.instance().SendAudioData(
                                 loginUser,
                                 ByteString.copyFrom(sendContent,"utf-8"),//.getBytes("utf-8"),
-                                serverAddress);
+                                serverAddress, 0);
                     }
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE:
@@ -206,17 +206,23 @@ public class IMPacketDispatcher {
 //                                null,
 //                                audioRsp.getUserList(0).getIp(),
 //                                audioRsp.getUserList(0).getPort());
-                        if(audioData.getMsgData().toString("utf-8").equals("poll")){
-                            // 打洞请求，发送回复 会不会服务器的UDP包比client先到
-                            String sendContent = "poll_back";
+                        // 打洞请求，发送回复 会不会服务器的UDP包比client先到
+                        String sendContent = audioData.getMsgData().toString("utf-8");
+
+                        logger.d("channel#messageUDPReceived# receive poll ++" + sendContent);
+
+                        String forSend = (sendContent+ "_back");
+                        if(sendContent.equals("poll_back") || sendContent.equals("poll")){
+
+                            logger.d("channel#messageUDPReceived# receive poll__" + sendContent);
+
+                            // 如果收到回复 // 启动开始发送音频数据的服务
                             IMNatServerManager.instance().SendAudioData(
                                     IMLoginManager.instance().getLoginInfo(),
-                                    ByteString.copyFrom(sendContent,"utf-8"),//.getBytes("utf-8"),
-                                    msgE.getRemoteAddress()); // 得到发送者回复过去
+                                    ByteString.copyFrom(forSend,"utf-8"),//.getBytes("utf-8"),
+                                    msgE.getRemoteAddress(), 0); // 得到发送者回复过去
                         } else {
-                            // 如果收到回复 // 启动开始发送音频数据的服务
-
-
+                            // 开启音频发送服务
                         }
                     } else {
                         // 音频数据播放

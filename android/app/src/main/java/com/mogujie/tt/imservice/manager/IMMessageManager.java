@@ -246,7 +246,7 @@ public class IMMessageManager extends IMManager{
             PriorityEvent  notifyEvent = new PriorityEvent();
             notifyEvent.event = PriorityEvent.Event.Audio_RECEIVED_MESSAGE;
             notifyEvent.object = recvMessage;
-            triggerEvent(notifyEvent);// 接收到消息
+//            triggerEvent(notifyEvent);// 接收到消息
             return;
         } else {
 //            MessageEntity recvMessage = ProtoBuf2JavaBean.getMessageEntity(imMsgData);

@@ -206,7 +206,7 @@ public class IMNatServerManager extends IMManager {
      * 应该是自己发的信息，所以msgId为0
      * 这个地方用DB id作为主键
      */
-    public void SendAudioData(UserEntity loginUser,ByteString sendContent,SocketAddress serverAddress){
+    public void SendAudioData(UserEntity loginUser,ByteString sendContent,SocketAddress serverAddress, int seqNum){
         // 发送情况下 msg_id 都是0
         // 服务端是从1开始计数的
 //        if(!SequenceNumberMaker.getInstance().isFailure(audioRsp.getMsgId())){
@@ -220,7 +220,7 @@ public class IMNatServerManager extends IMManager {
         // 发送给UDP_client的
         IMMessage.IMAudioData audioReq = IMMessage.IMAudioData.newBuilder()
                 .setFromUserId(1)
-                .setSeqNum(0)   // 0打洞数据
+                .setSeqNum(seqNum)   // 0打洞数据
                 .setClientType(IMBaseDefine.ClientType.CLIENT_TYPE_ANDROID)
                 .setMsgData(sendContent)
                 .build();
