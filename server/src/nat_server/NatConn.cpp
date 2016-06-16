@@ -178,7 +178,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 		user_map* t_user_info = new user_map;
 		user_serv_info_t* pMsgServInfo = new user_serv_info_t;
 		
-		pMsgServInfo->local_ip = audioReq.local_ip; // 局域网IP
+		pMsgServInfo->local_ip = audioReq.local_ip(); // 局域网IP
 
 		pMsgServInfo->ip_addr =inet_ntoa(sender.sin_addr);//ntohl(sender.sin_addr.s_addr);//.S_un.S_addr);//msg.ip1();	// int
 		pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
@@ -201,7 +201,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 		} else {
 			user_serv_info_t* pMsgServInfo = new user_serv_info_t;
 
-			pMsgServInfo->local_ip = audioReq.local_ip; // 局域网IP
+			pMsgServInfo->local_ip = audioReq.local_ip(); // 局域网IP
 
 			pMsgServInfo->ip_addr =inet_ntoa(sender.sin_addr);//ntohl(sender.sin_addr.s_addr);//.S_un.S_addr);//msg.ip1();	// int
 			pMsgServInfo->port = ntohs(sender.sin_port);//msg.ip2();	//		int
@@ -214,9 +214,9 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 
 		// 遍历发送
 		for (user_map::iterator it_send = p_user_info->begin(); it_send != p_user_info->end(); ) {
-			printf("0.1\n");
+			//printf("0.1\n");
 			user_map::iterator it_old = it_send;
-			printf("0.5\n");
+			//printf("0.5\n");
 			it_send++;
 			// 
 			user_serv_info_t* p_user_serv_info = it_old->second;
@@ -227,7 +227,7 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 
 				user_serv_info_t* p_user_serv_info2 = it_old2->second;
 				
-				printf("2_ %s _ %d\n",p_user_serv_info2->ip_addr.c_str(), p_user_serv_info2->port);				
+				//printf("2_ %s _ %d\n",p_user_serv_info2->ip_addr.c_str(), p_user_serv_info2->port);				
 
 				if(p_user_serv_info->uid == p_user_serv_info2->uid){
 					printf("3\n");
@@ -243,15 +243,16 @@ void CNatConn::_HandleClientAudioData(CImPdu* pPdu, sockaddr_in sender)
 					msgARsp.set_from_user_id(p_user_serv_info2->uid);// 用户ID
 					msgARsp.set_to_room_id(p_user_serv_info2->rid);	// 房间ID
 					msgARsp.set_count_in_room(p_user_info->size()); // 房间里的人数 
-					if(	p_user_serv_info->ip_addr == p_user_serv_info2-->ip_addr)
+					/*if(p_user_serv_info->ip_addr == p_user_serv_info2->ip_addr)
 					{	
+						printf("ip equale = local ip %s\n",p_user_serv_info2->local_ip.c_str());
 						// 两个客户端的外网IP相等，证明可能在一个局域网内，可以直连
 						IM::BaseDefine::UserIpAddr *user_ip_addr= msgARsp.mutable_user_list();// new IM::BaseDefine::UserIpAddr;
 						user_ip_addr->set_user_id(p_user_serv_info2->uid);
 						user_ip_addr->set_ip(p_user_serv_info2->local_ip.c_str());
 						user_ip_addr->set_port(8132);						
 					}
-					else 
+					else*/ 
 					{
 						IM::BaseDefine::UserIpAddr *user_ip_addr= msgARsp.mutable_user_list();// new IM::BaseDefine::UserIpAddr;
 						user_ip_addr->set_user_id(p_user_serv_info2->uid);

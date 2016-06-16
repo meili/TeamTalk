@@ -4504,6 +4504,7 @@ const int IMAudioReq::kMsgIdFieldNumber;
 const int IMAudioReq::kCreateTimeFieldNumber;
 const int IMAudioReq::kMsgTypeFieldNumber;
 const int IMAudioReq::kClientTypeFieldNumber;
+const int IMAudioReq::kLocalIpFieldNumber;
 #endif  // !_MSC_VER
 
 IMAudioReq::IMAudioReq()
@@ -4523,6 +4524,7 @@ IMAudioReq::IMAudioReq(const IMAudioReq& from)
 }
 
 void IMAudioReq::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   from_user_id_ = 0u;
   to_room_id_ = 0u;
@@ -4530,6 +4532,7 @@ void IMAudioReq::SharedCtor() {
   create_time_ = 0u;
   msg_type_ = 1;
   client_type_ = 1;
+  local_ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -4539,6 +4542,9 @@ IMAudioReq::~IMAudioReq() {
 }
 
 void IMAudioReq::SharedDtor() {
+  if (local_ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete local_ip_;
+  }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
   #else
@@ -4578,10 +4584,15 @@ void IMAudioReq::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  if (_has_bits_[0 / 32] & 63) {
+  if (_has_bits_[0 / 32] & 127) {
     ZR_(from_user_id_, create_time_);
     msg_type_ = 1;
     client_type_ = 1;
+    if (has_local_ip()) {
+      if (local_ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        local_ip_->clear();
+      }
+    }
   }
 
 #undef OFFSET_OF_FIELD_
@@ -4702,6 +4713,19 @@ bool IMAudioReq::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(58)) goto parse_local_ip;
+        break;
+      }
+
+      // required string local_ip = 7;
+      case 7: {
+        if (tag == 58) {
+         parse_local_ip:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_local_ip()));
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -4763,6 +4787,12 @@ void IMAudioReq::SerializeWithCachedSizes(
       6, this->client_type(), output);
   }
 
+  // required string local_ip = 7;
+  if (has_local_ip()) {
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->local_ip(), output);
+  }
+
   output->WriteRaw(unknown_fields().data(),
                    unknown_fields().size());
   // @@protoc_insertion_point(serialize_end:IM.Message.IMAudioReq)
@@ -4812,6 +4842,13 @@ int IMAudioReq::ByteSize() const {
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->client_type());
     }
 
+    // required string local_ip = 7;
+    if (has_local_ip()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->local_ip());
+    }
+
   }
   total_size += unknown_fields().size();
 
@@ -4847,6 +4884,9 @@ void IMAudioReq::MergeFrom(const IMAudioReq& from) {
     if (from.has_client_type()) {
       set_client_type(from.client_type());
     }
+    if (from.has_local_ip()) {
+      set_local_ip(from.local_ip());
+    }
   }
   mutable_unknown_fields()->append(from.unknown_fields());
 }
@@ -4858,7 +4898,7 @@ void IMAudioReq::CopyFrom(const IMAudioReq& from) {
 }
 
 bool IMAudioReq::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
+  if ((_has_bits_[0] & 0x0000007f) != 0x0000007f) return false;
 
   return true;
 }
@@ -4871,6 +4911,7 @@ void IMAudioReq::Swap(IMAudioReq* other) {
     std::swap(create_time_, other->create_time_);
     std::swap(msg_type_, other->msg_type_);
     std::swap(client_type_, other->client_type_);
+    std::swap(local_ip_, other->local_ip_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

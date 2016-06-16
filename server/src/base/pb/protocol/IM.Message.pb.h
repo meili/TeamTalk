@@ -1923,6 +1923,18 @@ class IMAudioReq : public ::google::protobuf::MessageLite {
   inline ::IM::BaseDefine::ClientType client_type() const;
   inline void set_client_type(::IM::BaseDefine::ClientType value);
 
+  // required string local_ip = 7;
+  inline bool has_local_ip() const;
+  inline void clear_local_ip();
+  static const int kLocalIpFieldNumber = 7;
+  inline const ::std::string& local_ip() const;
+  inline void set_local_ip(const ::std::string& value);
+  inline void set_local_ip(const char* value);
+  inline void set_local_ip(const char* value, size_t size);
+  inline ::std::string* mutable_local_ip();
+  inline ::std::string* release_local_ip();
+  inline void set_allocated_local_ip(::std::string* local_ip);
+
   // @@protoc_insertion_point(class_scope:IM.Message.IMAudioReq)
  private:
   inline void set_has_from_user_id();
@@ -1937,6 +1949,8 @@ class IMAudioReq : public ::google::protobuf::MessageLite {
   inline void clear_has_msg_type();
   inline void set_has_client_type();
   inline void clear_has_client_type();
+  inline void set_has_local_ip();
+  inline void clear_has_local_ip();
 
   ::std::string _unknown_fields_;
 
@@ -1948,6 +1962,7 @@ class IMAudioReq : public ::google::protobuf::MessageLite {
   ::google::protobuf::uint32 create_time_;
   int msg_type_;
   int client_type_;
+  ::std::string* local_ip_;
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_IM_2eMessage_2eproto_impl();
   #else
@@ -4337,6 +4352,82 @@ inline void IMAudioReq::set_client_type(::IM::BaseDefine::ClientType value) {
   set_has_client_type();
   client_type_ = value;
   // @@protoc_insertion_point(field_set:IM.Message.IMAudioReq.client_type)
+}
+
+// required string local_ip = 7;
+inline bool IMAudioReq::has_local_ip() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void IMAudioReq::set_has_local_ip() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void IMAudioReq::clear_has_local_ip() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void IMAudioReq::clear_local_ip() {
+  if (local_ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    local_ip_->clear();
+  }
+  clear_has_local_ip();
+}
+inline const ::std::string& IMAudioReq::local_ip() const {
+  // @@protoc_insertion_point(field_get:IM.Message.IMAudioReq.local_ip)
+  return *local_ip_;
+}
+inline void IMAudioReq::set_local_ip(const ::std::string& value) {
+  set_has_local_ip();
+  if (local_ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    local_ip_ = new ::std::string;
+  }
+  local_ip_->assign(value);
+  // @@protoc_insertion_point(field_set:IM.Message.IMAudioReq.local_ip)
+}
+inline void IMAudioReq::set_local_ip(const char* value) {
+  set_has_local_ip();
+  if (local_ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    local_ip_ = new ::std::string;
+  }
+  local_ip_->assign(value);
+  // @@protoc_insertion_point(field_set_char:IM.Message.IMAudioReq.local_ip)
+}
+inline void IMAudioReq::set_local_ip(const char* value, size_t size) {
+  set_has_local_ip();
+  if (local_ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    local_ip_ = new ::std::string;
+  }
+  local_ip_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:IM.Message.IMAudioReq.local_ip)
+}
+inline ::std::string* IMAudioReq::mutable_local_ip() {
+  set_has_local_ip();
+  if (local_ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    local_ip_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:IM.Message.IMAudioReq.local_ip)
+  return local_ip_;
+}
+inline ::std::string* IMAudioReq::release_local_ip() {
+  clear_has_local_ip();
+  if (local_ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = local_ip_;
+    local_ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void IMAudioReq::set_allocated_local_ip(::std::string* local_ip) {
+  if (local_ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete local_ip_;
+  }
+  if (local_ip) {
+    set_has_local_ip();
+    local_ip_ = local_ip;
+  } else {
+    clear_has_local_ip();
+    local_ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:IM.Message.IMAudioReq.local_ip)
 }
 
 // -------------------------------------------------------------------
