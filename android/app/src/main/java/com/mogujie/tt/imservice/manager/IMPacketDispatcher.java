@@ -183,7 +183,8 @@ public class IMPacketDispatcher {
                         IMApplication.connstrIP = audioRsp.getUserList().getIp();
                         IMApplication.connNport = audioRsp.getUserList().getPort();
                         SocketAddress serverAddress = new InetSocketAddress(IMApplication.connstrIP, IMApplication.connNport);
-// 局域网直连发送为啥不能？
+
+                        // 局域网直连发送为啥不能？
 //                         发送打洞数据 (几秒重发一次直到成功)
                         IMNatServerManager.instance().SendAudioData(
                                 loginUser,

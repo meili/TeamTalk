@@ -59,26 +59,63 @@ public class SocketUDPThread extends Thread {
 		channel = bootstrap.bind(serverAddress);
 	}
 
-    /**
-     * @param requset
-     * @param header
-     * @return
-     */
-    public boolean send_UDP_request(GeneratedMessageLite requset,Header header, SocketAddress serverAddress){
+	/**
+	 * @param requset
+	 * @param header
+	 * @return
+	 */
+	public boolean send_UDP_request(GeneratedMessageLite requset,Header header, final SocketAddress serverAddress){
 		logger.d("#sendUDPRequest#channel!111111111111");
 
 		DataBuffer headerBuffer = header.encode();
-        DataBuffer bodyBuffer = new DataBuffer();
-        int bodySize = requset.getSerializedSize();
-        bodyBuffer.writeBytes(requset.toByteArray());
+		DataBuffer bodyBuffer = new DataBuffer();
+		int bodySize = requset.getSerializedSize();
+		bodyBuffer.writeBytes(requset.toByteArray());
 
-        DataBuffer buffer = new DataBuffer(SysConstant.PROTOCOL_HEADER_LENGTH  + bodySize);
-        buffer.writeDataBuffer(headerBuffer); 	// 头 包括：sid, cid
-        buffer.writeDataBuffer(bodyBuffer);		// body
+		final DataBuffer buffer = new DataBuffer(SysConstant.PROTOCOL_HEADER_LENGTH  + bodySize);
+		buffer.writeDataBuffer(headerBuffer); 	// 头 包括：sid, cid
+		buffer.writeDataBuffer(bodyBuffer);		// body
+
+
+
+//		String body = new String(req, "UTF-8");
 
 		channel.write(buffer.getOrignalBuffer(), serverAddress);
 
-		return true;
-    }
+// 		// 以下的发送不成功
+//		new Thread(){
+//			@Override
+//			public void run()
+//			{
+//				byte[] req = new byte[buffer.getOrignalBuffer().readableBytes()];
+//				buffer.getOrignalBuffer().readBytes(req);
+//				 //把网络访问的代码放在这里
+//				InetSocketAddress inetAddr = (InetSocketAddress) serverAddress;
+//				try {
+//					logger.d("#sendUDPRequest#sendPacket" + inetAddr.getAddress() + "_" + inetAddr.getPort());
+//
+//					// 创建发送方的套接字，IP默认为本地，端口号随机
+//					DatagramSocket sendSocket = new DatagramSocket();
+//					DatagramPacket sendPacket = new DatagramPacket(req,
+//							buffer.getOrignalBuffer().readableBytes(),
+//							inetAddr.getAddress(),
+//							inetAddr.getPort());
+//
+//					sendSocket.send(sendPacket);
+//					sendSocket.close();
+//				} catch (SocketException e) {
+//					logger.d("#sendUDPRequest#SocketException !111111111111");
+//
+//					e.printStackTrace();
+//				} catch (IOException e) {
+//					logger.d("#sendUDPRequest#IOException !111111111111");
+//
+//					e.printStackTrace();
+//				}
+//				}
+//			}.start();
 
+
+		return true;
+	}
 }
