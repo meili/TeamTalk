@@ -224,9 +224,11 @@ public class IMPacketDispatcher {
                                     msgE.getRemoteAddress(), 0); // 得到发送者回复过去
                         } else {
                             // 开启音频发送服务
+                            // 类似把SpeexEncoder filewriter 改成 SendAudioData()
                         }
                     } else {
                         // 音频数据播放
+                        // SpeexDecoder // 解码 AudioTRack实时播放
                     }
                     break;
 

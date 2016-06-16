@@ -58,6 +58,9 @@ public class SpeexEncoder implements Runnable {
                             + " getsize=" + getSize);
                 }
                 if (getSize > 0) {
+
+                    // 如果是实时语音  // 发送 processdData
+
                     fileWriter.putData(processedData, getSize);
                     log.i("............onLoginOut....................");
                     processedData = new byte[encoder_packagesize];

@@ -159,6 +159,11 @@ public class SpeexDecoder {
                         packetNo++;
                     } else {
 
+                        if(track == null) {
+                            // 实时播放
+//                            track = new AudioTrack();
+                            // 默认的header new AudioTrack
+                        }
                         /* get the amount of decoded data */
                         short[] decoded = new short[160];
                         if ((decsize = speexDecoder.decode(payload, decoded,
