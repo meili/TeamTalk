@@ -1007,7 +1007,7 @@ public class MessageActivity extends TTBaseActivity
                         .getAudioSavePath(IMLoginManager.instance().getLoginId());
 
                 // 这个callback很蛋疼，发送消息从MotionEvent.ACTION_UP 判断
-                audioRecorderInstance = new AudioRecordHandler(audioSavePath);
+                audioRecorderInstance = new AudioRecordHandler(audioSavePath,false);
 
                 audioRecorderThread = new Thread(audioRecorderInstance);
                 audioRecorderInstance.setRecording(true);

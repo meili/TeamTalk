@@ -26,6 +26,7 @@ import com.mogujie.tt.protobuf.IMMessage;
 import com.mogujie.tt.protobuf.helper.EntityChangeEngine;
 import com.mogujie.tt.protobuf.helper.Java2ProtoBuf;
 import com.mogujie.tt.protobuf.helper.ProtoBuf2JavaBean;
+import com.mogujie.tt.ui.helper.AudioNetPlayHandler;
 import com.mogujie.tt.utils.Logger;
 
 import java.io.IOException;
@@ -209,19 +210,41 @@ public class IMMessageManager extends IMManager{
             }
         });
     }
-
+    //  开启播放进程
+    private AudioNetPlayHandler audioNetPlay = null;
+    private Thread audioPlayThread = null;
     /**
-     * 收到语音请求
-     * @param imMsgAData
+     * 收到语音解码播放
+     * @param imAudioData
      */
-    public void onRecvAMessage(IMMessage.IMMsgData imMsgAData){
+    public void onRecvAMessage(IMMessage.IMAudioData imAudioData){
 
-        MessageEntity recvMessage = ProtoBuf2JavaBean.getMessageEntity(imMsgAData);
+        try {
+//            byte[] audioData = null;// = imAudioData.getMsgData().toByteArray();
+//            imAudioData.getMsgData().copyTo(audioData,0);
+            byte[] audioData = imAudioData.getMsgData().toByteArray();
+            if (audioNetPlay == null) {
+                //  开启播放进程
+                audioNetPlay = new AudioNetPlayHandler();
 
-        PriorityEvent  notifyEvent = new PriorityEvent();
-        notifyEvent.event = PriorityEvent.Event.Audio_RECEIVED_MESSAGE;
-        notifyEvent.object = recvMessage;
-        triggerEvent(notifyEvent);// 接收到消息
+                audioPlayThread = new Thread(audioNetPlay);
+                audioNetPlay.setPlaying(true);
+                audioPlayThread.start();
+            }
+            audioNetPlay.putData(audioData);
+
+        } catch (Exception e) {
+
+            logger.d("onRecvAMessage exception:" + e.getMessage().toString());
+            e.printStackTrace();
+
+        }
+//        speexdec = new SpeexDecoder(new File(this.currentPlayPath));
+//        RecordPlayThread rpt = new RecordPlayThread();
+//        if (null == th)
+//            th = new Thread(rpt);
+//        th.start();
+
     }
 
     /**
@@ -701,20 +724,4 @@ public class IMMessageManager extends IMManager{
         sendMessage(imageMessage);
     }
 
-//    /**获取session内的最后一条回话*/
-//    private void reqSessionLastMsgId(int sessionId,int sessionType,Packetlistener packetlistener){
-//        int userId = IMLoginManager.instance().getLoginId();
-//        IMMessage.IMGetLatestMsgIdReq latestMsgIdReq = IMMessage.IMGetLatestMsgIdReq.newBuilder()
-//                .setUserId(userId)
-//                .setSessionId(sessionId)
-//                .setSessionType(Java2ProtoBuf.getProtoSessionType(sessionType))
-//                .build();
-//        int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
-//        int cid = IMBaseDefine.MessageCmdID.CID_MSG_GET_LATEST_MSG_ID_REQ_VALUE;
-//        imSocketManager.sendRequest(latestMsgIdReq,sid,cid,packetlistener);
-//    }
-//
-//    public void onReqSessionLastMsgId(IMMessage.IMGetLatestMsgIdRsp latestMsgIdRsp){
-//        int lastMsgId = latestMsgIdRsp.getLatestMsgId();
-//    }
 }

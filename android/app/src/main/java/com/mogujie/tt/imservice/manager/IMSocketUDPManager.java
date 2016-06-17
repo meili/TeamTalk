@@ -86,10 +86,6 @@ public class IMSocketUDPManager extends IMManager {
      * -------------------------------功能方法--------------------------------------
      */
 
-//    public void sendUDPRequest(GeneratedMessageLite requset, int sid, int cid) {
-//        SocketAddress serverAddress = new InetSocketAddress("123.57.71.215", 8132);
-//        sendUDPRequest(requset, sid, cid, null,serverAddress);
-//    }
 
     /**
      *

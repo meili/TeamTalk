@@ -75,13 +75,8 @@ public class SocketUDPThread extends Thread {
 		final DataBuffer buffer = new DataBuffer(SysConstant.PROTOCOL_HEADER_LENGTH  + bodySize);
 		buffer.writeDataBuffer(headerBuffer); 	// 头 包括：sid, cid
 		buffer.writeDataBuffer(bodyBuffer);		// body
-
-
-
 //		String body = new String(req, "UTF-8");
-
 		channel.write(buffer.getOrignalBuffer(), serverAddress);
-
 // 		// 以下的发送不成功
 //		new Thread(){
 //			@Override

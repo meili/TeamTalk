@@ -34,9 +34,6 @@ public class IMReconnectManager extends IMManager {
        return inst;
     }
 
-
-
-
     /**重连所处的状态*/
     private volatile ReconnectEvent status = ReconnectEvent.NONE;
 

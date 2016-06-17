@@ -79,10 +79,8 @@ public class IMService extends Service {
     private LoginSp loginSp = LoginSp.instance();
     private DBInterface dbInterface = DBInterface.instance();
 
-
     private IMNatServerManager natServerMgr = IMNatServerManager.instance();
     private IMSocketUDPManager socketUDPMgr = IMSocketUDPManager.instance();
-
 
     @Override
 	public void onCreate() {

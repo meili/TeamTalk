@@ -151,8 +151,8 @@ public class IMPacketDispatcher {
 //                    IMUIHelper.openConfirmAudioActivity(getActivity(),currentUser.getSessionKey());
 //                    getActivity().finish();
                     // 换成了 CID_MSG_DATA_VALUE
-                    IMMessage.IMMsgData imMsgAData = IMMessage.IMMsgData.parseFrom(buffer);
-                    IMMessageManager.instance().onRecvAMessage(imMsgAData);
+//                    IMMessage.IMMsgData imMsgAData = IMMessage.IMMsgData.parseFrom(buffer);
+//                    IMMessageManager.instance().onRecvAMessage(imMsgAData);
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_RESPONSE_VALUE:
                     logger.d("channel#messageUDPReceived#msgPacketDispatcher CID_MSG_AUDIO_UDP_RESPONSE_VALUE __ OK");
@@ -188,16 +188,15 @@ public class IMPacketDispatcher {
 //                         发送打洞数据 (几秒重发一次直到成功)
                         IMNatServerManager.instance().SendAudioData(
                                 loginUser,
-                                ByteString.copyFrom(sendContent,"utf-8"),//.getBytes("utf-8"),
+                                ByteString.copyFrom(sendContent,"utf-8"),
                                 serverAddress, 0);
                     }
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE:
 //                    SpeekerToast.show(, "1111", Toast.LENGTH_SHORT);
-
                     logger.d("channel#messageUDPReceived#CID_MSG_AUDIO_UDP_DATA_VALUE");
-
                     IMMessage.IMAudioData audioData = IMMessage.IMAudioData.parseFrom(buffer);
+                    logger.d("channel#messageUDPReceived " + audioData.getSeqNum());
 //                    // 音频数据
 //                    IMMessageManager.instance().onRecvAudioData(audioData);
                     if(audioData.getSeqNum() == 0){
@@ -225,10 +224,12 @@ public class IMPacketDispatcher {
                         } else {
                             // 开启音频发送服务
                             // 类似把SpeexEncoder filewriter 改成 SendAudioData()
+                            IMAudioManager.instance().startIMAudioSend();
                         }
                     } else {
                         // 音频数据播放
                         // SpeexDecoder // 解码 AudioTRack实时播放
+                        IMMessageManager.instance().onRecvAMessage(audioData);
                     }
                     break;
 

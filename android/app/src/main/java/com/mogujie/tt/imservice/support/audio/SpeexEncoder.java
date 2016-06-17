@@ -1,6 +1,7 @@
 
 package com.mogujie.tt.imservice.support.audio;
 
+import com.mogujie.tt.imservice.manager.IMNatServerManager;
 import com.mogujie.tt.utils.Logger;
 
 import java.util.Collections;
@@ -18,21 +19,26 @@ public class SpeexEncoder implements Runnable {
 
     List<ReadData> list = null;
     private volatile boolean isRecording;
-    private String fileName;
+    private String fileName = null;
+    private boolean bIMAudio = false;
 
-    public SpeexEncoder(String fileName) {
+
+    public SpeexEncoder(String fileName,Boolean isIMAudio) {
         super();
         speex.init();
         list = Collections.synchronizedList(new LinkedList<ReadData>());
         this.fileName = fileName;
+        bIMAudio = isIMAudio;
     }
 
     public void run() {
-        SpeexWriter fileWriter = new SpeexWriter(fileName);
-        Thread consumerThread = new Thread((Runnable) fileWriter);
-        fileWriter.setRecording(true);
-        consumerThread.start();
-
+        SpeexWriter fileWriter = null;
+        if(fileName != null) {
+            fileWriter = new SpeexWriter(fileName);
+            Thread consumerThread = new Thread((Runnable) fileWriter);
+            fileWriter.setRecording(true);
+            consumerThread.start();
+        }
         android.os.Process
                 .setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
 
@@ -58,17 +64,21 @@ public class SpeexEncoder implements Runnable {
                             + " getsize=" + getSize);
                 }
                 if (getSize > 0) {
+                    if(fileName == null) {
+                        // 实时语音  // 发送 processdData
+                        IMNatServerManager.instance().SendRealAudioData(processedData);
+                    } else {
+                        fileWriter.putData(processedData, getSize);
+                        log.i("............onLoginOut....................");
+                        processedData = new byte[encoder_packagesize];
+                    }
 
-                    // 如果是实时语音  // 发送 processdData
-
-                    fileWriter.putData(processedData, getSize);
-                    log.i("............onLoginOut....................");
-                    processedData = new byte[encoder_packagesize];
                 }
             }
         }
         log.d("encode thread exit");
-        fileWriter.setRecording(false);
+        if(fileWriter != null)
+            fileWriter.setRecording(false);
         speex.close();
     }
 
@@ -90,6 +100,17 @@ public class SpeexEncoder implements Runnable {
     public boolean isRecording() {
         synchronized (mutex) {
             return isRecording;
+        }
+    }
+
+    public void setIMAudio(boolean isIMAudio) {
+        synchronized (mutex) {
+            this.bIMAudio = isIMAudio;
+        }
+    }
+    public boolean isIMAudio(){
+        synchronized (mutex) {
+            return bIMAudio;
         }
     }
 

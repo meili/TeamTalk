@@ -201,12 +201,35 @@ public class IMNatServerManager extends IMManager {
     }
 
     /**
+     * 发送音频数据
+     * @param sendContent
+     */
+    public void SendRealAudioData(byte[] sendContent){
+
+        IMMessage.IMAudioData audioReq = IMMessage.IMAudioData.newBuilder()
+                .setFromUserId(1)
+                .setSeqNum(SequenceNumberMaker.getInstance().make())   // 0打洞数据
+                .setClientType(IMBaseDefine.ClientType.CLIENT_TYPE_ANDROID)
+                .setMsgData(ByteString.copyFrom(sendContent))
+                .build();
+
+        int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
+        int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE; // 音频数据
+        imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,null,m_serverAddress);
+    }
+    private UserEntity m_loginUser;
+    private SocketAddress m_serverAddress;
+
+    /**
      * 发送消息，最终的状态情况
      * MessageManager下面的拆分
      * 应该是自己发的信息，所以msgId为0
      * 这个地方用DB id作为主键
      */
     public void SendAudioData(UserEntity loginUser,ByteString sendContent,SocketAddress serverAddress, int seqNum){
+        m_loginUser = loginUser;
+        m_serverAddress = serverAddress;
+
         // 发送情况下 msg_id 都是0
         // 服务端是从1开始计数的
 //        if(!SequenceNumberMaker.getInstance().isFailure(audioRsp.getMsgId())){
