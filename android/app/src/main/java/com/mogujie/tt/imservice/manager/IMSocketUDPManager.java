@@ -101,9 +101,7 @@ public class IMSocketUDPManager extends IMManager {
             com.mogujie.tt.protobuf.base.Header header = new DefaultHeader(sid, cid);
             int bodySize = requset.getSerializedSize();
             header.setLength(SysConstant.PROTOCOL_HEADER_LENGTH + bodySize);
-
             //seqNo = header.getSeqnum();
-
             listenerQueue.push(seqNo, packetlistener);
             if(msgUDPServerThread!=null){
                 logger.d("#sendRequest#channel is not open!msgUDPServerThread send");
@@ -131,19 +129,12 @@ public class IMSocketUDPManager extends IMManager {
         com.mogujie.tt.protobuf.base.Header header = new com.mogujie.tt.protobuf.base.Header();
 //        logger.d("channel#messageUDPReceived#packetUDPDispatch#2");
         header.decode(buffer);
-//        logger.d("channel#messageUDPReceived#packetUDPDispatch#3");
-
-        /**buffer 的指针位于body的地方*/
+        /** buffer 的指针位于body的地方*/
         int commandId = header.getCommandId();
-//        logger.d("channel#messageUDPReceived#packetUDPDispatch#4 commandId:%d", commandId);
-
         int serviceId = header.getServiceId();
-//        logger.d("channel#messageUDPReceived#packetUDPDispatch#4 serviceId:%d", serviceId);
         int seqNo = header.getSeqnum();
-//        logger.d("channel#messageUDPReceived#packetUDPDispatch#4 seqNo:%d", seqNo);
+//        buffer.readDataBuffer();
 
-//        logger.d("channel#messageUDPReceived#dispatch packet, serviceId:%d, commandId:%d", serviceId,
-//                commandId);
         CodedInputStream codedInputStream = CodedInputStream.newInstance(new ChannelBufferInputStream(buffer.getOrignalBuffer()));
 
         // UDP 打洞成功的包确认 如果是回复的消息，调用到onsuccess

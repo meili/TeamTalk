@@ -204,19 +204,32 @@ public class IMNatServerManager extends IMManager {
      * 发送音频数据
      * @param sendContent
      */
-    public void SendRealAudioData(byte[] sendContent){
+    public void SendRealAudioData(byte[] sendContent, int size){
 
-        IMMessage.IMAudioData audioReq = IMMessage.IMAudioData.newBuilder()
-                .setFromUserId(1)
-                .setSeqNum(SequenceNumberMaker.getInstance().make())   // 0打洞数据
-                .setClientType(IMBaseDefine.ClientType.CLIENT_TYPE_ANDROID)
-                .setMsgData(ByteString.copyFrom(sendContent))
-                .build();
+        // 1024 的 数组 没有填满；
+        final byte[] buf = new byte[size];
+//        String forSend = ("audio_data_" + SequenceNumberMaker.getInstance().make());
+        System.arraycopy(buf, 0, sendContent, 0, size);
+
+        IMMessage.IMAudioData audioReq = null;
+//        try {
+            audioReq = IMMessage.IMAudioData.newBuilder()
+                    .setFromUserId(1)
+                    .setSeqNum(SequenceNumberMaker.getInstance().make())   // 0打洞数据
+                    .setClientType(IMBaseDefine.ClientType.CLIENT_TYPE_ANDROID)
+//                    .setMsgData(ByteString.copyFrom(forSend,"utf-8"))
+                    .setMsgData(ByteString.copyFrom(buf))
+                    .build();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
         int cid = IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE; // 音频数据
         imSocketUDPManager.sendUDPRequest(audioReq,sid,cid,null,m_serverAddress);
+
     }
+
     private UserEntity m_loginUser;
     private SocketAddress m_serverAddress;
 

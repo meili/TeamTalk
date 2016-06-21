@@ -65,7 +65,6 @@ public class SocketUDPThread extends Thread {
 	 * @return
 	 */
 	public boolean send_UDP_request(GeneratedMessageLite requset,Header header, final SocketAddress serverAddress){
-		logger.d("#sendUDPRequest#channel!111111111111");
 
 		DataBuffer headerBuffer = header.encode();
 		DataBuffer bodyBuffer = new DataBuffer();
@@ -75,8 +74,23 @@ public class SocketUDPThread extends Thread {
 		final DataBuffer buffer = new DataBuffer(SysConstant.PROTOCOL_HEADER_LENGTH  + bodySize);
 		buffer.writeDataBuffer(headerBuffer); 	// 头 包括：sid, cid
 		buffer.writeDataBuffer(bodyBuffer);		// body
-//		String body = new String(req, "UTF-8");
 		channel.write(buffer.getOrignalBuffer(), serverAddress);
+
+//
+////		DataBuffer buffer = new DataBuffer(channelBuffer);
+//		com.mogujie.tt.protobuf.base.Header header123 = new com.mogujie.tt.protobuf.base.Header();
+//		buffer.resetReaderIndex();
+////        logger.d("channel#messageUDPReceived#packetUDPDispatch#2");
+//		header123.decode(buffer);
+////		buffer.readDataBuffer();
+//		CodedInputStream codedInputStream = CodedInputStream.newInstance(new ChannelBufferInputStream(buffer.getOrignalBuffer()));
+//
+//		try{
+//			IMMessage.IMAudioData audioData = IMMessage.IMAudioData.parseFrom(codedInputStream);
+//		} catch (IOException e) {
+//			logger.e("send_UDP_request# error,cid:%d" + e.toString());
+//		}
+
 // 		// 以下的发送不成功
 //		new Thread(){
 //			@Override

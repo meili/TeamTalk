@@ -226,7 +226,6 @@ public class IMMessageManager extends IMManager{
             if (audioNetPlay == null) {
                 //  开启播放进程
                 audioNetPlay = new AudioNetPlayHandler();
-
                 audioPlayThread = new Thread(audioNetPlay);
                 audioNetPlay.setPlaying(true);
                 audioPlayThread.start();

@@ -1,7 +1,6 @@
 
 package com.mogujie.tt.imservice.support.audio;
 
-import com.mogujie.tt.imservice.manager.IMNatServerManager;
 import com.mogujie.tt.utils.Logger;
 
 import java.util.Collections;
@@ -33,10 +32,17 @@ public class SpeexEncoder implements Runnable {
 
     public void run() {
         SpeexWriter fileWriter = null;
+        SpeexNetWriter netWriter = null;
+
         if(fileName != null) {
             fileWriter = new SpeexWriter(fileName);
             Thread consumerThread = new Thread((Runnable) fileWriter);
             fileWriter.setRecording(true);
+            consumerThread.start();
+        } else {
+            netWriter = new SpeexNetWriter();
+            Thread consumerThread = new Thread((Runnable) netWriter);
+            netWriter.setRecording(true);
             consumerThread.start();
         }
         android.os.Process
@@ -65,8 +71,11 @@ public class SpeexEncoder implements Runnable {
                 }
                 if (getSize > 0) {
                     if(fileName == null) {
+                        // 开启一个发送进程？
                         // 实时语音  // 发送 processdData
-                        IMNatServerManager.instance().SendRealAudioData(processedData);
+//                        IMNatServerManager.instance().SendRealAudioData(processedData);
+                        netWriter.putData(processedData, getSize);                        processedData = new byte[encoder_packagesize];
+                        processedData = new byte[encoder_packagesize];
                     } else {
                         fileWriter.putData(processedData, getSize);
                         log.i("............onLoginOut....................");

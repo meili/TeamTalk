@@ -113,7 +113,7 @@ public class IMPacketDispatcher {
 //    }
 
     public static void msgPacketDispatcher(int commandId, CodedInputStream buffer,MessageEvent msgE) {
-        logger.d("channel#messageUDPReceived#msgPacketDispatcher commandId:%d", commandId);
+//        logger.d("channel#messageUDPReceived#msgPacketDispatcher commandId:%d", commandId);
         try {
             switch (commandId) {
                 case IMBaseDefine.MessageCmdID.CID_MSG_DATA_ACK_VALUE:
@@ -194,9 +194,9 @@ public class IMPacketDispatcher {
                     break;
                 case IMBaseDefine.MessageCmdID.CID_MSG_AUDIO_UDP_DATA_VALUE:
 //                    SpeekerToast.show(, "1111", Toast.LENGTH_SHORT);
-                    logger.d("channel#messageUDPReceived#CID_MSG_AUDIO_UDP_DATA_VALUE");
+//                    logger.d("channel#messageUDPReceived#CID_MSG_AUDIO_UDP_DATA_VALUE");
                     IMMessage.IMAudioData audioData = IMMessage.IMAudioData.parseFrom(buffer);
-                    logger.d("channel#messageUDPReceived " + audioData.getSeqNum());
+                    logger.d("channel#messageUDPReceived#audioData" + audioData.getSeqNum());
 //                    // 音频数据
 //                    IMMessageManager.instance().onRecvAudioData(audioData);
                     if(audioData.getSeqNum() == 0){
@@ -213,9 +213,7 @@ public class IMPacketDispatcher {
 
                         String forSend = (sendContent+ "_back");
                         if(sendContent.equals("poll_back") || sendContent.equals("poll")){
-
                             logger.d("channel#messageUDPReceived# receive poll__" + sendContent);
-
                             // 如果收到回复 // 启动开始发送音频数据的服务
                             IMNatServerManager.instance().SendAudioData(
                                     IMLoginManager.instance().getLoginInfo(),
@@ -230,6 +228,9 @@ public class IMPacketDispatcher {
                         // 音频数据播放
                         // SpeexDecoder // 解码 AudioTRack实时播放
                         IMMessageManager.instance().onRecvAMessage(audioData);
+//                        String sendContent = audioData.getMsgData().toString("utf-8");
+//                        logger.d("channel#messageUDPReceived# play_" + sendContent);
+
                     }
                     break;
 
