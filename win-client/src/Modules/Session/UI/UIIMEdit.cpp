@@ -567,7 +567,7 @@ BOOL UIIMEdit::GetContent(OUT MixedMsg& mixMsg)
 					}
 					mixMsg.m_strTextData.Insert(nPosAdd + picData.nPos, fileID);
 					mixMsg.m_strTextData.Delete(nPosAdd + picData.nPos + fileID.GetLength(), 1);
-					nPosAdd += picData.nPos + fileID.GetLength();
+					nPosAdd += fileID.GetLength() - 1;
 				}
 				else
 				{
