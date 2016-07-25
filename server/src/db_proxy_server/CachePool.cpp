@@ -566,7 +566,7 @@ CachePool::CachePool(const char* pool_name, const char* server_ip, int server_po
 	m_server_port = server_port;
 	m_db_num = db_num;
 	m_max_conn_cnt = max_conn_cnt;
-	m_cur_conn_cnt = MIN_CACHE_CONN_CNT;
+	m_cur_conn_cnt = 0;
 }
 
 CachePool::~CachePool()
@@ -584,13 +584,13 @@ CachePool::~CachePool()
 
 int CachePool::Init()
 {
-	for (int i = 0; i < m_cur_conn_cnt; i++) {
+	for (int i = 0; i < m_max_conn_cnt; i++) {
 		CacheConn* pConn = new CacheConn(this);
 		if (pConn->Init()) {
 			delete pConn;
 			return 1;
 		}
-
+		m_cur_conn_cnt++;
 		m_free_list.push_back(pConn);
 	}
 
@@ -602,23 +602,21 @@ CacheConn* CachePool::GetCacheConn()
 {
 	m_free_notify.Lock();
 
-	while (m_free_list.empty()) {
-		if (m_cur_conn_cnt >= m_max_conn_cnt) {
-			m_free_notify.Wait();
+	if (m_free_list.empty()) {
+
+		CacheConn* pCacheConn = new CacheConn(this);
+		int ret = pCacheConn->Init();
+		if (ret) {
+			log("Init CacheConn failed");
+			delete pCacheConn;
+			m_free_notify.Unlock();
+			return NULL;
 		} else {
-			CacheConn* pCacheConn = new CacheConn(this);
-			int ret = pCacheConn->Init();
-			if (ret) {
-				log("Init CacheConn failed");
-				delete pCacheConn;
-				m_free_notify.Unlock();
-				return NULL;
-			} else {
-				m_free_list.push_back(pCacheConn);
-				m_cur_conn_cnt++;
-				log("new cache connection: %s, conn_cnt: %d", m_pool_name.c_str(), m_cur_conn_cnt);
-			}
+			m_free_list.push_back(pCacheConn);
+			m_cur_conn_cnt++;
+			log("new cache connection: %s, conn_cnt: %d", m_pool_name.c_str(), m_cur_conn_cnt);
 		}
+
 	}
 
 	CacheConn* pConn = m_free_list.front();
@@ -641,10 +639,18 @@ void CachePool::RelCacheConn(CacheConn* pCacheConn)
 	}
 
 	if (it == m_free_list.end()) {
-		m_free_list.push_back(pCacheConn);
+		if(m_cur_conn_cnt < m_max_conn_cnt)
+		{
+			m_free_list.push_back(pCacheConn);
+		}
+		else
+		{
+			m_cur_conn_cnt--;
+			delete  pCacheConn;
+		}
 	}
 
-	m_free_notify.Signal();
+	//m_free_notify.Signal();
 	m_free_notify.Unlock();
 }
 

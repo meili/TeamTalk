@@ -124,6 +124,7 @@ namespace DB_PROXY {
                         string strReply = pCacheConn->get("device_"+strOldToken);
                         if (!strReply.empty()) {
                             string strNewValue("");
+                            pCacheConn->del("device_"+strReply); // 删除用户的对应key
                             pCacheConn->set("device_"+strOldToken, strNewValue);
                         }
                     }
