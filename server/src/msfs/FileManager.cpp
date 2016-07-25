@@ -278,8 +278,8 @@ void FileManager::releaseFileCache(const std::string& url) {
         m_cs.Leave();
 		return;
 	}
-	delete [] entry->m_fileContent;
 	m_map.erase(url);
+	delete entry;
 	m_cs.Leave();
 	return;
 }

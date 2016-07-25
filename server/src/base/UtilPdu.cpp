@@ -35,6 +35,11 @@ void CSimpleBuffer::Extend(uint32_t len)
 	m_alloc_size += m_alloc_size >> 2;	// increase by 1/4 allocate size
 	uchar_t* new_buf = (uchar_t*)realloc(m_buffer, m_alloc_size);
 	m_buffer = new_buf;
+	if(NULL == m_buffer)
+	{
+		m_alloc_size = 0;
+		m_write_offset = 0;
+	}
 }
 
 uint32_t CSimpleBuffer::Write(void* buf, uint32_t len)
@@ -42,8 +47,12 @@ uint32_t CSimpleBuffer::Write(void* buf, uint32_t len)
 	if (m_write_offset + len > m_alloc_size)
 	{
 		Extend(len);
+		if((m_buffer == NULL) || (m_write_offset + len > m_alloc_size))
+		{
+			return  0;
+		}
 	}
-
+	
 	if (buf)
 	{
 		memcpy(m_buffer + m_write_offset, buf, len);
