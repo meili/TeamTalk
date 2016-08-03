@@ -268,10 +268,16 @@ public class ProtoBuf2JavaBean {
     public static UnreadEntity getUnreadEntity(IMBaseDefine.UnreadInfo pbInfo){
         UnreadEntity unreadEntity = new UnreadEntity();
         unreadEntity.setSessionType(getJavaSessionType(pbInfo.getSessionType()));
-        unreadEntity.setLatestMsgData(pbInfo.getLatestMsgData().toString());
+        unreadEntity.setLatestMsgData(pbInfo.getLatestMsgData().toStringUtf8());
         unreadEntity.setPeerId(pbInfo.getSessionId());
         unreadEntity.setLaststMsgId(pbInfo.getLatestMsgId());
         unreadEntity.setUnReadCnt(pbInfo.getUnreadCnt());
+
+        //ked add 2016-06-03
+        unreadEntity.setLaststMsgType(getJavaMsgType(pbInfo.getLatestMsgType()));
+        unreadEntity.setLatestMsgFromUserId( pbInfo.getLatestMsgFromUserId() );
+
+
         unreadEntity.buildSessionKey();
         return unreadEntity;
     }

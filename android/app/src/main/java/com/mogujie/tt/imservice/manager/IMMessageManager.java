@@ -368,7 +368,8 @@ public class IMMessageManager extends IMManager{
     // 拉取历史消息 {from MessageActivity}
     public List<MessageEntity> loadHistoryMsg(int pullTimes,String sessionKey,PeerEntity peerEntity){
         int lastMsgId = 99999999;
-        int lastCreateTime = 1455379200;
+        //int lastCreateTime = 1455379200;
+        int lastCreateTime = 1955379200; //ked情人节时间问题
         int count = SysConstant.MSG_CNT_PER_PAGE;
         SessionEntity sessionEntity = IMSessionManager.instance().findSession(sessionKey);
         if (sessionEntity != null) {

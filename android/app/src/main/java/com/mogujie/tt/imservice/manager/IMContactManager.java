@@ -294,11 +294,17 @@ public class IMContactManager extends IMManager {
     public List<UserEntity> getDepartmentTabSortedList() {
         // todo eric efficiency
         List<UserEntity> contactList = new ArrayList<>(userMap.values());
+
+        //System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
         Collections.sort(contactList, new Comparator<UserEntity>() {
             @Override
             public int compare(UserEntity entity1, UserEntity entity2) {
                 DepartmentEntity dept1 = departmentMap.get(entity1.getDepartmentId());
                 DepartmentEntity dept2 = departmentMap.get(entity2.getDepartmentId());
+                if (dept1==null)
+                    return -1;
+                if (dept2==null)
+                    return 1;
 
                 if (entity1.getDepartmentId() == entity2.getDepartmentId()) {
                     // start compare
