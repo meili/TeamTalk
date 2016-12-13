@@ -107,6 +107,7 @@ void SessionLayout::_DisplaySysMsg(IN CString strID)
 	MessageEntity msg;
 	CString csTip = util::getMultilingual()->getStringById(strID);
 	msg.content = util::cStringToString(csTip);
+    ENCRYPT_MSG(msg.content, msg.content);
 	msg.sessionId = m_sId;
 	msg.talkerSid = module::getSysConfigModule()->userID();
 	msg.msgRenderType = MESSAGE_RENDERTYPE_SYSTEMTIPS;

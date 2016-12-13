@@ -68,6 +68,7 @@ void P2PCmdModule_Impl::_p2pCmdNotifyResponse(std::string& pbBody)
 			MessageEntity msg;
 			csTip.Format(csTipFormat, userInfo.getRealName());
 			msg.content = util::cStringToString(csTip);
+            ENCRYPT_MSG(msg.content, msg.content);
 			msg.sessionId = sFromId;
 			msg.talkerSid = module::getSysConfigModule()->userID();
 			msg.msgRenderType = MESSAGE_RENDERTYPE_SYSTEMTIPS;
