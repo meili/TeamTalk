@@ -24,7 +24,7 @@
 #include "ImPduBase.h"
 using namespace IM::BaseDefine;
 
-#define TIMEOUT_WATI_LOGIN_RESPONSE		15000	// 15 seconds
+#define TIMEOUT_WAIT_LOGIN_RESPONSE		15000	// 15 seconds
 #define TIMEOUT_WAITING_MSG_DATA_ACK	15000	// 15 seconds
 #define LOG_MSG_STAT_INTERVAL			300000	// log message miss status in every 5 minutes;
 #define MAX_MSG_CNT_PER_SECOND			20	// user can not send more than 20 msg in one second
@@ -245,7 +245,7 @@ void CMsgConn::OnTimer(uint64_t curr_tick)
     
 
 	if (!IsOpen()) {
-		if (curr_tick > m_login_time + TIMEOUT_WATI_LOGIN_RESPONSE) {
+		if (curr_tick > m_login_time + TIMEOUT_WAIT_LOGIN_RESPONSE) {
 			log("login timeout, handle=%d, uid=%u ", m_handle, GetUserId());
 			Close();
 			return;

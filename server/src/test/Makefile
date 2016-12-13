@@ -1,7 +1,7 @@
 #基本
 CC = g++
 CFLAGS=-Wall -Wno-deprecated -g -std=c++11
-LDFLAGS= -lbase -lpthread -lprotobuf-lite -lslog -lcurl
+LDFLAGS= -lbase -lpthread -lprotobuf-lite -lslog -lcurl -lcrypto
 ifeq ($(shell uname), Darwin)
 #CFLAGS := $(CFLAGS) -Os -framework Cocoa
 LDFLAGS := $(LDFLAGS) -Os -framework Cocoa
@@ -25,7 +25,7 @@ SrcDir= .
 #头文件目录
 IncDir= . ../base ../base/jsoncpp ../base/pb/protocol ../base/pb
 #连接库目录
-LibDir= ../base/ ../base/pb/lib/mac/ ../base/slog/lib/
+LibDir= ../base/ ../base/pb/lib/linux/ ../base/slog/lib/
 
 SRCS=$(foreach dir,$(SrcDir),$(wildcard $(dir)/*.cpp))
 INCS=$(foreach dir,$(IncDir),$(addprefix -I,$(dir)))
@@ -33,7 +33,7 @@ LINKS=$(foreach dir,$(LibDir),$(addprefix -L,$(dir)))
 CFLAGS := $(CFLAGS) $(INCS)
 LDFLAGS:= $(LINKS) $(LDFLAGS)
 
-#OBJS = $(SRCS:%.cpp=%.o) playsound.o
+OBJS = $(SRCS:%.cpp=%.o) #playsound.o
 .PHONY:all clean
 
 all:$(BIN)
