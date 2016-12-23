@@ -4,14 +4,13 @@ import android.os.Handler;
 
 import com.mogujie.tt.utils.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author : yingmu on 15-1-7.
  * @email : yingmu@mogujie.com.
+ * postDelayed 五秒执行一次，会把没有反馈的超时pop
  */
 public class ListenerQueue {
 
@@ -28,7 +27,6 @@ public class ListenerQueue {
     //callback 队列
     private Map<Integer,Packetlistener> callBackQueue = new ConcurrentHashMap<>();
     private Handler timerHandler = new Handler();
-
 
     public void onStart(){
         logger.d("ListenerQueue#onStart run");

@@ -5,10 +5,10 @@ option optimize_for = LITE_RUNTIME;
 
 // service id
 enum ServiceID{
-    SID_LOGIN           = 0x0001;           // for login
-    SID_BUDDY_LIST      = 0x0002;		    // for friend list
-    SID_MSG             = 0x0003;           //
-    SID_GROUP           = 0x0004;           // for group message
+    SID_LOGIN           = 0x0001;		// for login
+    SID_BUDDY_LIST      = 0x0002;		// for friend list
+    SID_MSG             = 0x0003;		//
+    SID_GROUP           = 0x0004;		// for group message
     SID_FILE            = 0x0005;
     SID_SWITCH_SERVICE  = 0x0006;
     SID_OTHER           = 0x0007;
@@ -61,8 +61,8 @@ enum BuddyListCmdID{
 
 // command id for msg
 enum MessageCmdID{
-    CID_MSG_DATA					= 0x0301;	//
-    CID_MSG_DATA_ACK				= 0x0302; 	//
+    CID_MSG_DATA					= 0x0301;	// 发消息
+    CID_MSG_DATA_ACK				= 0x0302; 	//	发消息回应
     CID_MSG_READ_ACK				= 0x0303; 	//
     CID_MSG_READ_NOTIFY     		= 0x0304;    //  已读消息通知
     CID_MSG_TIME_REQUEST 			= 0x0305;	//
@@ -75,6 +75,9 @@ enum MessageCmdID{
     CID_MSG_GET_LATEST_MSG_ID_RSP   = 0x030c;
     CID_MSG_GET_BY_MSG_ID_REQ       = 0x030d;
     CID_MSG_GET_BY_MSG_ID_RES       = 0x030e;
+    CID_MSG_AUDIO_UDP_REQUEST           = 0x030f;	// 登入UDP服务器，带上要连的房间号，两个客户端同一房间号相通	(语音请求,msg加一个消息类型)
+    CID_MSG_AUDIO_UDP_RESPONSE		= 0x0310;	// UDP回复
+    CID_MSG_AUDIO_UDP_DATA		= 0x0311;	// 音频数据
 }
 
 // command id for group message
@@ -170,17 +173,18 @@ enum SessionType{
 }
 
 enum MsgType{
-	MSG_TYPE_SINGLE_TEXT    = 0x01;
-    MSG_TYPE_SINGLE_AUDIO   = 0x02;
-    MSG_TYPE_GROUP_TEXT     = 0x11;
-    MSG_TYPE_GROUP_AUDIO    = 0x12;
+	MSG_TYPE_SINGLE_TEXT    = 0x01;		// 文本
+	MSG_TYPE_SINGLE_AUDIO   = 0x02;		// 语音
+	MSG_TYPE_SINGLE_AUDIO_MEET   = 0x03;	// 语音聊天
+	MSG_TYPE_GROUP_TEXT     = 0x11;
+	MSG_TYPE_GROUP_AUDIO    = 0x12;
 }
 
 enum ClientType{
 	CLIENT_TYPE_WINDOWS     = 0x01;
-    CLIENT_TYPE_MAC         = 0x02;
-    CLIENT_TYPE_IOS         = 0x11;
-    CLIENT_TYPE_ANDROID     = 0x12;
+	CLIENT_TYPE_MAC         = 0x02;
+	CLIENT_TYPE_IOS         = 0x11;
+	CLIENT_TYPE_ANDROID     = 0x12;
 }
 
 enum GroupType{
@@ -241,6 +245,13 @@ enum DepartmentStatusType{
 message IpAddr{
 	required string ip = 1;
 	required uint32 port = 2;
+}
+
+// xqq add
+message UserIpAddr{
+	required uint32 user_id = 1;		// 用户id
+	required string ip = 2;
+	required uint32 port = 3;
 }
 
 message UserInfo{

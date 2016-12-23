@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 	}
 
 	signal(SIGPIPE, SIG_IGN);
-
+	// ¶ÁÈ¡ÅäÖÃÎÄ¼ş
 	CConfigFileReader config_file("fileserver.conf");
 
     char* str_client_listen_ip = config_file.GetConfigName("ClientListenIP");
@@ -102,6 +102,7 @@ int main(int argc, char* argv[])
 
 
 	for (uint32_t i = 0; i < client_listen_ip_list.GetItemCnt(); i++) {
+		// sokcet bind listen FileClientConnCallback
 		ret = netlib_listen(client_listen_ip_list.GetItem(i), client_listen_port, FileClientConnCallback, NULL);
         if (ret == NETLIB_ERROR) {
             printf("listen %s:%d error!!\n", client_listen_ip_list.GetItem(i), client_listen_port);
@@ -110,7 +111,7 @@ int main(int argc, char* argv[])
             printf("server start listen on %s:%d\n", client_listen_ip_list.GetItem(i), client_listen_port);
         }
 	}
-
+	// sokcet bind listen FileMsgServerConnCallback
     ret = netlib_listen(str_msg_server_listen_ip, msg_server_listen_port, FileMsgServerConnCallback, NULL);
     if (ret == NETLIB_ERROR) {
         printf("listen %s:%d error!!\n", str_msg_server_listen_ip, msg_server_listen_port);

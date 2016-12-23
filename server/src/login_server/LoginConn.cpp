@@ -12,7 +12,7 @@
 #include "public_define.h"
 using namespace IM::BaseDefine;
 static ConnMap_t g_client_conn_map;
-static ConnMap_t g_msg_serv_conn_map;
+static ConnMap_t g_msg_serv_conn_map;	// msg_server总数
 static uint32_t g_total_online_user_cnt = 0;	// 并发在线总人数
 map<uint32_t, msg_serv_info_t*> g_msg_serv_info;
 
@@ -80,13 +80,13 @@ void CLoginConn::OnConnect2(net_handle_t handle, int conn_type)
 	m_handle = handle;
 	m_conn_type = conn_type;
 	ConnMap_t* conn_map = &g_msg_serv_conn_map;
+	// 
 	if (conn_type == LOGIN_CONN_TYPE_CLIENT) {
 		conn_map = &g_client_conn_map;
 	}else
+		conn_map->insert(make_pair(handle, this));
 
-	conn_map->insert(make_pair(handle, this));
-
-	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)imconn_callback);
+	netlib_option(handle, NETLIB_OPT_SET_CALLBACK, (void*)imconn_callback); // 数据接收imconn_callback
 	netlib_option(handle, NETLIB_OPT_SET_CALLBACK_DATA, (void*)conn_map);
 }
 
@@ -124,12 +124,15 @@ void CLoginConn::HandlePdu(CImPdu* pPdu)
         case CID_OTHER_HEARTBEAT:
             break;
         case CID_OTHER_MSG_SERV_INFO:
+			// 统计用户数
             _HandleMsgServInfo(pPdu);
             break;
         case CID_OTHER_USER_CNT_UPDATE:
+			// 用户数更新
             _HandleUserCntUpdate(pPdu);
             break;
         case CID_LOGIN_REQ_MSGSERVER:
+			// 请求一个msg_server
             _HandleMsgServRequest(pPdu);
             break;
 
@@ -145,16 +148,20 @@ void CLoginConn::_HandleMsgServInfo(CImPdu* pPdu)
     IM::Server::IMMsgServInfo msg;
     msg.ParseFromArray(pPdu->GetBodyData(), pPdu->GetBodyLength());
     
-	pMsgServInfo->ip_addr1 = msg.ip1();
-	pMsgServInfo->ip_addr2 = msg.ip2();
+	pMsgServInfo->ip_addr1 = msg.ip1();	// 电信IP
+	pMsgServInfo->ip_addr2 = msg.ip2();	// 网通IP
 	pMsgServInfo->port = msg.port();
 	pMsgServInfo->max_conn_cnt = msg.max_conn_cnt();
 	pMsgServInfo->cur_conn_cnt = msg.cur_conn_cnt();
 	pMsgServInfo->hostname = msg.host_name();
+
+	// 当前msg_server用户数
 	g_msg_serv_info.insert(make_pair(m_handle, pMsgServInfo));
 
+	// 总共用户数
 	g_total_online_user_cnt += pMsgServInfo->cur_conn_cnt;
 
+	// 电信ip, 网通ip、端口，允许最大连接数，当前连接数
 	log("MsgServInfo, ip_addr1=%s, ip_addr2=%s, port=%d, max_conn_cnt=%d, cur_conn_cnt=%d, "\
 		"hostname: %s. ",
 		pMsgServInfo->ip_addr1.c_str(), pMsgServInfo->ip_addr2.c_str(), pMsgServInfo->port,pMsgServInfo->max_conn_cnt,
@@ -171,6 +178,7 @@ void CLoginConn::_HandleUserCntUpdate(CImPdu* pPdu)
 
 		uint32_t action = msg.user_action();
 		if (action == USER_CNT_INC) {
+			// 当前用户数+1、总用户数+1
 			pMsgServInfo->cur_conn_cnt++;
 			g_total_online_user_cnt++;
 		} else {

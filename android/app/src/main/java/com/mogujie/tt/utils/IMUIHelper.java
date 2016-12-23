@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
+import com.mogujie.tt.DB.entity.MessageEntity;
 import com.mogujie.tt.config.DBConstant;
 import com.mogujie.tt.DB.entity.DepartmentEntity;
 import com.mogujie.tt.DB.entity.GroupEntity;
@@ -29,6 +30,7 @@ import com.mogujie.tt.config.UrlConstant;
 import com.mogujie.tt.imservice.entity.SearchElement;
 import com.mogujie.tt.imservice.event.LoginEvent;
 import com.mogujie.tt.imservice.event.SocketEvent;
+import com.mogujie.tt.ui.activity.ConfirmAudioActivity;
 import com.mogujie.tt.ui.activity.GroupMemberSelectActivity;
 import com.mogujie.tt.ui.activity.MessageActivity;
 import com.mogujie.tt.ui.activity.UserInfoActivity;
@@ -94,13 +96,25 @@ public class IMUIHelper {
         }
     }
 
+	/**
+	 * 跳转到视频接收确认页
+	 * @param ctx
+	 * @param entity
+     */
+	public static void openConfirmAudioActivity(Context ctx, MessageEntity entity) {
+		// 从service 中启动activity
+		Intent intent = new Intent(ctx, ConfirmAudioActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(IntentConstant.KEY_SESSION_KEY, String.valueOf(entity.getFromId()));
+		ctx.startActivity(intent);
+	}
+
     // 跳转到聊天页面
     public static void openChatActivity(Context ctx, String sessionKey) {
         Intent intent = new Intent(ctx, MessageActivity.class);
         intent.putExtra(IntentConstant.KEY_SESSION_KEY, sessionKey);
         ctx.startActivity(intent);
     }
-
 
     //跳转到用户信息页面
     public static void openUserProfileActivity(Context ctx, int contactId) {

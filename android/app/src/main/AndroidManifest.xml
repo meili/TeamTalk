@@ -56,6 +56,13 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.activity.ConfirmAudioActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".ui.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"

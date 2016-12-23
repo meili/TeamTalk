@@ -35,6 +35,7 @@ public class IMLoginManager extends IMManager {
         logger.d("login#creating IMLoginManager");
     }
     IMSocketManager imSocketManager = IMSocketManager.instance();
+    IMSocketUDPManager imSocketUDPManager = IMSocketUDPManager.instance();
 
     /**登陆参数 以便重试*/
     private String loginUserName;
@@ -141,6 +142,8 @@ public class IMLoginManager extends IMManager {
         if(!TextUtils.isEmpty(loginUserName) && !TextUtils.isEmpty(loginPwd)){
             logger.d("reconnect#login#relogin");
             imSocketManager.reqMsgServerAddrs();
+            // UDP的暂时放在这里试试
+            imSocketUDPManager.reqServerAddrs();
         }else{
             logger.d("reconnect#login#userName or loginPwd is null!!");
             everLogined = false;
@@ -175,6 +178,8 @@ public class IMLoginManager extends IMManager {
         }while(false);
         // 开始请求网络
         imSocketManager.reqMsgServerAddrs();
+        // UDP的暂时放在这里试试
+        imSocketUDPManager.reqServerAddrs();
     }
 
 
@@ -194,6 +199,9 @@ public class IMLoginManager extends IMManager {
         loginPwd = password;
         identityChanged = true;
         imSocketManager.reqMsgServerAddrs();
+
+        // UDP的暂时放在这里试试
+        imSocketUDPManager.reqServerAddrs();
     }
 
     /**

@@ -49,10 +49,18 @@ int netlib_delete_timer(callback_t callback, void* user_data);
 int netlib_add_loop(callback_t callback, void* user_data);
 
 void netlib_eventloop(uint32_t wait_timeout = 100);
+void netlib_eventloop_UDP(uint32_t wait_timeout = 100);
 
 void netlib_stop_event();
 
 bool netlib_is_running();
+
+// add by xieqq
+int netlib_listen_udp_bind(
+		const char*	server_ip,  // ÓÃ htonl(INADDR_ANY)´úÌæ inet_addr(ip)
+		uint16_t	port,
+		callback_t	callback,
+		void*		callback_data);
 
 #ifdef __cplusplus
 }

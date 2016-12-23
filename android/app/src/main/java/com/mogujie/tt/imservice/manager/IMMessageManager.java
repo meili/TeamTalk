@@ -5,11 +5,11 @@ import android.text.TextUtils;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedInputStream;
+import com.mogujie.tt.DB.DBInterface;
+import com.mogujie.tt.DB.entity.MessageEntity;
 import com.mogujie.tt.DB.entity.PeerEntity;
 import com.mogujie.tt.DB.entity.SessionEntity;
 import com.mogujie.tt.config.DBConstant;
-import com.mogujie.tt.DB.DBInterface;
-import com.mogujie.tt.DB.entity.MessageEntity;
 import com.mogujie.tt.config.MessageConstant;
 import com.mogujie.tt.config.SysConstant;
 import com.mogujie.tt.imservice.callback.Packetlistener;
@@ -20,12 +20,13 @@ import com.mogujie.tt.imservice.event.MessageEvent;
 import com.mogujie.tt.imservice.event.PriorityEvent;
 import com.mogujie.tt.imservice.event.RefreshHistoryMsgEvent;
 import com.mogujie.tt.imservice.service.LoadImageService;
+import com.mogujie.tt.imservice.support.SequenceNumberMaker;
+import com.mogujie.tt.protobuf.IMBaseDefine;
+import com.mogujie.tt.protobuf.IMMessage;
 import com.mogujie.tt.protobuf.helper.EntityChangeEngine;
 import com.mogujie.tt.protobuf.helper.Java2ProtoBuf;
 import com.mogujie.tt.protobuf.helper.ProtoBuf2JavaBean;
-import com.mogujie.tt.protobuf.IMBaseDefine;
-import com.mogujie.tt.protobuf.IMMessage;
-import com.mogujie.tt.imservice.support.SequenceNumberMaker;
+import com.mogujie.tt.ui.helper.AudioNetPlayHandler;
 import com.mogujie.tt.utils.Logger;
 
 import java.io.IOException;
@@ -107,7 +108,6 @@ public class IMMessageManager extends IMManager{
         EventBus.getDefault().post(event);
     }
 
-
     /**图片的处理放在这里，因为在发送图片的过程中，很可能messageActivity已经关闭掉*/
     public void onEvent(MessageEvent event){
         MessageEvent.Event  type = event.getEvent();
@@ -160,8 +160,7 @@ public class IMMessageManager extends IMManager{
         }
 
         IMBaseDefine.MsgType msgType = Java2ProtoBuf.getProtoMsgType(msgEntity.getMsgType());
-        byte[] sendContent = msgEntity.getSendContent();
-
+        byte[] sendContent = msgEntity.getSendContent();// TextMessage 重写的getSendContent
 
         IMMessage.IMMsgData msgData = IMMessage.IMMsgData.newBuilder()
                 .setFromUserId(msgEntity.getFromId())
@@ -174,12 +173,12 @@ public class IMMessageManager extends IMManager{
         int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
         int cid = IMBaseDefine.MessageCmdID.CID_MSG_DATA_VALUE;
 
-
         final MessageEntity messageEntity  = msgEntity;
+        // 发送到服务器 // 需要回复的 new Packetlistener
         imSocketManager.sendRequest(msgData,sid,cid,new Packetlistener(getTimeoutTolerance(messageEntity)) {
             @Override
             public void onSuccess(Object response) {
-                try {
+                try { // 收到应答，表示成功发送
                     IMMessage.IMMsgDataAck imMsgDataAck = IMMessage.IMMsgDataAck.parseFrom((CodedInputStream)response);
                     logger.i("chat#onAckSendedMsg");
                     if(imMsgDataAck.getMsgId() <=0){
@@ -191,6 +190,7 @@ public class IMMessageManager extends IMManager{
                     dbInterface.insertOrUpdateMessage(messageEntity);
                     /**更新sessionEntity lastMsgId问题*/
                     sessionManager.updateSession(messageEntity);
+                    // 发送，发送成功 收到这个表明发送成功
                     triggerEvent(new MessageEvent(MessageEvent.Event.ACK_SEND_MESSAGE_OK,messageEntity));
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -210,41 +210,87 @@ public class IMMessageManager extends IMManager{
             }
         });
     }
+    //  开启播放进程
+    private AudioNetPlayHandler audioNetPlay = null;
+    private Thread audioPlayThread = null;
+    /**
+     * 收到语音解码播放
+     * @param imAudioData
+     */
+    public void onRecvAMessage(IMMessage.IMAudioData imAudioData){
+
+        try {
+//            byte[] audioData = null;// = imAudioData.getMsgData().toByteArray();
+//            imAudioData.getMsgData().copyTo(audioData,0);
+            byte[] audioData = imAudioData.getMsgData().toByteArray();
+            if (audioNetPlay == null) {
+                //  开启播放进程
+                audioNetPlay = new AudioNetPlayHandler();
+                audioPlayThread = new Thread(audioNetPlay);
+                audioNetPlay.setPlaying(true);
+                audioPlayThread.start();
+            }
+            audioNetPlay.putData(audioData);
+
+        } catch (Exception e) {
+
+            logger.d("onRecvAMessage exception:" + e.getMessage().toString());
+            e.printStackTrace();
+
+        }
+//        speexdec = new SpeexDecoder(new File(this.currentPlayPath));
+//        RecordPlayThread rpt = new RecordPlayThread();
+//        if (null == th)
+//            th = new Thread(rpt);
+//        th.start();
+
+    }
 
     /**
      * 收到服务端原始信息
      * 1. 解析消息的类型
      * 2. 根据不同的类型,转化成不同的消息
      * 3. 先保存在DB[insertOrreplace]中，session的更新，Unread的更新
-     * 4上层通知
+     * 4. 上层通知
      * @param imMsgData
      */
     public void onRecvMessage(IMMessage.IMMsgData imMsgData) {
-        logger.i("chat#onRecvMessage");
         if (imMsgData == null) {
             logger.e("chat#decodeMessageInfo failed,cause by is null");
             return;
         }
-
         MessageEntity recvMessage = ProtoBuf2JavaBean.getMessageEntity(imMsgData);
-        int loginId = IMLoginManager.instance().getLoginId();
-        boolean isSend = recvMessage.isSend(loginId);
-        recvMessage.buildSessionKey(isSend);
-        recvMessage.setStatus(MessageConstant.MSG_SUCCESS);
-        /**对于混合消息，未读消息计数还是1,session已经更新*/
+        logger.i("chat#onRecvMessage" + recvMessage);
 
-        dbInterface.insertOrUpdateMessage(recvMessage);
-        sessionManager.updateSession(recvMessage);
+//        if(imMsgData.getMsgType().equals(DBConstant.MSG_TYPE_SINGLE_AUDIO_MEET)){
+         if("1!~".equals(recvMessage.getContent())){
+             logger.i("chat#onRecvMessage Audio_RECEIVED_MESSAGE");
+            PriorityEvent  notifyEvent = new PriorityEvent();
+            notifyEvent.event = PriorityEvent.Event.Audio_RECEIVED_MESSAGE;
+            notifyEvent.object = recvMessage;
+//            triggerEvent(notifyEvent);// 接收到消息
+            return;
+        } else {
+//            MessageEntity recvMessage = ProtoBuf2JavaBean.getMessageEntity(imMsgData);
+            int loginId = IMLoginManager.instance().getLoginId();
+            boolean isSend = recvMessage.isSend(loginId);
+            recvMessage.buildSessionKey(isSend);
+            recvMessage.setStatus(MessageConstant.MSG_SUCCESS);
+            /**对于混合消息，未读消息计数还是1,session已经更新*/
 
-        /**
-         *  发送已读确认由上层的activity处理 特殊处理
-         *  1. 未读计数、 通知、session页面
-         *  2. 当前会话
-         * */
-        PriorityEvent  notifyEvent = new PriorityEvent();
-        notifyEvent.event = PriorityEvent.Event.MSG_RECEIVED_MESSAGE;
-        notifyEvent.object = recvMessage;
-        triggerEvent(notifyEvent);
+            dbInterface.insertOrUpdateMessage(recvMessage);
+            sessionManager.updateSession(recvMessage);
+
+            /**
+             *  发送已读确认由上层的activity处理 特殊处理
+             *  1. 未读计数、 通知、session页面
+             *  2. 当前会话
+             * */
+            PriorityEvent notifyEvent = new PriorityEvent();
+            notifyEvent.event = PriorityEvent.Event.MSG_RECEIVED_MESSAGE;
+            notifyEvent.object = recvMessage;
+            triggerEvent(notifyEvent);// 接收到消息
+        }
     }
 
 
@@ -269,7 +315,6 @@ public class IMMessageManager extends IMManager{
         sessionManager.updateSession(audioMessage);
 		sendMessage(audioMessage);
 	}
-
 
     public void sendSingleImage(ImageMessage msg){
         logger.d("ImMessageManager#sendImage ");
@@ -349,21 +394,20 @@ public class IMMessageManager extends IMManager{
 
         /**判断信息的类型*/
         int msgType = msgInfo.getDisplayType();
-        switch (msgType){
+        switch (msgType) {
             case DBConstant.SHOW_ORIGIN_TEXT_TYPE:
-                  sendText((TextMessage)msgInfo);
-                  break;
+                sendText((TextMessage) msgInfo);
+                break;
             case DBConstant.SHOW_IMAGE_TYPE:
-                    sendSingleImage((ImageMessage) msgInfo);
+                sendSingleImage((ImageMessage) msgInfo);
                 break;
             case DBConstant.SHOW_AUDIO_TYPE:
-                   sendVoice((AudioMessage)msgInfo); break;
+                sendVoice((AudioMessage) msgInfo);
+                break;
             default:
-                throw new IllegalArgumentException("#resendMessage#enum type is wrong!!,cause by displayType"+msgType);
+                throw new IllegalArgumentException("#resendMessage#enum type is wrong!!,cause by displayType" + msgType);
         }
-	}
-
-
+    }
 
     // 拉取历史消息 {from MessageActivity}
     public List<MessageEntity> loadHistoryMsg(int pullTimes,String sessionKey,PeerEntity peerEntity){
@@ -679,20 +723,4 @@ public class IMMessageManager extends IMManager{
         sendMessage(imageMessage);
     }
 
-//    /**获取session内的最后一条回话*/
-//    private void reqSessionLastMsgId(int sessionId,int sessionType,Packetlistener packetlistener){
-//        int userId = IMLoginManager.instance().getLoginId();
-//        IMMessage.IMGetLatestMsgIdReq latestMsgIdReq = IMMessage.IMGetLatestMsgIdReq.newBuilder()
-//                .setUserId(userId)
-//                .setSessionId(sessionId)
-//                .setSessionType(Java2ProtoBuf.getProtoSessionType(sessionType))
-//                .build();
-//        int sid = IMBaseDefine.ServiceID.SID_MSG_VALUE;
-//        int cid = IMBaseDefine.MessageCmdID.CID_MSG_GET_LATEST_MSG_ID_REQ_VALUE;
-//        imSocketManager.sendRequest(latestMsgIdReq,sid,cid,packetlistener);
-//    }
-//
-//    public void onReqSessionLastMsgId(IMMessage.IMGetLatestMsgIdRsp latestMsgIdRsp){
-//        int lastMsgId = latestMsgIdRsp.getLatestMsgId();
-//    }
 }

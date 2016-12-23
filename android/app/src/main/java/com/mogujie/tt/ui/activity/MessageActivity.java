@@ -125,7 +125,6 @@ public class MessageActivity extends TTBaseActivity
     private ImageView soundVolumeImg = null;
     private LinearLayout soundVolumeLayout = null;
 
-
     private ImageView audioInputImg = null;
     private ImageView addPhotoBtn = null;
     private ImageView addEmoBtn = null;
@@ -378,6 +377,8 @@ public class MessageActivity extends TTBaseActivity
      * 解决: 抽离出那些需要优先级的event，在onEvent通过handler调用主线程，
      * 然后cancelEventDelivery
      * <p/>
+     * 从订阅者的事件处理方法中通过cancelEventDelivery(Object event)取消事件传递过程.
+     * 这样所有的进阶事件传递都会被取消，后续订阅者不会再收到事件。
      * todo  need find good solution
      */
     public void onEvent(PriorityEvent event) {
@@ -641,8 +642,10 @@ public class MessageActivity extends TTBaseActivity
         }
         View takePhotoBtn = findViewById(R.id.take_photo_btn);
         View takeCameraBtn = findViewById(R.id.take_camera_btn);
+        View takeAudioBtn = findViewById(R.id.take_audio_btn);
         takePhotoBtn.setOnClickListener(this);
         takeCameraBtn.setOnClickListener(this);
+        takeAudioBtn.setOnClickListener(this);
 
         //EMO_LAYOUT
         emoLayout = (LinearLayout) findViewById(R.id.emo_layout);
@@ -860,7 +863,7 @@ public class MessageActivity extends TTBaseActivity
                         && emoLayout.getVisibility() == View.VISIBLE) {
                     emoLayout.setVisibility(View.GONE);
                 }
-
+                // 消息滑到底部
                 scrollToBottomListItem();
             }
             break;
@@ -892,6 +895,15 @@ public class MessageActivity extends TTBaseActivity
                 //addOthersPanelView.setVisibility(View.GONE);
                 messageEdt.clearFocus();//切记清除焦点
                 scrollToBottomListItem();
+            }
+            break;
+            case R.id.take_audio_btn:{
+                // 实时语音请求 // 发送  buildForCommandSend  (别的消息是 buildForSend)
+                // buildForCommandSend发不成功，估计还要改msg_server
+                TextMessage textMessage = TextMessage.buildForSend("1!~", loginUser, peerEntity);
+                // 发送语音请求命令
+                imService.getNatServerMgr().SendCommand(textMessage);
+                Toast.makeText(MessageActivity.this,"实时语音", Toast.LENGTH_LONG).show();
             }
             break;
             case R.id.show_emo_btn: {
@@ -995,7 +1007,7 @@ public class MessageActivity extends TTBaseActivity
                         .getAudioSavePath(IMLoginManager.instance().getLoginId());
 
                 // 这个callback很蛋疼，发送消息从MotionEvent.ACTION_UP 判断
-                audioRecorderInstance = new AudioRecordHandler(audioSavePath);
+                audioRecorderInstance = new AudioRecordHandler(audioSavePath,false);
 
                 audioRecorderThread = new Thread(audioRecorderInstance);
                 audioRecorderInstance.setRecording(true);

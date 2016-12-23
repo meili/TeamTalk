@@ -60,7 +60,6 @@ public class LoginActivity extends TTBaseActivity {
     private TextView mSwitchLoginServer;
     private InputMethodManager intputManager;
 
-
     private IMService imService;
     private boolean autoLogin = true;
     private boolean loginSuccess = false;
@@ -117,7 +116,6 @@ public class LoginActivity extends TTBaseActivity {
             }
         }
     };
-
 
     /**
      * 跳转到登陆的页面
@@ -224,6 +222,7 @@ public class LoginActivity extends TTBaseActivity {
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                logger.d("sign_in_button onClick");
                 intputManager.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
                 attemptLogin();
             }
@@ -321,6 +320,7 @@ public class LoginActivity extends TTBaseActivity {
 //				boolean pwdChanged = true;
                 loginName = loginName.trim();
                 mPassword = mPassword.trim();
+//                logger.d("imService.getLoginManager().login(loginName, mPassword)");
                 imService.getLoginManager().login(loginName, mPassword);
             }
         }
@@ -362,6 +362,23 @@ public class LoginActivity extends TTBaseActivity {
     /**
      * ----------------------------event 事件驱动----------------------------
      */
+//    http://blog.csdn.net/harvic880925/article/details/40787203
+//    1、onEvent
+//    2、onEventMainThread
+//    3、onEventBackgroundThread
+//    4、onEventAsync
+//    onEvent:如果使用onEvent作为订阅函数，那么该事件在哪个线程发布出来的，onEvent就
+// 会在这个线程中运行，也就是说发布事件和接收事件线程在同一个线程。使用这个方法时，在onEvent
+// 方法中不能执行耗时操作，如果执行耗时操作容易导致事件分发延迟。
+//    onEventMainThread:如果使用onEventMainThread作为订阅函数，那么不论事件是在哪
+// 个线程中发布出来的，onEventMainThread都会在UI线程中执行，接收事件就会在UI线程中运行，
+// 这个在Android中是非常有用的，因为在Android中只能在UI线程中跟新UI，所以在onEvnetMainThread
+// 方法中是不能执行耗时操作的。
+//    onEventBackground:如果使用onEventBackgrond作为订阅函数，那么如果事件是在UI线
+// 程中发布出来的，那么onEventBackground就会在子线程中运行，如果事件本来就是子线程中发布
+// 出来的，那么onEventBackground函数直接在该子线程中执行。
+//    onEventAsync：使用这个函数作为订阅函数，那么无论事件在哪个线程发布，都会创建新的子
+// 线程在执行onEventAsync.
     public void onEventMainThread(LoginEvent event) {
         switch (event) {
             case LOCAL_LOGIN_SUCCESS:

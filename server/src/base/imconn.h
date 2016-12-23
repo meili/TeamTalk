@@ -13,12 +13,12 @@
 #include "ImPduBase.h"
 
 #define SERVER_HEARTBEAT_INTERVAL	5000
-#define SERVER_TIMEOUT				30000
+#define SERVER_TIMEOUT			30000
 #define CLIENT_HEARTBEAT_INTERVAL	30000
 #define CLIENT_TIMEOUT				120000
 #define MOBILE_CLIENT_TIMEOUT       60000 * 5
-#define READ_BUF_SIZE	2048
-
+#define READ_BUF_SIZE	1420   // MTU 1500  :TCP IPV4 包头28Byte 
+// ping使用的ICMP协议，ICMP信息占用8个字节，ICMP信息的信息被封装到IP的数据包中，IP包头大小为20-60字节，会指明源地址、目标地址、TOS（Type Of Service）等等，所以，ICMP的数据包中数据的最大长度只有1500-20-8=1472。
 class CImConn : public CRefObject
 {
 public:
@@ -27,7 +27,14 @@ public:
 
 	bool IsBusy() { return m_busy; }
 	int SendPdu(CImPdu* pPdu) { return Send(pPdu->GetBuffer(), pPdu->GetLength()); }
+
 	int Send(void* data, int len);
+
+	// xie 2016-06-07///////////
+	int SendPduUDP(CImPdu* pPdu,sockaddr_in sender) { return UDP_Send(pPdu->GetBuffer(), pPdu->GetLength(), sender); }
+
+	int UDP_Send(void* data, int len, sockaddr_in sender);
+	////////////////////////////////////////////
 
 	virtual void OnConnect(net_handle_t handle) { m_handle = handle; }
 	virtual void OnConfirm() {}
@@ -35,10 +42,15 @@ public:
 	virtual void OnWrite();
 	virtual void OnClose() {}
 	virtual void OnTimer(uint64_t curr_tick) {}
-    virtual void OnWriteCompelete() {};
+    	virtual void OnWriteCompelete() {};
 
 	virtual void HandlePdu(CImPdu* pPdu) {}
 
+	virtual void HandlePdu_UDP(CImPdu* pPdu,sockaddr_in sender) {}
+
+	
+	virtual void OnReadUDP();
+	virtual void OnWriteUDP();
 protected:
 	net_handle_t	m_handle;
 	bool			m_busy;

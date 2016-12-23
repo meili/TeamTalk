@@ -20,13 +20,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mogujie.tt.config.DBConstant;
 import com.mogujie.tt.DB.entity.GroupEntity;
-import com.mogujie.tt.DB.entity.UserEntity;
 import com.mogujie.tt.R;
-import com.mogujie.tt.protobuf.helper.EntityChangeEngine;
-import com.mogujie.tt.ui.adapter.ChatAdapter;
-import com.mogujie.tt.utils.IMUIHelper;
+import com.mogujie.tt.config.DBConstant;
 import com.mogujie.tt.imservice.entity.RecentInfo;
 import com.mogujie.tt.imservice.event.GroupEvent;
 import com.mogujie.tt.imservice.event.LoginEvent;
@@ -39,9 +35,10 @@ import com.mogujie.tt.imservice.manager.IMLoginManager;
 import com.mogujie.tt.imservice.manager.IMReconnectManager;
 import com.mogujie.tt.imservice.manager.IMUnreadMsgManager;
 import com.mogujie.tt.imservice.service.IMService;
-import com.mogujie.tt.protobuf.IMBaseDefine;
-import com.mogujie.tt.ui.activity.MainActivity;
 import com.mogujie.tt.imservice.support.IMServiceConnector;
+import com.mogujie.tt.ui.activity.MainActivity;
+import com.mogujie.tt.ui.adapter.ChatAdapter;
+import com.mogujie.tt.utils.IMUIHelper;
 import com.mogujie.tt.utils.NetworkUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
@@ -422,7 +419,7 @@ public class ChatFragment extends MainFragment
     }
 
     /**
-     * 这个处理有点过于粗暴
+     * 这个处理有点过于粗暴, 最近联系人的信息
      */
     private void onRecentContactDataReady() {
         boolean isUserData = imService.getContactManager().isUserDataReady();

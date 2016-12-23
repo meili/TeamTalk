@@ -12,7 +12,7 @@ message IMMsgData{
 	required uint32 msg_id = 3;
 	required uint32 create_time = 4; 
 	required IM.BaseDefine.MsgType msg_type = 5;
-	required bytes msg_data = 6;
+	required bytes msg_data = 6;				
 	optional bytes attach_data = 20;
 }
 
@@ -119,4 +119,34 @@ message IMGetMsgByIdRsp{
 	required uint32 session_id = 3;
 	repeated IM.BaseDefine.MsgInfo msg_list = 4;
 	optional bytes attach_data = 20;
+}
+
+// 发送给服务器的
+message IMAudioReq{	// UDP包
+	//cmd id:		0x030f 加入房间请求 （房间号暂定为请求人的id？）某某用户什么类型的客户端要加入 房间
+	required uint32 from_user_id = 1;		// 用户id
+	required uint32 to_room_id = 2;			// 要加入的房间id  // 如果是 0，由服务器生成房间号 /(两人ID相加，房间号唯一)
+	required uint32 msg_id = 3;			// 消息ID （加入还是退出） 0 加入 1退出
+	required uint32 create_time = 4;		// 消息时间
+	required IM.BaseDefine.MsgType msg_type = 5;	// 消息类型
+	required IM.BaseDefine.ClientType client_type = 6;  // 客户端类型	
+	required string local_ip = 7;			// 如果外网IP相等，不需要NAT, 用localip直连
+}
+
+// UDP服务器回的 包括IP
+message IMAudioRsp{
+	//cmd id:		0x031f 语音请求、加入房间请求后， 服务器返回来的别人的IP 
+	required uint32 from_user_id = 1;		// 接收人的ID
+	required uint32 to_room_id = 2;			// 房间id，看时否与本人的房间号相符
+	required uint32 count_in_room = 3;		// 当前房间的人数
+	//repeated IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port
+	required IM.BaseDefine.UserIpAddr user_list = 4; //要连的人的id,ip,port (公网ip相等，ip 和 port返回局域网的)
+}
+
+// 音频数据包
+message IMAudioData{
+	required uint32 from_user_id = 1;		// 发送人的ID
+	required IM.BaseDefine.ClientType client_type = 2; // 客户端类型
+	required uint32 seq_num = 3;			// 音频打洞数据序号  0 为打洞测试数据
+	required bytes msg_data = 4;			// 音频数据？？	
 }

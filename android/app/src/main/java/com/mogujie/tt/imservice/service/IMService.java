@@ -19,11 +19,14 @@ import com.mogujie.tt.imservice.manager.IMGroupManager;
 import com.mogujie.tt.imservice.manager.IMHeartBeatManager;
 import com.mogujie.tt.imservice.manager.IMLoginManager;
 import com.mogujie.tt.imservice.manager.IMMessageManager;
+import com.mogujie.tt.imservice.manager.IMNatServerManager;
 import com.mogujie.tt.imservice.manager.IMNotificationManager;
 import com.mogujie.tt.imservice.manager.IMReconnectManager;
 import com.mogujie.tt.imservice.manager.IMSessionManager;
 import com.mogujie.tt.imservice.manager.IMSocketManager;
+import com.mogujie.tt.imservice.manager.IMSocketUDPManager;
 import com.mogujie.tt.imservice.manager.IMUnreadMsgManager;
+import com.mogujie.tt.utils.IMUIHelper;
 import com.mogujie.tt.utils.ImageLoaderUtil;
 import com.mogujie.tt.utils.Logger;
 
@@ -34,6 +37,14 @@ import de.greenrobot.event.EventBus;
  * 并且Manager的状态的改变 也会影响到IMService的操作
  * 备注: 有些服务应该在LOGIN_OK 之后进行
  * todo IMManager reflect or just like  ctx.getSystemService()
+ *
+ * 如果一个 Service 已经被启动，其他代码再试图调用 startService() 方法，是不会执行 onCreate() 的，但会重新执行一次 onStart() 。
+ * Context.startService方式的生命周期：
+ *      启动时，startService –> onCreate() –> onStartCommand()
+ *      停止时，stopService –> onDestroy()
+ * Context.bindService方式的生命周期：
+ *      绑定时,bindService  -> onCreate() –> onBind()
+ *      解绑定时,unbindService –>onUnbind() –> onDestory()
  */
 public class IMService extends Service {
 	private Logger logger = Logger.getLogger(IMService.class);
@@ -58,7 +69,7 @@ public class IMService extends Service {
 	private IMContactManager contactMgr = IMContactManager.instance();
 	private IMGroupManager groupMgr = IMGroupManager.instance();
 	private IMMessageManager messageMgr = IMMessageManager.instance();
-	private IMSessionManager sessionMgr = IMSessionManager.instance();
+    private IMSessionManager sessionMgr = IMSessionManager.instance();
 	private IMReconnectManager reconnectMgr = IMReconnectManager.instance();
 	private IMUnreadMsgManager unReadMsgMgr = IMUnreadMsgManager.instance();
 	private IMNotificationManager notificationMgr = IMNotificationManager.instance();
@@ -68,7 +79,10 @@ public class IMService extends Service {
     private LoginSp loginSp = LoginSp.instance();
     private DBInterface dbInterface = DBInterface.instance();
 
-	@Override
+    private IMNatServerManager natServerMgr = IMNatServerManager.instance();
+    private IMSocketUDPManager socketUDPMgr = IMSocketUDPManager.instance();
+
+    @Override
 	public void onCreate() {
 		logger.i("IMService onCreate");
 		super.onCreate();
@@ -84,6 +98,8 @@ public class IMService extends Service {
 		logger.i("IMService onDestroy");
         // todo 在onCreate中使用startForeground
         // 在这个地方是否执行 stopForeground呐
+        stopForeground(true);// 之前通过startForeground让服务前台运行
+
         EventBus.getDefault().unregister(this);
         handleLoginout();
         // DB的资源的释放
@@ -93,16 +109,28 @@ public class IMService extends Service {
 		super.onDestroy();
 	}
 
-    /**收到消息需要上层的activity判断 {MessageActicity onEvent(PriorityEvent event)}，这个地方是特殊分支*/
-    public void onEvent(PriorityEvent event){
-        switch (event.event){
-            case MSG_RECEIVED_MESSAGE:{
+    /**
+     * 收到消息需要上层的activity判断 {MessageActicity onEvent(PriorityEvent event)}，这个地方是特殊分支
+     */
+    public void onEvent(PriorityEvent event) {
+        switch (event.event) {
+            case MSG_RECEIVED_MESSAGE: {
                 MessageEntity entity = (MessageEntity) event.object;
                 /**非当前的会话*/
                 logger.d("messageactivity#not this session msg -> id:%s", entity.getFromId());
-                messageMgr.ackReceiveMsg(entity);
+                messageMgr.ackReceiveMsg(entity); // 接收消息，并向服务器发送确认
                 unReadMsgMgr.add(entity);
-                }break;
+            }
+            break;
+            case Audio_RECEIVED_MESSAGE: {
+                logger.i("chat#onRecvMessage openConfirmAudioActivity");
+
+                MessageEntity entity = (MessageEntity) event.object;
+//                entity.getPeerId(true);
+                Context ctx = getApplicationContext();
+                IMUIHelper.openConfirmAudioActivity(ctx,entity);
+            }
+            break;
         }
     }
 
@@ -110,7 +138,8 @@ public class IMService extends Service {
     public void onEvent(LoginEvent event){
        switch (event){
            case LOGIN_OK:
-               onNormalLoginOk();break;
+               onNormalLoginOk();
+               break;
            case LOCAL_LOGIN_SUCCESS:
                onLocalLoginOk();
                break;
@@ -141,6 +170,8 @@ public class IMService extends Service {
         reconnectMgr.onStartIMManager(ctx);
         heartBeatManager.onStartIMManager(ctx);
 
+        natServerMgr.onStartIMManager(ctx);
+        socketUDPMgr.onStartIMManager(ctx);
         ImageLoaderUtil.initImageLoaderConfig(ctx);
 		return START_STICKY;
 	}
@@ -223,6 +254,7 @@ public class IMService extends Service {
         notificationMgr.reset();
         reconnectMgr.reset();
         heartBeatManager.reset();
+        natServerMgr.reset();
         configSp = null;
         EventBus.getDefault().removeAllStickyEvents();
 	}
@@ -247,6 +279,12 @@ public class IMService extends Service {
         return messageMgr;
     }
 
+    public IMNatServerManager getNatServerMgr(){
+        return natServerMgr;
+    }
+    public IMSocketUDPManager getSocketUDPMgr(){
+        return socketUDPMgr;
+    }
 
     public IMGroupManager getGroupManager() {
         return groupMgr;

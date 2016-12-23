@@ -7,15 +7,17 @@
 
 #include "ostype.h"
 #include "util.h"
-
-enum
+/*
+// ostype.h中定义过了
+enum  
 {
 	SOCKET_STATE_IDLE,
 	SOCKET_STATE_LISTENING,
 	SOCKET_STATE_CONNECTING,
 	SOCKET_STATE_CONNECTED,
-	SOCKET_STATE_CLOSING
-};
+	SOCKET_STATE_CLOSING,
+	SOCKET_STATE_UDP_BIND
+};*/
 
 class CBaseSocket : public CRefObject
 {
@@ -57,12 +59,17 @@ public:
 	int Recv(void* buf, int len);
 
 	int Close();
-
+//add by xieqq 2016-05-11  udp socket////////////////////////////
+	int UDP_Bind(const char* server_ip, uint16_t port,  callback_t callback, void* callback_data);
+//add by xieqq 2016-05-11 end///////////////////////////////////
 public:	
 	void OnRead();
 	void OnWrite();
 	void OnClose();
 
+	void OnUDPRead();
+	void OnUDPWrite();
+	void OnUDPClose();
 private:	
 	int _GetErrorCode();
 	bool _IsBlock(int error_code);
@@ -73,6 +80,9 @@ private:
 	void _SetAddr(const char* ip, const uint16_t port, sockaddr_in* pAddr);
 
 	void _AcceptNewSocket();
+//add by xieqq 2016-05-11  udp socket////////////////////////////
+	void _SetAddr(const uint16_t port, sockaddr_in* pAddr);
+//add by xieqq 2016-05-11 end///////////////////////////////////
 
 private:
 	string			m_remote_ip;

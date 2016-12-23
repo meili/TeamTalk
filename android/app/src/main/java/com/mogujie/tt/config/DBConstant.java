@@ -16,8 +16,12 @@ public interface DBConstant {
     /**msgType*/
     public final int  MSG_TYPE_SINGLE_TEXT = 0x01;
     public final int  MSG_TYPE_SINGLE_AUDIO = 0x02;
+    public final int  MSG_TYPE_SINGLE_AUDIO_MEET = 0x03; // 语单聊天
+
     public final int  MSG_TYPE_GROUP_TEXT = 0x11;
     public final int  MSG_TYPE_GROUP_AUDIO = 0x12;
+    public final int  MSG_TYPE_GROUP_AUDIO_MEET = 0x03; // 群组语单聊天 // 不考虑
+
 
     /**msgDisplayType
      * 保存在DB中，与服务端一致，图文混排也是一条
@@ -40,8 +44,8 @@ public interface DBConstant {
 
 
     /**sessionType*/
-    public final int  SESSION_TYPE_SINGLE = 1;
-    public final int  SESSION_TYPE_GROUP = 2;
+    public final int  SESSION_TYPE_SINGLE = 1;  // 两两聊天
+    public final int  SESSION_TYPE_GROUP = 2;   // 群组聊天
     public final int SESSION_TYPE_ERROR= 3;
 
     /**user status

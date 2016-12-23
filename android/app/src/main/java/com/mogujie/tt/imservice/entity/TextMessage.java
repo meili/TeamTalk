@@ -60,6 +60,7 @@ public class TextMessage extends MessageEntity implements Serializable {
         textMessage.setDisplayType(DBConstant.SHOW_ORIGIN_TEXT_TYPE);
         textMessage.setGIfEmo(true);
         int peerType = peerEntity.getType();
+        // 群消息，还是单个消息
         int msgType = peerType == DBConstant.SESSION_TYPE_GROUP ? DBConstant.MSG_TYPE_GROUP_TEXT
                 : DBConstant.MSG_TYPE_SINGLE_TEXT;
         textMessage.setMsgType(msgType);
@@ -70,6 +71,34 @@ public class TextMessage extends MessageEntity implements Serializable {
         return textMessage;
     }
 
+    public static TextMessage buildForCommandSend(int ntype,UserEntity fromUser,PeerEntity peerEntity){
+        TextMessage textMessage = new TextMessage();
+        int nowTime = (int) (System.currentTimeMillis() / 1000);
+        textMessage.setFromId(fromUser.getPeerId());
+        textMessage.setToId(peerEntity.getPeerId());
+        textMessage.setUpdated(nowTime);
+        textMessage.setCreated(nowTime);
+        textMessage.setDisplayType(DBConstant.SHOW_ORIGIN_TEXT_TYPE);
+        textMessage.setGIfEmo(true);
+        int peerType = peerEntity.getType();
+
+        // 单人语音聊天
+        int msgType = DBConstant.MSG_TYPE_SINGLE_AUDIO_MEET;
+        switch (ntype){
+            case 1:
+                // 群消息，还是单个消息
+                msgType = (peerType == DBConstant.SESSION_TYPE_GROUP ? DBConstant.MSG_TYPE_GROUP_AUDIO_MEET
+                        : DBConstant.MSG_TYPE_SINGLE_AUDIO_MEET);
+                break;
+        }
+
+        textMessage.setMsgType(msgType);
+        textMessage.setStatus(MessageConstant.MSG_SENDING);
+        // 内容的设定
+        textMessage.setContent(String.valueOf(ntype));
+        textMessage.buildSessionKey(true);
+        return textMessage;
+    }
 
     /**
      * Not-null value.

@@ -3,7 +3,7 @@ package com.mogujie.tt.imservice.support.audio;
 
 import com.mogujie.tt.utils.Logger;
 
-class Speex {
+public class Speex {
 
     /*
      * quality 1 : 4kbps (very noticeable artifacts, usually intelligible) 2 :
@@ -14,7 +14,7 @@ class Speex {
     private static final int DEFAULT_COMPRESSION = 4;
     private Logger log = Logger.getLogger(Speex.class);
 
-    Speex() {
+    public Speex() {
     }
 
     public void init() {

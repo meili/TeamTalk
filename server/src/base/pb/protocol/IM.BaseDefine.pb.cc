@@ -18,6 +18,7 @@ namespace BaseDefine {
 
 void protobuf_ShutdownFile_IM_2eBaseDefine_2eproto() {
   delete IpAddr::default_instance_;
+  delete UserIpAddr::default_instance_;
   delete UserInfo::default_instance_;
   delete ContactSessionInfo::default_instance_;
   delete UserStat::default_instance_;
@@ -47,6 +48,7 @@ void protobuf_AddDesc_IM_2eBaseDefine_2eproto() {
 
 #endif
   IpAddr::default_instance_ = new IpAddr();
+  UserIpAddr::default_instance_ = new UserIpAddr();
   UserInfo::default_instance_ = new UserInfo();
   ContactSessionInfo::default_instance_ = new ContactSessionInfo();
   UserStat::default_instance_ = new UserStat();
@@ -62,6 +64,7 @@ void protobuf_AddDesc_IM_2eBaseDefine_2eproto() {
   DepartInfo::default_instance_ = new DepartInfo();
   PushShieldStatus::default_instance_ = new PushShieldStatus();
   IpAddr::default_instance_->InitAsDefaultInstance();
+  UserIpAddr::default_instance_->InitAsDefaultInstance();
   UserInfo::default_instance_->InitAsDefaultInstance();
   ContactSessionInfo::default_instance_->InitAsDefaultInstance();
   UserStat::default_instance_->InitAsDefaultInstance();
@@ -177,6 +180,9 @@ bool MessageCmdID_IsValid(int value) {
     case 780:
     case 781:
     case 782:
+    case 783:
+    case 784:
+    case 785:
       return true;
     default:
       return false;
@@ -320,6 +326,7 @@ bool MsgType_IsValid(int value) {
   switch(value) {
     case 1:
     case 2:
+    case 3:
     case 17:
     case 18:
       return true;
@@ -668,6 +675,288 @@ void IpAddr::Swap(IpAddr* other) {
 
 ::std::string IpAddr::GetTypeName() const {
   return "IM.BaseDefine.IpAddr";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int UserIpAddr::kUserIdFieldNumber;
+const int UserIpAddr::kIpFieldNumber;
+const int UserIpAddr::kPortFieldNumber;
+#endif  // !_MSC_VER
+
+UserIpAddr::UserIpAddr()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:IM.BaseDefine.UserIpAddr)
+}
+
+void UserIpAddr::InitAsDefaultInstance() {
+}
+
+UserIpAddr::UserIpAddr(const UserIpAddr& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:IM.BaseDefine.UserIpAddr)
+}
+
+void UserIpAddr::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  user_id_ = 0u;
+  ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  port_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+UserIpAddr::~UserIpAddr() {
+  // @@protoc_insertion_point(destructor:IM.BaseDefine.UserIpAddr)
+  SharedDtor();
+}
+
+void UserIpAddr::SharedDtor() {
+  if (ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete ip_;
+  }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void UserIpAddr::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const UserIpAddr& UserIpAddr::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_IM_2eBaseDefine_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_IM_2eBaseDefine_2eproto();
+#endif
+  return *default_instance_;
+}
+
+UserIpAddr* UserIpAddr::default_instance_ = NULL;
+
+UserIpAddr* UserIpAddr::New() const {
+  return new UserIpAddr;
+}
+
+void UserIpAddr::Clear() {
+#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
+  &reinterpret_cast<UserIpAddr*>(16)->f) - \
+   reinterpret_cast<char*>(16))
+
+#define ZR_(first, last) do {                              \
+    size_t f = OFFSET_OF_FIELD_(first);                    \
+    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
+    ::memset(&first, 0, n);                                \
+  } while (0)
+
+  if (_has_bits_[0 / 32] & 7) {
+    ZR_(user_id_, port_);
+    if (has_ip()) {
+      if (ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        ip_->clear();
+      }
+    }
+  }
+
+#undef OFFSET_OF_FIELD_
+#undef ZR_
+
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->clear();
+}
+
+bool UserIpAddr::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
+  // @@protoc_insertion_point(parse_start:IM.BaseDefine.UserIpAddr)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 user_id = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &user_id_)));
+          set_has_user_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_ip;
+        break;
+      }
+
+      // required string ip = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_ip:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_ip()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(24)) goto parse_port;
+        break;
+      }
+
+      // required uint32 port = 3;
+      case 3: {
+        if (tag == 24) {
+         parse_port:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &port_)));
+          set_has_port();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:IM.BaseDefine.UserIpAddr)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:IM.BaseDefine.UserIpAddr)
+  return false;
+#undef DO_
+}
+
+void UserIpAddr::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:IM.BaseDefine.UserIpAddr)
+  // required uint32 user_id = 1;
+  if (has_user_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->user_id(), output);
+  }
+
+  // required string ip = 2;
+  if (has_ip()) {
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->ip(), output);
+  }
+
+  // required uint32 port = 3;
+  if (has_port()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->port(), output);
+  }
+
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
+  // @@protoc_insertion_point(serialize_end:IM.BaseDefine.UserIpAddr)
+}
+
+int UserIpAddr::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 user_id = 1;
+    if (has_user_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->user_id());
+    }
+
+    // required string ip = 2;
+    if (has_ip()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->ip());
+    }
+
+    // required uint32 port = 3;
+    if (has_port()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->port());
+    }
+
+  }
+  total_size += unknown_fields().size();
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void UserIpAddr::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const UserIpAddr*>(&from));
+}
+
+void UserIpAddr::MergeFrom(const UserIpAddr& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_user_id()) {
+      set_user_id(from.user_id());
+    }
+    if (from.has_ip()) {
+      set_ip(from.ip());
+    }
+    if (from.has_port()) {
+      set_port(from.port());
+    }
+  }
+  mutable_unknown_fields()->append(from.unknown_fields());
+}
+
+void UserIpAddr::CopyFrom(const UserIpAddr& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UserIpAddr::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+
+  return true;
+}
+
+void UserIpAddr::Swap(UserIpAddr* other) {
+  if (other != this) {
+    std::swap(user_id_, other->user_id_);
+    std::swap(ip_, other->ip_);
+    std::swap(port_, other->port_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.swap(other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string UserIpAddr::GetTypeName() const {
+  return "IM.BaseDefine.UserIpAddr";
 }
 
 

@@ -1,3 +1,6 @@
+# xqq	2016-05-04
+	代码注释添加
+	
 # TeamTalk
 	TeamTalk is a solution for enterprise IM
 	

@@ -16,12 +16,9 @@ import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.SimpleChannelHandler;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 import org.jboss.netty.handler.codec.frame.LengthFieldBasedFrameDecoder;
-import org.jboss.netty.handler.timeout.IdleStateHandler;
-import org.jboss.netty.util.HashedWheelTimer;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class SocketThread extends Thread {
 	private ClientBootstrap clientBootstrap = null;
@@ -49,7 +46,7 @@ public class SocketThread extends Thread {
 		Executors.newSingleThreadExecutor(),
 		Executors.newSingleThreadExecutor());
 
-		clientBootstrap = new ClientBootstrap(channelFactory);
+		clientBootstrap = new ClientBootstrap(channelFactory); // 用的netty的库
 		clientBootstrap.setOption("connectTimeoutMillis", 5000);
 		clientBootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 
@@ -58,6 +55,9 @@ public class SocketThread extends Thread {
 				// 接收的数据包解码
 				pipeline.addLast("decoder", new LengthFieldBasedFrameDecoder(
 				400 * 1024, 0, 4, -4, 0));
+				// 第一个参数为信息最大长度  第二参数为长度属性的起始
+				// 第三个参数为“长度属性”的长度  第四个参数为长度调节值  第五个参数为跳过的字节数
+
 				// 发送的数据包编码
 				//pipeline.addLast("encoder", new PacketEncoder());
 				// 具体的业务处理，这个handler只负责接收数据，并传递给dispatcher
@@ -134,7 +134,7 @@ public class SocketThread extends Thread {
      * @param header
      * @return
      */
-    public boolean sendRequest(GeneratedMessageLite requset,Header header){
+    public boolean send_request(GeneratedMessageLite requset,Header header){
         DataBuffer headerBuffer = header.encode();
         DataBuffer bodyBuffer = new DataBuffer();
         int bodySize = requset.getSerializedSize();

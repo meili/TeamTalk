@@ -12,6 +12,9 @@ import com.mogujie.tt.imservice.support.audio.SpeexEncoder;
 import com.mogujie.tt.ui.activity.MessageActivity;
 import com.mogujie.tt.utils.Logger;
 
+/**
+ * 录音的线程
+ */
 public class AudioRecordHandler implements Runnable {
 
     private Logger logger = Logger.getLogger(AudioRecordHandler.class);
@@ -27,16 +30,22 @@ public class AudioRecordHandler implements Runnable {
     private long maxVolumeStart = 0;
     private long maxVolumeEnd = 0;
     private static AudioRecord recordInstance = null;
+    private boolean bIMAudio = false;
 
     public AudioRecordHandler(String fileName) {
+        this(fileName, false);
+    }
+
+    public AudioRecordHandler(String fileName,Boolean isIMAudio) {
         super();
         this.fileName = fileName;
+        bIMAudio = isIMAudio;
     }
 
     public void run() {
         try {
         	logger.d("chat#audio#in audio thread");
-            SpeexEncoder encoder = new SpeexEncoder(this.fileName);
+            SpeexEncoder encoder = new SpeexEncoder(this.fileName, bIMAudio);
             Thread encodeThread = new Thread(encoder);
             encoder.setRecording(true);
             logger.d("chat#audio#encoder thread starts");

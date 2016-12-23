@@ -4,18 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.mogujie.tt.R;
 import com.mogujie.tt.config.IntentConstant;
 import com.mogujie.tt.imservice.event.LoginEvent;
 import com.mogujie.tt.imservice.event.UnreadEvent;
 import com.mogujie.tt.imservice.service.IMService;
+import com.mogujie.tt.imservice.support.IMServiceConnector;
 import com.mogujie.tt.ui.fragment.ChatFragment;
 import com.mogujie.tt.ui.fragment.ContactFragment;
-import com.mogujie.tt.imservice.support.IMServiceConnector;
-import com.mogujie.tt.utils.Logger;
 import com.mogujie.tt.ui.widget.NaviTabButton;
+import com.mogujie.tt.utils.Logger;
 
 import de.greenrobot.event.EventBus;
 
@@ -50,6 +52,7 @@ public class MainActivity extends FragmentActivity{
 
         // 在这个地方加可能会有问题吧
         EventBus.getDefault().register(this);
+
 		imServiceConnector.connect(this);
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -59,24 +62,57 @@ public class MainActivity extends FragmentActivity{
 		initFragment();
 		setFragmentIndicator(0);
 	}
+//
+//	@Override
+//	public void onBackPressed() {
+//		//don't let it exit
+//		//super.onBackPressed();
+//
+//		//nonRoot	If false then this only works if the activity is the root of a task; if true it will work for any activity in a task.
+//		//document http://developer.android.com/reference/android/app/Activity.html
+//
+//		//moveTaskToBack(true);
+//
+//		Intent i = new Intent(Intent.ACTION_MAIN);
+//		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//		i.addCategory(Intent.CATEGORY_HOME);
+//
+//		startActivity(i);
+//
+////		先退出到桌面，然后杀死所有进程。这样就不用烦恼，很多activity反复跳出了。
+////		Intent intent = new Intent(Intent.ACTION_MAIN);
+////		intent.addCategory(Intent.CATEGORY_HOME);
+////		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+////		startActivity(intent);
+////		android.os.Process.killProcess(android.os.Process.myPid());
+//	}
 
+	private long exitTime;       //两次返回键退出之间的间隔
+
+	//按两次退出程序
 	@Override
-	public void onBackPressed() {
-		//don't let it exit
-		//super.onBackPressed();
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 
-		//nonRoot	If false then this only works if the activity is the root of a task; if true it will work for any activity in a task.
-		//document http://developer.android.com/reference/android/app/Activity.html
+			if ((System.currentTimeMillis() - exitTime) > 2000) // System.currentTimeMillis()无论何时调用，肯定大于2000
+			{
+				Toast.makeText(getApplicationContext(), "再按一次退出程序",
+						Toast.LENGTH_SHORT).show();
+				exitTime = System.currentTimeMillis();
+			} else {
+				Intent intent = new Intent(Intent.ACTION_MAIN);
+				intent.addCategory(Intent.CATEGORY_HOME);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				android.os.Process.killProcess(android.os.Process.myPid());
+			}
+//			onBackPressed();  // 兼容OnBackPressed方法。就需要两者之间进行嵌套
 
-		//moveTaskToBack(true);
-
-		Intent i = new Intent(Intent.ACTION_MAIN);
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		i.addCategory(Intent.CATEGORY_HOME);
-		startActivity(i);
-
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
-
 
 	private void initFragment() {
 		mFragments = new Fragment[4];
@@ -126,11 +162,13 @@ public class MainActivity extends FragmentActivity{
 		mTabButtons[which].setSelectedButton(true);
 	}
 
+	/**
+	 * 未读的消息
+	 * @param unreadCnt
+     */
 	public void setUnreadMessageCnt(int unreadCnt) {
 		mTabButtons[0].setUnreadNotify(unreadCnt);
 	}
-
-
 
     /**双击事件*/
 	public void chatDoubleListener() {

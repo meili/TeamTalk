@@ -119,7 +119,7 @@ CEventDispatch* CEventDispatch::Instance()
 }
 
 #ifdef _WIN32
-
+// windows用select
 void CEventDispatch::AddEvent(SOCKET fd, uint8_t socket_event)
 {
 	CAutoLock func_lock(&m_lock);
@@ -343,6 +343,17 @@ void CEventDispatch::AddEvent(SOCKET fd, uint8_t socket_event)
 	}
 }
 
+void CEventDispatch::AddUDPEvent(SOCKET fd, uint8_t socket_event)
+{
+	struct epoll_event ev;
+	ev.events = EPOLLIN | EPOLLET;
+	ev.data.fd = fd;
+	if (epoll_ctl(m_epfd, EPOLL_CTL_ADD, fd, &ev) != 0)
+	{
+		log("epoll_ctl() failed, errno=%d", errno);
+	}
+}
+
 void CEventDispatch::RemoveEvent(SOCKET fd, uint8_t socket_event)
 {
 	if (epoll_ctl(m_epfd, EPOLL_CTL_DEL, fd, NULL) != 0)
@@ -351,7 +362,76 @@ void CEventDispatch::RemoveEvent(SOCKET fd, uint8_t socket_event)
 	}
 }
 
+
+// unix用epoll
 void CEventDispatch::StartDispatch(uint32_t wait_timeout)
+{
+	struct epoll_event events[1024];
+	int nfds = 0;
+
+    if(running)
+        return;
+    running = true;
+    
+	while (running)
+	{
+		nfds = epoll_wait(m_epfd, events, 1024, wait_timeout);
+		if (nfds == -1){
+			printf("epoll_wait error");
+			break;
+		} else {
+			printf("epoll_wait %d \n",nfds);
+		}
+
+		for (int i = 0; i < nfds; i++)
+		{
+			log("epoll_wait nfds %d", nfds);
+
+			int ev_fd = events[i].data.fd;
+			CBaseSocket* pSocket = FindBaseSocket(ev_fd);
+			if (!pSocket){
+				log("epoll_wait FindBaseSocket null");
+				continue;
+			}
+            
+            //Commit by zhfu @2015-02-28
+            #ifdef EPOLLRDHUP
+            if (events[i].events & EPOLLRDHUP)
+            {
+                log("On Peer Close, socket=%d", ev_fd);
+                pSocket->OnClose();
+            }
+            #endif
+            // Commit End
+
+			if (events[i].events & EPOLLIN)
+			{
+				log("OnRead, socket=%d\n", ev_fd);
+				pSocket->OnRead();
+			}
+
+			if (events[i].events & EPOLLOUT)
+			{
+				log("OnWrite, socket=%d\n", ev_fd);
+				pSocket->OnWrite();
+			}
+
+			if (events[i].events & (EPOLLPRI | EPOLLERR | EPOLLHUP))
+			{
+				log("OnClose, socket=%d\n", ev_fd);
+				pSocket->OnClose();
+			}
+
+			pSocket->ReleaseRef();// udp这个释放后会有问题 
+		}
+
+		_CheckTimer();
+        _CheckLoop();
+	}
+}
+//xieqq 2016-05-12///////////////////
+// 基本同上面的，不用_CheckTimer(); _CheckLoop();
+void CEventDispatch::StartDispatchUDP(uint32_t wait_timeout)
 {
 	struct epoll_event events[1024];
 	int nfds = 0;
@@ -367,44 +447,47 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
 		{
 			int ev_fd = events[i].data.fd;
 			CBaseSocket* pSocket = FindBaseSocket(ev_fd);
-			if (!pSocket)
+			if (!pSocket){
+				printf("pSocket null EventDispatch 451");
 				continue;
-            
+            }
             //Commit by zhfu @2015-02-28
             #ifdef EPOLLRDHUP
             if (events[i].events & EPOLLRDHUP)
             {
-                //log("On Peer Close, socket=%d, ev_fd);
-                pSocket->OnClose();
+                printf("EventDispatch On Peer Close, socket=%d", ev_fd);
+                pSocket->OnUDPClose();
             }
             #endif
             // Commit End
 
 			if (events[i].events & EPOLLIN)
 			{
-				//log("OnRead, socket=%d\n", ev_fd);
-				pSocket->OnRead();
+				printf("EventDispatch OnRead, socket=%d\n", ev_fd);
+				pSocket->OnUDPRead();
 			}
 
 			if (events[i].events & EPOLLOUT)
 			{
-				//log("OnWrite, socket=%d\n", ev_fd);
-				pSocket->OnWrite();
+				printf("EventDispatch OnWrite, socket=%d\n", ev_fd);
+				pSocket->OnUDPWrite();
 			}
 
 			if (events[i].events & (EPOLLPRI | EPOLLERR | EPOLLHUP))
 			{
-				//log("OnClose, socket=%d\n", ev_fd);
-				pSocket->OnClose();
+				printf("OnClose, socket=%d\n", ev_fd);
+				pSocket->OnUDPClose();
 			}
-
-			pSocket->ReleaseRef();
+			printf("psocket releaseref() %d \n", events[i]);
+			pSocket->ReleaseRef(); // 
 		}
 
-		_CheckTimer();
-        _CheckLoop();
+		//_CheckTimer();
+        //_CheckLoop();
 	}
 }
+/////////////////////////////////////
+
 
 void CEventDispatch::StopDispatch()
 {

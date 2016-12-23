@@ -1,0 +1,154 @@
+ubuntu 编译安装php 和 Nginx支持
+先安装必须的依赖库： - ubuntu
+apt-get update 更新源
+
+sudo apt-get -y install autoconf && \
+sudo apt-get -y install libxml2-dev && \
+sudo apt-get -y install bzip2 && \
+sudo apt-get -y install libcurl3-openssl-dev && \
+sudo apt-get -y install libcurl4-gnutls-dev && \
+sudo apt-get -y install libjpeg-dev && \
+sudo apt-get -y install libpng-dev && \
+sudo apt-get -y install libxpm-dev && \
+sudo apt-get -y install libfreetype6-dev && \
+sudo apt-get -y install libt1-dev && \
+sudo apt-get -y install libmcrypt-dev && \
+sudo apt-get -y install libmysql++-dev && \
+sudo apt-get -y install libxslt1-dev && \
+sudo apt-get -y install libbz2-dev
+
+软链接库文件： - ubuntu
+
+cd /usr/lib && \
+ln -s /usr/lib/x86_64-linux-gnu/libXpm.so . && \
+ln -s /usr/lib/x86_64-linux-gnu/libXpm.a . && \
+ln -s /usr/lib/x86_64-linux-gnu/libXpm.so.4 . && \
+ln -s /usr/lib/x86_64-linux-gnu/libXpm.so.4.11.0 . && \
+echo 'successful!'
+
+先安装必须的依赖库： - centos
+yum install -y gcc gcc-c++ autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libpng libpng-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses curl openssl-devel gdbm-devel db4-devel libXpm-devel libX11-devel gd-devel gmp-devel readline-devel libxslt-devel expat-devel xmlrpc-c xmlrpc-c-devel 
+ 
+libmcrypt-2.5.8.tar.gz（http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/）
+安装加密扩展库
+cd /usr/local/src/
+tar zxvf libmcrypt-2.5.8.tar.gz 
+cd libmcrypt-2.5.8
+./configure
+make
+make install
+
+添加的库文件路径： - centos 
+编辑 /etc/ld.so.conf 加入/usr/local/lib
+再执行 ldconfig -v
+否则会报：Don't know how to define struct flock on this system, set --enable-opcache=no  
+ 
+
+下载最新php源码，编译安装：
+
+cd /usr/local && \
+sudo mkdir php5 && \
+cd php5
+
+sudo wget http://cn2.php.net/distributions/php-5.5.23.tar.gz
+
+sudo tar zxvf php-5.5.23.tar.gz
+
+cd php-5.5.23
+
+注意路径
+sudo ./configure \
+--prefix=/usr/local/php5 \
+--with-mysql=mysqlnd \
+--with-mysqli=mysqlnd \
+--with-pdo-mysql=mysqlnd \
+--with-config-file-path=/usr/local/php5/etc \
+--with-zlib \
+--with-curl \
+--with-curlwrappers \
+--with-mcrypt \
+--with-gd \
+--with-openssl \
+--with-mhash \
+--with-xmlrpc \
+--with-jpeg-dir \
+--with-png-dir \
+--with-xpm-dir \
+--with-freetype-dir \
+--with-zlib-dir \
+--enable-shared \
+--enable-fpm \
+--enable-xml \
+--disable-rpath \
+--enable-safe-mode \
+--enable-bcmath \
+--enable-shmop \
+--enable-sysvsem \
+--enable-inline-optimization \
+--enable-mbregex \
+--enable-mbstring \
+--enable-gd-native-ttf \
+--enable-pcntl \
+--enable-sockets \
+--enable-zip \
+--enable-ftp \
+--enable-soap
+
+不出问题的话就执行最后一步编译安装：
+
+sudo make && sudo make install
+
+以上就完成了php-fpm的安装。
+
+下面是对php-fpm运行用户进行设置
+
+cd /usr/local/php5
+cp etc/php-fpm.conf.default etc/php-fpm.conf
+vi etc/php-fpm.conf
+
+修改
+user = www-data
+group = www-data
+
+如果www-data用户不存在，那么先添加www-data用户
+groupadd www-data
+useradd -g www-data www-data
+
+启动php-fpm
+sudo /usr/local/php5/sbin/php-fpm
+
+
+修改nginx的配置文件(/etc/nginx/conf.d/default.conf)
+
+location / {
+
+root web根目录;
+
+index index.html index.htm index.php;
+
+}
+
+location ~ \.php$ {
+
+root html;
+
+fastcgi_pass 127.0.0.1:9000;
+
+fastcgi_index index.php;
+
+fastcgi_param SCRIPT_FILENAME web根目录$fastcgi_script_name;
+
+include fastcgi_params;
+
+}
+
+
+问题1：
+configure: error: Cannot find OpenSSL's libraries
+解决：
+sudo apt-get install openssl-dev
+
+在一些系统中，像Ubuntu Feisty，您可能需要使用此命令：
+
+sudo apt-get install libcurl3-openssl-dev
+

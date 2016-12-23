@@ -152,6 +152,7 @@ int CBaseSocket::Recv(void* buf, int len)
 
 int CBaseSocket::Close()
 {
+	log("basesocket close \n");
 	CEventDispatch::Instance()->RemoveEvent(m_socket, SOCKET_ALL);
 	RemoveBaseSocket(this);
 	closesocket(m_socket);
@@ -160,13 +161,41 @@ int CBaseSocket::Close()
 	return 0;
 }
 
+//xie 2016-06-02 start//////////////////////////////
+void CBaseSocket::OnUDPClose()
+{
+	log("basesocket onudpclose \n");
+	m_state = SOCKET_STATE_CLOSING;
+	m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
+}
+
+void CBaseSocket::OnUDPRead()
+{
+	u_long avail = 0;
+	if ( (ioctlsocket(m_socket, FIONREAD, &avail) == SOCKET_ERROR) || (avail == 0) )
+	{
+		printf("onUdpRead errno=%d",errno);
+		m_callback(m_callback_data, NETLIB_MSG_CLOSE_UDP, (net_handle_t)m_socket, NULL);
+	}
+	else
+	{
+		m_callback(m_callback_data, NETLIB_MSG_READ_UDP, (net_handle_t)m_socket, NULL);
+	}
+}
+void CBaseSocket::OnUDPWrite()
+{		
+	m_callback(m_callback_data, NETLIB_MSG_WRITE_UDP, (net_handle_t)m_socket, NULL);
+}
+
+//xie 2016-06-02 end//////////////////////////////
+
 void CBaseSocket::OnRead()
 {
 	if (m_state == SOCKET_STATE_LISTENING)
 	{
 		_AcceptNewSocket();
 	}
-	else
+	else  // UDP的时候的状态 SOCKET_STATE_UDP_BIND 
 	{
 		u_long avail = 0;
 		if ( (ioctlsocket(m_socket, FIONREAD, &avail) == SOCKET_ERROR) || (avail == 0) )
@@ -185,8 +214,9 @@ void CBaseSocket::OnWrite()
 #if ((defined _WIN32) || (defined __APPLE__))
 	CEventDispatch::Instance()->RemoveEvent(m_socket, SOCKET_WRITE);
 #endif
+	printf("CBaseSocket::OnWrite m_state = %d", m_state);
 
-	if (m_state == SOCKET_STATE_CONNECTING)
+	if (m_state == SOCKET_STATE_CONNECTING) // 客户端连服务端成功状态会是SOCKET_STATE_CONNECTING
 	{
 		int error = 0;
 		socklen_t len = sizeof(error);
@@ -199,18 +229,22 @@ void CBaseSocket::OnWrite()
 		if (error) {
 			m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
 		} else {
+			log("CBaseSocket::OnWrite SOCKET_STATE_CONNECTED");
 			m_state = SOCKET_STATE_CONNECTED;
 			m_callback(m_callback_data, NETLIB_MSG_CONFIRM, (net_handle_t)m_socket, NULL);
 		}
 	}
 	else
 	{
+		log("CBaseSocket::OnWrite m_state = %d", m_state);
+
 		m_callback(m_callback_data, NETLIB_MSG_WRITE, (net_handle_t)m_socket, NULL);
 	}
 }
 
 void CBaseSocket::OnClose()
 {
+	log("basesocket onclose \n");
 	m_state = SOCKET_STATE_CLOSING;
 	m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
 }
@@ -263,7 +297,7 @@ void CBaseSocket::_SetNonblock(SOCKET fd)
 {
 #ifdef _WIN32
 	u_long nonblock = 1;
-	int ret = ioctlsocket(fd, FIONBIO, &nonblock);
+	int ret = ioctlsocket(fd, FIONBIO, &nonblock); // windows用完成端口  unix用epoll
 #else
 	int ret = fcntl(fd, F_SETFL, O_NONBLOCK | fcntl(fd, F_GETFL));
 #endif
@@ -292,13 +326,29 @@ void CBaseSocket::_SetNoDelay(SOCKET fd)
 		log("_SetNoDelay failed, err_code=%d", _GetErrorCode());
 	}
 }
+void CBaseSocket::_SetAddr(const uint16_t port, sockaddr_in* pAddr)
+{	
+	log("_setaddr %d", port);
+	memset(pAddr, 0, sizeof(sockaddr_in));
+	pAddr->sin_family = AF_INET;
+	pAddr->sin_port = htons(port);
+	// 有的服务器是多宿主机，至少有两个网卡，那么运行在这样的服务器上的服务程序在为其socket绑定IP地址时
+	// 可以把htonl(INADDR_ANY)置给s_addr，这样做的好处是不论哪个网段上的客户程序都能与该服务程序通信；
+	pAddr->sin_addr.s_addr = INADDR_ANY; // htonl(INADDR_ANY); 使用INADDR_ANY 指示任意地址 	
+	if (pAddr->sin_addr.s_addr == INADDR_NONE)
+	{
+		log("sin_addr failed, ip=INADDR_ANY");
+	}
+}
 
 void CBaseSocket::_SetAddr(const char* ip, const uint16_t port, sockaddr_in* pAddr)
 {
 	memset(pAddr, 0, sizeof(sockaddr_in));
 	pAddr->sin_family = AF_INET;
 	pAddr->sin_port = htons(port);
-	pAddr->sin_addr.s_addr = inet_addr(ip);
+	// 有的服务器是多宿主机，至少有两个网卡，那么运行在这样的服务器上的服务程序在为其socket绑定IP地址时
+	// 可以把htonl(INADDR_ANY)置给s_addr，这样做的好处是不论哪个网段上的客户程序都能与该服务程序通信；
+	pAddr->sin_addr.s_addr = inet_addr(ip); // htonl(INADDR_ANY); 使用INADDR_ANY 指示任意地址 
 	if (pAddr->sin_addr.s_addr == INADDR_NONE)
 	{
 		hostent* host = gethostbyname(ip);
@@ -343,3 +393,61 @@ void CBaseSocket::_AcceptNewSocket()
 	}
 }
 
+//add by xieqq 2016-05-11  udp socket////////////////////////////
+int CBaseSocket::UDP_Bind(const char* server_ip, uint16_t port,  callback_t callback, void* callback_data)
+{
+	m_local_ip = server_ip;
+	m_local_port = port;
+	m_callback = callback;
+	m_callback_data = callback_data;
+
+	m_socket = socket(AF_INET, SOCK_DGRAM, 0);
+	if (m_socket == INVALID_SOCKET)
+	{
+		printf("socket failed, err_code=%d\n", _GetErrorCode());
+		return NETLIB_ERROR;
+	}
+	// 这通常是重启监听服务器时出现，若不设置此选项，则bind时将出错。
+	_SetReuseAddr(m_socket); //  /*设置socket属性，端口可以重用*/
+
+	_SetNonblock(m_socket); // 设置句柄为非阻塞方式
+
+	sockaddr_in serv_addr;
+
+	printf("socket success");
+
+	_SetAddr(server_ip, port, &serv_addr);
+	// 绑定端口
+    int ret = ::bind(m_socket, (sockaddr*)&serv_addr, sizeof(serv_addr));
+	if (ret == SOCKET_ERROR)
+	{
+		log("bind failed, err_code=%d", _GetErrorCode());
+		closesocket(m_socket);
+		return NETLIB_ERROR;
+	} 
+
+	//ret = listen(m_socket, 64); // udp不用listen
+	//if (ret == SOCKET_ERROR)
+	//{
+	//	log("listen failed, err_code=%d", _GetErrorCode());
+	//	closesocket(m_socket);
+	//	return NETLIB_ERROR;
+	//}
+
+	m_state = SOCKET_STATE_UDP_BIND;
+
+	log("CBaseSocket::UDP_Bind on any %s :%d", server_ip, port);
+
+	AddBaseSocket(this); // g_socket_map.insert	
+		
+	// UDP不用连接，直接调用连接成功
+	m_callback(m_callback_data, NETLIB_MSG_CONNECT, (net_handle_t)m_socket, NULL);
+
+	CEventDispatch::Instance()->AddUDPEvent(m_socket, SOCKET_READ | SOCKET_EXCEP);// SOCKET_ALL);//SOCKET_READ | SOCKET_EXCEP);
+	// udp 只是sendto recvfrom 要不要用epoll?  
+	//  先用epoll试试  epoll收不到消息?
+	//  就不addEvent了
+
+	return NETLIB_OK;
+}
+//add by xieqq 2016-05-11 end///////////////////////////////////

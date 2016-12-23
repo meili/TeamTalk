@@ -7,7 +7,7 @@ int netlib_init()
 	int ret = NETLIB_OK;
 #ifdef _WIN32
 	WSADATA wsaData;
-	WORD wReqest = MAKEWORD(1, 1);
+	WORD wReqest = MAKEWORD(2, 2); // ÍøÂç°æ±¾
 	if (WSAStartup(wReqest, &wsaData) != 0)
 	{
 		ret = NETLIB_ERROR;
@@ -36,10 +36,11 @@ int netlib_listen(
 		callback_t	callback,
 		void*		callback_data)
 {
+	// socket 
 	CBaseSocket* pSocket = new CBaseSocket();
 	if (!pSocket)
 		return NETLIB_ERROR;
-
+	// bind listen
 	int ret =  pSocket->Listen(server_ip, port, callback, callback_data);
 	if (ret == NETLIB_ERROR)
 		delete pSocket;
@@ -160,6 +161,12 @@ void netlib_eventloop(uint32_t wait_timeout)
 	CEventDispatch::Instance()->StartDispatch(wait_timeout);
 }
 
+//xqq 2016-05-23/////////////////
+void netlib_eventloop_UDP(uint32_t wait_timeout)
+{
+	CEventDispatch::Instance()->StartDispatchUDP(wait_timeout);
+}
+/////////////////
 void netlib_stop_event()
 {
     CEventDispatch::Instance()->StopDispatch();
@@ -169,3 +176,26 @@ bool netlib_is_running()
 {
     return CEventDispatch::Instance()->isRunning();
 }
+
+
+
+//add by xieqq 2016-05-11  udp socket////////////////////////////
+// 		
+int netlib_listen_udp_bind(
+		const char*	server_ip,  // ÓÃ htonl(INADDR_ANY)´úÌæ inet_addr(ip)
+		uint16_t	port,
+		callback_t	callback,		// nat_conn_callback
+		void*		callback_data)	// callback_data = null
+{
+	// socket 
+	CBaseSocket* pSocket = new CBaseSocket();
+	if (!pSocket)
+		return NETLIB_ERROR;
+	// bind listen
+	int ret =  pSocket->UDP_Bind(server_ip, port, callback, callback_data);
+	if (ret == NETLIB_ERROR)
+		delete pSocket;
+	return ret;
+}
+
+//add by xieqq 2016-05-11 end///////////////////////////////////

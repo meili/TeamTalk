@@ -52,6 +52,15 @@ void imconn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pP
 	case NETLIB_MSG_CLOSE:
 		pConn->OnClose();
 		break;
+	case NETLIB_MSG_CLOSE_UDP:
+		pConn->OnClose(); // UDP只有最后退出的时候close, 除非手动实现udp_listen
+		break;
+	case NETLIB_MSG_READ_UDP:
+		pConn->OnReadUDP();
+		break;
+	case NETLIB_MSG_WRITE_UDP:
+		pConn->OnWriteUDP();
+		break;
 	default:
 		log("!!!imconn_callback error msg: %d ", msg);
 		break;
@@ -114,7 +123,7 @@ int CImConn::Send(void* data, int len)
 	}
     else
     {
-        OnWriteCompelete();
+        OnWriteCompelete(); // 写完之后触发的， 如 CHttpConn Close(); // http是短连接
     }
 
 	return len;
@@ -189,7 +198,103 @@ void CImConn::OnWrite()
 
 	log("onWrite, remain=%d ", m_out_buf.GetWriteOffset());
 }
+extern int errno;
+void CImConn::OnReadUDP()
+{
+	sockaddr_in sender; // 发送端的地址 从哪发来的
+	uchar_t recvbuf[128]={0};
+	memset(recvbuf,0,128); 
+	printf("CImConn OnReadUDP %d\n", m_handle);
+	socklen_t dwSender = sizeof(sender);
+	int ret = recvfrom(m_handle, (uchar_t *)&recvbuf, 128, 0, (sockaddr *)&sender, &dwSender);
 
+	if(ret <= 0)
+	{	// 读取要参照 void CImConn::OnRead()
+		//printf("recv error error = %d\n", _GetErrorCode());
+		printf("recv error errno=%d\n", errno);
+		return;
+	} 
+	else 
+	{
+		printf("recv len = %d\n", ret);
+	}
+	
+	CImPdu* pPdu = NULL;
+	try
+    {
+	//	while ( ( pPdu = CImPdu::ReadPdu(recvbuf, ret) ) )
+	pPdu = CImPdu::ReadPdu(recvbuf, ret);	
+	{
+            uint32_t pdu_len = pPdu->GetLength();            
+			HandlePdu_UDP(pPdu, sender);
+			delete pPdu;
+            pPdu = NULL;
+		}
+	} catch (CPduException& ex) {
+		printf("CPduException\n");
 
+		log("!!!catch exception, sid=%u, cid=%u, err_code=%u, err_msg=%s, close the connection ",
+				ex.GetServiceId(), ex.GetCommandId(), ex.GetErrorCode(), ex.GetErrorMsg());
+        if (pPdu) {
+            delete pPdu;
+            pPdu = NULL;
+        }
+        OnClose();
+	}
+}
 
+int CImConn::UDP_Send(void* data, int len, sockaddr_in sender)
+{	
+	m_last_send_tick = get_tick_count();
+	if (m_busy)
+	{
+		m_out_buf.Write(data, len);
+		return len;
+	}
 
+	//sockaddr_in sender; // 从哪发来的
+	// 根据ID找出sender
+	//
+	//
+	//
+
+	int ret = sendto(m_handle, data, len, 0, (sockaddr *)&sender, sizeof(sender));
+	
+	printf("sendto len = %d, real send %d\n",len ,ret);
+	/*int ret = netlib_send_udp(m_handle, (char*)data + offset , send_size);
+	if (ret <= 0) {
+		ret = 0;
+		return ret;
+	}*/
+	return ret;
+}
+
+// 用 UDP_Send 
+void CImConn::OnWriteUDP()
+{
+	if (!m_busy)
+		return;
+/*
+	while (m_out_buf.GetWriteOffset() > 0) {
+		int send_size = m_out_buf.GetWriteOffset();
+		if (send_size > NETLIB_MAX_SOCKET_BUF_SIZE) {
+			send_size = NETLIB_MAX_SOCKET_BUF_SIZE;
+		}
+
+		int ret = netlib_send(m_handle, m_out_buf.GetBuffer(), send_size);
+		if (ret <= 0) {
+			ret = 0;
+			break;
+		}
+
+		m_out_buf.Read(NULL, ret);
+	}
+
+	if (m_out_buf.GetWriteOffset() == 0) {
+		m_busy = false;
+	}
+
+	log("onWrite, remain=%d ", m_out_buf.GetWriteOffset());
+	*/
+
+}
